@@ -1,13 +1,5 @@
-<h1>LOGIN</h1>
+<script>
+	import AuthLayout from '$lib/components/auth/AuthLayout.svelte';
+</script>
 
-<form method="POST" action="?/login">
-	<label>
-		Email
-		<input name="email" type="email" />
-	</label>
-	<label>
-		Password
-		<input name="password" type="password" />
-	</label>
-	<button>Login</button>
-</form>
+<AuthLayout title="Login to your account" action="?/login" btnText="Login" register={false} />
