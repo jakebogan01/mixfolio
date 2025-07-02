@@ -1,4 +1,5 @@
 <script>
+	import { LOGIN, REGISTER } from '$lib/utils/constants.js';
 	let { title, action, btnText, register = true } = $props();
 </script>
 
@@ -52,10 +53,10 @@
 		<p class="text-center text-sm/6 text-gray-500">
 			{#if register}
 				Already a member?
-				<a href="/login" class="font-semibold text-indigo-600 hover:text-indigo-500">Login now</a>
+				<a href={LOGIN} class="font-semibold text-indigo-600 hover:text-indigo-500">Login now</a>
 			{:else}
 				Not a member?
-				<a href="/register" class="font-semibold text-indigo-600 hover:text-indigo-500"
+				<a href={REGISTER} class="font-semibold text-indigo-600 hover:text-indigo-500"
 					>Register now</a
 				>
 			{/if}

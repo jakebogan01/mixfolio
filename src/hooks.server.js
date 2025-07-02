@@ -1,8 +1,8 @@
 import { createServerClient } from '@supabase/ssr';
 import { redirect } from '@sveltejs/kit';
 import { sequence } from '@sveltejs/kit/hooks';
-
 import { PUBLIC_SUPABASE_URL, PUBLIC_SUPABASE_ANON_KEY } from '$env/static/public';
+import { LOGIN } from '$lib/utils/constants.js';
 
 const supabase = async ({ event, resolve }) => {
 	/**
@@ -68,10 +68,10 @@ const authGuard = async ({ event, resolve }) => {
 	event.locals.user = user;
 
 	if (!event.locals.session && event.url.pathname.startsWith('/private')) {
-		redirect(303, '/login');
+		redirect(303, LOGIN);
 	}
 
-	if (event.locals.session && event.url.pathname === '/login') {
+	if (event.locals.session && event.url.pathname === LOGIN) {
 		redirect(303, '/private');
 	}
 
