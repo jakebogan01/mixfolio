@@ -6,5 +6,5 @@ export default defineConfig({
 	plugins: [tailwindcss(), sveltekit()],
 	server: {
 		host: true // Listen on all network interfaces
-	},
+	}
 });

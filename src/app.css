@@ -3,5 +3,5 @@
 @plugin '@tailwindcss/typography';
 
 h2 {
-    font-size: 3rem;
+	font-size: 3rem;
 }
