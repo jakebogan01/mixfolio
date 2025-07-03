@@ -414,17 +414,17 @@
 						<h2 id="gallery-heading" class="sr-only">Form</h2>
 						<div class="flex items-start space-x-4">
 							<div class="min-w-0 flex-1">
-								<form action="#" class="relative">
+								<form action="?/about" method="POST" class="relative">
 									<div
 										class="rounded-lg bg-white outline-1 -outline-offset-1 outline-gray-300 focus-within:outline-2 focus-within:-outline-offset-2 focus-within:outline-indigo-600"
 									>
-										<label for="comment" class="sr-only">Add your comment</label>
+										<label for="about" class="sr-only">about</label>
 										<textarea
 											rows="3"
-											name="comment"
-											id="comment"
+											name="about"
+											id="about"
 											class="block w-full resize-none bg-transparent px-3 py-1.5 text-base text-gray-900 placeholder:text-gray-400 focus:outline-none sm:text-sm/6"
-											placeholder="Add your comment..."
+											placeholder="Add your about..."
 										></textarea>
 
 										<!-- Spacer element to match the height of the toolbar -->
