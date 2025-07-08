@@ -1,6 +1,9 @@
 <script>
 	import DashboardNav from '$lib/components/dashboard/DashboardNav.svelte';
 
+	let { form } = $props();
+	$inspect(form);
+
 	let menuOpen = $state(false);
 
 	const toggleMenu = () => (menuOpen = !menuOpen);
@@ -92,7 +95,7 @@
 							<div class="space-y-1">
 								<!-- Current: "bg-indigo-800 text-white", Default: "text-indigo-100 hover:bg-indigo-800 hover:text-white" -->
 								<a
-									href="#"
+									href="/"
 									class="group flex items-center rounded-md px-3 py-2 text-sm font-medium text-indigo-100 hover:bg-indigo-800 hover:text-white"
 								>
 									<!-- Current: "text-white", Default: "text-indigo-300 group-hover:text-white" -->
@@ -114,7 +117,7 @@
 									<span>Home</span>
 								</a>
 								<a
-									href="#"
+									href="/"
 									class="group flex items-center rounded-md px-3 py-2 text-sm font-medium text-indigo-100 hover:bg-indigo-800 hover:text-white"
 								>
 									<svg
@@ -135,7 +138,7 @@
 									<span>All Files</span>
 								</a>
 								<a
-									href="#"
+									href="/"
 									class="group flex items-center rounded-md bg-indigo-800 px-3 py-2 text-sm font-medium text-white"
 									aria-current="page"
 								>
@@ -157,7 +160,7 @@
 									<span>Photos</span>
 								</a>
 								<a
-									href="#"
+									href="/"
 									class="group flex items-center rounded-md px-3 py-2 text-sm font-medium text-indigo-100 hover:bg-indigo-800 hover:text-white"
 								>
 									<svg
@@ -178,7 +181,7 @@
 									<span>Shared</span>
 								</a>
 								<a
-									href="#"
+									href="/"
 									class="group flex items-center rounded-md px-3 py-2 text-sm font-medium text-indigo-100 hover:bg-indigo-800 hover:text-white"
 								>
 									<svg
@@ -199,7 +202,7 @@
 									<span>Albums</span>
 								</a>
 								<a
-									href="#"
+									href="/"
 									class="group flex items-center rounded-md px-3 py-2 text-sm font-medium text-indigo-100 hover:bg-indigo-800 hover:text-white"
 								>
 									<svg
@@ -322,14 +325,14 @@
 							>
 								<!-- Active: "bg-gray-100 outline-hidden", Not Active: "" -->
 								<a
-									href="#"
+									href="/"
 									class="block px-4 py-2 text-sm text-gray-700"
 									role="menuitem"
 									tabindex="-1"
 									id="user-menu-item-0">Your profile</a
 								>
 								<a
-									href="#"
+									href="/"
 									class="block px-4 py-2 text-sm text-gray-700"
 									role="menuitem"
 									tabindex="-1"

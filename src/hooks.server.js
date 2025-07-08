@@ -34,7 +34,7 @@ const supabase = async ({ event, resolve }) => {
 	event.locals.safeGetSession = async () => {
 		const {
 			data: { session }
-		} = await event.locals.supabase.auth.getSession();
+		} = await event.locals.supabase.auth.getUser();
 		if (!session) {
 			return { session: null, user: null };
 		}

@@ -32,7 +32,7 @@ export const load = async ({ data, depends, fetch }) => {
 	 */
 	const {
 		data: { session }
-	} = await supabase.auth.getSession();
+	} = await supabase.auth.getUser();
 
 	const {
 		data: { user }

@@ -15,7 +15,7 @@
 		<div class="mt-6 w-full flex-1 space-y-1 px-2">
 			<!-- Current: "bg-indigo-800 text-white", Default: "text-indigo-100 hover:bg-indigo-800 hover:text-white" -->
 			<a
-				href="#"
+				href="/"
 				class="group flex w-full flex-col items-center rounded-md p-3 text-xs font-medium text-indigo-100 hover:bg-indigo-800 hover:text-white"
 			>
 				<!-- Current: "text-white", Default: "text-indigo-300 group-hover:text-white" -->
@@ -37,7 +37,7 @@
 				<span class="mt-2">Home</span>
 			</a>
 			<a
-				href="#"
+				href="/"
 				class="group flex w-full flex-col items-center rounded-md p-3 text-xs font-medium text-indigo-100 hover:bg-indigo-800 hover:text-white"
 			>
 				<svg
@@ -112,7 +112,7 @@
 				<span class="mt-2">Form</span>
 			</a>
 			<a
-				href="#"
+				href="/"
 				class="group flex w-full flex-col items-center rounded-md p-3 text-xs font-medium text-indigo-100 hover:bg-indigo-800 hover:text-white"
 			>
 				<svg
@@ -133,7 +133,7 @@
 				<span class="mt-2">Albums</span>
 			</a>
 			<a
-				href="#"
+				href="/"
 				class="group flex w-full flex-col items-center rounded-md p-3 text-xs font-medium text-indigo-100 hover:bg-indigo-800 hover:text-white"
 			>
 				<svg
