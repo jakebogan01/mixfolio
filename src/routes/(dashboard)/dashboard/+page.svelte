@@ -6,232 +6,9 @@
 	const toggleMenu = () => (menuOpen = !menuOpen);
 </script>
 
-<!--
-  This example requires updating your template:
-
-  ```
-  <html class="h-full bg-gray-50">
-  <body class="h-full overflow-hidden">
-  ```
--->
 <div class="flex h-full">
-	<!-- Narrow sidebar -->
-	<DashboardNav />
+	<DashboardNav {menuOpen} {toggleMenu} />
 
-	{#if menuOpen}
-		<!--
-	  Mobile menu
-
-	  Off-canvas menu for mobile, show/hide based on off-canvas menu state.
-	-->
-		<div class="relative z-40 md:hidden" role="dialog" aria-modal="true">
-			<!--
-			  Off-canvas menu backdrop, show/hide based on off-canvas menu state.
-
-			  Entering: "transition-opacity ease-linear duration-300"
-				From: "opacity-0"
-				To: "opacity-100"
-			  Leaving: "transition-opacity ease-linear duration-300"
-				From: "opacity-100"
-				To: "opacity-0"
-			-->
-			<div class="fixed inset-0 bg-gray-600/75" aria-hidden="true"></div>
-
-			<div class="fixed inset-0 z-40 flex">
-				<!--
-				  Off-canvas menu, show/hide based on off-canvas menu state.
-
-				  Entering: "transition ease-in-out duration-300 transform"
-					From: "-translate-x-full"
-					To: "translate-x-0"
-				  Leaving: "transition ease-in-out duration-300 transform"
-					From: "translate-x-0"
-					To: "-translate-x-full"
-				-->
-				<div class="relative flex w-full max-w-xs flex-1 flex-col bg-indigo-700 pt-5 pb-4">
-					<!--
-					  Close button, show/hide based on off-canvas menu state.
-
-					  Entering: "ease-in-out duration-300"
-						From: "opacity-0"
-						To: "opacity-100"
-					  Leaving: "ease-in-out duration-300"
-						From: "opacity-100"
-						To: "opacity-0"
-					-->
-					<div class="absolute top-1 right-0 -mr-14 p-1">
-						<button
-							onclick={toggleMenu}
-							type="button"
-							class="flex size-12 items-center justify-center rounded-full focus:ring-2 focus:ring-white focus:outline-hidden"
-						>
-							<svg
-								class="size-6 text-white"
-								fill="none"
-								viewBox="0 0 24 24"
-								stroke-width="1.5"
-								stroke="currentColor"
-								aria-hidden="true"
-								data-slot="icon"
-							>
-								<path stroke-linecap="round" stroke-linejoin="round" d="M6 18 18 6M6 6l12 12" />
-							</svg>
-							<span class="sr-only">Close sidebar</span>
-						</button>
-					</div>
-
-					<div class="flex shrink-0 items-center px-4">
-						<img
-							class="h-8 w-auto"
-							src="https://tailwindcss.com/plus-assets/img/logos/mark.svg?color=white"
-							alt="Your Company"
-						/>
-					</div>
-					<div class="mt-5 h-0 flex-1 overflow-y-auto px-2">
-						<nav class="flex h-full flex-col">
-							<div class="space-y-1">
-								<!-- Current: "bg-indigo-800 text-white", Default: "text-indigo-100 hover:bg-indigo-800 hover:text-white" -->
-								<a
-									href="#"
-									class="group flex items-center rounded-md px-3 py-2 text-sm font-medium text-indigo-100 hover:bg-indigo-800 hover:text-white"
-								>
-									<!-- Current: "text-white", Default: "text-indigo-300 group-hover:text-white" -->
-									<svg
-										class="mr-3 size-6 text-indigo-300 group-hover:text-white"
-										fill="none"
-										viewBox="0 0 24 24"
-										stroke-width="1.5"
-										stroke="currentColor"
-										aria-hidden="true"
-										data-slot="icon"
-									>
-										<path
-											stroke-linecap="round"
-											stroke-linejoin="round"
-											d="m2.25 12 8.954-8.955c.44-.439 1.152-.439 1.591 0L21.75 12M4.5 9.75v10.125c0 .621.504 1.125 1.125 1.125H9.75v-4.875c0-.621.504-1.125 1.125-1.125h2.25c.621 0 1.125.504 1.125 1.125V21h4.125c.621 0 1.125-.504 1.125-1.125V9.75M8.25 21h8.25"
-										/>
-									</svg>
-									<span>Home</span>
-								</a>
-								<a
-									href="#"
-									class="group flex items-center rounded-md px-3 py-2 text-sm font-medium text-indigo-100 hover:bg-indigo-800 hover:text-white"
-								>
-									<svg
-										class="mr-3 size-6 text-indigo-300 group-hover:text-white"
-										fill="none"
-										viewBox="0 0 24 24"
-										stroke-width="1.5"
-										stroke="currentColor"
-										aria-hidden="true"
-										data-slot="icon"
-									>
-										<path
-											stroke-linecap="round"
-											stroke-linejoin="round"
-											d="M3.75 6A2.25 2.25 0 0 1 6 3.75h2.25A2.25 2.25 0 0 1 10.5 6v2.25a2.25 2.25 0 0 1-2.25 2.25H6a2.25 2.25 0 0 1-2.25-2.25V6ZM3.75 15.75A2.25 2.25 0 0 1 6 13.5h2.25a2.25 2.25 0 0 1 2.25 2.25V18a2.25 2.25 0 0 1-2.25 2.25H6A2.25 2.25 0 0 1 3.75 18v-2.25ZM13.5 6a2.25 2.25 0 0 1 2.25-2.25H18A2.25 2.25 0 0 1 20.25 6v2.25A2.25 2.25 0 0 1 18 10.5h-2.25a2.25 2.25 0 0 1-2.25-2.25V6ZM13.5 15.75a2.25 2.25 0 0 1 2.25-2.25H18a2.25 2.25 0 0 1 2.25 2.25V18A2.25 2.25 0 0 1 18 20.25h-2.25A2.25 2.25 0 0 1 13.5 18v-2.25Z"
-										/>
-									</svg>
-									<span>All Files</span>
-								</a>
-								<a
-									href="#"
-									class="group flex items-center rounded-md bg-indigo-800 px-3 py-2 text-sm font-medium text-white"
-									aria-current="page"
-								>
-									<svg
-										class="mr-3 size-6 text-white"
-										fill="none"
-										viewBox="0 0 24 24"
-										stroke-width="1.5"
-										stroke="currentColor"
-										aria-hidden="true"
-										data-slot="icon"
-									>
-										<path
-											stroke-linecap="round"
-											stroke-linejoin="round"
-											d="m2.25 15.75 5.159-5.159a2.25 2.25 0 0 1 3.182 0l5.159 5.159m-1.5-1.5 1.409-1.409a2.25 2.25 0 0 1 3.182 0l2.909 2.909m-18 3.75h16.5a1.5 1.5 0 0 0 1.5-1.5V6a1.5 1.5 0 0 0-1.5-1.5H3.75A1.5 1.5 0 0 0 2.25 6v12a1.5 1.5 0 0 0 1.5 1.5Zm10.5-11.25h.008v.008h-.008V8.25Zm.375 0a.375.375 0 1 1-.75 0 .375.375 0 0 1 .75 0Z"
-										/>
-									</svg>
-									<span>Photos</span>
-								</a>
-								<a
-									href="#"
-									class="group flex items-center rounded-md px-3 py-2 text-sm font-medium text-indigo-100 hover:bg-indigo-800 hover:text-white"
-								>
-									<svg
-										class="mr-3 size-6 text-indigo-300 group-hover:text-white"
-										fill="none"
-										viewBox="0 0 24 24"
-										stroke-width="1.5"
-										stroke="currentColor"
-										aria-hidden="true"
-										data-slot="icon"
-									>
-										<path
-											stroke-linecap="round"
-											stroke-linejoin="round"
-											d="M18 18.72a9.094 9.094 0 0 0 3.741-.479 3 3 0 0 0-4.682-2.72m.94 3.198.001.031c0 .225-.012.447-.037.666A11.944 11.944 0 0 1 12 21c-2.17 0-4.207-.576-5.963-1.584A6.062 6.062 0 0 1 6 18.719m12 0a5.971 5.971 0 0 0-.941-3.197m0 0A5.995 5.995 0 0 0 12 12.75a5.995 5.995 0 0 0-5.058 2.772m0 0a3 3 0 0 0-4.681 2.72 8.986 8.986 0 0 0 3.74.477m.94-3.197a5.971 5.971 0 0 0-.94 3.197M15 6.75a3 3 0 1 1-6 0 3 3 0 0 1 6 0Zm6 3a2.25 2.25 0 1 1-4.5 0 2.25 2.25 0 0 1 4.5 0Zm-13.5 0a2.25 2.25 0 1 1-4.5 0 2.25 2.25 0 0 1 4.5 0Z"
-										/>
-									</svg>
-									<span>Shared</span>
-								</a>
-								<a
-									href="#"
-									class="group flex items-center rounded-md px-3 py-2 text-sm font-medium text-indigo-100 hover:bg-indigo-800 hover:text-white"
-								>
-									<svg
-										class="mr-3 size-6 text-indigo-300 group-hover:text-white"
-										fill="none"
-										viewBox="0 0 24 24"
-										stroke-width="1.5"
-										stroke="currentColor"
-										aria-hidden="true"
-										data-slot="icon"
-									>
-										<path
-											stroke-linecap="round"
-											stroke-linejoin="round"
-											d="M6 6.878V6a2.25 2.25 0 0 1 2.25-2.25h7.5A2.25 2.25 0 0 1 18 6v.878m-12 0c.235-.083.487-.128.75-.128h10.5c.263 0 .515.045.75.128m-12 0A2.25 2.25 0 0 0 4.5 9v.878m13.5-3A2.25 2.25 0 0 1 19.5 9v.878m0 0a2.246 2.246 0 0 0-.75-.128H5.25c-.263 0-.515.045-.75.128m15 0A2.25 2.25 0 0 1 21 12v6a2.25 2.25 0 0 1-2.25 2.25H5.25A2.25 2.25 0 0 1 3 18v-6c0-.98.626-1.813 1.5-2.122"
-										/>
-									</svg>
-									<span>Albums</span>
-								</a>
-								<a
-									href="#"
-									class="group flex items-center rounded-md px-3 py-2 text-sm font-medium text-indigo-100 hover:bg-indigo-800 hover:text-white"
-								>
-									<svg
-										class="mr-3 size-6 text-indigo-300 group-hover:text-white"
-										fill="none"
-										viewBox="0 0 24 24"
-										stroke-width="1.5"
-										stroke="currentColor"
-										aria-hidden="true"
-										data-slot="icon"
-									>
-										<path
-											stroke-linecap="round"
-											stroke-linejoin="round"
-											d="M4.5 12a7.5 7.5 0 0 0 15 0m-15 0a7.5 7.5 0 1 1 15 0m-15 0H3m16.5 0H21m-1.5 0H12m-8.457 3.077 1.41-.513m14.095-5.13 1.41-.513M5.106 17.785l1.15-.964m11.49-9.642 1.149-.964M7.501 19.795l.75-1.3m7.5-12.99.75-1.3m-6.063 16.658.26-1.477m2.605-14.772.26-1.477m0 17.726-.26-1.477M10.698 4.614l-.26-1.477M16.5 19.794l-.75-1.299M7.5 4.205 12 12m6.894 5.785-1.149-.964M6.256 7.178l-1.15-.964m15.352 8.864-1.41-.513M4.954 9.435l-1.41-.514M12.002 12l-3.75 6.495"
-										/>
-									</svg>
-									<span>Settings</span>
-								</a>
-							</div>
-						</nav>
-					</div>
-				</div>
-
-				<div class="w-14 shrink-0" aria-hidden="true">
-					<!-- Dummy element to force sidebar to shrink to fit close icon -->
-				</div>
-			</div>
-		</div>
-	{/if}
-
-	<!-- Content area -->
 	<div class="flex flex-1 flex-col overflow-hidden">
 		<header class="w-full">
 			<div class="relative z-10 flex h-16 shrink-0 border-b border-gray-200 bg-white shadow-xs">
@@ -322,14 +99,14 @@
 							>
 								<!-- Active: "bg-gray-100 outline-hidden", Not Active: "" -->
 								<a
-									href="#"
+									href="/"
 									class="block px-4 py-2 text-sm text-gray-700"
 									role="menuitem"
 									tabindex="-1"
 									id="user-menu-item-0">Your profile</a
 								>
 								<a
-									href="#"
+									href="/"
 									class="block px-4 py-2 text-sm text-gray-700"
 									role="menuitem"
 									tabindex="-1"
@@ -362,345 +139,547 @@
 		</header>
 
 		<!-- Main content -->
-		<div class="flex flex-1 items-stretch overflow-hidden">
-			<main class="flex-1 overflow-y-auto">
-				<div class="mx-auto max-w-7xl px-4 pt-8 sm:px-6 lg:px-8">
-					<div class="flex">
-						<h1 class="flex-1 text-2xl font-bold text-gray-900">Photos</h1>
-						<div class="ml-6 flex items-center rounded-lg bg-gray-100 p-0.5 sm:hidden">
-							<button
-								type="button"
-								class="rounded-md p-1.5 text-gray-400 hover:bg-white hover:shadow-xs focus:ring-2 focus:ring-indigo-500 focus:outline-hidden focus:ring-inset"
-							>
-								<svg
-									class="size-5"
-									viewBox="0 0 20 20"
-									fill="currentColor"
-									aria-hidden="true"
-									data-slot="icon"
-								>
-									<path
-										fill-rule="evenodd"
-										d="M2 3.75A.75.75 0 0 1 2.75 3h14.5a.75.75 0 0 1 0 1.5H2.75A.75.75 0 0 1 2 3.75Zm0 4.167a.75.75 0 0 1 .75-.75h14.5a.75.75 0 0 1 0 1.5H2.75a.75.75 0 0 1-.75-.75Zm0 4.166a.75.75 0 0 1 .75-.75h14.5a.75.75 0 0 1 0 1.5H2.75a.75.75 0 0 1-.75-.75Zm0 4.167a.75.75 0 0 1 .75-.75h14.5a.75.75 0 0 1 0 1.5H2.75a.75.75 0 0 1-.75-.75Z"
-										clip-rule="evenodd"
-									/>
-								</svg>
-								<span class="sr-only">Use list view</span>
-							</button>
-							<button
-								type="button"
-								class="ml-0.5 rounded-md bg-white p-1.5 text-gray-400 shadow-xs focus:ring-2 focus:ring-indigo-500 focus:outline-hidden focus:ring-inset"
-							>
-								<svg
-									class="size-5"
-									viewBox="0 0 20 20"
-									fill="currentColor"
-									aria-hidden="true"
-									data-slot="icon"
-								>
-									<path
-										fill-rule="evenodd"
-										d="M4.25 2A2.25 2.25 0 0 0 2 4.25v2.5A2.25 2.25 0 0 0 4.25 9h2.5A2.25 2.25 0 0 0 9 6.75v-2.5A2.25 2.25 0 0 0 6.75 2h-2.5Zm0 9A2.25 2.25 0 0 0 2 13.25v2.5A2.25 2.25 0 0 0 4.25 18h2.5A2.25 2.25 0 0 0 9 15.75v-2.5A2.25 2.25 0 0 0 6.75 11h-2.5Zm9-9A2.25 2.25 0 0 0 11 4.25v2.5A2.25 2.25 0 0 0 13.25 9h2.5A2.25 2.25 0 0 0 18 6.75v-2.5A2.25 2.25 0 0 0 15.75 2h-2.5Zm0 9A2.25 2.25 0 0 0 11 13.25v2.5A2.25 2.25 0 0 0 13.25 18h2.5A2.25 2.25 0 0 0 18 15.75v-2.5A2.25 2.25 0 0 0 15.75 11h-2.5Z"
-										clip-rule="evenodd"
-									/>
-								</svg>
-								<span class="sr-only">Use grid view</span>
-							</button>
-						</div>
-					</div>
-
-					<!-- Tabs -->
-					<div class="mt-3 sm:mt-2">
-						<div class="grid grid-cols-1 sm:hidden">
-							<!-- Use an "onChange" listener to redirect the user to the selected tab URL. -->
-							<select
-								aria-label="Select a tab"
-								class="col-start-1 row-start-1 w-full appearance-none rounded-md bg-white py-2 pr-8 pl-3 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600"
-							>
-								<option selected>Recently Viewed</option>
-								<option>Recently Added</option>
-								<option>Favorited</option>
-							</select>
-							<svg
-								class="pointer-events-none col-start-1 row-start-1 mr-2 size-5 self-center justify-self-end fill-gray-500"
-								viewBox="0 0 16 16"
-								fill="currentColor"
-								aria-hidden="true"
-								data-slot="icon"
-							>
-								<path
-									fill-rule="evenodd"
-									d="M4.22 6.22a.75.75 0 0 1 1.06 0L8 8.94l2.72-2.72a.75.75 0 1 1 1.06 1.06l-3.25 3.25a.75.75 0 0 1-1.06 0L4.22 7.28a.75.75 0 0 1 0-1.06Z"
-									clip-rule="evenodd"
-								/>
-							</svg>
-						</div>
-						<div class="hidden sm:block">
-							<div class="flex items-center border-b border-gray-200">
-								<nav class="-mb-px flex flex-1 space-x-6 xl:space-x-8" aria-label="Tabs">
-									<!-- Current: "border-indigo-500 text-indigo-600", Default: "border-transparent text-gray-500 hover:border-gray-300 hover:text-gray-700" -->
-									<a
-										href="#"
-										aria-current="page"
-										class="border-b-2 border-indigo-500 px-1 py-4 text-sm font-medium whitespace-nowrap text-indigo-600"
-										>Recently Viewed</a
-									>
-									<a
-										href="#"
-										class="border-b-2 border-transparent px-1 py-4 text-sm font-medium whitespace-nowrap text-gray-500 hover:border-gray-300 hover:text-gray-700"
-										>Recently Added</a
-									>
-									<a
-										href="#"
-										class="border-b-2 border-transparent px-1 py-4 text-sm font-medium whitespace-nowrap text-gray-500 hover:border-gray-300 hover:text-gray-700"
-										>Favorited</a
-									>
-								</nav>
-								<div class="ml-6 hidden items-center rounded-lg bg-gray-100 p-0.5 sm:flex">
-									<button
-										type="button"
-										class="rounded-md p-1.5 text-gray-400 hover:bg-white hover:shadow-xs focus:ring-2 focus:ring-indigo-500 focus:outline-hidden focus:ring-inset"
-									>
-										<svg
-											class="size-5"
-											viewBox="0 0 20 20"
-											fill="currentColor"
-											aria-hidden="true"
-											data-slot="icon"
-										>
-											<path
-												fill-rule="evenodd"
-												d="M2 3.75A.75.75 0 0 1 2.75 3h14.5a.75.75 0 0 1 0 1.5H2.75A.75.75 0 0 1 2 3.75Zm0 4.167a.75.75 0 0 1 .75-.75h14.5a.75.75 0 0 1 0 1.5H2.75a.75.75 0 0 1-.75-.75Zm0 4.166a.75.75 0 0 1 .75-.75h14.5a.75.75 0 0 1 0 1.5H2.75a.75.75 0 0 1-.75-.75Zm0 4.167a.75.75 0 0 1 .75-.75h14.5a.75.75 0 0 1 0 1.5H2.75a.75.75 0 0 1-.75-.75Z"
-												clip-rule="evenodd"
-											/>
-										</svg>
-										<span class="sr-only">Use list view</span>
-									</button>
-									<button
-										type="button"
-										class="ml-0.5 rounded-md bg-white p-1.5 text-gray-400 shadow-xs focus:ring-2 focus:ring-indigo-500 focus:outline-hidden focus:ring-inset"
-									>
-										<svg
-											class="size-5"
-											viewBox="0 0 20 20"
-											fill="currentColor"
-											aria-hidden="true"
-											data-slot="icon"
-										>
-											<path
-												fill-rule="evenodd"
-												d="M4.25 2A2.25 2.25 0 0 0 2 4.25v2.5A2.25 2.25 0 0 0 4.25 9h2.5A2.25 2.25 0 0 0 9 6.75v-2.5A2.25 2.25 0 0 0 6.75 2h-2.5Zm0 9A2.25 2.25 0 0 0 2 13.25v2.5A2.25 2.25 0 0 0 4.25 18h2.5A2.25 2.25 0 0 0 9 15.75v-2.5A2.25 2.25 0 0 0 6.75 11h-2.5Zm9-9A2.25 2.25 0 0 0 11 4.25v2.5A2.25 2.25 0 0 0 13.25 9h2.5A2.25 2.25 0 0 0 18 6.75v-2.5A2.25 2.25 0 0 0 15.75 2h-2.5Zm0 9A2.25 2.25 0 0 0 11 13.25v2.5A2.25 2.25 0 0 0 13.25 18h2.5A2.25 2.25 0 0 0 18 15.75v-2.5A2.25 2.25 0 0 0 15.75 11h-2.5Z"
-												clip-rule="evenodd"
-											/>
-										</svg>
-										<span class="sr-only">Use grid view</span>
-									</button>
-								</div>
-							</div>
-						</div>
-					</div>
-
-					<!-- Gallery -->
-					<section class="mt-8 pb-16" aria-labelledby="gallery-heading">
-						<h2 id="gallery-heading" class="sr-only">Recently viewed</h2>
-						<ul
-							role="list"
-							class="grid grid-cols-2 gap-x-4 gap-y-8 sm:grid-cols-3 sm:gap-x-6 md:grid-cols-4 lg:grid-cols-3 xl:grid-cols-4 xl:gap-x-8"
-						>
-							{#each Array(20) as _}
-								<li class="relative">
-									<!-- Current: "ring-2 ring-indigo-500 ring-offset-2", Default: "focus-within:ring-2 focus-within:ring-indigo-500 focus-within:ring-offset-2 focus-within:ring-offset-gray-100" -->
-									<div
-										class="group block w-full overflow-hidden rounded-lg bg-gray-100 ring-2 ring-indigo-500 ring-offset-2"
-									>
-										<!-- Current: "", Default: "group-hover:opacity-75" -->
-										<img
-											src="https://images.unsplash.com/photo-1582053433976-25c00369fc93?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=512&q=80"
-											alt=""
-											class="pointer-events-none aspect-10/7 object-cover"
-										/>
-										<button type="button" class="absolute inset-0 focus:outline-hidden">
-											<span class="sr-only">View details for IMG_4985.HEIC</span>
-										</button>
+		<main class="flex-1 items-stretch overflow-hidden">
+			<div class="mx-auto max-w-7xl px-4 pt-8 sm:px-6 lg:px-8">
+				<h1 class="sr-only">Profile</h1>
+				<!-- Main 3 column grid -->
+				<div class="grid grid-cols-1 items-start gap-4 lg:grid-cols-3 lg:gap-8">
+					<!-- Left column -->
+					<div class="grid grid-cols-1 gap-4 lg:col-span-2">
+						<!-- Welcome panel -->
+						<section aria-labelledby="profile-overview-title">
+							<div class="overflow-hidden rounded-lg bg-white shadow-sm">
+								<h2 class="sr-only" id="profile-overview-title">Profile Overview</h2>
+								<div class="bg-white p-6">
+									<div class="sm:flex sm:items-center sm:justify-between">
+										<div class="sm:flex sm:space-x-5">
+											<div class="shrink-0">
+												<img
+													class="mx-auto size-20 rounded-full"
+													src="https://images.unsplash.com/photo-1550525811-e5869dd03032?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80"
+													alt=""
+												/>
+											</div>
+											<div class="mt-4 text-center sm:mt-0 sm:pt-1 sm:text-left">
+												<p class="text-sm font-medium text-gray-600">Welcome back,</p>
+												<p class="text-xl font-bold text-gray-900 sm:text-2xl">Chelsea Hagon</p>
+												<p class="text-sm font-medium text-gray-600">Human Resources Manager</p>
+											</div>
+										</div>
+										<div class="mt-5 flex justify-center sm:mt-0">
+											<a
+												href="/"
+												class="flex items-center justify-center rounded-md bg-white px-3 py-2 text-sm font-semibold text-gray-900 shadow-xs ring-1 ring-gray-300 ring-inset hover:bg-gray-50"
+												>View profile</a
+											>
+										</div>
 									</div>
-									<p
-										class="pointer-events-none mt-2 block truncate text-sm font-medium text-gray-900"
-									>
-										IMG_4985.HEIC
-									</p>
-									<p class="pointer-events-none block text-sm font-medium text-gray-500">3.9 MB</p>
-								</li>
-							{/each}
-							<!-- More files... -->
-						</ul>
-					</section>
-				</div>
-			</main>
-
-			<!-- Details sidebar -->
-			<aside class="hidden w-96 overflow-y-auto border-l border-gray-200 bg-white p-8 lg:block">
-				<div class="space-y-6 pb-16">
-					<div>
-						<img
-							src="https://images.unsplash.com/photo-1582053433976-25c00369fc93?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=512&q=80"
-							alt=""
-							class="block aspect-10/7 w-full rounded-lg object-cover"
-						/>
-						<div class="mt-4 flex items-start justify-between">
-							<div>
-								<h2 class="text-lg font-medium text-gray-900">
-									<span class="sr-only">Details for </span>IMG_4985.HEIC
-								</h2>
-								<p class="text-sm font-medium text-gray-500">3.9 MB</p>
-							</div>
-							<button
-								type="button"
-								class="relative ml-4 flex size-8 items-center justify-center rounded-full bg-white text-gray-400 hover:bg-gray-100 hover:text-gray-500 focus:ring-2 focus:ring-indigo-500 focus:outline-hidden"
-							>
-								<span class="absolute -inset-1.5"></span>
-								<svg
-									class="size-6"
-									fill="none"
-									viewBox="0 0 24 24"
-									stroke-width="1.5"
-									stroke="currentColor"
-									aria-hidden="true"
-									data-slot="icon"
-								>
-									<path
-										stroke-linecap="round"
-										stroke-linejoin="round"
-										d="M21 8.25c0-2.485-2.099-4.5-4.688-4.5-1.935 0-3.597 1.126-4.312 2.733-.715-1.607-2.377-2.733-4.313-2.733C5.1 3.75 3 5.765 3 8.25c0 7.22 9 12 9 12s9-4.78 9-12Z"
-									/>
-								</svg>
-								<span class="sr-only">Favorite</span>
-							</button>
-						</div>
-					</div>
-					<div>
-						<h3 class="font-medium text-gray-900">Information</h3>
-						<dl class="mt-2 divide-y divide-gray-200 border-t border-b border-gray-200">
-							<div class="flex justify-between py-3 text-sm font-medium">
-								<dt class="text-gray-500">Uploaded by</dt>
-								<dd class="whitespace-nowrap text-gray-900">Marie Culver</dd>
-							</div>
-							<div class="flex justify-between py-3 text-sm font-medium">
-								<dt class="text-gray-500">Created</dt>
-								<dd class="whitespace-nowrap text-gray-900">June 8, 2020</dd>
-							</div>
-							<div class="flex justify-between py-3 text-sm font-medium">
-								<dt class="text-gray-500">Last modified</dt>
-								<dd class="whitespace-nowrap text-gray-900">June 8, 2020</dd>
-							</div>
-							<div class="flex justify-between py-3 text-sm font-medium">
-								<dt class="text-gray-500">Dimensions</dt>
-								<dd class="whitespace-nowrap text-gray-900">4032 x 3024</dd>
-							</div>
-							<div class="flex justify-between py-3 text-sm font-medium">
-								<dt class="text-gray-500">Resolution</dt>
-								<dd class="whitespace-nowrap text-gray-900">72 x 72</dd>
-							</div>
-						</dl>
-					</div>
-					<div>
-						<h3 class="font-medium text-gray-900">Description</h3>
-						<div class="mt-2 flex items-center justify-between">
-							<p class="text-sm text-gray-500 italic">Add a description to this image.</p>
-							<button
-								type="button"
-								class="relative flex size-8 items-center justify-center rounded-full bg-white text-gray-400 hover:bg-gray-100 hover:text-gray-500 focus:ring-2 focus:ring-indigo-500 focus:outline-hidden"
-							>
-								<span class="absolute -inset-1.5"></span>
-								<svg
-									class="size-5"
-									viewBox="0 0 20 20"
-									fill="currentColor"
-									aria-hidden="true"
-									data-slot="icon"
-								>
-									<path
-										d="m2.695 14.762-1.262 3.155a.5.5 0 0 0 .65.65l3.155-1.262a4 4 0 0 0 1.343-.886L17.5 5.501a2.121 2.121 0 0 0-3-3L3.58 13.419a4 4 0 0 0-.885 1.343Z"
-									/>
-								</svg>
-								<span class="sr-only">Add description</span>
-							</button>
-						</div>
-					</div>
-					<div>
-						<h3 class="font-medium text-gray-900">Shared with</h3>
-						<ul role="list" class="mt-2 divide-y divide-gray-200 border-t border-b border-gray-200">
-							<li class="flex items-center justify-between py-3">
-								<div class="flex items-center">
-									<img
-										src="https://images.unsplash.com/photo-1502685104226-ee32379fefbe?ixlib=rb-=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=3&w=1024&h=1024&q=80"
-										alt=""
-										class="size-8 rounded-full"
-									/>
-									<p class="ml-4 text-sm font-medium text-gray-900">Aimee Douglas</p>
 								</div>
-								<button
-									type="button"
-									class="ml-6 rounded-md bg-white text-sm font-medium text-indigo-600 hover:text-indigo-500 focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 focus:outline-hidden"
-									>Remove<span class="sr-only"> Aimee Douglas</span></button
+								<div
+									class="grid grid-cols-1 divide-y divide-gray-200 border-t border-gray-200 bg-gray-50 sm:grid-cols-3 sm:divide-x sm:divide-y-0"
 								>
-							</li>
-							<li class="flex items-center justify-between py-3">
-								<div class="flex items-center">
-									<img
-										src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?ixlib=rb-1.2.1&ixqx=oilqXxSqey&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80"
-										alt=""
-										class="size-8 rounded-full"
-									/>
-									<p class="ml-4 text-sm font-medium text-gray-900">Andrea McMillan</p>
+									<div class="px-6 py-5 text-center text-sm font-medium">
+										<span class="text-gray-900">12</span>
+										<span class="text-gray-600">Vacation days left</span>
+									</div>
+									<div class="px-6 py-5 text-center text-sm font-medium">
+										<span class="text-gray-900">4</span>
+										<span class="text-gray-600">Sick days left</span>
+									</div>
+									<div class="px-6 py-5 text-center text-sm font-medium">
+										<span class="text-gray-900">2</span>
+										<span class="text-gray-600">Personal days left</span>
+									</div>
 								</div>
-								<button
-									type="button"
-									class="ml-6 rounded-md bg-white text-sm font-medium text-indigo-600 hover:text-indigo-500 focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 focus:outline-hidden"
-									>Remove<span class="sr-only"> Andrea McMillan</span></button
-								>
-							</li>
+							</div>
+						</section>
 
-							<li class="flex items-center justify-between py-2">
-								<button
-									type="button"
-									class="group -ml-1 flex items-center rounded-md bg-white p-1 focus:ring-2 focus:ring-indigo-500 focus:outline-hidden"
+						<!-- Actions panel -->
+						<section aria-labelledby="quick-links-title">
+							<div
+								class="divide-y divide-gray-200 overflow-hidden rounded-lg bg-gray-200 shadow-sm sm:grid sm:grid-cols-2 sm:gap-px sm:divide-y-0"
+							>
+								<h2 class="sr-only" id="quick-links-title">Quick links</h2>
+								<div
+									class="group relative rounded-tl-lg rounded-tr-lg bg-white p-6 focus-within:ring-2 focus-within:ring-cyan-500 focus-within:ring-inset sm:rounded-tr-none"
 								>
-									<span
-										class="flex size-8 items-center justify-center rounded-full border-2 border-dashed border-gray-300 text-gray-400"
-									>
-										<svg
-											class="size-5"
-											viewBox="0 0 20 20"
-											fill="currentColor"
-											aria-hidden="true"
-											data-slot="icon"
+									<div>
+										<span
+											class="inline-flex rounded-lg bg-teal-50 p-3 text-teal-700 ring-4 ring-white"
 										>
+											<svg
+												class="size-6"
+												fill="none"
+												viewBox="0 0 24 24"
+												stroke-width="1.5"
+												stroke="currentColor"
+												aria-hidden="true"
+												data-slot="icon"
+											>
+												<path
+													stroke-linecap="round"
+													stroke-linejoin="round"
+													d="M12 6v6h4.5m4.5 0a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z"
+												/>
+											</svg>
+										</span>
+									</div>
+									<div class="mt-8">
+										<h3 class="text-lg font-medium">
+											<a href="/" class="focus:outline-hidden">
+												<!-- Extend touch target to entire panel -->
+												<span class="absolute inset-0" aria-hidden="true"></span>
+												Request time off
+											</a>
+										</h3>
+										<p class="mt-2 text-sm text-gray-500">
+											Doloribus dolores nostrum quia qui natus officia quod et dolorem. Sit
+											repellendus qui ut at blanditiis et quo et molestiae.
+										</p>
+									</div>
+									<span
+										class="pointer-events-none absolute top-6 right-6 text-gray-300 group-hover:text-gray-400"
+										aria-hidden="true"
+									>
+										<svg class="size-6" fill="currentColor" viewBox="0 0 24 24">
 											<path
-												d="M10.75 4.75a.75.75 0 0 0-1.5 0v4.5h-4.5a.75.75 0 0 0 0 1.5h4.5v4.5a.75.75 0 0 0 1.5 0v-4.5h4.5a.75.75 0 0 0 0-1.5h-4.5v-4.5Z"
+												d="M20 4h1a1 1 0 00-1-1v1zm-1 12a1 1 0 102 0h-2zM8 3a1 1 0 000 2V3zM3.293 19.293a1 1 0 101.414 1.414l-1.414-1.414zM19 4v12h2V4h-2zm1-1H8v2h12V3zm-.707.293l-16 16 1.414 1.414 16-16-1.414-1.414z"
 											/>
 										</svg>
 									</span>
-									<span class="ml-4 text-sm font-medium text-indigo-600 group-hover:text-indigo-500"
-										>Share</span
+								</div>
+								<div
+									class="group relative bg-white p-6 focus-within:ring-2 focus-within:ring-cyan-500 focus-within:ring-inset sm:rounded-tr-lg"
+								>
+									<div>
+										<span
+											class="inline-flex rounded-lg bg-purple-50 p-3 text-purple-700 ring-4 ring-white"
+										>
+											<svg
+												class="size-6"
+												fill="none"
+												viewBox="0 0 24 24"
+												stroke-width="1.5"
+												stroke="currentColor"
+												aria-hidden="true"
+												data-slot="icon"
+											>
+												<path
+													stroke-linecap="round"
+													stroke-linejoin="round"
+													d="M9 12.75 11.25 15 15 9.75M21 12c0 1.268-.63 2.39-1.593 3.068a3.745 3.745 0 0 1-1.043 3.296 3.745 3.745 0 0 1-3.296 1.043A3.745 3.745 0 0 1 12 21c-1.268 0-2.39-.63-3.068-1.593a3.746 3.746 0 0 1-3.296-1.043 3.745 3.745 0 0 1-1.043-3.296A3.745 3.745 0 0 1 3 12c0-1.268.63-2.39 1.593-3.068a3.745 3.745 0 0 1 1.043-3.296 3.746 3.746 0 0 1 3.296-1.043A3.746 3.746 0 0 1 12 3c1.268 0 2.39.63 3.068 1.593a3.746 3.746 0 0 1 3.296 1.043 3.746 3.746 0 0 1 1.043 3.296A3.745 3.745 0 0 1 21 12Z"
+												/>
+											</svg>
+										</span>
+									</div>
+									<div class="mt-8">
+										<h3 class="text-lg font-medium">
+											<a href="/" class="focus:outline-hidden">
+												<!-- Extend touch target to entire panel -->
+												<span class="absolute inset-0" aria-hidden="true"></span>
+												Benefits
+											</a>
+										</h3>
+										<p class="mt-2 text-sm text-gray-500">
+											Doloribus dolores nostrum quia qui natus officia quod et dolorem. Sit
+											repellendus qui ut at blanditiis et quo et molestiae.
+										</p>
+									</div>
+									<span
+										class="pointer-events-none absolute top-6 right-6 text-gray-300 group-hover:text-gray-400"
+										aria-hidden="true"
 									>
-								</button>
-							</li>
-						</ul>
+										<svg class="size-6" fill="currentColor" viewBox="0 0 24 24">
+											<path
+												d="M20 4h1a1 1 0 00-1-1v1zm-1 12a1 1 0 102 0h-2zM8 3a1 1 0 000 2V3zM3.293 19.293a1 1 0 101.414 1.414l-1.414-1.414zM19 4v12h2V4h-2zm1-1H8v2h12V3zm-.707.293l-16 16 1.414 1.414 16-16-1.414-1.414z"
+											/>
+										</svg>
+									</span>
+								</div>
+								<div
+									class="group relative bg-white p-6 focus-within:ring-2 focus-within:ring-cyan-500 focus-within:ring-inset"
+								>
+									<div>
+										<span
+											class="inline-flex rounded-lg bg-sky-50 p-3 text-sky-700 ring-4 ring-white"
+										>
+											<svg
+												class="size-6"
+												fill="none"
+												viewBox="0 0 24 24"
+												stroke-width="1.5"
+												stroke="currentColor"
+												aria-hidden="true"
+												data-slot="icon"
+											>
+												<path
+													stroke-linecap="round"
+													stroke-linejoin="round"
+													d="M15 19.128a9.38 9.38 0 0 0 2.625.372 9.337 9.337 0 0 0 4.121-.952 4.125 4.125 0 0 0-7.533-2.493M15 19.128v-.003c0-1.113-.285-2.16-.786-3.07M15 19.128v.106A12.318 12.318 0 0 1 8.624 21c-2.331 0-4.512-.645-6.374-1.766l-.001-.109a6.375 6.375 0 0 1 11.964-3.07M12 6.375a3.375 3.375 0 1 1-6.75 0 3.375 3.375 0 0 1 6.75 0Zm8.25 2.25a2.625 2.625 0 1 1-5.25 0 2.625 2.625 0 0 1 5.25 0Z"
+												/>
+											</svg>
+										</span>
+									</div>
+									<div class="mt-8">
+										<h3 class="text-lg font-medium">
+											<a href="/" class="focus:outline-hidden">
+												<!-- Extend touch target to entire panel -->
+												<span class="absolute inset-0" aria-hidden="true"></span>
+												Schedule a one-on-one
+											</a>
+										</h3>
+										<p class="mt-2 text-sm text-gray-500">
+											Doloribus dolores nostrum quia qui natus officia quod et dolorem. Sit
+											repellendus qui ut at blanditiis et quo et molestiae.
+										</p>
+									</div>
+									<span
+										class="pointer-events-none absolute top-6 right-6 text-gray-300 group-hover:text-gray-400"
+										aria-hidden="true"
+									>
+										<svg class="size-6" fill="currentColor" viewBox="0 0 24 24">
+											<path
+												d="M20 4h1a1 1 0 00-1-1v1zm-1 12a1 1 0 102 0h-2zM8 3a1 1 0 000 2V3zM3.293 19.293a1 1 0 101.414 1.414l-1.414-1.414zM19 4v12h2V4h-2zm1-1H8v2h12V3zm-.707.293l-16 16 1.414 1.414 16-16-1.414-1.414z"
+											/>
+										</svg>
+									</span>
+								</div>
+								<div
+									class="group relative bg-white p-6 focus-within:ring-2 focus-within:ring-cyan-500 focus-within:ring-inset"
+								>
+									<div>
+										<span
+											class="inline-flex rounded-lg bg-yellow-50 p-3 text-yellow-700 ring-4 ring-white"
+										>
+											<svg
+												class="size-6"
+												fill="none"
+												viewBox="0 0 24 24"
+												stroke-width="1.5"
+												stroke="currentColor"
+												aria-hidden="true"
+												data-slot="icon"
+											>
+												<path
+													stroke-linecap="round"
+													stroke-linejoin="round"
+													d="M2.25 18.75a60.07 60.07 0 0 1 15.797 2.101c.727.198 1.453-.342 1.453-1.096V18.75M3.75 4.5v.75A.75.75 0 0 1 3 6h-.75m0 0v-.375c0-.621.504-1.125 1.125-1.125H20.25M2.25 6v9m18-10.5v.75c0 .414.336.75.75.75h.75m-1.5-1.5h.375c.621 0 1.125.504 1.125 1.125v9.75c0 .621-.504 1.125-1.125 1.125h-.375m1.5-1.5H21a.75.75 0 0 0-.75.75v.75m0 0H3.75m0 0h-.375a1.125 1.125 0 0 1-1.125-1.125V15m1.5 1.5v-.75A.75.75 0 0 0 3 15h-.75M15 10.5a3 3 0 1 1-6 0 3 3 0 0 1 6 0Zm3 0h.008v.008H18V10.5Zm-12 0h.008v.008H6V10.5Z"
+												/>
+											</svg>
+										</span>
+									</div>
+									<div class="mt-8">
+										<h3 class="text-lg font-medium">
+											<a href="/" class="focus:outline-hidden">
+												<!-- Extend touch target to entire panel -->
+												<span class="absolute inset-0" aria-hidden="true"></span>
+												Payroll
+											</a>
+										</h3>
+										<p class="mt-2 text-sm text-gray-500">
+											Doloribus dolores nostrum quia qui natus officia quod et dolorem. Sit
+											repellendus qui ut at blanditiis et quo et molestiae.
+										</p>
+									</div>
+									<span
+										class="pointer-events-none absolute top-6 right-6 text-gray-300 group-hover:text-gray-400"
+										aria-hidden="true"
+									>
+										<svg class="size-6" fill="currentColor" viewBox="0 0 24 24">
+											<path
+												d="M20 4h1a1 1 0 00-1-1v1zm-1 12a1 1 0 102 0h-2zM8 3a1 1 0 000 2V3zM3.293 19.293a1 1 0 101.414 1.414l-1.414-1.414zM19 4v12h2V4h-2zm1-1H8v2h12V3zm-.707.293l-16 16 1.414 1.414 16-16-1.414-1.414z"
+											/>
+										</svg>
+									</span>
+								</div>
+								<div
+									class="group relative bg-white p-6 focus-within:ring-2 focus-within:ring-cyan-500 focus-within:ring-inset sm:rounded-bl-lg"
+								>
+									<div>
+										<span
+											class="inline-flex rounded-lg bg-rose-50 p-3 text-rose-700 ring-4 ring-white"
+										>
+											<svg
+												class="size-6"
+												fill="none"
+												viewBox="0 0 24 24"
+												stroke-width="1.5"
+												stroke="currentColor"
+												aria-hidden="true"
+												data-slot="icon"
+											>
+												<path
+													stroke-linecap="round"
+													stroke-linejoin="round"
+													d="M8.25 9.75h4.875a2.625 2.625 0 0 1 0 5.25H12M8.25 9.75 10.5 7.5M8.25 9.75 10.5 12m9-7.243V21.75l-3.75-1.5-3.75 1.5-3.75-1.5-3.75 1.5V4.757c0-1.108.806-2.057 1.907-2.185a48.507 48.507 0 0 1 11.186 0c1.1.128 1.907 1.077 1.907 2.185Z"
+												/>
+											</svg>
+										</span>
+									</div>
+									<div class="mt-8">
+										<h3 class="text-lg font-medium">
+											<a href="/" class="focus:outline-hidden">
+												<!-- Extend touch target to entire panel -->
+												<span class="absolute inset-0" aria-hidden="true"></span>
+												Submit an expense
+											</a>
+										</h3>
+										<p class="mt-2 text-sm text-gray-500">
+											Doloribus dolores nostrum quia qui natus officia quod et dolorem. Sit
+											repellendus qui ut at blanditiis et quo et molestiae.
+										</p>
+									</div>
+									<span
+										class="pointer-events-none absolute top-6 right-6 text-gray-300 group-hover:text-gray-400"
+										aria-hidden="true"
+									>
+										<svg class="size-6" fill="currentColor" viewBox="0 0 24 24">
+											<path
+												d="M20 4h1a1 1 0 00-1-1v1zm-1 12a1 1 0 102 0h-2zM8 3a1 1 0 000 2V3zM3.293 19.293a1 1 0 101.414 1.414l-1.414-1.414zM19 4v12h2V4h-2zm1-1H8v2h12V3zm-.707.293l-16 16 1.414 1.414 16-16-1.414-1.414z"
+											/>
+										</svg>
+									</span>
+								</div>
+								<div
+									class="group relative rounded-br-lg rounded-bl-lg bg-white p-6 focus-within:ring-2 focus-within:ring-cyan-500 focus-within:ring-inset sm:rounded-bl-none"
+								>
+									<div>
+										<span
+											class="inline-flex rounded-lg bg-indigo-50 p-3 text-indigo-700 ring-4 ring-white"
+										>
+											<svg
+												class="size-6"
+												fill="none"
+												viewBox="0 0 24 24"
+												stroke-width="1.5"
+												stroke="currentColor"
+												aria-hidden="true"
+												data-slot="icon"
+											>
+												<path
+													stroke-linecap="round"
+													stroke-linejoin="round"
+													d="M4.26 10.147a60.438 60.438 0 0 0-.491 6.347A48.62 48.62 0 0 1 12 20.904a48.62 48.62 0 0 1 8.232-4.41 60.46 60.46 0 0 0-.491-6.347m-15.482 0a50.636 50.636 0 0 0-2.658-.813A59.906 59.906 0 0 1 12 3.493a59.903 59.903 0 0 1 10.399 5.84c-.896.248-1.783.52-2.658.814m-15.482 0A50.717 50.717 0 0 1 12 13.489a50.702 50.702 0 0 1 7.74-3.342M6.75 15a.75.75 0 1 0 0-1.5.75.75 0 0 0 0 1.5Zm0 0v-3.675A55.378 55.378 0 0 1 12 8.443m-7.007 11.55A5.981 5.981 0 0 0 6.75 15.75v-1.5"
+												/>
+											</svg>
+										</span>
+									</div>
+									<div class="mt-8">
+										<h3 class="text-lg font-medium">
+											<a href="/" class="focus:outline-hidden">
+												<!-- Extend touch target to entire panel -->
+												<span class="absolute inset-0" aria-hidden="true"></span>
+												Training
+											</a>
+										</h3>
+										<p class="mt-2 text-sm text-gray-500">
+											Doloribus dolores nostrum quia qui natus officia quod et dolorem. Sit
+											repellendus qui ut at blanditiis et quo et molestiae.
+										</p>
+									</div>
+									<span
+										class="pointer-events-none absolute top-6 right-6 text-gray-300 group-hover:text-gray-400"
+										aria-hidden="true"
+									>
+										<svg class="size-6" fill="currentColor" viewBox="0 0 24 24">
+											<path
+												d="M20 4h1a1 1 0 00-1-1v1zm-1 12a1 1 0 102 0h-2zM8 3a1 1 0 000 2V3zM3.293 19.293a1 1 0 101.414 1.414l-1.414-1.414zM19 4v12h2V4h-2zm1-1H8v2h12V3zm-.707.293l-16 16 1.414 1.414 16-16-1.414-1.414z"
+											/>
+										</svg>
+									</span>
+								</div>
+							</div>
+						</section>
 					</div>
-					<div class="flex gap-x-3">
-						<button
-							type="button"
-							class="flex-1 rounded-md bg-indigo-600 px-3 py-2 text-sm font-semibold text-white shadow-xs hover:bg-indigo-500 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
-							>Download</button
-						>
-						<button
-							type="button"
-							class="flex-1 rounded-md bg-white px-3 py-2 text-sm font-semibold text-gray-900 shadow-xs ring-1 ring-gray-300 ring-inset hover:bg-gray-50"
-							>Delete</button
-						>
+
+					<!-- Right column -->
+					<div class="grid grid-cols-1 gap-4">
+						<!-- Announcements -->
+						<section aria-labelledby="announcements-title">
+							<div class="overflow-hidden rounded-lg bg-white shadow-sm">
+								<div class="p-6">
+									<h2 class="text-base font-medium text-gray-900" id="announcements-title">
+										Announcements
+									</h2>
+									<div class="mt-6 flow-root">
+										<ul role="list" class="-my-5 divide-y divide-gray-200">
+											<li class="py-5">
+												<div class="relative focus-within:ring-2 focus-within:ring-cyan-500">
+													<h3 class="text-sm font-semibold text-gray-800">
+														<a href="/" class="hover:underline focus:outline-hidden">
+															<!-- Extend touch target to entire panel -->
+															<span class="absolute inset-0" aria-hidden="true"></span>
+															Office closed on July 2nd
+														</a>
+													</h3>
+													<p class="mt-1 line-clamp-2 text-sm text-gray-600">
+														Cum qui rem deleniti. Suscipit in dolor veritatis sequi aut. Vero ut
+														earum quis deleniti. Ut a sunt eum cum ut repudiandae possimus. Nihil ex
+														tempora neque cum consectetur dolores.
+													</p>
+												</div>
+											</li>
+											<li class="py-5">
+												<div class="relative focus-within:ring-2 focus-within:ring-cyan-500">
+													<h3 class="text-sm font-semibold text-gray-800">
+														<a href="/" class="hover:underline focus:outline-hidden">
+															<!-- Extend touch target to entire panel -->
+															<span class="absolute inset-0" aria-hidden="true"></span>
+															New password policy
+														</a>
+													</h3>
+													<p class="mt-1 line-clamp-2 text-sm text-gray-600">
+														Alias inventore ut autem optio voluptas et repellendus. Facere totam
+														quaerat quam quo laudantium cumque eaque excepturi vel. Accusamus maxime
+														ipsam reprehenderit rerum id repellendus rerum. Culpa cum vel natus. Est
+														sit autem mollitia.
+													</p>
+												</div>
+											</li>
+											<li class="py-5">
+												<div class="relative focus-within:ring-2 focus-within:ring-cyan-500">
+													<h3 class="text-sm font-semibold text-gray-800">
+														<a href="/" class="hover:underline focus:outline-hidden">
+															<!-- Extend touch target to entire panel -->
+															<span class="absolute inset-0" aria-hidden="true"></span>
+															Office closed on July 2nd
+														</a>
+													</h3>
+													<p class="mt-1 line-clamp-2 text-sm text-gray-600">
+														Tenetur libero voluptatem rerum occaecati qui est molestiae
+														exercitationem. Voluptate quisquam iure assumenda consequatur ex et
+														recusandae. Alias consectetur voluptatibus. Accusamus a ab dicta et.
+														Consequatur quis dignissimos voluptatem nisi.
+													</p>
+												</div>
+											</li>
+										</ul>
+									</div>
+									<div class="mt-6">
+										<a
+											href="/"
+											class="flex w-full items-center justify-center rounded-md bg-white px-3 py-2 text-sm font-semibold text-gray-900 shadow-xs ring-1 ring-gray-300 ring-inset hover:bg-gray-50"
+											>View all</a
+										>
+									</div>
+								</div>
+							</div>
+						</section>
+
+						<!-- Recent Hires -->
+						<section aria-labelledby="recent-hires-title">
+							<div class="overflow-hidden rounded-lg bg-white shadow-sm">
+								<div class="p-6">
+									<h2 class="text-base font-medium text-gray-900" id="recent-hires-title">
+										Recent Hires
+									</h2>
+									<div class="mt-6 flow-root">
+										<ul role="list" class="-my-5 divide-y divide-gray-200">
+											<li class="py-4">
+												<div class="flex items-center space-x-4">
+													<div class="shrink-0">
+														<img
+															class="size-8 rounded-full"
+															src="https://images.unsplash.com/photo-1519345182560-3f2917c472ef?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80"
+															alt=""
+														/>
+													</div>
+													<div class="min-w-0 flex-1">
+														<p class="truncate text-sm font-medium text-gray-900">
+															Leonard Krasner
+														</p>
+														<p class="truncate text-sm text-gray-500">@leonardkrasner</p>
+													</div>
+													<div>
+														<a
+															href="/"
+															class="inline-flex items-center rounded-full bg-white px-2.5 py-1 text-xs font-semibold text-gray-900 shadow-xs ring-1 ring-gray-300 ring-inset hover:bg-gray-50"
+															>View</a
+														>
+													</div>
+												</div>
+											</li>
+											<li class="py-4">
+												<div class="flex items-center space-x-4">
+													<div class="shrink-0">
+														<img
+															class="size-8 rounded-full"
+															src="https://images.unsplash.com/photo-1463453091185-61582044d556?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80"
+															alt=""
+														/>
+													</div>
+													<div class="min-w-0 flex-1">
+														<p class="truncate text-sm font-medium text-gray-900">Floyd Miles</p>
+														<p class="truncate text-sm text-gray-500">@floydmiles</p>
+													</div>
+													<div>
+														<a
+															href="/"
+															class="inline-flex items-center rounded-full bg-white px-2.5 py-1 text-xs font-semibold text-gray-900 shadow-xs ring-1 ring-gray-300 ring-inset hover:bg-gray-50"
+															>View</a
+														>
+													</div>
+												</div>
+											</li>
+											<li class="py-4">
+												<div class="flex items-center space-x-4">
+													<div class="shrink-0">
+														<img
+															class="size-8 rounded-full"
+															src="https://images.unsplash.com/photo-1502685104226-ee32379fefbe?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80"
+															alt=""
+														/>
+													</div>
+													<div class="min-w-0 flex-1">
+														<p class="truncate text-sm font-medium text-gray-900">Emily Selman</p>
+														<p class="truncate text-sm text-gray-500">@emilyselman</p>
+													</div>
+													<div>
+														<a
+															href="/"
+															class="inline-flex items-center rounded-full bg-white px-2.5 py-1 text-xs font-semibold text-gray-900 shadow-xs ring-1 ring-gray-300 ring-inset hover:bg-gray-50"
+															>View</a
+														>
+													</div>
+												</div>
+											</li>
+											<li class="py-4">
+												<div class="flex items-center space-x-4">
+													<div class="shrink-0">
+														<img
+															class="size-8 rounded-full"
+															src="https://images.unsplash.com/photo-1500917293891-ef795e70e1f6?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80"
+															alt=""
+														/>
+													</div>
+													<div class="min-w-0 flex-1">
+														<p class="truncate text-sm font-medium text-gray-900">Kristin Watson</p>
+														<p class="truncate text-sm text-gray-500">@kristinwatson</p>
+													</div>
+													<div>
+														<a
+															href="/"
+															class="inline-flex items-center rounded-full bg-white px-2.5 py-1 text-xs font-semibold text-gray-900 shadow-xs ring-1 ring-gray-300 ring-inset hover:bg-gray-50"
+															>View</a
+														>
+													</div>
+												</div>
+											</li>
+										</ul>
+									</div>
+									<div class="mt-6">
+										<a
+											href="/"
+											class="flex w-full items-center justify-center rounded-md bg-white px-3 py-2 text-sm font-semibold text-gray-900 shadow-xs ring-1 ring-gray-300 ring-inset hover:bg-gray-50"
+											>View all</a
+										>
+									</div>
+								</div>
+							</div>
+						</section>
 					</div>
 				</div>
-			</aside>
-		</div>
+			</div>
+		</main>
 	</div>
 </div>
