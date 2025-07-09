@@ -139,7 +139,7 @@
 		</header>
 
 		<!-- Main content -->
-		<main class="flex-1 items-stretch overflow-hidden">
+		<main class="flex-1 items-stretch overflow-y-auto">
 			<div class="mx-auto max-w-7xl px-4 pt-8 sm:px-6 lg:px-8">
 				<h1 class="sr-only">Profile</h1>
 				<!-- Main 3 column grid -->

@@ -1,4 +1,4 @@
-import { DASHBOARD, FORM, THEMES } from '$lib/utils/constants.js';
+import { DASHBOARD, CONTENT, THEMES, SETTINGS } from '$lib/utils/constants.js';
 
 export const navLinks = [
 	{
@@ -9,14 +9,20 @@ export const navLinks = [
 	},
 	{
 		id: 2,
-		link: FORM,
-		text: 'Form',
-		icon: 'pencil'
+		link: CONTENT,
+		text: 'Portfolio',
+		icon: 'user'
 	},
 	{
 		id: 3,
 		link: THEMES,
 		text: 'Themes',
 		icon: 'adjustments'
+	},
+	{
+		id: 4,
+		link: SETTINGS,
+		text: 'Settings',
+		icon: 'cog'
 	}
 ];
