@@ -32,6 +32,8 @@
 		"vite": "^6.2.6"
 	},
 	"dependencies": {
+		"@lottiefiles/dotlottie-web": "^0.47.0",
+		"@lottiefiles/svelte-lottie-player": "^0.3.1",
 		"@supabase/ssr": "^0.6.1",
 		"@supabase/supabase-js": "^2.50.2"
 	}
