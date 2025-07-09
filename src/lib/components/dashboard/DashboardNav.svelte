@@ -6,19 +6,49 @@
 	let { menuOpen = false, toggleMenu } = $props();
 </script>
 
-{#if menuOpen}
-	<div class="relative z-40 lg:hidden" role="dialog" aria-modal="true">
-		<div class="fixed inset-0 bg-slate-600/75" aria-hidden="true"></div>
-
-		<div class="fixed inset-0 z-40 flex">
-			<div class="relative flex w-full max-w-xs flex-1 flex-col bg-white focus:outline-hidden">
-				<div class="absolute top-0 right-0 -mr-12 pt-4">
-					<button
-						onclick={toggleMenu}
-						type="button"
-						class="relative ml-1 flex size-10 items-center justify-center rounded-full focus:ring-2 focus:ring-white focus:outline-hidden focus:ring-inset"
+<div
+	class="hidden lg:fixed lg:inset-y-0 lg:left-0 lg:z-50 lg:block lg:w-20 lg:overflow-y-auto lg:bg-gray-900 lg:pb-4"
+>
+	<div class="flex h-16 shrink-0 items-center justify-center">
+		<img
+			class="h-8 w-auto"
+			src="https://tailwindcss.com/plus-assets/img/logos/mark.svg?color=indigo&shade=500"
+			alt="Your Company"
+		/>
+	</div>
+	<nav class="mt-8">
+		<ul role="list" class="flex flex-col items-center space-y-1">
+			{#each navLinks as item (item.id)}
+				<li>
+					<a
+						href={item.link}
+						class="group flex gap-x-3 rounded-md p-3 {page.url.pathname === item.link
+							? 'bg-gray-800 text-white'
+							: 'text-gray-400 hover:bg-gray-800 hover:text-white'}"
 					>
-						<span class="absolute -inset-0.5"></span>
+						<Icon
+							name={item.icon}
+							stroke="currentColor"
+							fill="none"
+							class="size-6 shrink-0 {page.url.pathname === item.link
+								? 'text-white'
+								: 'text-gray-400 group-hover:text-white'}"
+						/>
+						<span class="sr-only">{item.text}</span>
+					</a>
+				</li>
+			{/each}
+		</ul>
+	</nav>
+</div>
+
+{#if menuOpen}
+	<div class="relative z-100 lg:hidden" role="dialog" aria-modal="true">
+		<div class="fixed inset-0 bg-gray-900/80" aria-hidden="true"></div>
+		<div class="fixed inset-0 flex">
+			<div class="relative mr-16 flex w-full max-w-xs flex-1">
+				<div class="absolute top-0 left-full flex w-16 justify-center pt-5">
+					<button onclick={toggleMenu} type="button" class="-m-2.5 p-2.5">
 						<span class="sr-only">Close sidebar</span>
 						<svg
 							class="size-6 text-white"
@@ -34,109 +64,43 @@
 					</button>
 				</div>
 
-				<div class="pt-5 pb-4">
-					<div class="flex shrink-0 items-center px-4">
+				<div
+					class="flex grow flex-col gap-y-5 overflow-y-auto bg-gray-900 px-6 pb-2 ring-1 ring-white/10"
+				>
+					<div class="flex h-16 shrink-0 items-center">
 						<img
 							class="h-8 w-auto"
-							src="https://tailwindcss.com/plus-assets/img/logos/mark.svg?color=blue&shade=600"
+							src="https://tailwindcss.com/plus-assets/img/logos/mark.svg?color=indigo&shade=500"
 							alt="Your Company"
 						/>
 					</div>
-					<nav aria-label="Sidebar" class="mt-5">
-						<div class="space-y-1 px-2">
+					<nav class="flex flex-1 flex-col">
+						<ul role="list" class="-mx-2 flex-1 space-y-1">
 							{#each navLinks as item (item.id)}
-								<a
-									href={item.link}
-									class="group flex items-center rounded-md p-2 text-base font-medium text-slate-600 hover:bg-slate-50 hover:text-slate-900"
-								>
-									<Icon
-										name={item.icon}
-										stroke="currentColor"
-										fill="none"
-										class="mr-4 size-6 text-slate-400 group-hover:text-slate-500"
-									/>
-									{item.text}
-								</a>
+								<li>
+									<a
+										href={item.link}
+										class="group flex gap-x-3 rounded-md p-2 text-sm/6 font-semibold {page.url
+											.pathname === item.link
+											? 'bg-gray-800 text-white'
+											: 'text-gray-400 hover:bg-gray-800 hover:text-white'}"
+									>
+										<Icon
+											name={item.icon}
+											stroke="currentColor"
+											fill="none"
+											class="size-6 shrink-0 {page.url.pathname === item.link
+												? 'text-white'
+												: 'text-gray-400 group-hover:text-white'}"
+										/>
+										{item.text}
+									</a>
+								</li>
 							{/each}
-						</div>
+						</ul>
 					</nav>
 				</div>
-				<div class="flex shrink-0 border-t border-slate-200 p-4">
-					<a href="#" class="group block shrink-0">
-						<div class="flex items-center">
-							<div>
-								<img
-									class="inline-block size-10 rounded-full"
-									src="https://images.unsplash.com/photo-1550525811-e5869dd03032?ixlib=rb-1.2.1&auto=format&fit=facearea&facepad=2.5&w=256&h=256&q=80"
-									alt=""
-								/>
-							</div>
-							<div class="ml-3">
-								<p class="text-base font-medium text-slate-700 group-hover:text-slate-900">
-									Lisa Marie
-								</p>
-								<p class="text-sm font-medium text-slate-500 group-hover:text-slate-700">
-									Account Settings
-								</p>
-							</div>
-						</div>
-					</a>
-				</div>
-			</div>
-
-			<div class="w-14 shrink-0" aria-hidden="true">
-				<!-- Force sidebar to shrink to fit close icon -->
 			</div>
 		</div>
 	</div>
 {/if}
-
-<div class="hidden lg:flex lg:shrink-0">
-	<div class="flex w-20 flex-col">
-		<div class="flex min-h-0 flex-1 flex-col overflow-y-auto bg-blue-600">
-			<div class="flex-1">
-				<div class="flex items-center justify-center bg-blue-700 py-4">
-					<img
-						class="h-8 w-auto"
-						src="https://tailwindcss.com/plus-assets/img/logos/mark.svg?color=white"
-						alt="Your Company"
-					/>
-				</div>
-				<nav aria-label="Sidebar" class="flex flex-col items-center space-y-3 py-6">
-					{#each navLinks as item (item.id)}
-						<a
-							href={item.link}
-							aria-current={page.url.pathname === item.link ? 'page' : false}
-							class="flex items-center rounded-lg p-4 {page.url.pathname === item.link
-								? 'bg-blue-700 text-white'
-								: 'text-blue-200 hover:bg-blue-700 hover:text-white'}"
-						>
-							<Icon
-								name={item.icon}
-								stroke="currentColor"
-								fill="none"
-								class="size-6 {page.url.pathname === item.link
-									? 'text-white'
-									: 'text-indigo-300 group-hover:text-white'}"
-							/>
-							<span class="sr-only">{item.text}</span>
-						</a>
-					{/each}
-				</nav>
-			</div>
-			<div class="flex shrink-0 pb-5">
-				<a href="/" class="w-full shrink-0">
-					<img
-						class="mx-auto block size-10 rounded-full"
-						src="https://images.unsplash.com/photo-1550525811-e5869dd03032?ixlib=rb-1.2.1&auto=format&fit=facearea&facepad=2.5&w=256&h=256&q=80"
-						alt=""
-					/>
-					<div class="sr-only">
-						<p>Lisa Marie</p>
-						<p>Account settings</p>
-					</div>
-				</a>
-			</div>
-		</div>
-	</div>
-</div>
