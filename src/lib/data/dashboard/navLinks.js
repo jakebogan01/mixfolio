@@ -1,28 +1,22 @@
-import { DASHBOARD, CONTENT, THEMES, SETTINGS } from '$lib/utils/constants.js';
+import { DASHBOARD, CONTENT } from '$lib/utils/constants.js';
 
 export const navLinks = [
 	{
 		id: 1,
 		link: DASHBOARD,
-		text: 'Home',
+		text: 'Dashboard',
 		icon: 'home'
 	},
 	{
 		id: 2,
 		link: CONTENT,
-		text: 'Portfolio',
+		text: 'Content',
 		icon: 'user'
 	},
 	{
 		id: 3,
-		link: THEMES,
-		text: 'Themes',
-		icon: 'adjustments'
-	},
-	{
-		id: 4,
-		link: SETTINGS,
-		text: 'Settings',
-		icon: 'cog'
+		link: '/portfolio/erin-martin',
+		text: 'View portfolio',
+		icon: 'user'
 	}
 ];
