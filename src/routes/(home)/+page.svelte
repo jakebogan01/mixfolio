@@ -1,12 +1,24 @@
 <script>
-	// let { data } = $props();
-	// let { notes } = $derived(data)
-	import { LOGIN, REGISTER } from '$lib/utils/constants.js';
+	import { DASHBOARD, LOGIN, REGISTER } from '$lib/utils/constants.js';
+	import { onMount } from 'svelte';
+	import { Toaster } from 'svelte-5-french-toast';
+	import { showSuccessToast } from '$lib/utils/cookieMessage.js';
+
 	let menuOpen = $state(false);
 	function toggleMenu() {
 		menuOpen = !menuOpen;
 	}
+	let { data } = $props();
+
+	$inspect(data)
+
+
+	onMount(() => {
+		showSuccessToast(data);
+	});
+
 </script>
+<Toaster/>
 
 <div class="bg-white">
 	<header class="absolute inset-x-0 top-0 z-50">
@@ -48,11 +60,19 @@
 			<div class="hidden lg:flex lg:gap-x-12">
 				<a href="/" class="text-sm/6 font-semibold text-gray-900">About Us</a>
 			</div>
+			{#if data?.user === null}
 			<div class="hidden lg:flex lg:flex-1 lg:justify-end">
 				<a href={LOGIN} class="text-sm/6 font-semibold text-gray-900"
 					>Log in <span aria-hidden="true">&rarr;</span></a
 				>
 			</div>
+			{:else}
+			<div class="hidden lg:flex lg:flex-1 lg:justify-end">
+				<a href={DASHBOARD} class="text-sm/6 font-semibold text-gray-900"
+				>Dashboard</a
+				>
+			</div>
+			{/if}
 		</nav>
 		<!-- Mobile menu, show/hide based on menu open state. -->
 		{#if menuOpen}
