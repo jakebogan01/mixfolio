@@ -37,6 +37,7 @@
 		"@lottiefiles/dotlottie-web": "^0.47.0",
 		"@lottiefiles/svelte-lottie-player": "^0.3.1",
 		"@supabase/ssr": "^0.6.1",
-		"@supabase/supabase-js": "^2.50.2"
+		"@supabase/supabase-js": "^2.50.2",
+		"svelte-5-french-toast": "^2.0.4"
 	}
 }
