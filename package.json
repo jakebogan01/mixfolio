@@ -31,7 +31,7 @@
 		"sveltekit-superforms": "^2.27.1",
 		"tailwindcss": "^4.0.0",
 		"vite": "^6.2.6",
-		"zod": "^3.25.76"
+		"zod": "^4.0.0"
 	},
 	"dependencies": {
 		"@lottiefiles/dotlottie-web": "^0.47.0",

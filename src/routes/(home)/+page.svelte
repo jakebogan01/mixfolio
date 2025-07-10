@@ -4,21 +4,17 @@
 	import { Toaster } from 'svelte-5-french-toast';
 	import { showSuccessToast } from '$lib/utils/cookieMessage.js';
 
-	let menuOpen = $state(false);
-	function toggleMenu() {
-		menuOpen = !menuOpen;
-	}
 	let { data } = $props();
-
-	$inspect(data)
-
+	let menuOpen = $state(false);
 
 	onMount(() => {
 		showSuccessToast(data);
 	});
 
+	const toggleMenu = () => (menuOpen = !menuOpen);
 </script>
-<Toaster/>
+
+<Toaster />
 
 <div class="bg-white">
 	<header class="absolute inset-x-0 top-0 z-50">
@@ -61,17 +57,15 @@
 				<a href="/" class="text-sm/6 font-semibold text-gray-900">About Us</a>
 			</div>
 			{#if data?.user === null}
-			<div class="hidden lg:flex lg:flex-1 lg:justify-end">
-				<a href={LOGIN} class="text-sm/6 font-semibold text-gray-900"
-					>Log in <span aria-hidden="true">&rarr;</span></a
-				>
-			</div>
+				<div class="hidden lg:flex lg:flex-1 lg:justify-end">
+					<a href={LOGIN} class="text-sm/6 font-semibold text-gray-900"
+						>Log in <span aria-hidden="true">&rarr;</span></a
+					>
+				</div>
 			{:else}
-			<div class="hidden lg:flex lg:flex-1 lg:justify-end">
-				<a href={DASHBOARD} class="text-sm/6 font-semibold text-gray-900"
-				>Dashboard</a
-				>
-			</div>
+				<div class="hidden lg:flex lg:flex-1 lg:justify-end">
+					<a href={DASHBOARD} class="text-sm/6 font-semibold text-gray-900">Dashboard</a>
+				</div>
 			{/if}
 		</nav>
 		<!-- Mobile menu, show/hide based on menu open state. -->
