@@ -9,11 +9,10 @@
 	onMount(() => {
 		showSuccessToast(data);
 	});
-
 </script>
 
 <Nav />
 
 <h1>Dashboard page</h1>
 
-<Toaster/>
+<Toaster />
