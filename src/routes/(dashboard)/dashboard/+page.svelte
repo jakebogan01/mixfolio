@@ -3,7 +3,8 @@
 	import { onMount } from 'svelte';
 	import { Toaster } from 'svelte-5-french-toast';
 	import { showSuccessToast } from '$lib/utils/cookieMessage.js';
-	export let data;
+
+	let { data } = $props();
 
 	onMount(() => {
 		showSuccessToast(data);
