@@ -1,4 +1,5 @@
 import { redirect } from '@sveltejs/kit';
+import { DASHBOARD } from '$lib/utils/constants.js';
 
 export const actions = {
 	login: async ({ request, locals: { supabase } }) => {
@@ -11,7 +12,7 @@ export const actions = {
 			console.error(error);
 			redirect(303, '/auth/error');
 		} else {
-			redirect(303, '/private');
+			redirect(303, DASHBOARD);
 		}
 	}
 };
