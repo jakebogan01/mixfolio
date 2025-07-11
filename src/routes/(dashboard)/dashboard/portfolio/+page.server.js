@@ -1,15 +1,14 @@
 import { superValidate, fail } from 'sveltekit-superforms';
 import { zod4 } from 'sveltekit-superforms/adapters';
 import { z } from 'zod/v4';
-import { redirect } from '@sveltejs/kit';
 
 const schema = z.object({
-	name: z.string().min(1, 'This field cannot be empty').trim(),
-	phone: z.string().min(1, 'This field cannot be empty').trim(),
-	email: z.email(),
-	role: z.string().min(1, 'This field cannot be empty').trim(),
-	address: z.string().min(1, 'This field cannot be empty').trim(),
-	bio: z.string().min(1, 'This field cannot be empty').trim()
+	name: z.string().min(1, 'The name field cannot be empty').trim(),
+	phone: z.string().min(1, 'The phone field cannot be empty').trim(),
+	email: z.email('The email field cannot be empty').trim(),
+	role: z.string().min(1, 'The role field cannot be empty').trim(),
+	address: z.string().min(1, 'The address field cannot be empty').trim(),
+	bio: z.string().min(1, 'The bio field cannot be empty').trim()
 });
 
 export const load = async ({ depends, locals: { supabase } }) => {
@@ -28,7 +27,9 @@ export const actions = {
 		const { error } = await supabase.from('user_profile').insert(requestFormData?.data);
 		if (error) {
 			console.dir(error, { depth: null });
-			redirect(303, '/dashboard');
+			return { error: 'Error occurred.' };
+		} else {
+			return { success: 'Form successfully submitted.' };
 		}
 	}
 };
