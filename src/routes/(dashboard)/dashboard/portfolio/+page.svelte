@@ -2,12 +2,25 @@
 	import { enhance } from '$app/forms';
 	import Nav from '$lib/components/Nav.svelte';
 	import { toISODate } from '$lib/utils/date.js';
+	import toast, { Toaster } from 'svelte-5-french-toast';
 
 	let { data, form } = $props();
 	let { user_profile } = $derived(data);
 
-	$inspect(data);
+	$effect(() => {
+		if (form?.success) {
+			toast.success(form?.success, {
+				position: 'bottom-right'
+			});
+		} else if (form?.error) {
+			toast.error(form?.error, {
+				position: 'bottom-right'
+			});
+		}
+	});
 </script>
+
+<Toaster />
 
 <Nav />
 
@@ -204,6 +217,13 @@
 			<div class="flex justify-end">
 				<button type="submit" class="rounded-md border border-gray-900 px-2 py-1">Submit</button>
 			</div>
+			{#if form?.requestFormData?.errors}
+				<div>
+					{#each Object.values(form?.requestFormData?.errors).flat() as item, i (i)}
+						<p class="text-red-500">{item}</p>
+					{/each}
+				</div>
+			{/if}
 		</div>
 	</form>
 </div>
