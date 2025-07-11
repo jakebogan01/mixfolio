@@ -8,13 +8,21 @@ const schema = z.object({
 	email: z.email('The email field cannot be empty').trim(),
 	role: z.string().min(1, 'The role field cannot be empty').trim(),
 	address: z.string().min(1, 'The address field cannot be empty').trim(),
+	slug: z.string().min(1, 'The url field cannot be empty').trim(),
 	bio: z.string().min(1, 'The bio field cannot be empty').trim()
 });
 
-export const load = async ({ depends, locals: { supabase } }) => {
+export const load = async ({ depends, locals: { supabase, user } }) => {
 	depends('supabase:db:user_profile');
-	const { data: user_profile } = await supabase.from('user_profile').select().order('id');
-	return { user_profile: user_profile ?? [] };
+	const { data: user_profile, error } = await supabase
+		.from('user_profile')
+		.select('*, user_preferences(*)')
+		.eq('user_id', user.id)
+		.single();
+	if (error) {
+		console.dir(error, { depth: null });
+	}
+	return { user_profile: user_profile ?? {} };
 };
 
 export const actions = {
@@ -24,9 +32,22 @@ export const actions = {
 			return fail(400, { requestFormData });
 		}
 		requestFormData.data.user_id = user?.id;
-		const { error } = await supabase.from('user_profile').insert(requestFormData?.data);
-		if (error) {
-			console.dir(error, { depth: null });
+		const { slug, ...rest } = requestFormData.data;
+		requestFormData.data = rest;
+		const { data: profileData, error: profileError } = await supabase
+			.from('user_profile')
+			.upsert(requestFormData?.data)
+			.select()
+			.single();
+		const preferenceData = {
+			profile_id: profileData?.user_id,
+			slug: slug
+		};
+		const { error: preferencesError } = await supabase
+			.from('user_preferences')
+			.upsert(preferenceData);
+		if (profileError || preferencesError) {
+			console.dir(profileError || preferencesError, { depth: null });
 			return { error: 'Error occurred.' };
 		} else {
 			return { success: 'Form successfully submitted.' };
