@@ -3,6 +3,11 @@ import { zod4 } from 'sveltekit-superforms/adapters';
 import { z } from 'zod/v4';
 
 const schema = z.object({
+	avatar: z
+		.file()
+		.max(50_000_000, 'File cannot surpass 50 MB')
+		.mime(['image/png', 'image/jpeg', 'image/jpg'], 'Only png, jpg, and jpeg files only')
+		.optional(),
 	name: z.string().min(1, 'The name field cannot be empty').trim(),
 	phone: z.string().min(1, 'The phone field cannot be empty').trim(),
 	email: z.email('The email field cannot be empty').trim(),
@@ -22,6 +27,17 @@ export const load = async ({ depends, locals: { supabase, user } }) => {
 	if (error) {
 		console.dir(error, { depth: null });
 	}
+	if (user_profile) {
+		if (user_profile.avatar_url) {
+			const { data: bucketData, error: bucketError } = supabase.storage
+				.from('mixfolio')
+				.getPublicUrl(user_profile?.avatar_url);
+			if (bucketError) {
+				console.dir(bucketError, { depth: null });
+			}
+			user_profile.avatar_url = bucketData?.publicUrl;
+		}
+	}
 	return { user_profile: user_profile ?? {} };
 };
 
@@ -31,12 +47,23 @@ export const actions = {
 		if (!requestFormData.valid) {
 			return fail(400, { requestFormData });
 		}
-		requestFormData.data.user_id = user?.id;
-		const { slug, ...rest } = requestFormData.data;
+
+		const { slug, avatar, ...rest } = requestFormData.data;
 		requestFormData.data = rest;
+		requestFormData.data.user_id = user?.id;
+		if (avatar !== undefined || avatar !== null) {
+			const fileExt = avatar.name.split('.').pop();
+			const filePath = `avatars/${crypto.randomUUID()}.${fileExt}`;
+			requestFormData.data.avatar_url = filePath;
+			const { error } = await supabase.storage.from('mixfolio').upload(filePath, avatar, {
+				cacheControl: '3600',
+				upsert: false
+			});
+			if (error) console.error('Bucket error:', error);
+		}
 		const { data: profileData, error: profileError } = await supabase
 			.from('user_profile')
-			.upsert(requestFormData?.data)
+			.insert(requestFormData?.data)
 			.select()
 			.single();
 		const preferenceData = {
@@ -45,7 +72,7 @@ export const actions = {
 		};
 		const { error: preferencesError } = await supabase
 			.from('user_preferences')
-			.upsert(preferenceData);
+			.insert(preferenceData);
 		if (profileError || preferencesError) {
 			console.dir(profileError || preferencesError, { depth: null });
 			return { error: 'Error occurred.' };
