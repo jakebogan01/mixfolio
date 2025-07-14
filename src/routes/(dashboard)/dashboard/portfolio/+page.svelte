@@ -44,6 +44,12 @@
 	const handleDrop = (event) => {
 		event.preventDefault();
 		showLogoPreview(event);
+		const files = event.dataTransfer.files;
+		if (files.length > 0) {
+			fileInput.files = files;
+			showLogoPreview(event);
+			isDragging = false;
+		}
 	};
 </script>
 
