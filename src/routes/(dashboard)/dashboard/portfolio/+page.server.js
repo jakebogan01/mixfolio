@@ -42,7 +42,7 @@ export const load = async ({ depends, locals: { supabase, user } }) => {
 };
 
 export const actions = {
-	default: async ({ request, locals: { supabase, user } }) => {
+	create: async ({ request, locals: { supabase, user } }) => {
 		const requestFormData = await superValidate(request, zod4(schema));
 		if (!requestFormData.valid) {
 			return fail(400, { requestFormData });
@@ -78,6 +78,23 @@ export const actions = {
 			return { error: 'Error occurred.' };
 		} else {
 			return { success: 'Form successfully submitted.' };
+		}
+	},
+	delete: async ({ request, locals: { supabase } }) => {
+		const data = await request.formData();
+		const user_preferences_id = data.get('user_preferences_id');
+		const user_profile_id = data.get('user_profile_id');
+
+		const response1 = await supabase
+			.from('user_preferences')
+			.delete()
+			.eq('id', user_preferences_id);
+
+		const response2 = await supabase.from('user_profile').delete().eq('id', user_profile_id);
+
+		if (response1.error || response2.error) {
+			console.log(response1.error);
+			console.log(response2.error);
 		}
 	}
 };
