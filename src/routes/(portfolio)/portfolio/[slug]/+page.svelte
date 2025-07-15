@@ -24,8 +24,10 @@
 				<div class="-mt-12 sm:-mt-16 sm:flex sm:items-end sm:space-x-5">
 					<div class="flex">
 						<img
-							class="size-24 rounded-full ring-4 ring-white sm:size-32"
-							src="https://images.unsplash.com/photo-1463453091185-61582044d556?ixlib=rb-=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=8&w=1024&h=1024&q=80"
+							class="size-24 rounded-full object-cover ring-4 ring-white sm:size-32"
+							src={record?.avatar_url
+								? record?.avatar_url
+								: 'https://developers.elementor.com/docs/assets/img/elementor-placeholder-image.png'}
 							alt=""
 						/>
 					</div>
