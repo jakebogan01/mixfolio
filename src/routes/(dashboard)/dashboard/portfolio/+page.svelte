@@ -13,6 +13,8 @@
 	let showPreviewImage = $state(true);
 	let userProfile = $derived(data?.record || {});
 
+	$inspect(userProfile);
+
 	const schema = z.object({
 		avatar: z
 			.instanceof(File, { message: 'Please upload a file' })
@@ -35,7 +37,6 @@
 		onSubmit: async (values) => {
 			try {
 				values.user_id = data.pb.authStore.record.id;
-				values.avatar_url = 'jake.png';
 				const user_profile = await data.pb.collection('user_profile').create(values);
 				if (!user_profile) console.error('❌ Failed to create record:');
 				await invalidate('user_profile');
@@ -176,7 +177,9 @@
 											<div class="size-11 shrink-0">
 												<img
 													class="size-11 rounded-full object-cover"
-													src="https://developers.elementor.com/docs/assets/img/elementor-placeholder-image.png"
+													src={userProfile?.avatar_url
+														? userProfile?.avatar_url
+														: 'https://developers.elementor.com/docs/assets/img/elementor-placeholder-image.png'}
 													alt="User avatar"
 												/>
 											</div>
@@ -275,20 +278,22 @@
 		<h2 class="mb-2 text-2xl font-bold">User Bio</h2>
 		<div class="space-y-6">
 			<div>
-				<label for="avatar_url" class="sr-only">User avatar</label>
+				<label for="avatar" class="sr-only">User avatar</label>
 				<input
 					type="file"
 					bind:this={fileInput}
 					onchange={showLogoPreview}
-					name="avatar_url"
-					id="avatar_url"
+					name="avatar"
+					id="avatar"
 					accept=".jpeg,.jpg,.png"
 					class="sr-only"
 					hidden
 				/>
 				<div class="flex items-center justify-between">
 					<img
-						src="https://developers.elementor.com/docs/assets/img/elementor-placeholder-image.png"
+						src={userProfile?.avatar_url
+							? userProfile?.avatar_url
+							: 'https://developers.elementor.com/docs/assets/img/elementor-placeholder-image.png'}
 						bind:this={previewInput}
 						loading="eager"
 						alt="User avatar preview"
