@@ -1,5 +1,5 @@
 <script>
-	import { LOGIN, LOGOUT, REGISTER } from '$lib/utils/constants.js';
+	import { LOGIN, LOGOUT, REGISTER, DASHBOARD } from '$lib/utils/constants.js';
 	import { goto } from '$app/navigation';
 	import { onMount } from 'svelte';
 	import { page } from '$app/state';
@@ -65,6 +65,7 @@
 						>Log in <span aria-hidden="true">&rarr;</span></a
 					>
 				{:else}
+					<a href={DASHBOARD} class="mr-4 text-sm/6 font-semibold text-gray-900">Dashboard</a>
 					<button
 						type="button"
 						onclick={() => {

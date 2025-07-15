@@ -1,26 +1,16 @@
 export const ssr = false;
 
-export async function load({ parent, fetch }) {
+export async function load({ parent, depends }) {
 	const { pb } = await parent();
+	depends('user_profile');
 
-	// Replace internal fetch with SvelteKit's
-	pb.send = async (url, options = {}) => {
-		const res = await fetch(pb.baseUrl + url, options);
-		if (!res.ok) throw new Error(await res.text());
-		return res.json();
-	};
-
- let record;
-
-	try{
-		record = await pb
+	try {
+		const record = await pb
 			.collection('user_profile')
 			.getFirstListItem(`user_id="${pb.authStore.record.id}"`);
-		return { record };
-
-	}catch(error){
-		console.log(error);
+		return { record: record || {} };
+	} catch (error) {
+		console.dir(error, { depth: null });
 	}
-	return { record:{} };
-
+	return { record: {} };
 }

@@ -44,7 +44,6 @@
 	});
 </script>
 
-<a href="/account">account</a>
 <a href="/">Home</a>
 <a href="/logout">logout</a>
 
