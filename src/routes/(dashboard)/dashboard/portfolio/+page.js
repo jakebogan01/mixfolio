@@ -10,8 +10,17 @@ export async function load({ parent, fetch }) {
 		return res.json();
 	};
 
-	const record = await pb
-		.collection('user_profile')
-		.getFirstListItem(`user_id="${pb.authStore.record.id}"`);
-	return { record };
+ let record;
+
+	try{
+		record = await pb
+			.collection('user_profile')
+			.getFirstListItem(`user_id="${pb.authStore.record.id}"`);
+		return { record };
+
+	}catch(error){
+		console.log(error);
+	}
+	return { record:{} };
+
 }
