@@ -1,5 +1,8 @@
 <script>
 	import AuthLayout from '$lib/components/auth/AuthLayout.svelte';
+
+	let { data } = $props();
+	let { pb } = $derived(data);
 </script>
 
-<AuthLayout title="Sign up to create your account" action="?/signup" btnText="Sign up" />
+<AuthLayout title="Sign up to create your account" btnText="Sign up" register={true} {pb} />
