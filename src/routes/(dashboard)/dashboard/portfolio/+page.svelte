@@ -10,7 +10,7 @@
 	let previewInput, fileInput;
 	let isDragging = $state(false);
 	let showPreviewImage = $state(true);
-	let userProfile = $state(data?.record || {});
+	let userProfile = $derived(data?.record || {});
 
 	const schema = z.object({
 		avatar: z
@@ -71,12 +71,18 @@
 			isDragging = false;
 		}
 	};
+
+	const deleteRecord = async () => {
+		console.log('Function deleted is called');
+		await data.pb.collection('user_profile').delete(userProfile?.id);
+	}
+
 </script>
 
 <Nav />
 
 <div class="mx-auto max-w-7xl px-6">
-	{#if Object.keys(userProfile).length !== 0}
+	{#if false}
 		<div class="mb-10">
 			<h2 class="text-2xl font-bold">Your Profile</h2>
 			<div class="flow-root">
@@ -225,8 +231,8 @@
 									<td
 										class="relative py-4 pr-4 pl-3 text-right text-sm font-medium whitespace-nowrap sm:pr-0"
 									>
-										<form method="POST" action="?/delete">
 											<button
+												onclick={()=>{deleteRecord()}}
 												type="submit"
 												aria-label="Delete record"
 												class="cursor-pointer text-red-600 hover:text-red-400"
@@ -245,7 +251,7 @@
 													/></svg
 												>
 											</button>
-										</form>
+
 									</td>
 								</tr>
 							</tbody>
