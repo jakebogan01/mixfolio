@@ -1,14 +1,17 @@
 <script>
-	import { DASHBOARD, LOGIN, REGISTER } from '$lib/utils/constants.js';
+	import { LOGIN, LOGOUT, REGISTER } from '$lib/utils/constants.js';
+	import { goto } from '$app/navigation';
 	import { onMount } from 'svelte';
+	import { page } from '$app/state';
+	import { toastMessage } from '$lib/utils/toast.js';
 	import { Toaster } from 'svelte-5-french-toast';
-	import { showSuccessToast } from '$lib/utils/cookieMessage.js';
 
 	let { data } = $props();
+
 	let menuOpen = $state(false);
 
 	onMount(() => {
-		showSuccessToast(data);
+		if (page?.state?.message) toastMessage('success', page?.state?.message);
 	});
 
 	const toggleMenu = () => (menuOpen = !menuOpen);
@@ -56,17 +59,22 @@
 			<div class="hidden lg:flex lg:gap-x-12">
 				<a href="/" class="text-sm/6 font-semibold text-gray-900">About Us</a>
 			</div>
-			{#if data?.user === null}
-				<div class="hidden lg:flex lg:flex-1 lg:justify-end">
+			<div class="hidden lg:flex lg:flex-1 lg:justify-end">
+				{#if !data?.pb?.authStore?.isValid}
 					<a href={LOGIN} class="text-sm/6 font-semibold text-gray-900"
 						>Log in <span aria-hidden="true">&rarr;</span></a
 					>
-				</div>
-			{:else}
-				<div class="hidden lg:flex lg:flex-1 lg:justify-end">
-					<a href={DASHBOARD} class="text-sm/6 font-semibold text-gray-900">Dashboard</a>
-				</div>
-			{/if}
+				{:else}
+					<button
+						type="button"
+						onclick={() => {
+							goto(LOGOUT);
+							toastMessage('success', 'Successfully logged out');
+						}}
+						class="cursor-pointer text-sm/6 font-semibold text-gray-900">Logout</button
+					>
+				{/if}
+			</div>
 		</nav>
 		<!-- Mobile menu, show/hide based on menu open state. -->
 		{#if menuOpen}

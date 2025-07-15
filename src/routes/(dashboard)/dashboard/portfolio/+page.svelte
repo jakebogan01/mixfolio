@@ -1,27 +1,47 @@
 <script>
-	import { enhance } from '$app/forms';
+	import 'tippy.js/dist/tippy.css';
 	import Nav from '$lib/components/Nav.svelte';
-	import { toISODate } from '$lib/utils/date.js';
-	import toast, { Toaster } from 'svelte-5-french-toast';
+	import { z } from 'zod';
+	import { createForm } from 'felte';
+	import { validator } from '@felte/validator-zod';
+	import reporter from '@felte/reporter-tippy';
 
-	let { data, form } = $props();
-	let { user_profile } = $derived(data);
-
-	$effect(() => {
-		if (form?.success) {
-			toast.success(form?.success, {
-				position: 'bottom-right'
-			});
-		} else if (form?.error) {
-			toast.error(form?.error, {
-				position: 'bottom-right'
-			});
-		}
-	});
-
+	let { data } = $props();
 	let previewInput, fileInput;
 	let isDragging = $state(false);
 	let showPreviewImage = $state(true);
+	let userProfile = $state(data?.record || {});
+
+	const schema = z.object({
+		avatar: z
+			.instanceof(File, { message: 'Please upload a file' })
+			.refine((f) => f.size < 52_428_800, 'File cannot exceed 50 MB')
+			.refine((file) => ['image/jpeg', 'image/jpg', 'image/png'].includes(file.type), {
+				message: 'Only .jpeg, .jpg, or .png files are allowed'
+			})
+			.optional(),
+		name: z.string().min(1, 'The name field cannot be empty').trim(),
+		phone: z.string().min(1, 'The phone field cannot be empty').trim(),
+		email: z.string().email({ message: 'Please enter a valid email address' }),
+		role: z.string().min(1, 'The role field cannot be empty').trim(),
+		address: z.string().min(1, 'The address field cannot be empty').trim(),
+		slug: z.string().min(1, 'The url field cannot be empty').trim(),
+		bio: z.string().min(1, 'The bio field cannot be empty').trim()
+	});
+
+	const { form, errors } = createForm({
+		extend: [validator({ schema }), reporter()],
+		onSubmit: async (values) => {
+			try {
+				values.user_id = data.pb.authStore.record.id;
+				values.avatar_url = 'jake.png';
+				const user_profile = await data.pb.collection('user_profile').create(values);
+				if (user_profile) userProfile = user_profile;
+			} catch (err) {
+				console.error('❌ Failed to create record:', err);
+			}
+		}
+	});
 
 	const showLogoPreview = (event) => {
 		const files = event.target.files || event.dataTransfer.files;
@@ -53,12 +73,10 @@
 	};
 </script>
 
-<Toaster />
-
 <Nav />
 
 <div class="mx-auto max-w-7xl px-6">
-	{#if Object.keys(user_profile).length !== 0}
+	{#if Object.keys(userProfile).length !== 0}
 		<div class="mb-10">
 			<h2 class="text-2xl font-bold">Your Profile</h2>
 			<div class="flow-root">
@@ -137,16 +155,14 @@
 								<tr>
 									<td
 										class="py-4 pr-3 pl-4 text-sm font-medium whitespace-nowrap text-gray-900 sm:pl-0"
-										>{user_profile?.id}</td
+										>{userProfile?.id}</td
 									>
 									<td class="py-5 pr-3 pl-4 text-sm whitespace-nowrap sm:pl-0">
 										<div class="flex items-center">
 											<div class="size-11 shrink-0">
 												<img
 													class="size-11 rounded-full object-cover"
-													src={user_profile?.avatar_url
-														? user_profile?.avatar_url
-														: 'https://developers.elementor.com/docs/assets/img/elementor-placeholder-image.png'}
+													src="https://developers.elementor.com/docs/assets/img/elementor-placeholder-image.png"
 													alt="User avatar"
 												/>
 											</div>
@@ -154,34 +170,34 @@
 									</td>
 									<td
 										class="py-4 pr-3 pl-4 text-sm font-medium whitespace-nowrap text-gray-900 sm:pl-0"
-										>{user_profile?.name}</td
+										>{userProfile?.name}</td
 									>
 									<td
 										class="py-4 pr-3 pl-4 text-sm font-medium whitespace-nowrap text-gray-900 sm:pl-0"
-										>{user_profile?.email}</td
+										>{userProfile?.email}</td
 									>
 									<td
 										class="py-4 pr-3 pl-4 text-sm font-medium whitespace-nowrap text-gray-900 sm:pl-0"
-										>{user_profile?.phone}</td
+										>{userProfile?.phone}</td
 									>
 									<td
 										class="py-4 pr-3 pl-4 text-sm font-medium whitespace-nowrap text-gray-900 sm:pl-0"
-										>{user_profile?.role}</td
+										>{userProfile?.role}</td
 									>
 									<td
 										class="py-4 pr-3 pl-4 text-sm font-medium whitespace-nowrap text-gray-900 sm:pl-0"
-										>{user_profile?.address}</td
+										>{userProfile?.address}</td
 									>
 									<td
 										class="py-4 pr-3 pl-4 text-sm font-medium whitespace-nowrap text-gray-900 sm:pl-0"
-										>mixfolio.com/{user_profile?.user_preferences?.slug}</td
+										>mixfolio.com/{userProfile?.slug}</td
 									>
 									<td
 										class="w-40 max-w-xs truncate px-3 py-4 text-sm whitespace-nowrap text-gray-500"
-										>{user_profile?.bio}</td
+										>{userProfile?.bio}</td
 									>
 									<td class="px-3 py-4 text-sm whitespace-nowrap text-gray-500"
-										>{toISODate(user_profile?.created_at)}</td
+										>{userProfile?.created}</td
 									>
 									<td
 										class="relative py-4 pr-4 pl-3 text-right text-sm font-medium whitespace-nowrap sm:pr-0"
@@ -209,14 +225,7 @@
 									<td
 										class="relative py-4 pr-4 pl-3 text-right text-sm font-medium whitespace-nowrap sm:pr-0"
 									>
-										<form
-											method="POST"
-											action="?/delete"
-											use:enhance={({ formData }) => {
-												formData.set('user_preferences_id', user_profile.user_preferences.id);
-												formData.set('user_profile_id', user_profile?.id);
-											}}
-										>
+										<form method="POST" action="?/delete">
 											<button
 												type="submit"
 												aria-label="Delete record"
@@ -247,26 +256,24 @@
 		</div>
 	{/if}
 
-	<form method="POST" action="?/create" enctype="multipart/form-data" use:enhance>
+	<form onsubmit={(event) => event.preventDefault()} enctype="multipart/form-data" use:form>
 		<h2 class="mb-2 text-2xl font-bold">User Bio</h2>
 		<div class="space-y-6">
 			<div>
-				<label for="avatar" class="sr-only">User avatar</label>
+				<label for="avatar_url" class="sr-only">User avatar</label>
 				<input
 					type="file"
 					bind:this={fileInput}
 					onchange={showLogoPreview}
-					name="avatar"
-					id="avatar"
+					name="avatar_url"
+					id="avatar_url"
 					accept=".jpeg,.jpg,.png"
 					class="sr-only"
 					hidden
 				/>
 				<div class="flex items-center justify-between">
 					<img
-						src={user_profile?.avatar_url
-							? user_profile?.avatar_url
-							: 'https://developers.elementor.com/docs/assets/img/elementor-placeholder-image.png'}
+						src="https://developers.elementor.com/docs/assets/img/elementor-placeholder-image.png"
 						bind:this={previewInput}
 						loading="eager"
 						alt="User avatar preview"
@@ -365,13 +372,13 @@
 					>Submit</button
 				>
 			</div>
-			{#if form?.requestFormData?.errors}
-				<div>
-					{#each Object.values(form?.requestFormData?.errors).flat() as item, i (i)}
-						<p class="text-red-500">{item}</p>
-					{/each}
-				</div>
-			{/if}
+			<!--{#if form?.requestFormData?.errors}-->
+			<!--	<div>-->
+			<!--		{#each Object.values(form?.requestFormData?.errors).flat() as item, i (i)}-->
+			<!--			<p class="text-red-500">{item}</p>-->
+			<!--		{/each}-->
+			<!--	</div>-->
+			<!--{/if}-->
 		</div>
 	</form>
 </div>

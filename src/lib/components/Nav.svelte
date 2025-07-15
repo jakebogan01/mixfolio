@@ -1,7 +1,6 @@
 <script>
-	import { enhance } from '$app/forms';
-	import { LOGOUT } from '$lib/utils/constants.js';
 	import { navLinks } from '$lib/data/dashboard/navLinks.js';
+	import { goto } from '$app/navigation';
 </script>
 
 <nav class="mb-8">
@@ -12,9 +11,7 @@
 			</li>
 		{/each}
 		<li>
-			<form method="POST" action={LOGOUT} class="hidden md:block" use:enhance>
-				<button type="submit" class="cursor-pointer">Logout</button>
-			</form>
+			<button type="button" onclick={() => goto('/logout')} class="cursor-pointer">Logout</button>
 		</li>
 	</ul>
 </nav>
