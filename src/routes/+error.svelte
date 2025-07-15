@@ -28,7 +28,7 @@
 </script>
 
 <main class="grid min-h-full place-items-center bg-white px-6 py-24 sm:py-32 lg:px-8">
-	<canvas
+		<canvas
 		bind:this={testElement}
 		class="size-100"
 		draggable="false"
