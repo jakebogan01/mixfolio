@@ -1,7 +1,7 @@
 <script>
 	import { navLinks } from '$lib/data/dashboard/navLinks.js';
 	import { goto } from '$app/navigation';
-	let {slug} = $props();
+	let { slug } = $props();
 </script>
 
 <nav class="mb-8">

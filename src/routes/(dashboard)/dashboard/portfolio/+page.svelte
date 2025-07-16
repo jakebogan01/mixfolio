@@ -30,18 +30,17 @@
 		address: z.string().min(1, 'The address field cannot be empty').trim(),
 		slug: z.string().min(1, 'The url field cannot be empty').trim(),
 		bio: z.string().min(1, 'The bio field cannot be empty').trim()
-
 	});
 
 	const { form, errors, reset, setFields, resetField } = createForm({
 		initialValues: {
 			name: '',
 			email: '',
-			phone:'',
-			address:'',
-			slug:'',
-			bio:'',
-			role:''
+			phone: '',
+			address: '',
+			slug: '',
+			bio: '',
+			role: ''
 		},
 		extend: [validator({ schema }), reporter()],
 		onSubmit: async (values) => {
@@ -50,13 +49,12 @@
 					values.user_id = data.pb.authStore.record.id;
 					const user_profile = await data.pb.collection('user_profile').create(values);
 					if (!user_profile) console.error('❌ Failed to create record:');
-				} else{
-					const record = data.pb.collection('user_profile').update(userProfile?.id,values);
+				} else {
+					const record = data.pb.collection('user_profile').update(userProfile?.id, values);
 					console.log('Values have been updated.');
 				}
 				reset();
 				await invalidate('user_profile');
-
 			} catch (err) {
 				console.dir(err, { depth: null });
 				console.error('❌ Failed to create record:', err);
@@ -105,17 +103,17 @@
 	};
 
 	const dataReset = {
-		"name":'Change',
-			"phone":'Change',
-		"email":"email@gmail.com",
-			"address":"Change",
-			"slug":"Change",
-			"bio":"Change",
-			"role":"Change"
+		name: 'Change',
+		phone: 'Change',
+		email: 'email@gmail.com',
+		address: 'Change',
+		slug: 'Change',
+		bio: 'Change',
+		role: 'Change'
 	};
 
 	const editRecord = async () => {
-		console.log('Trying to edit record:')
+		console.log('Trying to edit record:');
 		//const record = data.pb.collection('user_profile').update(userProfile?.id,dataReset);
 		setFields({
 			name: userProfile?.name,
@@ -125,15 +123,12 @@
 			slug: userProfile?.slug,
 			bio: userProfile?.bio,
 			role: userProfile?.role
-		})
+		});
 		await invalidate('user_profile');
-
-	}
-
-
+	};
 </script>
 
-<Nav slug={data.slug.slug}/>
+<Nav slug={data.slug.slug} />
 
 <div class="mx-auto max-w-7xl px-6">
 	{#if Object.keys(userProfile).length !== 0}
