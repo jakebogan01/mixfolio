@@ -13,7 +13,7 @@
 
 <div class="relative">
 	<div
-		class="absolute inset-2 bottom-0 rounded-4xl bg-linear-115 from-[#fff1be] from-28% via-[#ee87cb] via-70% to-[#b060ff] ring-1 ring-black/5 ring-inset sm:bg-linear-145"
+		class="absolute inset-6 bottom-0 rounded-4xl bg-linear-115 from-[#fff1be] from-28% via-[#ee87cb] via-70% to-[#b060ff] ring-1 ring-black/5 ring-inset sm:bg-linear-145"
 	></div>
 	<div class="relative px-6 lg:px-8">
 		<div class="mx-auto max-w-2xl lg:max-w-7xl">
