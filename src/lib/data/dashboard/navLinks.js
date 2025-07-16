@@ -18,11 +18,5 @@ export const navLinks = [
 		link: CONTENT,
 		text: 'Content',
 		icon: 'user'
-	},
-	{
-		id: 4,
-		link: '/portfolio/erin-martin',
-		text: 'View portfolio',
-		icon: 'user'
 	}
 ];

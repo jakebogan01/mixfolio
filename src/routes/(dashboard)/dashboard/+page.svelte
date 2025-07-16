@@ -8,8 +8,11 @@
 	onMount(() => {
 		if (page?.state?.message) toastMessage('success', page?.state?.message);
 	});
+
+	let {data} = $props();
+	console.log(data.slug.slug);
 </script>
 
-<Nav />
+<Nav slug={data.slug.slug}/>
 
 <Toaster />
