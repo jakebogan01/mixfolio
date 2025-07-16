@@ -4,4 +4,41 @@
 
 @theme {
 	--font-sans: InterVariable, sans-serif;
+
+	--animate-outterLogoRing: outterLogoRing 0.5s ease-in-out 0.4s;
+	--animate-innerLogoRing: innerLogoRing 0.5s ease-in-out 0.2s;
+	--animate-logoCircle: logoCircle 0.5s ease-in-out 0s;
+	@keyframes outterLogoRing {
+		0%,
+		100% {
+			transform: scale(1);
+			fill: #000000;
+		}
+		50% {
+			transform: scale(1.1);
+			fill: #a140ff;
+		}
+	}
+	@keyframes innerLogoRing {
+		0%,
+		100% {
+			transform: scale(1);
+			fill: #000000;
+		}
+		50% {
+			transform: scale(1.1);
+			fill: #a140ff;
+		}
+	}
+	@keyframes logoCircle {
+		0%,
+		100% {
+			transform: scale(1);
+			fill: #000000;
+		}
+		50% {
+			transform: scale(1.15);
+			fill: #a140ff;
+		}
+	}
 }
