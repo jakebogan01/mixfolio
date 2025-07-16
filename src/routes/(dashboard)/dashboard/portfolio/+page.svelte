@@ -13,7 +13,7 @@
 	let showPreviewImage = $state(true);
 	let userProfile = $derived(data?.record || {});
 
-	$inspect(userProfile);
+	$inspect(data.slug.slug);
 
 	const schema = z.object({
 		avatar: z
@@ -133,7 +133,7 @@
 
 </script>
 
-<Nav />
+<Nav slug={data.slug.slug}/>
 
 <div class="mx-auto max-w-7xl px-6">
 	{#if Object.keys(userProfile).length !== 0}
