@@ -30,16 +30,33 @@
 		address: z.string().min(1, 'The address field cannot be empty').trim(),
 		slug: z.string().min(1, 'The url field cannot be empty').trim(),
 		bio: z.string().min(1, 'The bio field cannot be empty').trim()
+
 	});
 
-	const { form, errors } = createForm({
+	const { form, errors, reset, setFields, resetField } = createForm({
+		initialValues: {
+			name: '',
+			email: '',
+			phone:'',
+			address:'',
+			slug:'',
+			bio:'',
+			role:''
+		},
 		extend: [validator({ schema }), reporter()],
 		onSubmit: async (values) => {
 			try {
-				values.user_id = data.pb.authStore.record.id;
-				const user_profile = await data.pb.collection('user_profile').create(values);
-				if (!user_profile) console.error('❌ Failed to create record:');
+				if (!userProfile?.id) {
+					values.user_id = data.pb.authStore.record.id;
+					const user_profile = await data.pb.collection('user_profile').create(values);
+					if (!user_profile) console.error('❌ Failed to create record:');
+				} else{
+					const record = data.pb.collection('user_profile').update(userProfile?.id,values);
+					console.log('Values have been updated.');
+				}
+				reset();
 				await invalidate('user_profile');
+
 			} catch (err) {
 				console.dir(err, { depth: null });
 				console.error('❌ Failed to create record:', err);
@@ -86,6 +103,34 @@
 			console.error('❌ Failed to delete record:', err);
 		}
 	};
+
+	const dataReset = {
+		"name":'Change',
+			"phone":'Change',
+		"email":"email@gmail.com",
+			"address":"Change",
+			"slug":"Change",
+			"bio":"Change",
+			"role":"Change"
+	};
+
+	const editRecord = async () => {
+		console.log('Trying to edit record:')
+		//const record = data.pb.collection('user_profile').update(userProfile?.id,dataReset);
+		setFields({
+			name: userProfile?.name,
+			email: userProfile?.email,
+			phone: userProfile?.phone,
+			address: userProfile?.address,
+			slug: userProfile?.slug,
+			bio: userProfile?.bio,
+			role: userProfile?.role
+		})
+		await invalidate('user_profile');
+
+	}
+
+
 </script>
 
 <Nav />
@@ -220,6 +265,9 @@
 										class="relative py-4 pr-4 pl-3 text-right text-sm font-medium whitespace-nowrap sm:pr-0"
 									>
 										<button
+											onclick={() => {
+												editRecord();
+											}}
 											type="button"
 											aria-label="Edit record"
 											class="cursor-pointer text-indigo-600 hover:text-indigo-900"
