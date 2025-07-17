@@ -1093,7 +1093,7 @@
 		<div
 			class="relative bg-linear-115 from-[#fff1be] from-28% via-[#ee87cb] via-70% to-[#b060ff] sm:bg-linear-145"
 		>
-			<div class="absolute inset-6 rounded-4xl bg-white/80"></div>
+			<div class="absolute inset-2 rounded-4xl bg-white/80 xl:inset-6"></div>
 			<div class="px-6 lg:px-8">
 				<div class="mx-auto max-w-2xl lg:max-w-7xl">
 					<div class="relative pt-20 pb-16 text-center sm:py-24">
