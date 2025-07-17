@@ -74,7 +74,7 @@
 						</div>
 					</div>
 					<div
-						class="pointer-events-none absolute inset-0 rounded-lg shadow-sm outline outline-black/5 max-lg:rounded-t-4xl lg:rounded-tl-4xl"
+						class="pointer-events-none absolute inset-0 rounded-lg shadow-md outline outline-black/10 max-lg:rounded-t-4xl lg:rounded-tl-4xl"
 					></div>
 				</div>
 				<div class="relative lg:col-span-3">
@@ -103,7 +103,7 @@
 						</div>
 					</div>
 					<div
-						class="pointer-events-none absolute inset-0 rounded-lg shadow-sm outline outline-black/5 lg:rounded-tr-4xl"
+						class="pointer-events-none absolute inset-0 rounded-lg shadow-md outline outline-black/10 lg:rounded-tr-4xl"
 					></div>
 				</div>
 				<div class="relative lg:col-span-2">
@@ -129,7 +129,7 @@
 						</div>
 					</div>
 					<div
-						class="pointer-events-none absolute inset-0 rounded-lg shadow-sm outline outline-black/5 lg:rounded-bl-4xl"
+						class="pointer-events-none absolute inset-0 rounded-lg shadow-md outline outline-black/10 lg:rounded-bl-4xl"
 					></div>
 				</div>
 				<div class="relative lg:col-span-2">
@@ -155,7 +155,7 @@
 						</div>
 					</div>
 					<div
-						class="pointer-events-none absolute inset-0 rounded-lg shadow-sm outline outline-black/5"
+						class="pointer-events-none absolute inset-0 rounded-lg shadow-md outline outline-black/10"
 					></div>
 				</div>
 				<div class="relative lg:col-span-2">
@@ -181,7 +181,7 @@
 						</div>
 					</div>
 					<div
-						class="pointer-events-none absolute inset-0 rounded-lg shadow-sm outline outline-black/5 max-lg:rounded-b-4xl lg:rounded-br-4xl"
+						class="pointer-events-none absolute inset-0 rounded-lg shadow-md outline outline-black/10 max-lg:rounded-b-4xl lg:rounded-br-4xl"
 					></div>
 				</div>
 			</div>

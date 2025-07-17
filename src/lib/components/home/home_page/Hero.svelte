@@ -1,20 +1,38 @@
 <script>
 	import { fade, slide } from 'svelte/transition';
 	import { quadIn, quadOut } from 'svelte/easing';
+	import { Application } from '@splinetool/runtime';
 	import { navLinks } from '$lib/data/home/navLinks.js';
 	import { LOGIN } from '$lib/utils/constants.js';
 	import Logo from '$lib/components/Logo.svelte';
 	import Nav from '$lib/components/home/Nav.svelte';
 
-	let menuOpen = $state(false);
+	let menuOpen = $state(false),
+		canvas;
 
 	const toggleMenu = () => (menuOpen = !menuOpen);
+
+	import { onMount } from 'svelte';
+
+	onMount(() => {
+		const app = new Application(canvas);
+		app.load('/home/robot.spline');
+	});
 </script>
 
 <div class="relative">
 	<div
-		class="absolute inset-6 bottom-0 rounded-4xl bg-linear-115 from-[#fff1be] from-28% via-[#ee87cb] via-70% to-[#b060ff] ring-1 ring-black/5 ring-inset sm:bg-linear-145"
-	></div>
+		class="absolute inset-2 bottom-0 overflow-hidden rounded-4xl bg-linear-115 from-[#fff1be] from-28% via-[#ee87cb] via-70% to-[#b060ff] ring-1 ring-black/5 ring-inset sm:bg-linear-145 xl:inset-6"
+	>
+		<div class="hidden h-full w-full lg:block">
+			<canvas
+				bind:this={canvas}
+				class="absolute block w-full"
+				aria-label="Interactive robot"
+				draggable="false"
+			></canvas>
+		</div>
+	</div>
 	<div class="relative px-6 lg:px-8">
 		<div class="mx-auto max-w-2xl lg:max-w-7xl">
 			<header
@@ -131,10 +149,11 @@
 				</p>
 				<div class="mt-12 flex flex-col gap-x-6 gap-y-4 sm:flex-row">
 					<a
-						class="inline-flex items-center justify-center rounded-full border border-transparent bg-gray-950 px-4 py-[calc(--spacing(2)-1px)] text-base font-medium whitespace-nowrap text-white shadow-md data-disabled:bg-gray-950 data-disabled:opacity-40 sm:transition-colors sm:hover:bg-[#6a17bb]"
+						class="relative inline-flex items-center justify-center rounded-full border border-transparent bg-gray-950 px-4 py-[calc(--spacing(2)-1px)] text-base font-medium whitespace-nowrap text-white shadow-md sm:transition-colors sm:hover:bg-[#6a17bb]"
 						href="/">Get started</a
-					><a
-						class="relative inline-flex items-center justify-center rounded-full border border-transparent bg-white/15 px-4 py-[calc(--spacing(2)-1px)] text-base font-medium whitespace-nowrap text-gray-950 shadow-md ring-1 ring-[#D15052]/15 after:absolute after:inset-0 after:rounded-full after:shadow-[inset_0_0_2px_1px_#ffffff4d] data-disabled:bg-white/15 data-disabled:opacity-40 sm:transition-colors sm:hover:bg-transparent"
+					>
+					<a
+						class="relative inline-flex items-center justify-center rounded-full border border-transparent bg-white/15 px-4 py-[calc(--spacing(2)-1px)] text-base font-medium whitespace-nowrap text-gray-950 shadow-md ring-1 ring-[#D15052]/15 after:absolute after:inset-0 after:rounded-full after:shadow-[inset_0_0_2px_1px_#ffffff4d] sm:transition-colors sm:hover:bg-transparent"
 						href="/pricing">See pricing</a
 					>
 				</div>

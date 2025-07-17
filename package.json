@@ -16,6 +16,7 @@
 		"@eslint/js": "^9.18.0",
 		"@felte/reporter-tippy": "^1.1.10",
 		"@felte/validator-zod": "^1.0.18",
+		"@splinetool/runtime": "^1.10.32",
 		"@sveltejs/adapter-auto": "^6.0.0",
 		"@sveltejs/kit": "^2.16.0",
 		"@sveltejs/vite-plugin-svelte": "^5.0.0",
