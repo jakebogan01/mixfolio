@@ -10,7 +10,6 @@
 	});
 
 	let { data } = $props();
-	console.log(data.slug.slug);
 </script>
 
 <Nav slug={data.slug.slug} />

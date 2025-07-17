@@ -1,4 +1,4 @@
-<a title="Home" href="/static" class="group" aria-label="Go to home page">
+<a title="Home" href="/" class="group" aria-label="Go to home page">
 	<svg width="128.802" height="34" viewBox="0 0 128.802 34" class="h-9 overflow-visible">
 		<g
 			opacity="1"

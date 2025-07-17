@@ -5,4 +5,10 @@
 	let { pb } = $derived(data);
 </script>
 
-<AuthLayout title="Login to your account" btnText="Login" register={false} {pb} />
+<AuthLayout
+	message="Welcome back"
+	title="Sign in to your account to continue."
+	btnText="Sign in"
+	register={false}
+	{pb}
+/>
