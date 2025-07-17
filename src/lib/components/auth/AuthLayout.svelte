@@ -1,41 +1,62 @@
 <script>
-	import { LOGIN, REGISTER } from '$lib/utils/constants.js';
+	import { DASHBOARD, LOGIN, REGISTER } from '$lib/utils/constants.js';
 	import 'tippy.js/dist/tippy.css';
+	import { goto } from '$app/navigation';
 	import { createForm } from 'felte';
 	import { validator } from '@felte/validator-zod';
 	import reporter from '@felte/reporter-tippy';
 	import { z } from 'zod';
 	import { user } from '$lib/stores/user.svelte';
-	import { goto } from '$app/navigation';
+	import Logo from '$lib/components/Logo.svelte';
 
-	let { title, btnText, register = true, pb } = $props();
+	let { message, title, btnText, register = true, pb } = $props();
+	let isPasswordVisible = $state(false),
+		isConfirmPasswordVisible = $state(false),
+		data = $state({ password: '', passwordConfirm: '' });
 
-	const schema = z.object({
-		email: z.string().email({ message: 'Please enter a valid email address' }),
-		password: z.string().min(6, { message: 'Password must be at least 6 characters' })
-	});
+	const schema = register
+		? z
+				.object({
+					email: z.string().email({ message: 'Please enter a valid email address' }),
+					password: z
+						.string()
+						.min(8, 'More than 8 characters')
+						.max(71, 'No more than 71 characters'),
+					passwordConfirm: z.string()
+				})
+				.refine((data) => data.password === data.passwordConfirm, {
+					message: 'Passwords must match',
+					path: ['passwordConfirm']
+				})
+		: z.object({
+				email: z.string().email({ message: 'Please enter a valid email address' }),
+				password: z.string().min(8, 'More than 8 characters').max(71, 'No more than 71 characters')
+			});
 
-	const { form, errors } = createForm({
+	const { form } = createForm({
+		initialValues: {
+			email: null,
+			password: null,
+			passwordConfirm: null
+		},
 		extend: [validator({ schema }), reporter()],
 		onSubmit: async (values) => {
-			// Client-side only logic
 			try {
 				if (register) {
-					values.passwordConfirm = values.password;
 					const record = await pb.collection('users').create(values);
-					console.log('✅ Registered user:', record);
-					// Optional: Log in immediately after registration
+					if (!record) console.error('❌ Unable to register user:', record);
 					await pb.collection('users').authWithPassword(values.email, values.password);
 					user.model = pb;
 					console.log('✅ Auto-login after registration');
-					await goto('/dashboard', { state: { message: 'Successfully registered' } });
+					await goto(DASHBOARD, { state: { message: 'Successfully registered' } });
 				} else {
+					delete values.passwordConfirm;
 					const authData = await pb
 						.collection('users')
 						.authWithPassword(values.email, values.password);
 					user.model = pb;
 					console.log('✅ Logged in:', authData);
-					await goto('/dashboard', { state: { message: 'Successfully logged in' } });
+					await goto(DASHBOARD, { state: { message: 'Successfully logged in' } });
 				}
 			} catch (err) {
 				console.error('❌ Auth error:', err);
@@ -44,68 +65,146 @@
 	});
 </script>
 
-<a href="/">Home</a>
-<a href="/logout">logout</a>
-
-<div class="flex min-h-full items-center justify-center px-4 py-12 sm:px-6 lg:px-8">
-	<div class="w-full max-w-sm space-y-10">
-		<div>
-			<img
-				class="mx-auto h-10 w-auto"
-				src="https://tailwindcss.com/plus-assets/img/logos/mark.svg?color=indigo&shade=600"
-				alt="Your Company"
-			/>
-			<h2 class="mt-10 text-center text-2xl/9 font-bold tracking-tight text-gray-900">{title}</h2>
+<div class="w-full max-w-md rounded-xl bg-white shadow-xl ring-1 ring-black/10">
+	<form onsubmit={(event) => event.preventDefault()} class="p-7 sm:p-11" use:form>
+		<div class="flex items-start">
+			<Logo />
 		</div>
-		<form onsubmit={(event) => event.preventDefault()} class="space-y-6" use:form>
-			<div>
-				<div class="col-span-2">
+		<h1 class="mt-8 text-base/6 font-medium">{message}!</h1>
+		<p class="mt-1 text-sm/5 text-gray-600">{title}</p>
+		<div class="mt-3 space-y-3">
+			<label class="text-sm/5 font-medium" for="email">Email</label>
+			<input
+				required
+				class="block w-full rounded-lg border border-transparent px-[calc(--spacing(2)-1px)] py-[calc(--spacing(1.5)-1px)] text-base/6 shadow-sm ring-1 ring-black/10 data-focus:outline-2 data-focus:-outline-offset-1 data-focus:outline-black sm:text-sm/6"
+				id="email"
+				autocomplete="email"
+				minlength="4"
+				maxlength="255"
+				aria-label="Email address"
+				type="email"
+				name="email"
+			/>
+		</div>
+		<div class="mt-3 space-y-3">
+			<label class="text-sm/5 font-medium" for="password">Password</label>
+			<div class="flex rounded-md">
+				{#if isPasswordVisible}
 					<input
-						id="email-address"
-						name="email"
-						type="email"
-						autocomplete="email"
-						minlength="4"
-						maxlength="255"
-						aria-label="Email address"
-						class="block w-full rounded-t-md bg-white px-3 py-1.5 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:relative focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6"
-						placeholder="Email address"
-					/>
-				</div>
-
-				<div class="-mt-px">
-					<input
-						id="password"
+						type="text"
+						bind:value={data.password}
 						name="password"
-						type="password"
+						id="password"
 						autocomplete="current-password"
+						minlength="8"
+						maxlength="71"
+						required
 						aria-label="Password"
-						class="block w-full rounded-b-md bg-white px-3 py-1.5 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:relative focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6"
-						placeholder="Password"
+						class="block w-full rounded-tl-lg rounded-tr-none rounded-br-none rounded-bl-lg border border-transparent px-[calc(--spacing(2)-1px)] py-[calc(--spacing(1.5)-1px)] text-base/6 shadow-sm ring-1 ring-black/10 data-focus:outline-2 data-focus:-outline-offset-1 data-focus:outline-black sm:text-sm/6"
 					/>
-				</div>
-			</div>
-
-			<div>
+				{:else}
+					<input
+						type="password"
+						bind:value={data.password}
+						name="password"
+						id="password"
+						autocomplete="current-password"
+						minlength="8"
+						maxlength="71"
+						required
+						aria-label="Password"
+						class="block w-full rounded-tl-lg rounded-tr-none rounded-br-none rounded-bl-lg border border-transparent px-[calc(--spacing(2)-1px)] py-[calc(--spacing(1.5)-1px)] text-base/6 shadow-sm ring-1 ring-black/10 data-focus:outline-2 data-focus:-outline-offset-1 data-focus:outline-black sm:text-sm/6"
+					/>
+				{/if}
 				<button
-					type="submit"
-					class="flex w-full justify-center rounded-md bg-indigo-600 px-3 py-1.5 text-sm/6 font-semibold text-white hover:bg-indigo-500 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
+					onclick={() => (isPasswordVisible = !isPasswordVisible)}
+					type="button"
+					aria-label="Toggle password visibility"
+					class="inline-flex cursor-pointer items-center rounded-r-lg px-3 text-slate-500 shadow-sm ring-1 ring-black/10 data-focus:outline-2 data-focus:-outline-offset-1 data-focus:outline-black sm:transition-colors sm:hover:bg-black sm:hover:text-white"
 				>
-					{btnText}
+					<svg
+						xmlns="http://www.w3.org/2000/svg"
+						viewBox="0 0 24 24"
+						fill="currentColor"
+						class="size-4"
+						><path d="M12 15a3 3 0 1 0 0-6 3 3 0 0 0 0 6Z" /><path
+							fill-rule="evenodd"
+							d="M1.323 11.447C2.811 6.976 7.028 3.75 12.001 3.75c4.97 0 9.185 3.223 10.675 7.69.12.362.12.752 0 1.113-1.487 4.471-5.705 7.697-10.677 7.697-4.97 0-9.186-3.223-10.675-7.69a1.762 1.762 0 0 1 0-1.113ZM17.25 12a5.25 5.25 0 1 1-10.5 0 5.25 5.25 0 0 1 10.5 0Z"
+							clip-rule="evenodd"
+						/></svg
+					>
 				</button>
 			</div>
-		</form>
-
-		<p class="text-center text-sm/6 text-gray-500">
-			{#if register}
-				Already a member?
-				<a href={LOGIN} class="font-semibold text-indigo-600 hover:text-indigo-500">Login now</a>
-			{:else}
-				Not a member?
-				<a href={REGISTER} class="font-semibold text-indigo-600 hover:text-indigo-500"
-					>Register now</a
-				>
-			{/if}
-		</p>
-	</div>
+		</div>
+		{#if register}
+			<div class="mt-3 space-y-3">
+				<label class="text-sm/5 font-medium" for="passwordConfirm">Confirm Password</label>
+				<div class="flex rounded-md">
+					{#if isConfirmPasswordVisible}
+						<input
+							bind:value={data.passwordConfirm}
+							type="text"
+							name="passwordConfirm"
+							id="passwordConfirm"
+							autocomplete="current-password"
+							minlength="8"
+							maxlength="71"
+							required
+							aria-label="Confirm Password"
+							class="block w-full rounded-tl-lg rounded-tr-none rounded-br-none rounded-bl-lg border border-transparent px-[calc(--spacing(2)-1px)] py-[calc(--spacing(1.5)-1px)] text-base/6 shadow-sm ring-1 ring-black/10 data-focus:outline-2 data-focus:-outline-offset-1 data-focus:outline-black sm:text-sm/6"
+						/>
+					{:else}
+						<input
+							bind:value={data.passwordConfirm}
+							type="password"
+							name="passwordConfirm"
+							id="passwordConfirm"
+							autocomplete="current-password"
+							minlength="8"
+							maxlength="71"
+							required
+							aria-label="Confirm Password"
+							class="block w-full rounded-tl-lg rounded-tr-none rounded-br-none rounded-bl-lg border border-transparent px-[calc(--spacing(2)-1px)] py-[calc(--spacing(1.5)-1px)] text-base/6 shadow-sm ring-1 ring-black/10 data-focus:outline-2 data-focus:-outline-offset-1 data-focus:outline-black sm:text-sm/6"
+						/>
+					{/if}
+					<button
+						onclick={() => (isConfirmPasswordVisible = !isConfirmPasswordVisible)}
+						type="button"
+						aria-label="Toggle password visibility"
+						class="inline-flex cursor-pointer items-center rounded-r-lg px-3 text-slate-500 shadow-sm ring-1 ring-black/10 data-focus:outline-2 data-focus:-outline-offset-1 data-focus:outline-black sm:transition-colors sm:hover:bg-black sm:hover:text-white"
+					>
+						<svg
+							xmlns="http://www.w3.org/2000/svg"
+							viewBox="0 0 24 24"
+							fill="currentColor"
+							class="size-4"
+							><path d="M12 15a3 3 0 1 0 0-6 3 3 0 0 0 0 6Z" /><path
+								fill-rule="evenodd"
+								d="M1.323 11.447C2.811 6.976 7.028 3.75 12.001 3.75c4.97 0 9.185 3.223 10.675 7.69.12.362.12.752 0 1.113-1.487 4.471-5.705 7.697-10.677 7.697-4.97 0-9.186-3.223-10.675-7.69a1.762 1.762 0 0 1 0-1.113ZM17.25 12a5.25 5.25 0 1 1-10.5 0 5.25 5.25 0 0 1 10.5 0Z"
+								clip-rule="evenodd"
+							/></svg
+						>
+					</button>
+				</div>
+			</div>
+		{/if}
+		<div class="mt-8">
+			<button
+				type="submit"
+				class="inline-flex w-full items-center justify-center rounded-full border border-transparent bg-gray-950 px-4 py-[calc(--spacing(2)-1px)] text-base font-medium whitespace-nowrap text-white shadow-md data-disabled:bg-gray-950 data-disabled:opacity-40 data-hover:bg-gray-800"
+				>{btnText}</button
+			>
+		</div>
+	</form>
+	{#if register}
+		<div class="m-1.5 rounded-lg bg-gray-50 py-4 text-center text-sm/5 ring-1 ring-black/5">
+			Already a member? <a class="font-medium hover:text-gray-600" href={LOGIN}
+				>Sign into your account</a
+			>
+		</div>
+	{:else}
+		<div class="m-1.5 rounded-lg bg-gray-50 py-4 text-center text-sm/5 ring-1 ring-black/5">
+			Not a member? <a class="font-medium hover:text-gray-600" href={REGISTER}>Create an account</a>
+		</div>
+	{/if}
 </div>
