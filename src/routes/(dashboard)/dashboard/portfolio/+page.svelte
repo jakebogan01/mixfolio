@@ -8,6 +8,7 @@
 	import { invalidate } from '$app/navigation';
 
 	let { data } = $props();
+	let editingUserProfileImage = $state(false);
 	let previewInput, fileInput;
 	let isDragging = $state(false);
 	let showPreviewImage = $state(true);
@@ -113,8 +114,6 @@
 	};
 
 	const editRecord = async () => {
-		console.log('Trying to edit record:');
-		//const record = data.pb.collection('user_profile').update(userProfile?.id,dataReset);
 		setFields({
 			name: userProfile?.name,
 			email: userProfile?.email,
@@ -124,6 +123,7 @@
 			bio: userProfile?.bio,
 			role: userProfile?.role
 		});
+		editingUserProfileImage = true;
 		await invalidate('user_profile');
 	};
 </script>
@@ -334,7 +334,7 @@
 				/>
 				<div class="flex items-center justify-between">
 					<img
-						src={userProfile?.avatar_url
+						src={editingUserProfileImage
 							? userProfile?.avatar_url
 							: 'https://developers.elementor.com/docs/assets/img/elementor-placeholder-image.png'}
 						bind:this={previewInput}
