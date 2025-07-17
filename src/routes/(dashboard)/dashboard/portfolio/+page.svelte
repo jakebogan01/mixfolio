@@ -15,14 +15,16 @@
 
 	$inspect(data.slug.slug);
 
-	const schema = z.object({
-		avatar: z
-			.instanceof(File, { message: 'Please upload a file' })
-			.refine((f) => f.size < 52_428_800, 'File cannot exceed 50 MB')
-			.refine((file) => ['image/jpeg', 'image/jpg', 'image/png'].includes(file.type), {
-				message: 'Only .jpeg, .jpg, or .png files are allowed'
-			})
-			.optional(),
+		const schema = z.object({
+			avatar: z
+				.instanceof(File)
+				.optional()
+				.refine((file) => !file || file.size < 52_428_800, {
+					message: 'File cannot exceed 50 MB'
+				})
+				.refine((file) => !file || ['image/jpeg', 'image/jpg', 'image/png'].includes(file.type), {
+					message: 'Only .jpeg, .jpg, or .png files are allowed'
+				}),
 		name: z.string().min(1, 'The name field cannot be empty').trim(),
 		phone: z.string().min(1, 'The phone field cannot be empty').trim(),
 		email: z.string().email({ message: 'Please enter a valid email address' }),
@@ -47,9 +49,11 @@
 			try {
 				if (!userProfile?.id) {
 					values.user_id = data.pb.authStore.record.id;
+					values.avatar = fileInput?.files?.[0];
 					const user_profile = await data.pb.collection('user_profile').create(values);
 					if (!user_profile) console.error('❌ Failed to create record:');
 				} else {
+					values.avatar = fileInput?.files?.[0];
 					const record = data.pb.collection('user_profile').update(userProfile?.id, values);
 					console.log('Values have been updated.');
 				}
@@ -100,16 +104,6 @@
 			console.dir(err, { depth: null });
 			console.error('❌ Failed to delete record:', err);
 		}
-	};
-
-	const dataReset = {
-		name: 'Change',
-		phone: 'Change',
-		email: 'email@gmail.com',
-		address: 'Change',
-		slug: 'Change',
-		bio: 'Change',
-		role: 'Change'
 	};
 
 	const editRecord = async () => {
