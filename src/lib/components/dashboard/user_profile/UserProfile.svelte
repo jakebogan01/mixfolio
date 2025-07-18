@@ -13,14 +13,15 @@
 	let showPreviewImage = $state(true);
 	let userProfile = $derived(data?.record || {});
 
-	const schema = z.object({
-		avatar: z
-			.instanceof(File, { message: 'Please upload a file' })
-			.refine((f) => f.size < 52_428_800, 'File cannot exceed 50 MB')
-			.refine((file) => ['image/jpeg', 'image/jpg', 'image/png'].includes(file.type), {
-				message: 'Only .jpeg, .jpg, or .png files are allowed'
-			})
-			.optional(),
+		const schema = z.object({
+			avatar: z
+				.instanceof(File)
+				.optional()
+				.refine((file) => !file || file.size < 52_428_800, {
+					message: 'File cannot exceed 50 MB'
+				})
+				.refine((file) => !file || ['image/jpeg', 'image/jpg', 'image/png'].includes(file.type), {
+					message: 'Only .jpeg, .jpg, or .png files are allowed'}),
 		name: z.string().min(1, 'The name field cannot be empty').trim(),
 		phone: z.string().min(1, 'The phone field cannot be empty').trim(),
 		email: z.string().email({ message: 'Please enter a valid email address' }),
@@ -45,9 +46,13 @@
 			try {
 				if (!userProfile?.id) {
 					values.user_id = data.pb.authStore.record.id;
+					values.avatar = fileInput?.files?.[0];
+
 					const user_profile = await data.pb.collection('user_profile').create(values);
 					if (!user_profile) console.error('❌ Failed to create record:');
 				} else {
+					values.avatar = fileInput?.files?.[0];
+
 					const record = data.pb.collection('user_profile').update(userProfile?.id, values);
 					if (record === null) {
 						console.log('No record found.');
@@ -104,6 +109,7 @@
 	};
 
 	const editRecord = async () => {
+		editingUserProfileImage = true;
 		setFields({
 			name: userProfile?.name,
 			email: userProfile?.email,
@@ -113,7 +119,6 @@
 			bio: userProfile?.bio,
 			role: userProfile?.role
 		});
-		editingUserProfileImage = true;
 		await invalidate('user_profile');
 	};
 </script>
@@ -322,9 +327,7 @@
 				/>
 				<div class="flex items-center justify-between">
 					<img
-						src={editingUserProfileImage
-							? userProfile?.avatar_url
-							: 'https://developers.elementor.com/docs/assets/img/elementor-placeholder-image.png'}
+						src={editingUserProfileImage ? userProfile?.avatar_url || 'https://developers.elementor.com/docs/assets/img/elementor-placeholder-image.png' : 'https://developers.elementor.com/docs/assets/img/elementor-placeholder-image.png'}
 						bind:this={previewInput}
 						loading="eager"
 						alt="User avatar preview"
