@@ -1,4 +1,4 @@
-<div class="mx-2 mt-2 rounded-4xl bg-gray-900 py-32">
+<div class="mx-2 mt-2 rounded-4xl bg-gray-900 py-32 xl:mx-6">
 	<div class="px-6 lg:px-8">
 		<div class="mx-auto max-w-2xl lg:max-w-7xl">
 			<h2

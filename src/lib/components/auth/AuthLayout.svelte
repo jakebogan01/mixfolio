@@ -10,16 +10,18 @@
 	import Logo from '$lib/components/Logo.svelte';
 
 	let { message, title, btnText, register = true, pb } = $props();
-	let isPasswordVisible = $state(false),
-		isConfirmPasswordVisible = $state(false),
-		data = $state({ password: '', passwordConfirm: '' });
+	let isPasswordVisible = $state(false);
+	let isConfirmPasswordVisible = $state(false);
+	let passwordData = $state({ password: '', passwordConfirm: '' });
 
 	const schema = register
 		? z
 				.object({
-					email: z.string().email({ message: 'Please enter a valid email address' }),
+					email: z
+						.string({ message: 'Please enter a valid email address' })
+						.email({ message: 'Please enter a valid email address' }),
 					password: z
-						.string()
+						.string({ message: 'Please enter a password' })
 						.min(8, 'More than 8 characters')
 						.max(71, 'No more than 71 characters'),
 					passwordConfirm: z.string()
@@ -29,17 +31,27 @@
 					path: ['passwordConfirm']
 				})
 		: z.object({
-				email: z.string().email({ message: 'Please enter a valid email address' }),
+				email: z
+					.string({ message: 'Please confirm a password' })
+					.email({ message: 'Please enter a valid email address' }),
 				password: z.string().min(8, 'More than 8 characters').max(71, 'No more than 71 characters')
 			});
 
-	const { form } = createForm({
+	const { form, errors, data } = createForm({
 		initialValues: {
 			email: null,
 			password: null,
 			passwordConfirm: null
 		},
-		extend: [validator({ schema }), reporter()],
+		extend: [
+			validator({ schema }),
+			reporter({
+				level: 'error',
+				tippyProps: {
+					allowHTML: false
+				}
+			})
+		],
 		onSubmit: async (values) => {
 			try {
 				if (register) {
@@ -73,54 +85,67 @@
 		<h1 class="mt-8 text-base/6 font-medium">{message}!</h1>
 		<p class="mt-1 text-sm/5 text-gray-600">{title}</p>
 		<div class="mt-3 space-y-3">
-			<label class="text-sm/5 font-medium" for="email">Email</label>
+			<label for="email" class="block text-sm/5 font-medium">Email</label>
 			<input
-				required
-				class="block w-full rounded-lg border border-transparent px-[calc(--spacing(2)-1px)] py-[calc(--spacing(1.5)-1px)] text-base/6 shadow-sm ring-1 ring-black/10 data-focus:outline-2 data-focus:-outline-offset-1 data-focus:outline-black sm:text-sm/6"
 				id="email"
+				type="email"
+				name="email"
+				aria-invalid="true"
+				aria-describedby="email-error"
+				required
 				autocomplete="email"
 				minlength="4"
 				maxlength="255"
 				aria-label="Email address"
-				type="email"
-				name="email"
+				class="col-start-1 row-start-1 block w-full rounded-lg border border-transparent bg-white py-1.5 pr-10 pl-3 text-base shadow-sm outline-1 -outline-offset-1 focus:outline-2 focus:-outline-offset-2 sm:pr-9 sm:text-sm/6 {$errors?.email &&
+				$data?.email
+					? 'text-red-500 outline-red-500 focus:outline-red-500'
+					: 'outline-gray-300'}"
 			/>
 		</div>
 		<div class="mt-3 space-y-3">
-			<label class="text-sm/5 font-medium" for="password">Password</label>
+			<label for="password" class="block text-sm/5 font-medium">Password</label>
 			<div class="flex rounded-md">
 				{#if isPasswordVisible}
 					<input
-						type="text"
-						bind:value={data.password}
-						name="password"
 						id="password"
+						bind:value={passwordData.password}
 						autocomplete="current-password"
+						type="text"
+						name="password"
+						aria-invalid="true"
+						required
 						minlength="8"
 						maxlength="71"
-						required
 						aria-label="Password"
-						class="block w-full rounded-tl-lg rounded-tr-none rounded-br-none rounded-bl-lg border border-transparent px-[calc(--spacing(2)-1px)] py-[calc(--spacing(1.5)-1px)] text-base/6 shadow-sm ring-1 ring-black/10 data-focus:outline-2 data-focus:-outline-offset-1 data-focus:outline-black sm:text-sm/6"
+						class="col-start-1 row-start-1 block w-full rounded-l-lg rounded-r-none border border-transparent bg-white py-1.5 pr-10 pl-3 text-base shadow-sm outline-1 -outline-offset-1 focus:outline-2 focus:-outline-offset-2 sm:pr-9 sm:text-sm/6 {$errors?.password &&
+						$data?.password
+							? 'text-red-500 outline-red-500 focus:outline-red-500'
+							: 'outline-gray-300'}"
 					/>
 				{:else}
 					<input
-						type="password"
-						bind:value={data.password}
-						name="password"
 						id="password"
+						bind:value={passwordData.password}
 						autocomplete="current-password"
+						type="password"
+						name="password"
+						aria-invalid="true"
+						required
 						minlength="8"
 						maxlength="71"
-						required
 						aria-label="Password"
-						class="block w-full rounded-tl-lg rounded-tr-none rounded-br-none rounded-bl-lg border border-transparent px-[calc(--spacing(2)-1px)] py-[calc(--spacing(1.5)-1px)] text-base/6 shadow-sm ring-1 ring-black/10 data-focus:outline-2 data-focus:-outline-offset-1 data-focus:outline-black sm:text-sm/6"
+						class="col-start-1 row-start-1 block w-full rounded-l-lg rounded-r-none border border-transparent bg-white py-1.5 pr-10 pl-3 text-base shadow-sm outline-1 -outline-offset-1 focus:outline-2 focus:-outline-offset-2 sm:pr-9 sm:text-sm/6 {$errors?.password &&
+						$data?.password
+							? 'text-red-500 outline-red-500 focus:outline-red-500'
+							: 'outline-gray-300'}"
 					/>
 				{/if}
 				<button
 					onclick={() => (isPasswordVisible = !isPasswordVisible)}
 					type="button"
 					aria-label="Toggle password visibility"
-					class="inline-flex cursor-pointer items-center rounded-r-lg px-3 text-slate-500 shadow-sm ring-1 ring-black/10 data-focus:outline-2 data-focus:-outline-offset-1 data-focus:outline-black sm:transition-colors sm:hover:bg-black sm:hover:text-white"
+					class="inline-flex cursor-pointer items-center rounded-l-none rounded-r-lg border border-transparent px-3 text-gray-400 shadow-sm outline-1 -outline-offset-1 outline-gray-300 focus:outline-2 focus:-outline-offset-2 sm:transition-colors sm:hover:bg-black sm:hover:text-white"
 				>
 					<svg
 						xmlns="http://www.w3.org/2000/svg"
@@ -142,36 +167,44 @@
 				<div class="flex rounded-md">
 					{#if isConfirmPasswordVisible}
 						<input
-							bind:value={data.passwordConfirm}
-							type="text"
 							name="passwordConfirm"
 							id="passwordConfirm"
+							bind:value={passwordData.passwordConfirm}
 							autocomplete="current-password"
+							type="text"
+							aria-invalid="true"
+							required
 							minlength="8"
 							maxlength="71"
-							required
 							aria-label="Confirm Password"
-							class="block w-full rounded-tl-lg rounded-tr-none rounded-br-none rounded-bl-lg border border-transparent px-[calc(--spacing(2)-1px)] py-[calc(--spacing(1.5)-1px)] text-base/6 shadow-sm ring-1 ring-black/10 data-focus:outline-2 data-focus:-outline-offset-1 data-focus:outline-black sm:text-sm/6"
+							class="col-start-1 row-start-1 block w-full rounded-l-lg rounded-r-none border border-transparent bg-white py-1.5 pr-10 pl-3 text-base shadow-sm outline-1 -outline-offset-1 focus:outline-2 focus:-outline-offset-2 sm:pr-9 sm:text-sm/6 {$errors?.passwordConfirm &&
+							$data?.passwordConfirm
+								? 'text-red-500 outline-red-500 focus:outline-red-500'
+								: 'outline-gray-300'}"
 						/>
 					{:else}
 						<input
-							bind:value={data.passwordConfirm}
-							type="password"
 							name="passwordConfirm"
 							id="passwordConfirm"
+							bind:value={passwordData.passwordConfirm}
 							autocomplete="current-password"
+							type="password"
+							aria-invalid="true"
+							required
 							minlength="8"
 							maxlength="71"
-							required
 							aria-label="Confirm Password"
-							class="block w-full rounded-tl-lg rounded-tr-none rounded-br-none rounded-bl-lg border border-transparent px-[calc(--spacing(2)-1px)] py-[calc(--spacing(1.5)-1px)] text-base/6 shadow-sm ring-1 ring-black/10 data-focus:outline-2 data-focus:-outline-offset-1 data-focus:outline-black sm:text-sm/6"
+							class="col-start-1 row-start-1 block w-full rounded-l-lg rounded-r-none border border-transparent bg-white py-1.5 pr-10 pl-3 text-base shadow-sm outline-1 -outline-offset-1 focus:outline-2 focus:-outline-offset-2 sm:pr-9 sm:text-sm/6 {$errors?.passwordConfirm &&
+							$data?.passwordConfirm
+								? 'text-red-500 outline-red-500 focus:outline-red-500'
+								: 'outline-gray-300'}"
 						/>
 					{/if}
 					<button
 						onclick={() => (isConfirmPasswordVisible = !isConfirmPasswordVisible)}
 						type="button"
 						aria-label="Toggle password visibility"
-						class="inline-flex cursor-pointer items-center rounded-r-lg px-3 text-slate-500 shadow-sm ring-1 ring-black/10 data-focus:outline-2 data-focus:-outline-offset-1 data-focus:outline-black sm:transition-colors sm:hover:bg-black sm:hover:text-white"
+						class="inline-flex cursor-pointer items-center rounded-l-none rounded-r-lg border border-transparent px-3 text-gray-400 shadow-sm outline-1 -outline-offset-1 outline-gray-300 focus:outline-2 focus:-outline-offset-2 sm:transition-colors sm:hover:bg-black sm:hover:text-white"
 					>
 						<svg
 							xmlns="http://www.w3.org/2000/svg"
