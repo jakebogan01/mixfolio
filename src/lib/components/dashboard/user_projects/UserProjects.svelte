@@ -7,14 +7,16 @@
 	import { invalidate } from '$app/navigation';
 
 	let { data } = $props();
-	let editingUserProfileImage = $state(false);
+	let editinguserProjectsImage = $state(false);
 	let previewInput, fileInput;
 	let isDragging = $state(false);
 	let showPreviewImage = $state(true);
-	let userProfile = $derived(data?.record || {});
+	let userProjects = $derived(data?.record || {});
+
+	$inspect(userProjects.expand.projects);
 
 	const schema = z.object({
-		avatar: z
+		project_image: z
 			.instanceof(File)
 			.optional()
 			.refine((file) => !file || file.size < 52_428_800, {
@@ -22,49 +24,28 @@
 			})
 			.refine((file) => !file || ['image/jpeg', 'image/jpg', 'image/png'].includes(file.type), {
 				message: 'Only .jpeg, .jpg, or .png files are allowed'}),
-		name: z.string().min(1, 'The name field cannot be empty').trim(),
-		phone: z.string().min(1, 'The phone field cannot be empty').trim(),
-		email: z.string().email({ message: 'Please enter a valid email address' }),
-		role: z.string().min(1, 'The role field cannot be empty').trim(),
-		address: z.string().min(1, 'The address field cannot be empty').trim(),
-		slug: z.string().min(1, 'The url field cannot be empty').trim(),
-		bio: z.string().min(1, 'The bio field cannot be empty').trim()
+		title: z.string().min(1, 'The project title field cannot be empty').trim(),
+		description: z.string().min(1, 'The description field cannot be empty').trim(),
 	});
 
 	const { form, reset, setFields } = createForm({
 		initialValues: {
-			name: '',
-			email: '',
-			phone: '',
-			address: '',
-			slug: '',
-			bio: '',
-			role: ''
+			title: '',
+			description: '',
 		},
 		extend: [validator({ schema }), reporter()],
 		onSubmit: async (values) => {
-			try {
-				if (!userProfile?.id) {
+
 					values.user_id = data.pb.authStore.record.id;
-					values.avatar = fileInput?.files?.[0];
+					values.project_image = fileInput?.files?.[0];
 
-					const user_profile = await data.pb.collection('user_profile').create(values);
-					if (!user_profile) console.error('❌ Failed to create record:');
-				} else {
-					values.avatar = fileInput?.files?.[0];
+					const user_projects = await data.pb.collection('projects').create(values);
+					const currentProjectIds = userProjects.expand.projects|| []; // might be undefined
+					const updatedProjectIds = [...currentProjectIds.map(p => (typeof p === 'string' ? p : p.id)), user_projects.id];
 
-					const record = data.pb.collection('user_profile').update(userProfile?.id, values);
-					if (record === null) {
-						console.log('No record found.');
-					}
-					console.log('Values have been updated.');
-				}
-				reset();
-				await invalidate('user_profile');
-			} catch (err) {
-				console.dir(err, { depth: null });
-				console.error('❌ Failed to create record:', err);
-			}
+					const user_profile_update = await data.pb.collection('user_profile').update(userProjects?.id, {projects: updatedProjectIds});
+					if (!user_projects) console.error('❌ Failed to create record:');
+
 		}
 	});
 
@@ -99,9 +80,9 @@
 
 	const deleteRecord = async () => {
 		try {
-			const user_profile = data.pb.collection('user_profile').delete(userProfile?.id);
-			if (!user_profile) console.error('❌ Failed to delete record:');
-			await invalidate('user_profile');
+			const user_projects = data.pb.collection('projects').delete(userProjects?.id);
+			if (!user_projects) console.error('❌ Failed to delete record:');
+			await invalidate('projects');
 		} catch (err) {
 			console.dir(err, { depth: null });
 			console.error('❌ Failed to delete record:', err);
@@ -109,84 +90,46 @@
 	};
 
 	const editRecord = async () => {
-		editingUserProfileImage = true;
+		editinguserProjectsImage = true;
 		setFields({
-			name: userProfile?.name,
-			email: userProfile?.email,
-			phone: userProfile?.phone,
-			address: userProfile?.address,
-			slug: userProfile?.slug,
-			bio: userProfile?.bio,
-			role: userProfile?.role
+			title: userProjects?.title,
+			description: userProjects?.description,
 		});
-		await invalidate('user_profile');
+		await invalidate('user_projects');
 	};
 </script>
 
 <div class="mx-auto max-w-7xl px-6">
-	{#if Object.keys(userProfile).length !== 0}
 		<div class="mb-10">
-			<h2 class="text-2xl font-bold">Your Profile</h2>
+			<h2 class="text-2xl font-bold">Your Projects</h2>
+
 			<div class="flow-root">
 				<div class="-mx-4 -my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
 					<div class="inline-block min-w-full py-2 align-middle sm:px-6 lg:px-8">
 						<table class="min-w-full divide-y divide-gray-300">
 							<colgroup>
 								<col class="w-full sm:w-1/12" />
-								<col class="lg:w-1/12" />
-								<col class="lg:w-1/12" />
-								<col class="lg:w-1/12" />
-								<col class="lg:w-1/12" />
-								<col class="lg:w-1/12" />
-								<col class="lg:w-1/12" />
-								<col class="lg:w-1/12" />
-								<col class="lg:w-1/12" />
+								<col class="lg:w-3/12" />
+								<col class="lg:w-6/12" />
 								<col class="lg:w-1/12" />
 							</colgroup>
 							<thead>
 							<tr>
+
 								<th
 									scope="col"
 									class="py-3.5 pr-3 pl-4 text-left text-sm font-semibold text-gray-900 sm:pl-0"
-								>Id</th
+								>Image</th
 								>
 								<th
 									scope="col"
 									class="py-3.5 pr-3 pl-4 text-left text-sm font-semibold text-gray-900 sm:pl-0"
-								>Avatar</th
+								>Title</th
 								>
 								<th
 									scope="col"
 									class="py-3.5 pr-3 pl-4 text-left text-sm font-semibold text-gray-900 sm:pl-0"
-								>Name</th
-								>
-								<th
-									scope="col"
-									class="py-3.5 pr-3 pl-4 text-left text-sm font-semibold text-gray-900 sm:pl-0"
-								>Email</th
-								>
-								<th
-									scope="col"
-									class="py-3.5 pr-3 pl-4 text-left text-sm font-semibold text-gray-900 sm:pl-0"
-								>Phone</th
-								>
-								<th
-									scope="col"
-									class="py-3.5 pr-3 pl-4 text-left text-sm font-semibold text-gray-900 sm:pl-0"
-								>Role</th
-								>
-								<th
-									scope="col"
-									class="py-3.5 pr-3 pl-4 text-left text-sm font-semibold text-gray-900 sm:pl-0"
-								>Address</th
-								>
-								<th
-									scope="col"
-									class="py-3.5 pr-3 pl-4 text-left text-sm font-semibold text-gray-900 sm:pl-0"
-								>URL</th
-								>
-								<th scope="col" class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900"
-								>Bio</th
+								>Description</th
 								>
 								<th scope="col" class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900"
 								>Created</th
@@ -199,55 +142,35 @@
 								</th>
 							</tr>
 							</thead>
+							{#each userProjects.expand.projects as project}
+
 							<tbody class="divide-y divide-gray-200">
 							<tr>
-								<td
-									class="py-4 pr-3 pl-4 text-sm font-medium whitespace-nowrap text-gray-900 sm:pl-0"
-								>{userProfile?.id}</td
-								>
+
 								<td class="py-5 pr-3 pl-4 text-sm whitespace-nowrap sm:pl-0">
 									<div class="flex items-center">
 										<div class="size-11 shrink-0">
 											<img
 												class="size-11 rounded-full object-cover"
-												src={userProfile?.avatar_url
-														? userProfile?.avatar_url
+												src={project?.project_image
+														? project?.project_image
 														: 'https://developers.elementor.com/docs/assets/img/elementor-placeholder-image.png'}
-												alt="User avatar"
+												alt="User project_image"
 											/>
 										</div>
 									</div>
 								</td>
+
 								<td
 									class="py-4 pr-3 pl-4 text-sm font-medium whitespace-nowrap text-gray-900 sm:pl-0"
-								>{userProfile?.name}</td
+								>{project?.title}</td
 								>
 								<td
 									class="py-4 pr-3 pl-4 text-sm font-medium whitespace-nowrap text-gray-900 sm:pl-0"
-								>{userProfile?.email}</td
-								>
-								<td
-									class="py-4 pr-3 pl-4 text-sm font-medium whitespace-nowrap text-gray-900 sm:pl-0"
-								>{userProfile?.phone}</td
-								>
-								<td
-									class="py-4 pr-3 pl-4 text-sm font-medium whitespace-nowrap text-gray-900 sm:pl-0"
-								>{userProfile?.role}</td
-								>
-								<td
-									class="py-4 pr-3 pl-4 text-sm font-medium whitespace-nowrap text-gray-900 sm:pl-0"
-								>{userProfile?.address}</td
-								>
-								<td
-									class="py-4 pr-3 pl-4 text-sm font-medium whitespace-nowrap text-gray-900 sm:pl-0"
-								>mixfolio.com/{userProfile?.slug}</td
-								>
-								<td
-									class="w-40 max-w-xs truncate px-3 py-4 text-sm whitespace-nowrap text-gray-500"
-								>{userProfile?.bio}</td
+								>{project?.description}</td
 								>
 								<td class="px-3 py-4 text-sm whitespace-nowrap text-gray-500"
-								>{userProfile?.created}</td
+								>{project?.created}</td
 								>
 								<td
 									class="relative py-4 pr-4 pl-3 text-right text-sm font-medium whitespace-nowrap sm:pr-0"
@@ -303,34 +226,34 @@
 								</td>
 							</tr>
 							</tbody>
+								{/each}
 						</table>
 					</div>
 				</div>
 			</div>
 		</div>
-	{/if}
 
 	<form onsubmit={(event) => event.preventDefault()} enctype="multipart/form-data" use:form>
-		<h2 class="mb-2 text-2xl font-bold">User Bio</h2>
+		<h2 class="mb-2 text-2xl font-bold">Projects</h2>
 		<div class="space-y-6">
 			<div>
-				<label for="avatar" class="sr-only">User avatar</label>
+				<label for="project_image" class="sr-only">User project_image</label>
 				<input
 					type="file"
 					bind:this={fileInput}
 					onchange={showLogoPreview}
-					name="avatar"
-					id="avatar"
+					name="project_image"
+					id="project_image"
 					accept=".jpeg,.jpg,.png"
 					class="sr-only"
 					hidden
 				/>
 				<div class="flex items-center justify-between">
 					<img
-						src={editingUserProfileImage ? userProfile?.avatar_url || 'https://developers.elementor.com/docs/assets/img/elementor-placeholder-image.png' : 'https://developers.elementor.com/docs/assets/img/elementor-placeholder-image.png'}
+						src={editinguserProjectsImage ? userProjects?.project_image_url || 'https://developers.elementor.com/docs/assets/img/elementor-placeholder-image.png' : 'https://developers.elementor.com/docs/assets/img/elementor-placeholder-image.png'}
 						bind:this={previewInput}
 						loading="eager"
-						alt="User avatar preview"
+						alt="User project_image preview"
 						width="245"
 						height="164"
 						class="mr-2 h-41 rounded-lg object-cover"
@@ -365,61 +288,12 @@
 				</div>
 			</div>
 			<div>
-				<label for="name" class="sr-only">Name</label>
-				<input type="text" name="name" id="name" placeholder="Name" class="w-full rounded-md" />
+				<label for="title" class="sr-only">Project title</label>
+				<input type="text" name="title" id="title" placeholder="Title" class="w-full rounded-md" />
 			</div>
 			<div>
-				<label for="email" class="sr-only">Email</label>
-				<input type="email" name="email" id="email" placeholder="Email" class="w-full rounded-md" />
-			</div>
-			<div>
-				<label for="phone" class="sr-only">Phone</label>
-				<input
-					type="text"
-					name="phone"
-					id="phone"
-					placeholder="Phone"
-					maxlength="12"
-					class="w-full rounded-md"
-				/>
-			</div>
-			<div>
-				<label for="role" class="sr-only">Job Role</label>
-				<input type="text" name="role" id="role" placeholder="role" class="w-full rounded-md" />
-			</div>
-			<div>
-				<label for="address" class="sr-only">Address</label>
-				<input
-					type="text"
-					name="address"
-					id="address"
-					placeholder="address"
-					class="w-full rounded-md"
-				/>
-			</div>
-
-			<div>
-				<label for="slug" class="sr-only">URL</label>
-				<div>
-					<div
-						class="flex items-center overflow-hidden rounded-md pl-3 outline-1 -outline-offset-1 focus-within:outline-2 focus-within:-outline-offset-2 focus-within:outline-indigo-600"
-					>
-						<div class="shrink-0 text-gray-500 select-none">mixfolio.com/</div>
-						<input
-							type="text"
-							name="slug"
-							id="slug"
-							class="focus:border-l-none block min-w-0 grow rounded-tr-md rounded-br-md border-l-0 pl-0 placeholder:!text-gray-400 focus:ring-0"
-							placeholder="erin-martin"
-						/>
-					</div>
-				</div>
-			</div>
-
-			<div>
-				<label for="bio" class="sr-only">Bio</label>
-				<textarea name="bio" id="bio" rows="3" placeholder="About me..." class="w-full rounded-md"
-				></textarea>
+				<label for="description" class="sr-only">Project description</label>
+				<input type="text" name="description" id="description" placeholder="Description" class="w-full rounded-md" />
 			</div>
 			<div class="flex justify-end">
 				<button type="submit" class="cursor-pointer rounded-md border border-gray-900 px-2 py-1"
