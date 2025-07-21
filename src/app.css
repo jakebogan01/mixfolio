@@ -3,7 +3,8 @@
 @plugin '@tailwindcss/typography';
 
 @theme {
-	--font-sans: InterVariable, sans-serif;
+	--font-sans: Inter, sans-serif;
+	--font-sans--font-feature-settings: 'cv11';
 
 	--animate-outterLogoRing: outterLogoRing 0.5s ease-in-out 0.4s;
 	--animate-innerLogoRing: innerLogoRing 0.5s ease-in-out 0.2s;
@@ -41,4 +42,10 @@
 			fill: #a140ff;
 		}
 	}
+}
+
+input[type='search']::-webkit-search-cancel-button {
+	cursor: pointer;
+	background-color: #000000;
+	filter: grayscale(1);
 }

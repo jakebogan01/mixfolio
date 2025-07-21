@@ -1,10 +1,20 @@
-<a title="Home" href="/" class="group" aria-label="Go to home page">
-	<svg width="128.802" height="34" viewBox="0 0 128.802 34" class="h-9 overflow-visible">
+<script>
+	let { class: className, disableAnimations = false, disableLink = () => {} } = $props();
+</script>
+
+<a
+	title="Home"
+	href="/"
+	class="group {className}"
+	aria-label="Go to home page"
+	onclick={disableLink}
+>
+	<svg width="128.802" height="34" viewBox="0 0 128.802 34" class="h-9 w-full overflow-visible">
 		<g
 			opacity="1"
 			transform-origin="17.000499725341797px 17.000499725341797px"
 			style="transform: none; transform-origin: 17.0005px 17.0005px;"
-			class="group-hover:animate-logoCircle animate-none"
+			class="animate-none {disableAnimations ? '' : 'group-hover:animate-logoCircle'}"
 		>
 			<path
 				d="M19.5986 18.5005C18.7702 19.9354 16.9354 20.427 15.5005 19.5986C14.0656 18.7701 13.574 16.9354 14.4024 15.5005C15.2309 14.0656 17.0656 13.574 18.5005 14.4024C19.9354 15.2308 20.427 17.0656 19.5986 18.5005Z"
@@ -14,7 +24,7 @@
 			opacity="1"
 			transform-origin="17px 17.00035572052002px"
 			style="transform: none; transform-origin: 17px 17.0004px;"
-			class="group-hover:animate-innerLogoRing animate-none"
+			class="animate-none {disableAnimations ? '' : 'group-hover:animate-innerLogoRing'}"
 		>
 			<path
 				d="M23.2324 10.2074C22.6801 11.1639 21.4569 11.4917 20.5003 10.9394C19.5437 10.3871 19.216 9.16395 19.7683 8.20736C20.3205 7.25078 21.5437 6.92303 22.5003 7.47531C23.4569 8.0276 23.7846 9.25078 23.2324 10.2074Z"
@@ -39,7 +49,7 @@
 			opacity="1"
 			transform-origin="17px 17px"
 			style="transform: none; transform-origin: 17px 17px;"
-			class="group-hover:animate-outterLogoRing animate-none"
+			class="animate-none {disableAnimations ? '' : 'group-hover:animate-outterLogoRing'}"
 		>
 			<path
 				d="M25.8662 3.6447C25.5901 4.12299 24.9785 4.28686 24.5002 4.01072C24.0219 3.73458 23.858 3.12299 24.1342 2.6447C24.4103 2.1664 25.0219 2.00253 25.5002 2.27867C25.9785 2.55481 26.1424 3.1664 25.8662 3.6447Z"

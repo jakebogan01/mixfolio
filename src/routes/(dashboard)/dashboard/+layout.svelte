@@ -1,0 +1,38 @@
+<script>
+	import Nav from '$lib/components/dashboard/home/Nav.svelte';
+	import Search from '$lib/components/dashboard/home/Search.svelte';
+
+	let { children } = $props();
+	let menuOpen = $state(false);
+	let scrolled = $state(false);
+
+	$effect(() => {
+		const handleScroll = () => {
+			const isScrolled = window.scrollY > 50;
+			if (scrolled !== isScrolled) {
+				scrolled = isScrolled;
+			}
+		};
+
+		handleScroll();
+		window.addEventListener('scroll', handleScroll);
+		return () => window.removeEventListener('scroll', handleScroll);
+	});
+
+	const toggleMenu = () => (menuOpen = !menuOpen);
+</script>
+
+<div class="relative min-h-screen bg-gray-100 font-sans">
+	<div class="absolute h-screen w-full max-w-7xl overflow-x-hidden">
+		<div
+			class="absolute -top-44 left-60 h-60 w-xl -rotate-10 rounded-full bg-linear-115 from-yellow-100 from-28% via-pink-400 via-70% to-purple-500 blur-3xl md:right-0"
+		></div>
+	</div>
+	<Nav {menuOpen} {toggleMenu} />
+	<div class="p-4 xl:ml-80">
+		<Search {menuOpen} {scrolled} {toggleMenu} />
+		<main class="mt-12">
+			{@render children()}
+		</main>
+	</div>
+</div>
