@@ -2,8 +2,14 @@
 	let { class: className, disableAnimations = false, disableLink = () => {} } = $props();
 </script>
 
-<a title="Home" href="/" class="group {className}" aria-label="Go to home page" onclick={disableLink}>
-	<svg width="128.802" height="34" viewBox="0 0 128.802 34" class="h-9 overflow-visible w-full">
+<a
+	title="Home"
+	href="/"
+	class="group {className}"
+	aria-label="Go to home page"
+	onclick={disableLink}
+>
+	<svg width="128.802" height="34" viewBox="0 0 128.802 34" class="h-9 w-full overflow-visible">
 		<g
 			opacity="1"
 			transform-origin="17.000499725341797px 17.000499725341797px"
