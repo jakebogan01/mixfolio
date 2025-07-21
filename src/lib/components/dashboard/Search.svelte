@@ -1,5 +1,4 @@
 <script>
-	import { page } from '$app/state';
 	import { DASHBOARD } from '$lib/utils/constants.js';
 	import Icon from '$lib/components/Icon.svelte';
 
