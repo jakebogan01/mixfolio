@@ -1,4 +1,11 @@
-import { DASHBOARD } from '$lib/utils/constants.js';
+import {
+	CLIENTS,
+	DASHBOARD,
+	PROFILE,
+	PROJECTS,
+	TESTIMONIALS,
+	THEMES
+} from '$lib/utils/constants.js';
 
 export const navLinks = [
 	{
@@ -9,31 +16,31 @@ export const navLinks = [
 	},
 	{
 		id: 2,
-		link: DASHBOARD,
+		link: PROFILE,
 		text: 'Profile',
 		icon: 'profile'
 	},
 	{
 		id: 3,
-		link: DASHBOARD,
+		link: PROJECTS,
 		text: 'Projects',
 		icon: 'projects'
 	},
 	{
 		id: 4,
-		link: DASHBOARD,
+		link: TESTIMONIALS,
 		text: 'Testimonials',
 		icon: 'testimonials'
 	},
 	{
 		id: 5,
-		link: DASHBOARD,
+		link: CLIENTS,
 		text: 'Clients',
 		icon: 'clients'
 	},
 	{
 		id: 6,
-		link: DASHBOARD,
+		link: THEMES,
 		text: 'Themes',
 		icon: 'themes'
 	}

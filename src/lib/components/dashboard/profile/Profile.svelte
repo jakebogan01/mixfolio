@@ -13,15 +13,16 @@
 	let showPreviewImage = $state(true);
 	let userProfile = $derived(data?.record || {});
 
-		const schema = z.object({
-			avatar: z
-				.instanceof(File)
-				.optional()
-				.refine((file) => !file || file.size < 52_428_800, {
-					message: 'File cannot exceed 50 MB'
-				})
-				.refine((file) => !file || ['image/jpeg', 'image/jpg', 'image/png'].includes(file.type), {
-					message: 'Only .jpeg, .jpg, or .png files are allowed'}),
+	const schema = z.object({
+		avatar: z
+			.instanceof(File)
+			.optional()
+			.refine((file) => !file || file.size < 52_428_800, {
+				message: 'File cannot exceed 50 MB'
+			})
+			.refine((file) => !file || ['image/jpeg', 'image/jpg', 'image/png'].includes(file.type), {
+				message: 'Only .jpeg, .jpg, or .png files are allowed'
+			}),
 		name: z.string().min(1, 'The name field cannot be empty').trim(),
 		phone: z.string().min(1, 'The phone field cannot be empty').trim(),
 		email: z.string().email({ message: 'Please enter a valid email address' }),
@@ -327,7 +328,10 @@
 				/>
 				<div class="flex items-center justify-between">
 					<img
-						src={editingUserProfileImage ? userProfile?.avatar_url || 'https://developers.elementor.com/docs/assets/img/elementor-placeholder-image.png' : 'https://developers.elementor.com/docs/assets/img/elementor-placeholder-image.png'}
+						src={editingUserProfileImage
+							? userProfile?.avatar_url ||
+								'https://developers.elementor.com/docs/assets/img/elementor-placeholder-image.png'
+							: 'https://developers.elementor.com/docs/assets/img/elementor-placeholder-image.png'}
 						bind:this={previewInput}
 						loading="eager"
 						alt="User avatar preview"

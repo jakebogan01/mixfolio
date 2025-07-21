@@ -1,8 +1,8 @@
 <script>
-	import Nav from '$lib/components/dashboard/home/Nav.svelte';
-	import Search from '$lib/components/dashboard/home/Search.svelte';
+	import Nav from '$lib/components/dashboard/Nav.svelte';
+	import Search from '$lib/components/dashboard/Search.svelte';
 
-	let { children } = $props();
+	let { children, data } = $props();
 	let menuOpen = $state(false);
 	let scrolled = $state(false);
 
@@ -28,8 +28,8 @@
 			class="absolute -top-44 left-60 h-60 w-xl -rotate-10 rounded-full bg-linear-115 from-yellow-100 from-28% via-pink-400 via-70% to-purple-500 blur-3xl md:right-0"
 		></div>
 	</div>
-	<Nav {menuOpen} {toggleMenu} />
-	<div class="p-4 xl:ml-80">
+	<Nav {menuOpen} {toggleMenu} slug={data.slug.slug} />
+	<div class="ml-0 p-4 transition-[margin] duration-200 ease-linear xl:ml-80">
 		<Search {menuOpen} {scrolled} {toggleMenu} />
 		<main class="mt-12">
 			{@render children()}

@@ -1,5 +1,6 @@
 <script>
 	import { page } from '$app/state';
+	import { DASHBOARD } from '$lib/utils/constants.js';
 	import Icon from '$lib/components/Icon.svelte';
 
 	let { menuOpen, scrolled, toggleMenu = () => {} } = $props();
@@ -11,26 +12,25 @@
 		: 'border-gray-300 xl:border-transparent xl:bg-transparent xl:shadow-transparent'}"
 >
 	<div class="flex flex-col-reverse justify-between gap-6 md:flex-row md:items-center">
-		<div>
-			<nav aria-label="breadcrumb" class="w-max">
-				<ul class="mt-1 flex w-full flex-wrap items-center rounded-md bg-transparent p-0">
-					<li class="flex cursor-pointer items-center text-sm leading-normal font-normal">
-						<a href={`/${page.route.id.split('/').filter(Boolean).pop()}`}>
-							<p
-								class="block text-sm leading-normal font-medium capitalize opacity-50 sm:hover:text-violet-500 sm:hover:opacity-100"
-							>
-								{page.route.id.split('/').filter(Boolean).pop()}
-							</p>
+		<div aria-label="Breadcrumb" class="flex">
+			<ol role="list" class="flex items-center space-x-4">
+				<li>
+					<div>
+						<a href={DASHBOARD} class="text-slate-500 sm:transition-colors sm:hover:text-gray-500">
+							<Icon name="home" class="size-5 shrink-0" stroke="none" />
+							<span class="sr-only">Home</span>
 						</a>
-						<span class="mx-2">/</span>
-					</li>
-					<li>
-						<p class="block text-sm leading-normal font-normal">Home</p>
-					</li>
-				</ul>
-			</nav>
-			<h6 class="block leading-relaxed font-semibold tracking-normal">Home</h6>
+					</div>
+				</li>
+				<li>
+					<div class="flex items-center text-gray-500">
+						<Icon name="right-arrow" class="size-5 shrink-0" stroke="none" />
+						<span class="ml-4 text-sm leading-normal font-medium">Project Nero</span>
+					</div>
+				</li>
+			</ol>
 		</div>
+
 		<div class="flex items-center">
 			<div class="mr-auto md:mr-4 md:w-56">
 				<div class="relative h-10 w-full min-w-50">

@@ -1,11 +1,13 @@
 <script>
+	import { goto } from '$app/navigation';
 	import Logo from '$lib/components/Logo.svelte';
 	import { handleToggleMenuFactory } from '$lib/utils/menuHandlers.js';
 	import { navLinks } from '$lib/data/dashboard/navLinks.js';
+	import { PORTFOLIO, SETTINGS, LOGOUT } from '$lib/utils/constants.js';
 	import { page } from '$app/state';
 	import Icon from '$lib/components/Icon.svelte';
 
-	let { menuOpen, toggleMenu = () => {} } = $props();
+	let { menuOpen, toggleMenu = () => {}, slug } = $props();
 	let smallMenuOpen = $state(false);
 	const handleToggleMenu = handleToggleMenuFactory(
 		() => smallMenuOpen,
@@ -58,7 +60,7 @@
 							<a
 								id="menu-item-0"
 								role="menuitem"
-								href="/"
+								href="{PORTFOLIO}{slug}"
 								tabindex="-1"
 								class="group group flex items-center space-x-2 rounded-lg px-3 py-1.5 text-sm text-white sm:hover:bg-blue-500"
 							>
@@ -72,7 +74,7 @@
 							<a
 								id="menu-item-1"
 								role="menuitem"
-								href="/"
+								href={SETTINGS}
 								tabindex="-1"
 								class="group group flex items-center space-x-2 rounded-lg px-3 py-1.5 text-sm text-white sm:hover:bg-blue-500"
 							>
@@ -86,12 +88,11 @@
 						</div>
 						<div class="mx-3.5 my-1 h-px border-0 bg-white/10 sm:mx-3" role="separator"></div>
 						<div role="none">
-							<a
-								id="menu-item-2"
+							<button
+								type="button"
 								role="menuitem"
-								href="/"
-								tabindex="-1"
-								class="group group flex items-center space-x-2 rounded-lg px-3 py-1.5 text-sm text-white sm:hover:bg-blue-500"
+								onclick={() => goto(LOGOUT)}
+								class="group group flex w-full cursor-pointer items-center space-x-2 rounded-lg px-3 py-1.5 text-sm text-white sm:hover:bg-blue-500"
 							>
 								<Icon
 									name="logout"
@@ -99,7 +100,7 @@
 									stroke="none"
 								/>
 								<span>Sign Out</span>
-							</a>
+							</button>
 						</div>
 					</div>
 				{/if}

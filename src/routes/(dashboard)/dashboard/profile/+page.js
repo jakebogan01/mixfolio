@@ -1,11 +1,16 @@
 export const ssr = false;
 
-export async function load({ parent, depends, params }) {
+export async function load({ parent, depends }) {
 	const { pb } = await parent();
 	depends('user_profile');
 
 	try {
-		const record = await pb.collection('user_profile').getFirstListItem(`slug="${params.slug}"`);
+		const record = await pb
+			.collection('user_profile')
+			.getFirstListItem(`user_id="${pb.authStore.record.id}"`, {
+				fields: 'id,slug,avatar,name,email,phone,address,bio'
+			});
+		if (!record) return { record: {} };
 		let avatar_url = pb.files.getURL(record, record.avatar);
 		if (avatar_url) record.avatar_url = avatar_url;
 		return { record: record || {} };
