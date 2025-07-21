@@ -8,7 +8,7 @@ export async function load({ parent, depends }) {
 		const record = await pb
 			.collection('user_profile')
 			.getFirstListItem(`user_id="${pb.authStore.record.id}"`, {
-				fields: 'id,slug,avatar,name,email,phone,address,bio'
+				fields: 'id,slug,avatar,name,email,phone,address,bio,role'
 			});
 		if (!record) return { record: {} };
 		let avatar_url = pb.files.getURL(record, record.avatar);

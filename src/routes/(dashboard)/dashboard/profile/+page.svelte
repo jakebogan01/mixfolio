@@ -1,9 +1,8 @@
 <script>
-	// import Profile from '$lib/components/dashboard/profile/Profile.svelte';
-	// let { data } = $props();
+	import Profile from '$lib/components/dashboard/profile/Profile.svelte';
+	let { data } = $props();
+	let userProfile = $derived(data?.record || {});
 </script>
-
-<!--<Profile {data} />-->
 
 <div
 	class="relative h-72 w-full overflow-hidden rounded-xl bg-[url('https://demos.creative-tim.com/material-tailwind-dashboard-react/img/background-image.png')] bg-cover bg-center"
@@ -17,15 +16,17 @@
 		<div class="mb-10 flex flex-wrap items-center justify-between gap-6">
 			<div class="flex items-center gap-6">
 				<img
-					src="https://demos.creative-tim.com/material-tailwind-dashboard-react/img/bruce-mars.jpeg"
+					src={userProfile?.avatar_url
+						? userProfile?.avatar_url
+						: 'https://demos.creative-tim.com/material-tailwind-dashboard-react/img/bruce-mars.jpeg'}
 					alt="bruce-mars"
 					class=" relative inline-block h-[74px] w-[74px] rounded-lg object-cover object-center shadow-lg"
 				/>
 				<div>
 					<h5 class=" mb-1 block text-xl leading-snug font-semibold tracking-normal">
-						Richard Davis
+						{userProfile?.name}
 					</h5>
-					<p class=" block text-sm leading-normal font-normal">CEO / Co-Founder</p>
+					<p class=" block text-sm leading-normal font-normal">{userProfile?.role}</p>
 				</div>
 			</div>
 		</div>
@@ -39,64 +40,54 @@
 						<p class=" mb-4 block text-xs font-semibold text-gray-500 uppercase">account</p>
 						<div class="flex flex-col gap-6">
 							<div class="inline-flex items-center">
-								<div class="relative inline-block h-4 w-8 cursor-pointer rounded-full">
-									<input
-										id="Email me when someone follows me"
-										type="checkbox"
-										class="peer absolute h-4 w-8 cursor-pointer appearance-none rounded-full transition-colors duration-300 peer-checked:border-gray-900 before:absolute before:h-full before:w-full before:rounded-full before:bg-blue-500 before:content-[''] peer-checked:before:bg-red-500 checked:bg-gray-900"
-										checked=""
-									/><label
-										for="Email me when someone follows me"
-										class="before:content[''] absolute top-2/4 -left-1 h-5 w-5 -translate-y-2/4 cursor-pointer rounded-full border border-gray-900 bg-white shadow-md transition-all duration-300 peer-checked:translate-x-full peer-checked:border-gray-900 before:absolute before:top-2/4 before:left-2/4 before:block before:h-10 before:w-10 before:-translate-x-2/4 before:-translate-y-2/4 before:rounded-full before:bg-white before:opacity-0 before:transition-opacity peer-checked:before:bg-gray-900 hover:before:opacity-10"
-										><span
-											class="top-2/4 left-2/4 inline-block -translate-x-2/4 -translate-y-2/4 rounded-full p-5"
-										></span></label
-									>
-								</div>
+								<label class="relative inline-flex h-5 w-10 cursor-pointer items-center">
+									<input type="checkbox" class="peer sr-only" />
+									<span
+										class="absolute h-4 w-9 rounded-full bg-gray-300 transition-colors duration-200 ease-in-out peer-checked:bg-gray-900"
+									></span>
+									<span
+										class="absolute left-0 size-5 rounded-full border border-gray-300 bg-white shadow transition-transform duration-200 ease-in-out peer-checked:translate-x-5"
+									></span>
+								</label>
 								<label
 									class=" mt-px mb-0 ml-3 cursor-pointer text-sm font-normal select-none"
-									for="Email me when someone follows me">Email me when someone follows me</label
-								>
+									for="Email me when someone follows me"
+									>Email me when someone follows me
+								</label>
 							</div>
 							<div class="inline-flex items-center">
-								<div class="relative inline-block h-4 w-8 cursor-pointer rounded-full">
-									<input
-										id="Email me when someone answers on my post"
-										type="checkbox"
-										class="peer absolute h-4 w-8 cursor-pointer appearance-none rounded-full transition-colors duration-300 peer-checked:border-gray-900 peer-checked:before:bg-gray-900 checked:bg-gray-900"
-									/><label
-										for="Email me when someone answers on my post"
-										class=" before:content[''] absolute top-2/4 -left-1 h-5 w-5 -translate-y-2/4 cursor-pointer rounded-full border bg-white shadow-md transition-all duration-300 peer-checked:translate-x-full peer-checked:border-gray-900 before:absolute before:top-2/4 before:left-2/4 before:block before:h-10 before:w-10 before:-translate-x-2/4 before:-translate-y-2/4 before:rounded-full before:opacity-0 before:transition-opacity peer-checked:before:bg-gray-900 hover:before:opacity-10"
-										><div
-											class="top-2/4 left-2/4 inline-block -translate-x-2/4 -translate-y-2/4 rounded-full p-5"
-										></div></label
-									>
-								</div>
+								<label class="relative inline-flex h-5 w-10 cursor-pointer items-center">
+									<input type="checkbox" class="peer sr-only" />
+									<span
+										class="absolute h-4 w-9 rounded-full bg-gray-300 transition-colors duration-200 ease-in-out peer-checked:bg-gray-900"
+									></span>
+									<span
+										class="absolute left-0 size-5 rounded-full border border-gray-300 bg-white shadow transition-transform duration-200 ease-in-out peer-checked:translate-x-5"
+									></span>
+								</label>
 								<label
 									class=" mt-px mb-0 ml-3 cursor-pointer text-sm font-normal select-none"
 									for="Email me when someone answers on my post"
-									>Email me when someone answers on my post</label
 								>
+									Email me when someone answers on my post
+								</label>
 							</div>
 							<div class="inline-flex items-center">
-								<div class="relative inline-block h-4 w-8 cursor-pointer rounded-full">
-									<input
-										id="Email me when someone mentions me"
-										type="checkbox"
-										class="peer absolute h-4 w-8 cursor-pointer appearance-none rounded-full transition-colors duration-300 peer-checked:border-gray-900 peer-checked:before:bg-gray-900 checked:bg-gray-900"
-										checked=""
-									/><label
-										for="Email me when someone mentions me"
-										class=" before:content[''] absolute top-2/4 -left-1 h-5 w-5 -translate-y-2/4 cursor-pointer rounded-full border bg-white shadow-md transition-all duration-300 peer-checked:translate-x-full peer-checked:border-gray-900 before:absolute before:top-2/4 before:left-2/4 before:block before:h-10 before:w-10 before:-translate-x-2/4 before:-translate-y-2/4 before:rounded-full before:opacity-0 before:transition-opacity peer-checked:before:bg-gray-900 hover:before:opacity-10"
-										><span
-											class="top-2/4 left-2/4 inline-block -translate-x-2/4 -translate-y-2/4 rounded-full p-5"
-										></span></label
-									>
-								</div>
+								<label class="relative inline-flex h-5 w-10 cursor-pointer items-center">
+									<input type="checkbox" class="peer sr-only" checked />
+									<span
+										class="absolute h-4 w-9 rounded-full bg-gray-300 transition-colors duration-200 ease-in-out peer-checked:bg-gray-900"
+									></span>
+									<span
+										class="absolute left-0 size-5 rounded-full border border-gray-300 bg-white shadow transition-transform duration-200 ease-in-out peer-checked:translate-x-5"
+									></span>
+								</label>
 								<label
 									class=" mt-px mb-0 ml-3 cursor-pointer text-sm font-normal select-none"
-									for="Email me when someone mentions me">Email me when someone mentions me</label
+									for="Email me when someone mentions me"
 								>
+									Email me when someone mentions me
+								</label>
 							</div>
 						</div>
 					</div>
@@ -104,62 +95,55 @@
 						<p class=" mb-4 block text-xs font-semibold text-gray-500 uppercase">application</p>
 						<div class="flex flex-col gap-6">
 							<div class="inline-flex items-center">
-								<div class="relative inline-block h-4 w-8 cursor-pointer rounded-full">
-									<input
-										id="New launches and projects"
-										type="checkbox"
-										class="peer absolute h-4 w-8 cursor-pointer appearance-none rounded-full transition-colors duration-300 peer-checked:border-gray-900 peer-checked:before:bg-gray-900 checked:bg-gray-900"
-									/><label
-										for="New launches and projects"
-										class=" before:content[''] absolute top-2/4 -left-1 h-5 w-5 -translate-y-2/4 cursor-pointer rounded-full border bg-white shadow-md transition-all duration-300 peer-checked:translate-x-full peer-checked:border-gray-900 before:absolute before:top-2/4 before:left-2/4 before:block before:h-10 before:w-10 before:-translate-x-2/4 before:-translate-y-2/4 before:rounded-full before:opacity-0 before:transition-opacity peer-checked:before:bg-gray-900 hover:before:opacity-10"
-										><div
-											class="top-2/4 left-2/4 inline-block -translate-x-2/4 -translate-y-2/4 rounded-full p-5"
-										></div></label
-									>
-								</div>
+								<label class="relative inline-flex h-5 w-10 cursor-pointer items-center">
+									<input type="checkbox" class="peer sr-only" />
+									<span
+										class="absolute h-4 w-9 rounded-full bg-gray-300 transition-colors duration-200 ease-in-out peer-checked:bg-gray-900"
+									></span>
+									<span
+										class="absolute left-0 size-5 rounded-full border border-gray-300 bg-white shadow transition-transform duration-200 ease-in-out peer-checked:translate-x-5"
+									></span>
+								</label>
 								<label
 									class=" mt-px mb-0 ml-3 cursor-pointer text-sm font-normal select-none"
-									for="New launches and projects">New launches and projects</label
+									for="New launches and projects"
 								>
+									New launches and projects
+								</label>
 							</div>
 							<div class="inline-flex items-center">
-								<div class="relative inline-block h-4 w-8 cursor-pointer rounded-full">
-									<input
-										id="Monthly product updates"
-										type="checkbox"
-										class="peer absolute h-4 w-8 cursor-pointer appearance-none rounded-full transition-colors duration-300 peer-checked:border-gray-900 peer-checked:before:bg-gray-900 checked:bg-gray-900"
-										checked=""
-									/><label
-										for="Monthly product updates"
-										class=" before:content[''] absolute top-2/4 -left-1 h-5 w-5 -translate-y-2/4 cursor-pointer rounded-full border bg-white shadow-md transition-all duration-300 peer-checked:translate-x-full peer-checked:border-gray-900 before:absolute before:top-2/4 before:left-2/4 before:block before:h-10 before:w-10 before:-translate-x-2/4 before:-translate-y-2/4 before:rounded-full before:opacity-0 before:transition-opacity peer-checked:before:bg-gray-900 hover:before:opacity-10"
-										><div
-											class="top-2/4 left-2/4 inline-block -translate-x-2/4 -translate-y-2/4 rounded-full p-5"
-										></div></label
-									>
-								</div>
+								<label class="relative inline-flex h-5 w-10 cursor-pointer items-center">
+									<input type="checkbox" class="peer sr-only" checked />
+									<span
+										class="absolute h-4 w-9 rounded-full bg-gray-300 transition-colors duration-200 ease-in-out peer-checked:bg-gray-900"
+									></span>
+									<span
+										class="absolute left-0 size-5 rounded-full border border-gray-300 bg-white shadow transition-transform duration-200 ease-in-out peer-checked:translate-x-5"
+									></span>
+								</label>
 								<label
 									class=" mt-px mb-0 ml-3 cursor-pointer text-sm font-normal select-none"
-									for="Monthly product updates">Monthly product updates</label
+									for="Monthly product updates"
 								>
+									Monthly product updates
+								</label>
 							</div>
 							<div class="inline-flex items-center">
-								<div class="relative inline-block h-4 w-8 cursor-pointer rounded-full">
-									<input
-										id="Subscribe to newsletter"
-										type="checkbox"
-										class="peer absolute h-4 w-8 cursor-pointer appearance-none rounded-full transition-colors duration-300 peer-checked:border-gray-900 peer-checked:before:bg-gray-900 checked:bg-gray-900"
-									/><label
-										for="Subscribe to newsletter"
-										class=" before:content[''] absolute top-2/4 -left-1 h-5 w-5 -translate-y-2/4 cursor-pointer rounded-full border bg-white shadow-md transition-all duration-300 peer-checked:translate-x-full peer-checked:border-gray-900 before:absolute before:top-2/4 before:left-2/4 before:block before:h-10 before:w-10 before:-translate-x-2/4 before:-translate-y-2/4 before:rounded-full before:opacity-0 before:transition-opacity peer-checked:before:bg-gray-900 hover:before:opacity-10"
-										><div
-											class="top-2/4 left-2/4 inline-block -translate-x-2/4 -translate-y-2/4 rounded-full p-5"
-										></div></label
-									>
-								</div>
+								<label class="relative inline-flex h-5 w-10 cursor-pointer items-center">
+									<input type="checkbox" class="peer sr-only" />
+									<span
+										class="absolute h-4 w-9 rounded-full bg-gray-300 transition-colors duration-200 ease-in-out peer-checked:bg-gray-900"
+									></span>
+									<span
+										class="absolute left-0 size-5 rounded-full border border-gray-300 bg-white shadow transition-transform duration-200 ease-in-out peer-checked:translate-x-5"
+									></span>
+								</label>
 								<label
 									class=" mt-px mb-0 ml-3 cursor-pointer text-sm font-normal select-none"
-									for="Subscribe to newsletter">Subscribe to newsletter</label
+									for="Subscribe to newsletter"
 								>
+									Subscribe to newsletter
+								</label>
 							</div>
 						</div>
 					</div>
@@ -187,34 +171,30 @@
 				</div>
 				<div class="p-0">
 					<p class=" block text-sm leading-normal font-normal">
-						Hi, I'm Alec Thompson, Decisions: If you can't decide, the answer is no. If two equally
-						difficult paths, choose the one more painful in the short term (pain avoidance is
-						creating an illusion of equality).
+						{userProfile?.bio}
 					</p>
-					<hr class=" my-8" />
+					<hr class="my-8 border-gray-300" />
 					<ul class="flex flex-col gap-4 p-0">
 						<li class="flex items-center gap-4">
-							<p class=" block text-sm leading-normal font-semibold capitalize">first name:</p>
-							<p class=" block text-sm leading-normal font-normal">Alec M. Thompson</p>
+							<p class=" block text-sm leading-normal font-semibold capitalize">Name:</p>
+							<p class=" block text-sm leading-normal font-normal">{userProfile?.name}</p>
 						</li>
 						<li class="flex items-center gap-4">
 							<p class=" block text-sm leading-normal font-semibold capitalize">mobile:</p>
-							<p class=" block text-sm leading-normal font-normal">(44) 123 1234 123</p>
+							<p class=" block text-sm leading-normal font-normal">{userProfile?.phone}</p>
 						</li>
 						<li class="flex items-center gap-4">
 							<p class=" block text-sm leading-normal font-semibold capitalize">email:</p>
-							<p class=" block text-sm leading-normal font-normal">alecthompson@mail.com</p>
+							<p class=" block text-sm leading-normal font-normal">{userProfile?.email}</p>
 						</li>
 						<li class="flex items-center gap-4">
 							<p class=" block text-sm leading-normal font-semibold capitalize">location:</p>
-							<p class=" block text-sm leading-normal font-normal">USA</p>
+							<p class=" block text-sm leading-normal font-normal">{userProfile?.address}</p>
 						</li>
 						<li class="flex items-center gap-4">
 							<p class=" block text-sm leading-normal font-semibold capitalize">social:</p>
 							<div class="flex items-center gap-4">
-								<i class="fa-brands fa-facebook text-blue-700"></i><i
-									class="fa-brands fa-twitter text-blue-400"
-								></i><i class="fa-brands fa-instagram text-purple-500"></i>
+								<!--Social icons go here-->
 							</div>
 						</li>
 					</ul>
@@ -225,7 +205,7 @@
 					Platform Settings
 				</h6>
 				<ul class="flex flex-col gap-6">
-					<div class="flex items-center justify-between gap-4">
+					<li class="flex items-center justify-between gap-4">
 						<div class="flex items-center gap-4">
 							<img
 								src="https://demos.creative-tim.com/material-tailwind-dashboard-react/img/team-1.jpeg"
@@ -241,8 +221,8 @@
 							class="rounded-lg px-4 py-2 text-center align-middle text-xs font-bold text-gray-900 uppercase transition-all select-none hover:bg-gray-900/10 active:bg-gray-900/20 disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none"
 							type="button">reply</button
 						>
-					</div>
-					<div class="flex items-center justify-between gap-4">
+					</li>
+					<li class="flex items-center justify-between gap-4">
 						<div class="flex items-center gap-4">
 							<img
 								src="https://demos.creative-tim.com/material-tailwind-dashboard-react/img/team-1.jpeg"
@@ -258,8 +238,8 @@
 							class="rounded-lg px-4 py-2 text-center align-middle text-xs font-bold text-gray-900 uppercase transition-all select-none hover:bg-gray-900/10 active:bg-gray-900/20 disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none"
 							type="button">reply</button
 						>
-					</div>
-					<div class="flex items-center justify-between gap-4">
+					</li>
+					<li class="flex items-center justify-between gap-4">
 						<div class="flex items-center gap-4">
 							<img
 								src="https://demos.creative-tim.com/material-tailwind-dashboard-react/img/team-1.jpeg"
@@ -275,8 +255,8 @@
 							class="rounded-lg px-4 py-2 text-center align-middle text-xs font-bold text-gray-900 uppercase transition-all select-none hover:bg-gray-900/10 active:bg-gray-900/20 disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none"
 							type="button">reply</button
 						>
-					</div>
-					<div class="flex items-center justify-between gap-4">
+					</li>
+					<li class="flex items-center justify-between gap-4">
 						<div class="flex items-center gap-4">
 							<img
 								src="https://demos.creative-tim.com/material-tailwind-dashboard-react/img/team-1.jpeg"
@@ -292,8 +272,8 @@
 							class="rounded-lg px-4 py-2 text-center align-middle text-xs font-bold text-gray-900 uppercase transition-all select-none hover:bg-gray-900/10 active:bg-gray-900/20 disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none"
 							type="button">reply</button
 						>
-					</div>
-					<div class="flex items-center justify-between gap-4">
+					</li>
+					<li class="flex items-center justify-between gap-4">
 						<div class="flex items-center gap-4">
 							<img
 								src="https://demos.creative-tim.com/material-tailwind-dashboard-react/img/team-1.jpeg"
@@ -309,9 +289,11 @@
 							class="rounded-lg px-4 py-2 text-center align-middle text-xs font-bold text-gray-900 uppercase transition-all select-none hover:bg-gray-900/10 active:bg-gray-900/20 disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none"
 							type="button">reply</button
 						>
-					</div>
+					</li>
 				</ul>
 			</div>
 		</div>
 	</div>
 </div>
+
+<Profile {data} />
