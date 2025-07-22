@@ -10,9 +10,11 @@
 	let menuOpen = $state(false);
 	let scrolled = $state(false);
 
-	$effect(() => {
+	onMount(() => {
 		if (page?.state?.message) toastMessage(page.state.type, page.state.message);
+	});
 
+	$effect(() => {
 		const handleScroll = () => {
 			const isScrolled = window.scrollY > 50;
 			if (scrolled !== isScrolled) {

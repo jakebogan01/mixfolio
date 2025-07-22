@@ -46,9 +46,9 @@
 		onSubmit: async (values) => {
 			try {
 				if (register) {
-					const record = await pb.collection('users').create(values);
-					if (!record) console.error('❌ Unable to register user:', record);
+					const newUser = await pb.collection('users').create(values);
 					await pb.collection('users').authWithPassword(values.email, values.password);
+					await pb.collection('profiles').create({ user_id: newUser.id });
 					user.model = pb;
 					await goto(DASHBOARD, { state: { type: 'success', message: 'Successfully registered' } });
 				} else {

@@ -1,13 +1,11 @@
-/**
- * Converts a human-readable date string (e.g., "June 14, 2023")
- * to an ISO 8601 date string in YYYY-MM-DD format.
- *
- * @param dateString - A human-readable date string
- * @returns A string in "YYYY-MM-DD" format, or an empty string if invalid
- */
 export function toISODate(dateString) {
 	try {
-		return new Date(dateString).toISOString().split('T')[0];
+		const date = new Date(dateString);
+		const month = String(date.getMonth() + 1).padStart(2, '0'); // months are 0-indexed
+		const day = String(date.getDate()).padStart(2, '0');
+		const year = date.getFullYear();
+
+		return `${month}/${day}/${year}`;
 		// eslint-disable-next-line no-unused-vars
 	} catch (e) {
 		console.error('Invalid date string passed to toISODate:', dateString);
