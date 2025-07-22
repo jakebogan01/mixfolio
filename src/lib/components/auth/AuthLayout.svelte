@@ -37,7 +37,7 @@
 				password: z.string().min(8, 'More than 8 characters').max(71, 'No more than 71 characters')
 			});
 
-	const { form, errors, data } = createForm({
+	const { form } = createForm({
 		initialValues: {
 			email: null,
 			password: null,
@@ -93,10 +93,7 @@
 				minlength="4"
 				maxlength="255"
 				aria-label="Email address"
-				class="col-start-1 row-start-1 block w-full rounded-lg border border-transparent bg-white py-1.5 pr-10 pl-3 text-base shadow-sm outline-1 -outline-offset-1 focus:outline-2 focus:-outline-offset-2 sm:pr-9 sm:text-sm/6 {$errors?.email &&
-				$data?.email
-					? 'text-red-500 outline-red-500 focus:outline-red-500'
-					: 'outline-gray-300'}"
+				class="col-start-1 row-start-1 block w-full rounded-lg border border-transparent bg-white py-1.5 pr-10 pl-3 text-base shadow-sm outline-1 -outline-offset-1 outline-gray-300 focus:outline-2 focus:-outline-offset-2 sm:pr-9 sm:text-sm/6"
 			/>
 		</div>
 		<div class="mt-3 space-y-3">
@@ -114,10 +111,7 @@
 						minlength="8"
 						maxlength="71"
 						aria-label="Password"
-						class="col-start-1 row-start-1 block w-full rounded-l-lg rounded-r-none border border-transparent bg-white py-1.5 pr-10 pl-3 text-base shadow-sm outline-1 -outline-offset-1 focus:outline-2 focus:-outline-offset-2 sm:pr-9 sm:text-sm/6 {$errors?.password &&
-						$data?.password
-							? 'text-red-500 outline-red-500 focus:outline-red-500'
-							: 'outline-gray-300'}"
+						class="col-start-1 row-start-1 block w-full rounded-l-lg rounded-r-none border border-transparent bg-white py-1.5 pr-10 pl-3 text-base shadow-sm outline-1 -outline-offset-1 outline-gray-300 focus:outline-2 focus:-outline-offset-2 sm:pr-9 sm:text-sm/6"
 					/>
 				{:else}
 					<input
@@ -131,10 +125,7 @@
 						minlength="8"
 						maxlength="71"
 						aria-label="Password"
-						class="col-start-1 row-start-1 block w-full rounded-l-lg rounded-r-none border border-transparent bg-white py-1.5 pr-10 pl-3 text-base shadow-sm outline-1 -outline-offset-1 focus:outline-2 focus:-outline-offset-2 sm:pr-9 sm:text-sm/6 {$errors?.password &&
-						$data?.password
-							? 'text-red-500 outline-red-500 focus:outline-red-500'
-							: 'outline-gray-300'}"
+						class="col-start-1 row-start-1 block w-full rounded-l-lg rounded-r-none border border-transparent bg-white py-1.5 pr-10 pl-3 text-base shadow-sm outline-1 -outline-offset-1 outline-gray-300 focus:outline-2 focus:-outline-offset-2 sm:pr-9 sm:text-sm/6"
 					/>
 				{/if}
 				<button
@@ -173,10 +164,7 @@
 							minlength="8"
 							maxlength="71"
 							aria-label="Confirm Password"
-							class="col-start-1 row-start-1 block w-full rounded-l-lg rounded-r-none border border-transparent bg-white py-1.5 pr-10 pl-3 text-base shadow-sm outline-1 -outline-offset-1 focus:outline-2 focus:-outline-offset-2 sm:pr-9 sm:text-sm/6 {$errors?.passwordConfirm &&
-							$data?.passwordConfirm
-								? 'text-red-500 outline-red-500 focus:outline-red-500'
-								: 'outline-gray-300'}"
+							class="col-start-1 row-start-1 block w-full rounded-l-lg rounded-r-none border border-transparent bg-white py-1.5 pr-10 pl-3 text-base shadow-sm outline-1 -outline-offset-1 outline-gray-300 focus:outline-2 focus:-outline-offset-2 sm:pr-9 sm:text-sm/6"
 						/>
 					{:else}
 						<input
@@ -190,10 +178,7 @@
 							minlength="8"
 							maxlength="71"
 							aria-label="Confirm Password"
-							class="col-start-1 row-start-1 block w-full rounded-l-lg rounded-r-none border border-transparent bg-white py-1.5 pr-10 pl-3 text-base shadow-sm outline-1 -outline-offset-1 focus:outline-2 focus:-outline-offset-2 sm:pr-9 sm:text-sm/6 {$errors?.passwordConfirm &&
-							$data?.passwordConfirm
-								? 'text-red-500 outline-red-500 focus:outline-red-500'
-								: 'outline-gray-300'}"
+							class="col-start-1 row-start-1 block w-full rounded-l-lg rounded-r-none border border-transparent bg-white py-1.5 pr-10 pl-3 text-base shadow-sm outline-1 -outline-offset-1 outline-gray-300 focus:outline-2 focus:-outline-offset-2 sm:pr-9 sm:text-sm/6"
 						/>
 					{/if}
 					<button

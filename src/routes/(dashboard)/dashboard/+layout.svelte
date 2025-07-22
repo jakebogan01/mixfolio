@@ -1,10 +1,18 @@
 <script>
+	import { onMount } from 'svelte';
+	import { page } from '$app/state';
+	import { Toaster } from 'svelte-5-french-toast';
+	import { toastMessage } from '$lib/utils/toast.js';
 	import Nav from '$lib/components/dashboard/Nav.svelte';
 	import Search from '$lib/components/dashboard/Search.svelte';
 
 	let { children, data } = $props();
 	let menuOpen = $state(false);
 	let scrolled = $state(false);
+
+	onMount(() => {
+		if (page?.state?.message) toastMessage(page.state.type, page.state.message);
+	});
 
 	$effect(() => {
 		const handleScroll = () => {
@@ -45,3 +53,5 @@
 		</main>
 	</div>
 </div>
+
+<Toaster />
