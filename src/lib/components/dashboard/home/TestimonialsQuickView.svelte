@@ -5,10 +5,10 @@
 <div
 	class="relative flex flex-col rounded-xl border border-gray-300 bg-white bg-clip-border text-gray-700"
 >
-	{#if userProfile?.id}
+	{#if userProfile?.expand?.testimonials?.length}
 		<div class="relative m-0 overflow-hidden rounded-xl bg-transparent p-6 text-gray-700">
 			<h6 class=" mb-2 block font-sans text-base leading-relaxed font-semibold tracking-normal">
-				Testimonials
+				My Testimonials
 			</h6>
 			<p class="mt-2 text-sm text-gray-700">A list of all your testimonials.</p>
 		</div>

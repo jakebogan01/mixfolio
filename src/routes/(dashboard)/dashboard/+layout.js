@@ -38,29 +38,34 @@ export async function load({ parent, depends }) {
 					'expand.testimonials.avatar',
 				expand: 'projects, testimonials'
 			});
-		if (userProfile?.avatar) {
-			let avatar_url = pb.files.getURL(userProfile, userProfile?.avatar);
-			if (avatar_url) userProfile.avatar_url = avatar_url;
+
+		userProfile.avatar_url = userProfile.avatar
+			? pb.files.getURL(userProfile, userProfile.avatar)
+			: null;
+
+		for (const project of userProfile.expand?.projects || []) {
+			project.project_image_url = project.image ? pb.files.getURL(project, project.image) : null;
+			delete project.collectionId;
 		}
-		if (userProfile?.expand?.projects) {
-			userProfile?.expand?.projects.forEach((item) => {
-				if (item?.image) {
-					let project_image_url = pb.files.getURL(item, item.image);
-					if (project_image_url) item.project_image_url = project_image_url;
-				}
-			});
+
+		for (const testimonial of userProfile.expand?.testimonials || []) {
+			testimonial.testimonial_image_url = testimonial.avatar
+				? pb.files.getURL(testimonial, testimonial.avatar)
+				: null;
+			delete testimonial.collectionId;
 		}
-		if (userProfile?.expand?.testimonials) {
-			userProfile?.expand?.testimonials.forEach((item) => {
-				if (item?.avatar) {
-					let testimonial_image_url = pb.files.getURL(item, item.avatar);
-					if (testimonial_image_url) item.testimonial_image_url = testimonial_image_url;
-				}
-			});
-		}
+
 		delete userProfile.collectionId;
-		userProfile.expand.projects.forEach((project) => delete project.collectionId);
-		userProfile.expand.testimonials.forEach((testimonial) => delete testimonial.collectionId);
+		if (userProfile.expand?.projects?.length) {
+			userProfile.expand.projects.forEach((project) => {
+				if ('collectionId' in project) delete project.collectionId;
+			});
+		}
+		if (userProfile.expand?.testimonials?.length) {
+			userProfile.expand.testimonials.forEach((testimonial) => {
+				if ('collectionId' in testimonial) delete testimonial.collectionId;
+			});
+		}
 
 		return { userProfile: userProfile || {} };
 	} catch (error) {

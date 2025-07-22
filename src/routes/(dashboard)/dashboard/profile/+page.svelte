@@ -45,10 +45,8 @@
 						Profile Information
 					</h6>
 				</div>
-				<div class="p-0">
-					<p class=" block text-sm leading-normal font-normal">
-						{@html data?.userProfile?.biography}
-					</p>
+				<div class="p-0 text-sm leading-normal font-normal">
+					{@html data?.userProfile?.biography}
 					<hr class="my-8 border-gray-300" />
 					<ul class="flex flex-col gap-4 p-0">
 						<li class="flex items-center gap-4">

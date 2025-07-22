@@ -9,11 +9,11 @@
 <div
 	class="relative flex flex-col overflow-hidden rounded-xl border border-gray-300 bg-white bg-clip-border text-gray-700 xl:col-span-2"
 >
-	{#if userProfile?.id}
+	{#if userProfile?.expand?.projects?.length}
 		<div class="py-10">
-			<div class="px-4 text-base/7 font-semibold sm:flex sm:items-center sm:px-6 lg:px-8">
+			<div class="px-4 text-base/7 font-semibold sm:flex sm:items-start sm:px-6 lg:px-8">
 				<div class="sm:flex-auto">
-					<h1 class="text-base font-semibold text-gray-900">Projects</h1>
+					<h6 class="text-base font-semibold text-gray-900">My Projects</h6>
 					<p class="mt-2 text-sm text-gray-700">
 						A list of all the projects including their title, link, description and image.
 					</p>
@@ -26,8 +26,8 @@
 					>
 				</div>
 			</div>
-			<div class="max-h-80 overflow-y-auto">
-				<table class="mt-6 table-fixed text-left whitespace-nowrap">
+			<div class="mt-6 max-h-92 overflow-y-auto">
+				<table class="table-fixed text-left whitespace-nowrap">
 					<colgroup>
 						<col class="w-full sm:w-4/12" />
 						<col class="lg:w-4/12" />
