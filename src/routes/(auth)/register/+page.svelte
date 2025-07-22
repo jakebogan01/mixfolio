@@ -5,7 +5,7 @@
 </script>
 
 <AuthLayout
-	message="Welcome back"
+	message="Welcome"
 	title="Sign up for an account to continue."
 	btnText="Sign up"
 	register={true}

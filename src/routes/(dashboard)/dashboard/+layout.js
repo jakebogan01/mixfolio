@@ -29,6 +29,8 @@ export async function load({ parent, depends }) {
 					'expand.projects.description, ' +
 					'expand.projects.link, ' +
 					'expand.projects.image, ' +
+					'expand.projects.created, ' +
+					'expand.testimonials.collectionId, ' +
 					'expand.testimonials.id, ' +
 					'expand.testimonials.name, ' +
 					'expand.testimonials.email, ' +
@@ -48,8 +50,17 @@ export async function load({ parent, depends }) {
 				}
 			});
 		}
+		if (userProfile?.expand?.testimonials) {
+			userProfile?.expand?.testimonials.forEach((item) => {
+				if (item?.avatar) {
+					let testimonial_image_url = pb.files.getURL(item, item.avatar);
+					if (testimonial_image_url) item.testimonial_image_url = testimonial_image_url;
+				}
+			});
+		}
 		delete userProfile.collectionId;
 		userProfile.expand.projects.forEach((project) => delete project.collectionId);
+		userProfile.expand.testimonials.forEach((testimonial) => delete testimonial.collectionId);
 
 		return { userProfile: userProfile || {} };
 	} catch (error) {
