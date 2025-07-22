@@ -1,6 +1,7 @@
 <script>
 	import { DASHBOARD } from '$lib/utils/constants.js';
 	import Icon from '$lib/components/Icon.svelte';
+	import { page } from '$app/state';
 
 	let { menuOpen, scrolled, toggleMenu = () => {} } = $props();
 </script>
@@ -15,16 +16,18 @@
 			<ol role="list" class="flex items-center space-x-4">
 				<li>
 					<div>
-						<a href={DASHBOARD} class="text-slate-500 sm:transition-colors sm:hover:text-gray-500">
+						<a href={DASHBOARD} class="text-gray-900 sm:transition-colors sm:hover:text-purple-600">
 							<Icon name="home" class="size-5 shrink-0" stroke="none" />
 							<span class="sr-only">Home</span>
 						</a>
 					</div>
 				</li>
 				<li>
-					<div class="flex items-center text-gray-500">
+					<div class="flex items-center text-gray-900">
 						<Icon name="right-arrow" class="size-5 shrink-0" stroke="none" />
-						<span class="ml-4 text-sm leading-normal font-medium">Project Nero</span>
+						<span class="ml-4 text-sm leading-normal font-medium capitalize"
+							>{page.route.id.split('/').filter(Boolean).pop()}</span
+						>
 					</div>
 				</li>
 			</ol>

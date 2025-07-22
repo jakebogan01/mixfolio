@@ -3,9 +3,11 @@
 	import { quadIn, quadOut } from 'svelte/easing';
 	import { Application } from '@splinetool/runtime';
 	import { navLinks } from '$lib/data/home/navLinks.js';
-	import { LOGIN } from '$lib/utils/constants.js';
+	import { LOGIN, DASHBOARD } from '$lib/utils/constants.js';
 	import Logo from '$lib/components/Logo.svelte';
 	import Nav from '$lib/components/home/Nav.svelte';
+
+	let { currentUser } = $props();
 
 	let menuOpen = $state(false),
 		canvas;
@@ -90,7 +92,7 @@
 								<Logo />
 							</div>
 						</div>
-						<Nav />
+						<Nav {currentUser} />
 						<button
 							class="flex size-12 cursor-pointer items-center justify-center self-center rounded-lg sm:hover:bg-black/5 lg:hidden"
 							aria-label="Open main menu"
@@ -127,9 +129,15 @@
 									<a class="text-base font-medium text-gray-950" href={item.link}>{item.text}</a>
 								</div>
 							{/each}
-							<div transition:slide={{ duration: 250, easing: quadOut }}>
-								<a class="text-base font-medium text-gray-950" href={LOGIN}>Login</a>
-							</div>
+							{#if currentUser}
+								<div transition:slide={{ duration: 250, easing: quadOut }}>
+									<a class="text-base font-medium text-gray-950" href={DASHBOARD}>Dashboard</a>
+								</div>
+							{:else}
+								<div transition:slide={{ duration: 250, easing: quadOut }}>
+									<a class="text-base font-medium text-gray-950" href={LOGIN}>Login</a>
+								</div>
+							{/if}
 						</div>
 						<div class="absolute left-1/2 w-screen -translate-x-1/2">
 							<div class="absolute inset-x-0 top-0 border-t border-black/5"></div>

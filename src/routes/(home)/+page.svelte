@@ -5,6 +5,8 @@
 	import DarkBentoSection from '$lib/components/home/home_page/DarkBentoSection.svelte';
 	import Testimonials from '$lib/components/home/home_page/Testimonials.svelte';
 	import Footer from '$lib/components/home/home_page/Footer.svelte';
+
+	let { data } = $props();
 </script>
 
 <Head
@@ -14,7 +16,7 @@
 />
 
 <div class="overflow-hidden">
-	<Hero />
+	<Hero currentUser={data?.pb?.authStore?.isValid || null} />
 	<main>
 		<ContentSection />
 		<DarkBentoSection />

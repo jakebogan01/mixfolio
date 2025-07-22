@@ -1,11 +1,6 @@
 <script>
-	import Nav from '$lib/components/Nav.svelte';
-
 	let { data } = $props();
-	let { record } = $derived(data);
 </script>
-
-<Nav />
 
 <div class="mx-auto max-w-7xl px-6">
 	<div class="px-4 sm:px-0">
@@ -25,8 +20,8 @@
 					<div class="flex">
 						<img
 							class="size-24 rounded-full object-cover ring-4 ring-white sm:size-32"
-							src={record?.avatar_url
-								? record?.avatar_url
+							src={data?.userProfile?.avatar_url
+								? data?.userProfile?.avatar_url
 								: 'https://developers.elementor.com/docs/assets/img/elementor-placeholder-image.png'}
 							alt=""
 						/>
@@ -35,7 +30,7 @@
 						class="mt-6 sm:flex sm:min-w-0 sm:flex-1 sm:items-center sm:justify-end sm:space-x-6 sm:pb-1"
 					>
 						<div class="mt-6 min-w-0 flex-1 sm:hidden 2xl:block">
-							<h1 class="truncate text-2xl font-bold text-gray-900">{record?.name}</h1>
+							<h1 class="truncate text-2xl font-bold text-gray-900">{data?.userProfile?.name}</h1>
 						</div>
 						<div
 							class="mt-6 flex flex-col justify-stretch space-y-3 sm:flex-row sm:space-y-0 sm:space-x-4"
@@ -83,40 +78,40 @@
 					</div>
 				</div>
 				<div class="mt-6 hidden min-w-0 flex-1 sm:block 2xl:hidden">
-					<h1 class="truncate text-2xl font-bold text-gray-900">{record?.name}</h1>
+					<h1 class="truncate text-2xl font-bold text-gray-900">{data?.userProfile?.name}</h1>
 				</div>
 			</div>
 		</div>
 		<dl class="grid grid-cols-1 sm:grid-cols-2">
 			<div class="border-t border-gray-100 px-4 py-6 sm:col-span-1 sm:px-0">
 				<dt class="text-sm/6 font-medium text-gray-900">Full name</dt>
-				<dd class="mt-1 text-sm/6 text-gray-700 sm:mt-2">{record?.name}</dd>
+				<dd class="mt-1 text-sm/6 text-gray-700 sm:mt-2">{data?.userProfile?.name}</dd>
 			</div>
 			<div class="border-t border-gray-100 px-4 py-6 sm:col-span-1 sm:px-0">
 				<dt class="text-sm/6 font-medium text-gray-900">Phone</dt>
-				<dd class="mt-1 text-sm/6 text-gray-700 sm:mt-2">{record?.phone}</dd>
+				<dd class="mt-1 text-sm/6 text-gray-700 sm:mt-2">{data?.userProfile?.phone}</dd>
 			</div>
 			<div class="border-t border-gray-100 px-4 py-6 sm:col-span-1 sm:px-0">
 				<dt class="text-sm/6 font-medium text-gray-900">Email address</dt>
-				<dd class="mt-1 text-sm/6 text-gray-700 sm:mt-2">{record?.email}</dd>
+				<dd class="mt-1 text-sm/6 text-gray-700 sm:mt-2">{data?.userProfile?.email}</dd>
 			</div>
 			<div class="border-t border-gray-100 px-4 py-6 sm:col-span-1 sm:px-0">
 				<dt class="text-sm/6 font-medium text-gray-900">Address</dt>
-				<dd class="mt-1 text-sm/6 text-gray-700 sm:mt-2">{record?.address}</dd>
+				<dd class="mt-1 text-sm/6 text-gray-700 sm:mt-2">{data?.userProfile?.address}</dd>
 			</div>
 			<div class="border-t border-gray-100 px-4 py-6 sm:col-span-1 sm:px-0">
 				<dt class="text-sm/6 font-medium text-gray-900">Role</dt>
-				<dd class="mt-1 text-sm/6 text-gray-700 sm:mt-2">{record?.role}</dd>
+				<dd class="mt-1 text-sm/6 text-gray-700 sm:mt-2">{data?.userProfile?.role}</dd>
 			</div>
 			<div class="border-t border-gray-100 px-4 py-6 sm:col-span-1 sm:px-0">
 				<dt class="text-sm/6 font-medium text-gray-900">Slug</dt>
 				<dd class="mt-1 text-sm/6 text-gray-700 sm:mt-2">
-					mixfolio.com/{record?.slug}
+					mixfolio.com/{data?.userProfile?.slug}
 				</dd>
 			</div>
 			<div class="border-t border-gray-100 px-4 py-6 sm:col-span-2 sm:px-0">
 				<dt class="text-sm/6 font-medium text-gray-900">About</dt>
-				<dd class="mt-1 text-sm/6 text-gray-700 sm:mt-2">{record?.bio}</dd>
+				<dd class="mt-1 text-sm/6 text-gray-700 sm:mt-2">{data?.userProfile?.bio}</dd>
 			</div>
 		</dl>
 	</div>

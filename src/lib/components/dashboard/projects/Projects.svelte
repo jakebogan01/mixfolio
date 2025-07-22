@@ -7,11 +7,9 @@
 	import { invalidate } from '$app/navigation';
 
 	let { data } = $props();
-	let editinguserProjectsImage = $state(false);
 	let previewInput, fileInput;
 	let isDragging = $state(false);
 	let showPreviewImage = $state(true);
-	let userProjects = $derived(data?.record || {});
 
 	const schema = z.object({
 		project_image: z
@@ -27,27 +25,39 @@
 		description: z.string().min(1, 'The description field cannot be empty').trim()
 	});
 
-	const { form, setFields } = createForm({
+	const { form, reset } = createForm({
 		initialValues: {
-			title: '',
-			description: ''
+			title: null,
+			description: null
 		},
-		extend: [validator({ schema }), reporter()],
+		extend: [
+			validator({ schema }),
+			reporter({
+				level: 'error',
+				tippyProps: {
+					allowHTML: false
+				}
+			})
+		],
 		onSubmit: async (values) => {
-			values.user_id = data.pb.authStore.record.id;
-			values.project_image = fileInput?.files?.[0];
-
-			const user_projects = await data.pb.collection('projects').create(values);
-			const currentProjectIds = userProjects.expand.projects || []; // might be undefined
-			const updatedProjectIds = [
-				...currentProjectIds.map((p) => (typeof p === 'string' ? p : p.id)),
-				user_projects.id
-			];
-
-			const user_profile_update = await data.pb
-				.collection('user_profile')
-				.update(userProjects?.id, { projects: updatedProjectIds });
-			if (!user_profile_update) console.error('❌ Failed to create record:');
+			try {
+				values.image = fileInput?.files?.[0];
+				const user_projects = await data.pb.collection('projects').create(values);
+				if (!user_projects) console.log('❌ Failed to create record');
+				const currentProjectIds = data?.userProfile?.expand?.projects || [];
+				const updatedProjectIds = [
+					...currentProjectIds.map((p) => (typeof p === 'string' ? p : p.id)),
+					user_projects.id
+				];
+				const user_profile_update = await data.pb
+					.collection('profiles')
+					.update(data?.userProfile?.id, { projects: updatedProjectIds });
+				if (!user_profile_update) console.error('❌ Failed to create record');
+				reset();
+				await invalidate('user_profile');
+			} catch (error) {
+				console.dir(error?.message, { depth: null });
+			}
 		}
 	});
 
@@ -80,25 +90,25 @@
 		}
 	};
 
-	const deleteRecord = async () => {
-		try {
-			const user_projects = data.pb.collection('projects').delete(userProjects?.id);
-			if (!user_projects) console.error('❌ Failed to delete record:');
-			await invalidate('projects');
-		} catch (err) {
-			console.dir(err, { depth: null });
-			console.error('❌ Failed to delete record:', err);
-		}
-	};
+	// const deleteRecord = async () => {
+	// 	try {
+	// 		const user_projects = data.pb.collection('projects').delete(userProjects?.id);
+	// 		if (!user_projects) console.error('❌ Failed to delete record:');
+	// 		await invalidate('projects');
+	// 	} catch (err) {
+	// 		console.dir(err, { depth: null });
+	// 		console.error('❌ Failed to delete record:', err);
+	// 	}
+	// };
 
-	const editRecord = async () => {
-		editinguserProjectsImage = true;
-		setFields({
-			title: userProjects?.title,
-			description: userProjects?.description
-		});
-		await invalidate('user_projects');
-	};
+	// const editRecord = async () => {
+	// 	editinguserProjectsImage = true;
+	// 	setFields({
+	// 		title: userProjects?.title,
+	// 		description: userProjects?.description
+	// 	});
+	// 	await invalidate('user_projects');
+	// };
 </script>
 
 <div class="mx-auto max-w-7xl px-6">
@@ -119,10 +129,7 @@
 				/>
 				<div class="flex items-center justify-between">
 					<img
-						src={editinguserProjectsImage
-							? userProjects?.project_image_url ||
-								'https://developers.elementor.com/docs/assets/img/elementor-placeholder-image.png'
-							: 'https://developers.elementor.com/docs/assets/img/elementor-placeholder-image.png'}
+						src="https://developers.elementor.com/docs/assets/img/elementor-placeholder-image.png"
 						bind:this={previewInput}
 						loading="eager"
 						alt="User project_image preview"
@@ -178,13 +185,6 @@
 					>Submit</button
 				>
 			</div>
-			<!--{#if form?.requestFormData?.errors}-->
-			<!--	<div>-->
-			<!--		{#each Object.values(form?.requestFormData?.errors).flat() as item, i (i)}-->
-			<!--			<p class="text-red-500">{item}</p>-->
-			<!--		{/each}-->
-			<!--	</div>-->
-			<!--{/if}-->
 		</div>
 	</form>
 </div>
