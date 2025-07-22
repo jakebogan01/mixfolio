@@ -39,7 +39,7 @@
 					<input
 						type="search"
 						id="search"
-						class="peer h-full w-full rounded-md border border-gray-400/70 px-3 py-2.5 font-normal outline-0 transition-colors outline-none not-placeholder-shown:border-t-transparent focus:border focus:border-gray-900 focus:border-t-transparent focus:ring-0 focus:outline-0"
+						class="peer h-full w-full rounded-md border border-gray-400/70 bg-transparent px-3 py-2.5 font-normal outline-0 transition-colors outline-none not-placeholder-shown:border-t-transparent focus:border focus:border-gray-900 focus:border-t-transparent focus:ring-0 focus:outline-0"
 						placeholder=" "
 					/><label
 						for="search"
