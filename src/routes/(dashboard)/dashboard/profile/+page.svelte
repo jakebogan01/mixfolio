@@ -12,7 +12,7 @@
 	class="relative mx-3 -mt-16 mb-6 flex flex-col rounded-xl border border-gray-300 bg-white bg-clip-border text-gray-700 shadow-md lg:mx-4"
 >
 	<div class="p-4">
-		<div class="mb-10 flex flex-wrap items-center justify-between gap-6">
+		<div class="mb-10 flex flex-wrap items-start justify-between gap-6">
 			<div class="flex items-center gap-6">
 				<img
 					src={data?.userProfile?.avatar_url
@@ -28,8 +28,54 @@
 					<p class=" block text-sm leading-normal font-normal">{data?.userProfile?.role}</p>
 				</div>
 			</div>
+			<button
+				type="button"
+				class="block cursor-pointer rounded-md bg-purple-600 px-3 py-2 text-center text-sm font-semibold text-white shadow-xs hover:bg-violet-400 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-purple-600"
+				>Edit profile</button
+			>
 		</div>
-		<div class="gird-cols-1 mb-12 grid gap-12 px-4 lg:grid-cols-2 xl:grid-cols-3">
+		<div class="gird-cols-1 mb-12 grid gap-12 px-4 lg:grid-cols-2">
+			<div
+				class="relative flex flex-col rounded-xl bg-transparent bg-clip-border text-gray-700 shadow-none"
+			>
+				<div
+					class="relative mx-0 mt-0 mb-4 overflow-hidden rounded-xl bg-transparent bg-clip-border text-gray-700 shadow-none"
+				>
+					<h6 class="block text-base leading-relaxed font-semibold tracking-normal">
+						Profile Information
+					</h6>
+				</div>
+				<div class="p-0">
+					<p class=" block text-sm leading-normal font-normal">
+						{@html data?.userProfile?.biography}
+					</p>
+					<hr class="my-8 border-gray-300" />
+					<ul class="flex flex-col gap-4 p-0">
+						<li class="flex items-center gap-4">
+							<p class=" block text-sm leading-normal font-semibold capitalize">Name:</p>
+							<p class=" block text-sm leading-normal font-normal">{data?.userProfile?.name}</p>
+						</li>
+						<li class="flex items-center gap-4">
+							<p class=" block text-sm leading-normal font-semibold capitalize">mobile:</p>
+							<p class=" block text-sm leading-normal font-normal">{data?.userProfile?.phone}</p>
+						</li>
+						<li class="flex items-center gap-4">
+							<p class=" block text-sm leading-normal font-semibold capitalize">email:</p>
+							<p class=" block text-sm leading-normal font-normal">{data?.userProfile?.email}</p>
+						</li>
+						<li class="flex items-center gap-4">
+							<p class=" block text-sm leading-normal font-semibold capitalize">location:</p>
+							<p class=" block text-sm leading-normal font-normal">{data?.userProfile?.address}</p>
+						</li>
+						<li class="flex items-center gap-4">
+							<p class=" block text-sm leading-normal font-semibold capitalize">social:</p>
+							<div class="flex items-center gap-4">
+								<!--Social icons go here-->
+							</div>
+						</li>
+					</ul>
+				</div>
+			</div>
 			<div>
 				<h6 class=" mb-3 block text-base leading-relaxed font-semibold tracking-normal">
 					Platform Settings
@@ -147,149 +193,6 @@
 						</div>
 					</div>
 				</div>
-			</div>
-			<div
-				class="relative flex flex-col rounded-xl bg-transparent bg-clip-border text-gray-700 shadow-none"
-			>
-				<div
-					class="relative mx-0 mt-0 mb-4 flex items-center justify-between gap-4 overflow-hidden rounded-xl bg-transparent bg-clip-border text-gray-700 shadow-none"
-				>
-					<h6 class=" block text-base leading-relaxed font-semibold tracking-normal">
-						Profile Information
-					</h6>
-					<svg
-						xmlns="http://www.w3.org/2000/svg"
-						viewBox="0 0 24 24"
-						fill="currentColor"
-						aria-hidden="true"
-						class=" h-4 w-4 cursor-pointer"
-						><path
-							d="M21.731 2.269a2.625 2.625 0 00-3.712 0l-1.157 1.157 3.712 3.712 1.157-1.157a2.625 2.625 0 000-3.712zM19.513 8.199l-3.712-3.712-12.15 12.15a5.25 5.25 0 00-1.32 2.214l-.8 2.685a.75.75 0 00.933.933l2.685-.8a5.25 5.25 0 002.214-1.32L19.513 8.2z"
-						></path></svg
-					>
-				</div>
-				<div class="p-0">
-					<p class=" block text-sm leading-normal font-normal">
-						{data?.userProfile?.bio}
-					</p>
-					<hr class="my-8 border-gray-300" />
-					<ul class="flex flex-col gap-4 p-0">
-						<li class="flex items-center gap-4">
-							<p class=" block text-sm leading-normal font-semibold capitalize">Name:</p>
-							<p class=" block text-sm leading-normal font-normal">{data?.userProfile?.name}</p>
-						</li>
-						<li class="flex items-center gap-4">
-							<p class=" block text-sm leading-normal font-semibold capitalize">mobile:</p>
-							<p class=" block text-sm leading-normal font-normal">{data?.userProfile?.phone}</p>
-						</li>
-						<li class="flex items-center gap-4">
-							<p class=" block text-sm leading-normal font-semibold capitalize">email:</p>
-							<p class=" block text-sm leading-normal font-normal">{data?.userProfile?.email}</p>
-						</li>
-						<li class="flex items-center gap-4">
-							<p class=" block text-sm leading-normal font-semibold capitalize">location:</p>
-							<p class=" block text-sm leading-normal font-normal">{data?.userProfile?.address}</p>
-						</li>
-						<li class="flex items-center gap-4">
-							<p class=" block text-sm leading-normal font-semibold capitalize">social:</p>
-							<div class="flex items-center gap-4">
-								<!--Social icons go here-->
-							</div>
-						</li>
-					</ul>
-				</div>
-			</div>
-			<div>
-				<h6 class=" mb-3 block text-base leading-relaxed font-semibold tracking-normal">
-					Platform Settings
-				</h6>
-				<ul class="flex flex-col gap-6">
-					<li class="flex items-center justify-between gap-4">
-						<div class="flex items-center gap-4">
-							<img
-								src="https://demos.creative-tim.com/material-tailwind-dashboard-react/img/team-1.jpeg"
-								alt="Sophie B."
-								class=" relative inline-block h-12 w-12 rounded-lg object-cover object-center shadow-lg"
-							/>
-							<div>
-								<p class=" mb-1 block text-sm leading-normal font-semibold">Sophie B.</p>
-								<p class=" block text-xs font-normal">Hi! I need more information...</p>
-							</div>
-						</div>
-						<button
-							class="rounded-lg px-4 py-2 text-center align-middle text-xs font-bold text-gray-900 uppercase transition-all select-none hover:bg-gray-900/10 active:bg-gray-900/20 disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none"
-							type="button">reply</button
-						>
-					</li>
-					<li class="flex items-center justify-between gap-4">
-						<div class="flex items-center gap-4">
-							<img
-								src="https://demos.creative-tim.com/material-tailwind-dashboard-react/img/team-1.jpeg"
-								alt="Alexander"
-								class=" relative inline-block h-12 w-12 rounded-lg object-cover object-center shadow-lg"
-							/>
-							<div>
-								<p class=" mb-1 block text-sm leading-normal font-semibold">Alexander</p>
-								<p class=" block text-xs font-normal">Awesome work, can you...</p>
-							</div>
-						</div>
-						<button
-							class="rounded-lg px-4 py-2 text-center align-middle text-xs font-bold text-gray-900 uppercase transition-all select-none hover:bg-gray-900/10 active:bg-gray-900/20 disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none"
-							type="button">reply</button
-						>
-					</li>
-					<li class="flex items-center justify-between gap-4">
-						<div class="flex items-center gap-4">
-							<img
-								src="https://demos.creative-tim.com/material-tailwind-dashboard-react/img/team-1.jpeg"
-								alt="Ivanna"
-								class=" relative inline-block h-12 w-12 rounded-lg object-cover object-center shadow-lg"
-							/>
-							<div>
-								<p class=" mb-1 block text-sm leading-normal font-semibold">Ivanna</p>
-								<p class=" block text-xs font-normal">About files I can...</p>
-							</div>
-						</div>
-						<button
-							class="rounded-lg px-4 py-2 text-center align-middle text-xs font-bold text-gray-900 uppercase transition-all select-none hover:bg-gray-900/10 active:bg-gray-900/20 disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none"
-							type="button">reply</button
-						>
-					</li>
-					<li class="flex items-center justify-between gap-4">
-						<div class="flex items-center gap-4">
-							<img
-								src="https://demos.creative-tim.com/material-tailwind-dashboard-react/img/team-1.jpeg"
-								alt="Peterson"
-								class=" relative inline-block h-12 w-12 rounded-lg object-cover object-center shadow-lg"
-							/>
-							<div>
-								<p class=" mb-1 block text-sm leading-normal font-semibold">Peterson</p>
-								<p class=" block text-xs font-normal">Have a great afternoon...</p>
-							</div>
-						</div>
-						<button
-							class="rounded-lg px-4 py-2 text-center align-middle text-xs font-bold text-gray-900 uppercase transition-all select-none hover:bg-gray-900/10 active:bg-gray-900/20 disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none"
-							type="button">reply</button
-						>
-					</li>
-					<li class="flex items-center justify-between gap-4">
-						<div class="flex items-center gap-4">
-							<img
-								src="https://demos.creative-tim.com/material-tailwind-dashboard-react/img/team-1.jpeg"
-								alt="Bruce Mars"
-								class=" relative inline-block h-12 w-12 rounded-lg object-cover object-center shadow-lg"
-							/>
-							<div>
-								<p class=" mb-1 block text-sm leading-normal font-semibold">Bruce Mars</p>
-								<p class=" block text-xs font-normal">Hi! I need more information...</p>
-							</div>
-						</div>
-						<button
-							class="rounded-lg px-4 py-2 text-center align-middle text-xs font-bold text-gray-900 uppercase transition-all select-none hover:bg-gray-900/10 active:bg-gray-900/20 disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none"
-							type="button">reply</button
-						>
-					</li>
-				</ul>
 			</div>
 		</div>
 	</div>
