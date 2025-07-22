@@ -67,7 +67,7 @@
 			<div class="relative">
 				<button
 					type="button"
-					class="flex size-10 max-h-10 max-w-10 cursor-pointer items-center justify-center rounded-lg text-slate-500 select-none disabled:pointer-events-none sm:transition-colors sm:hover:bg-gray-200/90"
+					class="flex size-10 max-h-10 max-w-10 cursor-pointer items-center justify-center rounded-lg text-gray-900 select-none disabled:pointer-events-none sm:transition-colors sm:hover:bg-gray-200/90 sm:hover:text-purple-600"
 				>
 					<Icon name="notification" class="size-5" stroke="none" />
 				</button>

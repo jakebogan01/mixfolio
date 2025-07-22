@@ -59,16 +59,12 @@
 					if (!record) console.error('❌ Unable to register user:', record);
 					await pb.collection('users').authWithPassword(values.email, values.password);
 					user.model = pb;
-					console.log('✅ Auto-login after registration');
-					await goto(DASHBOARD, { state: { message: 'Successfully registered' } });
+					await goto(DASHBOARD, { state: { type: 'success', message: 'Successfully registered' } });
 				} else {
 					delete values.passwordConfirm;
-					const authData = await pb
-						.collection('users')
-						.authWithPassword(values.email, values.password);
+					await pb.collection('users').authWithPassword(values.email, values.password);
 					user.model = pb;
-					console.log('✅ Logged in:', authData);
-					await goto(DASHBOARD, { state: { message: 'Successfully logged in' } });
+					await goto(DASHBOARD, { state: { type: 'success', message: 'Successfully logged in' } });
 				}
 			} catch (err) {
 				console.error('❌ Auth error:', err);
