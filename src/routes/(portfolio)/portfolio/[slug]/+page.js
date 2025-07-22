@@ -1,16 +1,52 @@
 export const ssr = false;
 
-export async function load({ parent, depends, params }) {
+export async function load({ parent, params }) {
 	const { pb } = await parent();
-	depends('user_profile');
 
 	try {
-		const record = await pb.collection('user_profile').getFirstListItem(`slug="${params.slug}"`);
-		let avatar_url = pb.files.getURL(record, record.avatar);
-		if (avatar_url) record.avatar_url = avatar_url;
-		return { record: record || {} };
+		const userProfile = await pb.collection('profiles').getFirstListItem(`slug="${params?.slug}"`, {
+			fields:
+				'collectionId, ' +
+				'id, ' +
+				'name, ' +
+				'email, ' +
+				'phone, ' +
+				'address, ' +
+				'role, ' +
+				'biography, ' +
+				'slug, ' +
+				'avatar, ' +
+				'expand.projects.collectionId, ' +
+				'expand.projects.id, ' +
+				'expand.projects.title, ' +
+				'expand.projects.description, ' +
+				'expand.projects.link, ' +
+				'expand.projects.image, ' +
+				'expand.testimonials.id, ' +
+				'expand.testimonials.name, ' +
+				'expand.testimonials.email, ' +
+				'expand.testimonials.role, ' +
+				'expand.testimonials.avatar',
+			expand: 'projects, testimonials'
+		});
+		if (userProfile?.avatar) {
+			let avatar_url = pb.files.getURL(userProfile, userProfile?.avatar);
+			if (avatar_url) userProfile.avatar_url = avatar_url;
+		}
+		if (userProfile?.expand?.projects) {
+			userProfile?.expand?.projects.forEach((item) => {
+				if (item?.image) {
+					let project_image_url = pb.files.getURL(item, item.image);
+					if (project_image_url) item.project_image_url = project_image_url;
+				}
+			});
+		}
+		delete userProfile.collectionId;
+		userProfile.expand.projects.forEach((project) => delete project.collectionId);
+
+		return { userProfile: userProfile || {} };
 	} catch (error) {
-		console.dir(error, { depth: null });
+		console.dir(error?.message, { depth: null });
 	}
-	return { record: {} };
+	return { userProfile: {} };
 }

@@ -1,7 +1,6 @@
 <script>
 	import Profile from '$lib/components/dashboard/profile/Profile.svelte';
 	let { data } = $props();
-	let userProfile = $derived(data?.record || {});
 </script>
 
 <div
@@ -16,17 +15,17 @@
 		<div class="mb-10 flex flex-wrap items-center justify-between gap-6">
 			<div class="flex items-center gap-6">
 				<img
-					src={userProfile?.avatar_url
-						? userProfile?.avatar_url
+					src={data?.userProfile?.avatar_url
+						? data?.userProfile?.avatar_url
 						: 'https://demos.creative-tim.com/material-tailwind-dashboard-react/img/bruce-mars.jpeg'}
 					alt="bruce-mars"
 					class=" relative inline-block h-[74px] w-[74px] rounded-lg object-cover object-center shadow-lg"
 				/>
 				<div>
 					<h5 class=" mb-1 block text-xl leading-snug font-semibold tracking-normal">
-						{userProfile?.name}
+						{data?.userProfile?.name}
 					</h5>
-					<p class=" block text-sm leading-normal font-normal">{userProfile?.role}</p>
+					<p class=" block text-sm leading-normal font-normal">{data?.userProfile?.role}</p>
 				</div>
 			</div>
 		</div>
@@ -171,25 +170,25 @@
 				</div>
 				<div class="p-0">
 					<p class=" block text-sm leading-normal font-normal">
-						{userProfile?.bio}
+						{data?.userProfile?.bio}
 					</p>
 					<hr class="my-8 border-gray-300" />
 					<ul class="flex flex-col gap-4 p-0">
 						<li class="flex items-center gap-4">
 							<p class=" block text-sm leading-normal font-semibold capitalize">Name:</p>
-							<p class=" block text-sm leading-normal font-normal">{userProfile?.name}</p>
+							<p class=" block text-sm leading-normal font-normal">{data?.userProfile?.name}</p>
 						</li>
 						<li class="flex items-center gap-4">
 							<p class=" block text-sm leading-normal font-semibold capitalize">mobile:</p>
-							<p class=" block text-sm leading-normal font-normal">{userProfile?.phone}</p>
+							<p class=" block text-sm leading-normal font-normal">{data?.userProfile?.phone}</p>
 						</li>
 						<li class="flex items-center gap-4">
 							<p class=" block text-sm leading-normal font-semibold capitalize">email:</p>
-							<p class=" block text-sm leading-normal font-normal">{userProfile?.email}</p>
+							<p class=" block text-sm leading-normal font-normal">{data?.userProfile?.email}</p>
 						</li>
 						<li class="flex items-center gap-4">
 							<p class=" block text-sm leading-normal font-semibold capitalize">location:</p>
-							<p class=" block text-sm leading-normal font-normal">{userProfile?.address}</p>
+							<p class=" block text-sm leading-normal font-normal">{data?.userProfile?.address}</p>
 						</li>
 						<li class="flex items-center gap-4">
 							<p class=" block text-sm leading-normal font-semibold capitalize">social:</p>

@@ -1,6 +1,8 @@
 <script>
 	import { navLinks } from '$lib/data/home/navLinks.js';
-	import { LOGIN } from '$lib/utils/constants.js';
+	import { LOGIN, DASHBOARD } from '$lib/utils/constants.js';
+
+	let { currentUser } = $props();
 </script>
 
 <nav class="relative hidden lg:flex">
@@ -69,9 +71,16 @@
 		>
 			<path d="M8 0H7V7H0V8H7V15H8V8H15V7H8V0Z"></path>
 		</svg>
-		<a
-			class="flex items-center px-4 py-3 text-base font-medium text-gray-950 bg-blend-multiply sm:transition-colors sm:hover:bg-black/2.5 sm:hover:text-[#6a17bb]"
-			href={LOGIN}>Login</a
-		>
+		{#if currentUser}
+			<a
+				class="flex items-center px-4 py-3 text-base font-medium text-gray-950 bg-blend-multiply sm:transition-colors sm:hover:bg-black/2.5 sm:hover:text-[#6a17bb]"
+				href={DASHBOARD}>Dashboard</a
+			>
+		{:else}
+			<a
+				class="flex items-center px-4 py-3 text-base font-medium text-gray-950 bg-blend-multiply sm:transition-colors sm:hover:bg-black/2.5 sm:hover:text-[#6a17bb]"
+				href={LOGIN}>Login</a
+			>
+		{/if}
 	</div>
 </nav>

@@ -11,7 +11,6 @@
 	let previewInput, fileInput;
 	let isDragging = $state(false);
 	let showPreviewImage = $state(true);
-	let userProfile = $derived(data?.record || {});
 
 	const schema = z.object({
 		avatar: z
@@ -34,37 +33,39 @@
 
 	const { form, reset, setFields } = createForm({
 		initialValues: {
-			name: '',
-			email: '',
-			phone: '',
-			address: '',
-			slug: '',
-			bio: '',
-			role: ''
+			name: null,
+			email: null,
+			phone: null,
+			address: null,
+			slug: null,
+			bio: null,
+			role: null
 		},
-		extend: [validator({ schema }), reporter()],
+		extend: [
+			validator({ schema }),
+			reporter({
+				level: 'error',
+				tippyProps: {
+					allowHTML: false
+				}
+			})
+		],
 		onSubmit: async (values) => {
 			try {
-				if (!userProfile?.id) {
+				if (!data?.userProfile?.id) {
 					values.user_id = data.pb.authStore.record.id;
 					values.avatar = fileInput?.files?.[0];
-
-					const user_profile = await data.pb.collection('user_profile').create(values);
-					if (!user_profile) console.error('❌ Failed to create record:');
+					const newUserProfile = await data.pb.collection('profiles').create(values);
+					if (!newUserProfile) console.error('❌ Failed to create record:');
 				} else {
 					values.avatar = fileInput?.files?.[0];
-
-					const record = data.pb.collection('user_profile').update(userProfile?.id, values);
-					if (record === null) {
-						console.log('No record found.');
-					}
-					console.log('Values have been updated.');
+					const record = data.pb.collection('profiles').update(data?.userProfile?.id, values);
+					if (!record) console.log('❌ No record found.');
 				}
 				reset();
 				await invalidate('user_profile');
-			} catch (err) {
-				console.dir(err, { depth: null });
-				console.error('❌ Failed to create record:', err);
+			} catch (error) {
+				console.dir(error?.message, { depth: null });
 			}
 		}
 	});
@@ -100,7 +101,7 @@
 
 	const deleteRecord = async () => {
 		try {
-			const user_profile = data.pb.collection('user_profile').delete(userProfile?.id);
+			const user_profile = data.pb.collection('user_profile').delete(data?.userProfile?.id);
 			if (!user_profile) console.error('❌ Failed to delete record:');
 			await invalidate('user_profile');
 		} catch (err) {
@@ -112,13 +113,13 @@
 	const editRecord = async () => {
 		editingUserProfileImage = true;
 		setFields({
-			name: userProfile?.name,
-			email: userProfile?.email,
-			phone: userProfile?.phone,
-			address: userProfile?.address,
-			slug: userProfile?.slug,
-			bio: userProfile?.bio,
-			role: userProfile?.role
+			name: data?.userProfile?.name,
+			email: data?.userProfile?.email,
+			phone: data?.userProfile?.phone,
+			address: data?.userProfile?.address,
+			slug: data?.userProfile?.slug,
+			bio: data?.userProfile?.bio,
+			role: data?.userProfile?.role
 		});
 		await invalidate('user_profile');
 	};
@@ -143,7 +144,7 @@
 				<div class="flex items-center justify-between">
 					<img
 						src={editingUserProfileImage
-							? userProfile?.avatar_url ||
+							? data?.userProfile?.avatar_url ||
 								'https://developers.elementor.com/docs/assets/img/elementor-placeholder-image.png'
 							: 'https://developers.elementor.com/docs/assets/img/elementor-placeholder-image.png'}
 						bind:this={previewInput}
@@ -244,13 +245,6 @@
 					>Submit</button
 				>
 			</div>
-			<!--{#if form?.requestFormData?.errors}-->
-			<!--	<div>-->
-			<!--		{#each Object.values(form?.requestFormData?.errors).flat() as item, i (i)}-->
-			<!--			<p class="text-red-500">{item}</p>-->
-			<!--		{/each}-->
-			<!--	</div>-->
-			<!--{/if}-->
 		</div>
 	</form>
 </div>
