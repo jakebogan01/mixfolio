@@ -1,9 +1,7 @@
 <script>
-	import 'tippy.js/dist/tippy.css';
 	import { z } from 'zod';
 	import { createForm } from 'felte';
 	import { validator } from '@felte/validator-zod';
-	import reporter from '@felte/reporter-tippy';
 	import { invalidate } from '$app/navigation';
 
 	let { data } = $props();
@@ -41,15 +39,7 @@
 			bio: null,
 			role: null
 		},
-		extend: [
-			validator({ schema }),
-			reporter({
-				level: 'error',
-				tippyProps: {
-					allowHTML: false
-				}
-			})
-		],
+		extend: [validator({ schema })],
 		onSubmit: async (values) => {
 			try {
 				if (!data?.userProfile?.id) {

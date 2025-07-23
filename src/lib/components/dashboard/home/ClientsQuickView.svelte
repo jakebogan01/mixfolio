@@ -10,7 +10,7 @@
 			<div class="sm:flex-auto">
 				<h6 class="text-base font-semibold text-gray-900">Clients</h6>
 			</div>
-			<div class="mt-4 sm:mt-0 sm:ml-16 sm:flex-none">
+			<div class="mt-4 sm:mt-0 sm:ml-4 sm:flex-none">
 				<button
 					type="button"
 					class="inline-flex cursor-pointer items-center rounded-md bg-purple-600 px-2.5 py-1.5 text-sm font-normal text-white disabled:cursor-not-allowed disabled:opacity-30 disabled:hover:bg-white sm:transition-colors sm:hover:bg-violet-400"
@@ -40,7 +40,7 @@
 						</div>
 						<a
 							href="/"
-							class="rounded-full bg-gray-900 px-2.5 py-1 text-xs font-semibold text-white sm:transition-colors sm:hover:bg-violet-400"
+							class="rounded-full bg-gray-900 px-2.5 py-1 text-xs font-semibold text-white sm:transition-colors sm:hover:bg-gray-900/75"
 							>View</a
 						>
 					</li>

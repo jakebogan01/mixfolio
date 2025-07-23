@@ -70,7 +70,7 @@
 								<a
 									href={project?.link || DASHBOARD}
 									title="Copy link"
-									class="text-gray-900 sm:hover:text-violet-400"
+									class="text-gray-900 sm:hover:text-gray-900/75"
 								>
 									<Icon name="copy-link" class="size-6" stroke="none" />
 								</a>
@@ -90,7 +90,7 @@
 							<td class="py-4 pr-4 pl-0 text-right text-sm text-white sm:pr-6 lg:pr-8">
 								<button
 									type="button"
-									class="inline-flex cursor-pointer items-center rounded-md bg-gray-900 px-2.5 py-1.5 disabled:cursor-not-allowed disabled:opacity-30 disabled:hover:bg-white sm:transition-colors sm:hover:bg-violet-400"
+									class="inline-flex cursor-pointer items-center rounded-md bg-gray-900 px-2.5 py-1.5 disabled:cursor-not-allowed disabled:opacity-30 disabled:hover:bg-white sm:transition-colors sm:hover:bg-gray-900/75"
 									>Select<span class="sr-only">View {project?.name}</span></button
 								>
 							</td>

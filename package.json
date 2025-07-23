@@ -14,7 +14,7 @@
 	"devDependencies": {
 		"@eslint/compat": "^1.2.5",
 		"@eslint/js": "^9.18.0",
-		"@felte/reporter-tippy": "^1.1.10",
+		"@felte/reporter-dom": "^1.1.10",
 		"@felte/validator-zod": "^1.0.18",
 		"@splinetool/runtime": "^1.10.32",
 		"@sveltejs/adapter-auto": "^6.0.0",
@@ -27,7 +27,6 @@
 		"eslint-config-prettier": "^10.0.1",
 		"eslint-plugin-svelte": "^3.0.0",
 		"felte": "^1.3.0",
-		"@felte/reporter-dom": "^1.1.10",
 		"globals": "^16.0.0",
 		"pocketbase": "^0.26.1",
 		"prettier": "^3.4.2",
