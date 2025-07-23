@@ -21,7 +21,7 @@
 						.email({ message: 'Please enter a valid email address' }),
 					password: z
 						.string({ message: 'Please enter a password' })
-						.min(8, 'More than 8 characters')
+						.min(8, 'Must be 8 or more characters long')
 						.max(71, 'No more than 71 characters'),
 					passwordConfirm: z.string()
 				})
@@ -33,7 +33,10 @@
 				email: z
 					.string({ message: 'Please confirm a password' })
 					.email({ message: 'Please enter a valid email address' }),
-				password: z.string().min(8, 'More than 8 characters').max(71, 'No more than 71 characters')
+				password: z
+					.string()
+					.min(8, 'Must be 8 or more characters long')
+					.max(71, 'No more than 71 characters')
 			});
 
 	const { form } = createForm({
@@ -57,8 +60,8 @@
 					user.model = pb;
 					await goto(DASHBOARD, { state: { type: 'success', message: 'Successfully logged in' } });
 				}
-			} catch (err) {
-				console.error('❌ Auth error:', err);
+			} catch (error) {
+				console.dir(error?.message, { depth: null });
 			}
 		}
 	});

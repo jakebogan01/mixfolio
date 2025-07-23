@@ -1,7 +1,9 @@
 <script>
 	import { z } from 'zod';
+	import { fly } from 'svelte/transition';
 	import { createForm } from 'felte';
 	import { validator } from '@felte/validator-zod';
+	import reporterDom from '@felte/reporter-dom';
 	import { invalidate } from '$app/navigation';
 
 	let { data, toggleMenu = () => {} } = $props();
@@ -19,31 +21,36 @@
 			.refine((file) => !file || ['image/jpeg', 'image/jpg', 'image/png'].includes(file.type), {
 				message: 'Only .jpeg, .jpg, or .png files are allowed'
 			}),
-		title: z.string().min(1, 'The project title field cannot be empty').trim(),
-		description: z.string().min(1, 'The description field cannot be empty').trim()
+		title: z
+			.string({ message: 'This filed is required' })
+			.min(5, { message: 'Must be 5 or more characters long' }),
+		link: z.string({ message: 'This filed is required' }).url({ message: 'Invalid url' }),
+		description: z
+			.string({ message: 'This filed is required' })
+			.min(5, { message: 'Must be 5 or more characters long' })
 	});
 
 	const { form, reset } = createForm({
 		initialValues: {
 			title: null,
+			link: null,
 			description: null
 		},
-		extend: [validator({ schema })],
+		extend: [validator({ schema }), reporterDom()],
 		onSubmit: async (values) => {
 			try {
 				values.image = fileInput?.files?.[0];
 				const user_projects = await data.pb.collection('projects').create(values);
-				if (!user_projects) console.log('❌ Failed to create record');
 				const currentProjectIds = data?.userProfile?.expand?.projects || [];
 				const updatedProjectIds = [
 					...currentProjectIds.map((p) => (typeof p === 'string' ? p : p.id)),
 					user_projects.id
 				];
-				const user_profile_update = await data.pb
+				await data.pb
 					.collection('profiles')
 					.update(data?.userProfile?.id, { projects: updatedProjectIds });
-				if (!user_profile_update) console.error('❌ Failed to create record');
 				reset();
+				toggleMenu();
 				await invalidate('user_profile');
 			} catch (error) {
 				console.dir(error?.message, { depth: null });
@@ -102,13 +109,16 @@
 </script>
 
 <div role="dialog" aria-modal="true" aria-labelledby="drawer-title" class="relative z-50">
-	<div class="fixed inset-0 bg-black/40"></div>
+	<div class="fixed inset-0"></div>
 	<div class="fixed inset-0 overflow-hidden">
 		<div class="absolute inset-0 overflow-hidden">
 			<div class="pointer-events-none fixed inset-y-0 right-0 flex max-w-full pl-10 sm:pl-16">
-				<div class="pointer-events-auto w-screen max-w-md">
+				<div
+					in:fly|local={{ x: 448, opacity: 1, duration: 300 }}
+					out:fly|local={{ x: 448, opacity: 1, duration: 300 }}
+					class="pointer-events-auto w-screen max-w-md border-l border-gray-300"
+				>
 					<form
-						onsubmit={(event) => event.preventDefault()}
 						class="flex h-full flex-col divide-y divide-gray-200 bg-white shadow-xl"
 						enctype="multipart/form-data"
 						use:form
@@ -170,7 +180,7 @@
 														bind:this={previewInput}
 														loading="eager"
 														alt="User project_image preview"
-														class="pointer-events-none aspect-video object-cover"
+														class="pointer-events-none sr-only aspect-video object-cover"
 													/>
 												</div>
 												<button
@@ -211,14 +221,53 @@
 													id="title"
 													type="text"
 													name="title"
-													class="block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus-visible:outline-2 focus-visible:-outline-offset-2 focus-visible:outline-indigo-600 sm:text-sm/6"
+													class="col-start-1 row-start-1 block w-full rounded-lg border border-transparent bg-white py-1.5 pr-10 pl-3 text-base shadow-sm outline-1 -outline-offset-1 outline-gray-300 focus:outline-2 focus:-outline-offset-2 sm:pr-9 sm:text-sm/6"
+													aria-invalid="true"
+													required
+													minlength="5"
+													maxlength="255"
+													aria-label="Project title"
+													aria-describedby="title-validation"
 												/>
 											</div>
+											<div
+												id="title-validation"
+												class="mt-1 text-sm text-red-500"
+												data-felte-reporter-dom-for="title"
+												aria-live="polite"
+												data-felte-reporter-dom-single-message
+											></div>
 										</div>
 										<div>
-											<label
-												for="project-description"
-												class="block text-sm/6 font-medium text-gray-900">Description</label
+											<label for="link" class="block text-sm/6 font-medium text-gray-900"
+												>Project link</label
+											>
+											<div class="mt-2">
+												<input
+													id="link"
+													type="url"
+													name="link"
+													pattern="https://.*"
+													class="col-start-1 row-start-1 block w-full rounded-lg border border-transparent bg-white py-1.5 pr-10 pl-3 text-base shadow-sm outline-1 -outline-offset-1 outline-gray-300 focus:outline-2 focus:-outline-offset-2 sm:pr-9 sm:text-sm/6"
+													aria-invalid="true"
+													required
+													minlength="5"
+													maxlength="255"
+													aria-label="Project link"
+													aria-describedby="link-validation"
+												/>
+											</div>
+											<div
+												id="link-validation"
+												class="mt-1 text-sm text-red-500"
+												data-felte-reporter-dom-for="link"
+												aria-live="polite"
+												data-felte-reporter-dom-single-message
+											></div>
+										</div>
+										<div>
+											<label for="description" class="block text-sm/6 font-medium text-gray-900"
+												>Description</label
 											>
 											<div class="mt-2">
 												<textarea
@@ -226,9 +275,22 @@
 													type="text"
 													name="description"
 													id="description"
-													class="block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus-visible:outline-2 focus-visible:-outline-offset-2 focus-visible:outline-indigo-600 sm:text-sm/6"
+													class="col-start-1 row-start-1 block w-full rounded-lg border border-transparent bg-white py-1.5 pr-10 pl-3 text-base shadow-sm outline-1 -outline-offset-1 outline-gray-300 focus:outline-2 focus:-outline-offset-2 sm:pr-9 sm:text-sm/6"
+													aria-invalid="true"
+													required
+													minlength="5"
+													maxlength="255"
+													aria-label="Project description"
+													aria-describedby="description-validation"
 												></textarea>
 											</div>
+											<div
+												id="description-validation"
+												class="mt-1 text-sm text-red-500"
+												data-felte-reporter-dom-for="description"
+												aria-live="polite"
+												data-felte-reporter-dom-single-message
+											></div>
 										</div>
 									</div>
 								</div>
@@ -243,7 +305,7 @@
 							>
 							<button
 								type="submit"
-								class="ml-4 inline-flex cursor-pointer justify-center rounded-md bg-indigo-600 px-3 py-2 text-sm font-semibold text-white shadow-xs hover:bg-indigo-500 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
+								class="ml-4 inline-flex cursor-pointer justify-center rounded-md bg-purple-600 px-3 py-2 text-sm font-semibold text-white shadow-xs focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600 sm:hover:bg-violet-400"
 								>Save</button
 							>
 						</div>
