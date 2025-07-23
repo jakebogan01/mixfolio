@@ -30,7 +30,7 @@
 	const toggleMenu = () => (menuOpen = !menuOpen);
 </script>
 
-<div class="relative flex min-h-screen bg-gray-100 font-sans">
+<div class="relative flex min-h-screen bg-gray-100 pl-0 font-sans xl:pl-76">
 	<div class="absolute h-screen w-full max-w-7xl overflow-x-hidden">
 		<div
 			class="absolute -top-44 left-60 z-0 h-60 w-xl -rotate-10 rounded-full bg-linear-115 from-yellow-100 from-28% via-pink-400 via-70% to-purple-500 blur-3xl md:right-0"
@@ -38,7 +38,7 @@
 	</div>
 	<Nav {menuOpen} {toggleMenu} slug={data?.userProfile?.slug} />
 	<div
-		class="relative z-10 ml-0 flex flex-1 flex-col p-4 transition-[margin] duration-200 ease-linear xl:ml-80"
+		class="relative z-10 mx-auto flex max-w-430 flex-1 flex-col p-4 transition-[margin] duration-200 ease-linear"
 	>
 		<Search {menuOpen} {scrolled} {toggleMenu} />
 		<main class="mt-12 flex flex-1 flex-col justify-between">

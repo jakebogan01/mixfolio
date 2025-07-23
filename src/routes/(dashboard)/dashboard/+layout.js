@@ -1,6 +1,7 @@
 export const ssr = false;
 
 import { redirect } from '@sveltejs/kit';
+import { processExpandedItems } from '$lib/utils/misc.js';
 
 export async function load({ parent, depends }) {
 	const { pb } = await parent();
@@ -23,6 +24,7 @@ export async function load({ parent, depends }) {
 					'biography, ' +
 					'slug, ' +
 					'avatar, ' +
+					'created, ' +
 					'expand.projects.collectionId, ' +
 					'expand.projects.id, ' +
 					'expand.projects.title, ' +
@@ -35,37 +37,44 @@ export async function load({ parent, depends }) {
 					'expand.testimonials.name, ' +
 					'expand.testimonials.email, ' +
 					'expand.testimonials.role, ' +
-					'expand.testimonials.avatar',
-				expand: 'projects, testimonials'
+					'expand.testimonials.avatar, ' +
+					'expand.clients.collectionId, ' +
+					'expand.clients.id, ' +
+					'expand.clients.name, ' +
+					'expand.clients.link, ' +
+					'expand.clients.image',
+				expand: 'projects, testimonials, clients'
 			});
 
 		userProfile.avatar_url = userProfile.avatar
 			? pb.files.getURL(userProfile, userProfile.avatar)
 			: null;
 
-		for (const project of userProfile.expand?.projects || []) {
-			project.project_image_url = project.image ? pb.files.getURL(project, project.image) : null;
-			delete project.collectionId;
-		}
+		if (userProfile.expand?.projects)
+			userProfile.expand.projects = processExpandedItems(
+				pb,
+				userProfile.expand.projects,
+				'image',
+				'project_image_url'
+			);
 
-		for (const testimonial of userProfile.expand?.testimonials || []) {
-			testimonial.testimonial_image_url = testimonial.avatar
-				? pb.files.getURL(testimonial, testimonial.avatar)
-				: null;
-			delete testimonial.collectionId;
-		}
+		if (userProfile.expand?.testimonials)
+			userProfile.expand.testimonials = processExpandedItems(
+				pb,
+				userProfile.expand.testimonials,
+				'avatar',
+				'testimonial_image_url'
+			);
 
-		delete userProfile.collectionId;
-		if (userProfile.expand?.projects?.length) {
-			userProfile.expand.projects.forEach((project) => {
-				if ('collectionId' in project) delete project.collectionId;
-			});
-		}
-		if (userProfile.expand?.testimonials?.length) {
-			userProfile.expand.testimonials.forEach((testimonial) => {
-				if ('collectionId' in testimonial) delete testimonial.collectionId;
-			});
-		}
+		if (userProfile.expand?.clients)
+			userProfile.expand.clients = processExpandedItems(
+				pb,
+				userProfile.expand.clients,
+				'image',
+				'client_image_url'
+			);
+
+		if ('collectionId' in userProfile) delete userProfile.collectionId;
 
 		return { userProfile: userProfile || {} };
 	} catch (error) {
