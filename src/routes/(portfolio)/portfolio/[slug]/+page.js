@@ -16,18 +16,28 @@ export async function load({ parent, params }) {
 				'biography, ' +
 				'slug, ' +
 				'avatar, ' +
+				'created, ' +
 				'expand.projects.collectionId, ' +
 				'expand.projects.id, ' +
 				'expand.projects.title, ' +
 				'expand.projects.description, ' +
 				'expand.projects.link, ' +
 				'expand.projects.image, ' +
+				'expand.projects.created, ' +
+				'expand.testimonials.collectionId, ' +
 				'expand.testimonials.id, ' +
 				'expand.testimonials.name, ' +
 				'expand.testimonials.email, ' +
 				'expand.testimonials.role, ' +
-				'expand.testimonials.avatar',
-			expand: 'projects, testimonials'
+				'expand.testimonials.avatar, ' +
+				'expand.clients.collectionId, ' +
+				'expand.clients.id, ' +
+				'expand.clients.name, ' +
+				'expand.clients.link, ' +
+				'expand.clients.image,'+
+				'expand.preferences.id,' +
+				'expand.preferences.portfolio_color',
+			expand: 'projects, testimonials, clients, preferences'
 		});
 		if (userProfile?.avatar) {
 			let avatar_url = pb.files.getURL(userProfile, userProfile?.avatar);
