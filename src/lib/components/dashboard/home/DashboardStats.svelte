@@ -1,6 +1,7 @@
 <script>
 	import Icon from '$lib/components/Icon.svelte';
 
+	let { userProfile } = $props();
 	let numOfPageVisits = 2536;
 	let stats = [
 		{
@@ -18,7 +19,7 @@
 		{
 			id: 3,
 			title: 'Total Projects',
-			value: `${8}/10`,
+			value: `${userProfile?.expand?.projects?.length || 0}/10`,
 			icon: 'stacks'
 		},
 		{
