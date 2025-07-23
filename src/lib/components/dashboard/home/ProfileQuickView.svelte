@@ -10,7 +10,7 @@
 >
 	<div class="px-4 text-base/7 font-semibold sm:flex sm:items-start sm:px-6 lg:px-8">
 		<div class="sm:flex-auto">
-			<h6 class="text-base font-semibold text-gray-900">My Profile</h6>
+			<h6 class="text-base font-semibold text-gray-900">Profile</h6>
 		</div>
 		<div class="mt-4 sm:mt-0 sm:ml-16 sm:flex-none">
 			<button

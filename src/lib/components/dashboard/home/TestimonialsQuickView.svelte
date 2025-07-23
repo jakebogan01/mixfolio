@@ -3,19 +3,25 @@
 </script>
 
 <div
-	class="relative flex flex-col rounded-xl border border-gray-300 bg-white bg-clip-border text-gray-700"
+	class="relative flex flex-col rounded-xl border border-gray-300 bg-white bg-clip-border py-10 text-gray-700"
 >
 	{#if userProfile?.expand?.testimonials?.length}
-		<div class="relative m-0 overflow-hidden rounded-xl bg-transparent p-6 text-gray-700">
-			<h6 class=" mb-2 block font-sans text-base leading-relaxed font-semibold tracking-normal">
-				My Testimonials
-			</h6>
-			<p class="mt-2 text-sm text-gray-700">A list of all your testimonials.</p>
+		<div class="px-4 text-base/7 font-semibold sm:flex sm:items-start sm:px-6 lg:px-8">
+			<div class="sm:flex-auto">
+				<h6 class="text-base font-semibold text-gray-900">Testimonials</h6>
+			</div>
+			<div class="mt-4 sm:mt-0 sm:ml-16 sm:flex-none">
+				<button
+					type="button"
+					class="inline-flex cursor-pointer items-center rounded-md bg-purple-600 px-2.5 py-1.5 text-sm font-normal text-white disabled:cursor-not-allowed disabled:opacity-30 disabled:hover:bg-white sm:transition-colors sm:hover:bg-violet-400"
+					>Add testimonial</button
+				>
+			</div>
 		</div>
-		<div class="max-h-72 overflow-y-auto p-6 pt-0">
-			<ul role="list" class="divide-y divide-gray-100">
+		<div class="mt-6 max-h-72 overflow-y-auto px-4 text-base/7 font-semibold sm:px-6 lg:px-8">
+			<ul role="list" class="space-y-5 divide-y divide-gray-100">
 				{#each userProfile?.expand?.testimonials as testimonial (testimonial?.id)}
-					<li class="flex items-center justify-between gap-x-6 py-5">
+					<li class="flex items-center justify-between gap-x-6">
 						<div class="flex min-w-0 gap-x-4">
 							<img
 								src={testimonial?.testimonial_image_url ||
