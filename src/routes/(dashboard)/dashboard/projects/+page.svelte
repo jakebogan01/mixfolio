@@ -1,8 +1,23 @@
 <script>
+	import { page } from '$app/state';
+	import { onMount } from 'svelte';
 	import Projects from '$lib/components/dashboard/projects/Projects.svelte';
 
 	let { data } = $props();
 	let menuOpen = $state(false);
+	let viewProject = $state(false);
+	let projectId = $state(null);
+
+	onMount(() => {
+		if (page?.state?.create) {
+			menuOpen = true;
+			viewProject = false;
+		} else if (page?.state?.view) {
+			menuOpen = true;
+			viewProject = true;
+			projectId = page?.state?.projectId;
+		}
+	});
 
 	const toggleMenu = () => (menuOpen = !menuOpen);
 </script>
@@ -25,7 +40,10 @@
 				<div class="mt-4 sm:mt-0 sm:ml-16 sm:flex-none">
 					<button
 						type="button"
-						onclick={toggleMenu}
+						onclick={() => {
+							toggleMenu();
+							viewProject = false;
+						}}
 						class="inline-flex cursor-pointer items-center rounded-md bg-purple-600 px-2.5 py-1.5 text-sm font-normal text-white disabled:cursor-not-allowed disabled:opacity-30 disabled:hover:bg-white sm:transition-colors sm:hover:bg-violet-400"
 						>Add project</button
 					>
@@ -59,6 +77,11 @@
 					<div class="mt-3">
 						<button
 							type="button"
+							onclick={() => {
+								toggleMenu();
+								viewProject = true;
+								projectId = project?.id;
+							}}
 							class="cursor-pointer rounded-md bg-gray-900 px-4 py-2 text-center align-middle text-xs font-bold text-white uppercase transition-all select-none hover:bg-gray-900/75 focus:ring focus:ring-gray-300 active:opacity-[0.85] disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none"
 							>view project
 						</button>
@@ -70,5 +93,5 @@
 </div>
 
 {#if menuOpen}
-	<Projects {data} {toggleMenu} />
+	<Projects {data} {projectId} {viewProject} {toggleMenu} />
 {/if}
