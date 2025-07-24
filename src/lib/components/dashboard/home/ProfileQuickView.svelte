@@ -1,5 +1,6 @@
 <script>
 	import { page } from '$app/state';
+	import { PROFILE } from '$lib/utils/constants.js';
 	import { z } from 'zod';
 	import { debounce } from '$lib/utils/misc.js';
 	import { createForm } from 'felte';
@@ -11,7 +12,7 @@
 	import Icon from '$lib/components/Icon.svelte';
 
 	let { data } = $props();
-	let showSlugWarning = $state('text-gray-900');
+	let showSlugWarning = $state('oklch(21% 0.034 264.665)');
 	let formEl;
 
 	const debouncedSubmit = debounce(() => {
@@ -32,11 +33,11 @@
 			try {
 				await data.pb.collection('profiles').update(data?.userProfile?.id, values);
 				await invalidate('user_profile');
-				showSlugWarning = 'text-green-500';
+				showSlugWarning = 'green';
 				toastMessage('success', 'Success, your profile URL is ready to use!');
 			} catch (error) {
 				console.dir(error, { depth: null });
-				showSlugWarning = 'text-red-500';
+				showSlugWarning = 'red';
 				if (error?.response?.data?.slug?.code === 'validation_not_unique') {
 					toastMessage('error', 'Sorry, that name has already been taken!');
 				}
@@ -64,10 +65,10 @@
 			<h6 class="text-base font-semibold text-gray-900">Profile</h6>
 		</div>
 		<div class="mt-4 sm:mt-0 sm:ml-16 sm:flex-none">
-			<button
-				type="button"
+			<a
+				href={PROFILE}
 				class="inline-flex cursor-pointer items-center rounded-md bg-gray-900 px-2.5 py-1.5 text-sm font-normal text-white disabled:cursor-not-allowed disabled:opacity-30 disabled:hover:bg-white sm:transition-colors sm:hover:bg-gray-900/75"
-				>View profile</button
+				>View profile</a
 			>
 		</div>
 	</div>
@@ -79,8 +80,12 @@
 					type="button"
 					onclick={copyToClipboard}
 					title="Copy portfolio link"
-					class="shrink-0 cursor-pointer rounded-l-md border border-gray-300 border-r-transparent bg-white px-2 text-sm font-semibold text-gray-900 hover:bg-gray-50 focus:relative focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600"
+					class="shrink-0 cursor-pointer rounded-l-md border border-gray-300 border-r-transparent bg-white px-2 text-sm font-semibold text-gray-900 hover:bg-gray-50 focus:relative focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 {data
+						?.userProfile?.slug
+						? ''
+						: 'disabled:pointer-events-none disabled:text-gray-400'}"
 					aria-label="Copy your portfolio link"
+					disabled={!data?.userProfile?.slug}
 				>
 					<Icon
 						name="copy-link"
@@ -102,7 +107,8 @@
 						oninput={debouncedSubmit}
 						name="slug"
 						placeholder="my-name"
-						class="focus:ring-none block w-full min-w-0 border-none py-1.5 pr-3 pl-1 text-base leading-normal font-medium placeholder:!text-gray-400 focus:border-0 focus:border-none focus:ring-0 focus:outline-0 focus:outline-none sm:text-sm/6 !{showSlugWarning}"
+						class="focus:ring-none block w-full min-w-0 border-none py-1.5 pr-3 pl-1 text-base leading-normal font-medium placeholder:!text-gray-400 focus:border-0 focus:border-none focus:ring-0 focus:outline-0 focus:outline-none sm:text-sm/6"
+						style="color: {showSlugWarning}"
 						aria-invalid="true"
 						required
 						minlength="5"
