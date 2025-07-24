@@ -57,10 +57,8 @@
 	});
 </script>
 
-<div
-	class="relative h-50 w-full overflow-hidden rounded-xl bg-[url('https://demos.creative-tim.com/material-tailwind-dashboard-react/img/background-image.png')] bg-cover bg-center"
->
-	<div class="absolute inset-0 h-full w-full bg-gray-900/75"></div>
+<div class="relative h-50 w-full overflow-hidden rounded-xl">
+	<div class="absolute inset-0 h-full w-full bg-gradient-to-tr from-purple-600 to-violet-400"></div>
 </div>
 <div
 	class="relative mx-3 -mt-16 mb-6 flex flex-col rounded-xl border border-gray-300 bg-white bg-clip-border text-gray-700 shadow-md lg:mx-4"

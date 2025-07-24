@@ -1,7 +1,7 @@
 <script>
 	import { z } from 'zod';
 	import { onMount } from 'svelte';
-	import { fly } from 'svelte/transition';
+	import { fly, fade, scale } from 'svelte/transition';
 	import { createForm } from 'felte';
 	import { validator } from '@felte/validator-zod';
 	import reporterDom from '@felte/reporter-dom';
@@ -9,10 +9,13 @@
 	import { toISODate } from '$lib/utils/date.js';
 
 	let { data, projectId, viewProject, toggleMenu = () => {} } = $props();
-	let previewInput, fileInput;
+	let previewInput = $state(null);
+	let fileInput = $state(null);
 	let isDragging = $state(false);
 	let showPreviewImage = $state(true);
 	let project = $state(null);
+	let updatingProject = $state(false);
+	let showDeleteModal = $state(false);
 
 	onMount(() => {
 		if (projectId) {
@@ -39,7 +42,7 @@
 			.min(5, { message: 'Must be 5 or more characters long' })
 	});
 
-	const { form, reset } = createForm({
+	const { form, reset, setFields } = createForm({
 		initialValues: {
 			title: null,
 			link: null,
@@ -48,18 +51,23 @@
 		extend: [validator({ schema }), reporterDom()],
 		onSubmit: async (values) => {
 			try {
-				values.image = fileInput?.files?.[0];
-				const user_projects = await data.pb.collection('projects').create(values);
-				const currentProjectIds = data?.userProfile?.expand?.projects || [];
-				const updatedProjectIds = [
-					...currentProjectIds.map((p) => (typeof p === 'string' ? p : p.id)),
-					user_projects.id
-				];
-				await data.pb
-					.collection('profiles')
-					.update(data?.userProfile?.id, { projects: updatedProjectIds });
-				reset();
+				if (updatingProject) {
+					values.image = fileInput?.files?.[0];
+					await data.pb.collection('projects').update(projectId, values);
+				} else {
+					values.image = fileInput?.files?.[0];
+					const user_projects = await data.pb.collection('projects').create(values);
+					const currentProjectIds = data?.userProfile?.expand?.projects || [];
+					const updatedProjectIds = [
+						...currentProjectIds.map((p) => (typeof p === 'string' ? p : p.id)),
+						user_projects.id
+					];
+					await data.pb
+						.collection('profiles')
+						.update(data?.userProfile?.id, { projects: updatedProjectIds });
+				}
 				toggleMenu();
+				reset();
 				await invalidate('user_profile');
 			} catch (error) {
 				console.dir(error?.message, { depth: null });
@@ -96,35 +104,26 @@
 		}
 	};
 
-	// const deleteRecord = async () => {
-	// 	try {
-	// 		const user_projects = data.pb.collection('projects').delete(userProjects?.id);
-	// 		if (!user_projects) console.error('❌ Failed to delete record:');
-	// 		await invalidate('projects');
-	// 	} catch (err) {
-	// 		console.dir(err, { depth: null });
-	// 		console.error('❌ Failed to delete record:', err);
-	// 	}
-	// };
-
-	// const editRecord = async () => {
-	// 	editinguserProjectsImage = true;
-	// 	setFields({
-	// 		title: userProjects?.title,
-	// 		description: userProjects?.description
-	// 	});
-	// 	await invalidate('user_projects');
-	// };
-
 	const deleteProject = async () => {
 		try {
 			await data.pb.collection('projects').delete(projectId);
 			projectId = null;
 			toggleMenu();
+			showDeleteModal = false;
 			await invalidate('user_profile');
 		} catch (error) {
 			console.dir(error?.message, { depth: null });
 		}
+	};
+
+	const handleProjectUpdate = () => {
+		viewProject = false;
+		updatingProject = true;
+		setFields({
+			title: project?.title,
+			link: project?.link,
+			description: project?.description
+		});
 	};
 </script>
 
@@ -186,6 +185,8 @@
 														? project?.project_image_url
 														: 'https://images.unsplash.com/photo-1492724724894-7464c27d0ceb?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=512&q=80'}
 													alt=""
+													width="399"
+													height="224"
 													class="absolute size-full object-cover"
 												/>
 											</div>
@@ -256,11 +257,13 @@
 														class="overflow-hidden rounded-lg bg-gray-100 focus-within:ring-2 focus-within:ring-indigo-500 focus-within:ring-offset-2 focus-within:ring-offset-gray-100"
 													>
 														<img
-															src="https://developers.elementor.com/docs/assets/img/elementor-placeholder-image.png"
+															src={updatingProject
+																? project?.project_image_url
+																: 'https://developers.elementor.com/docs/assets/img/elementor-placeholder-image.png'}
 															bind:this={previewInput}
 															loading="eager"
 															alt="User project_image preview"
-															class="pointer-events-none sr-only aspect-video object-cover"
+															class="pointer-events-none aspect-video object-cover"
 														/>
 													</div>
 													<button
@@ -381,7 +384,7 @@
 							{#if viewProject}
 								<button
 									type="button"
-									onclick={deleteProject}
+									onclick={() => (showDeleteModal = true)}
 									class="inline-flex cursor-pointer justify-center rounded-md bg-red-500 px-3 py-2 text-sm font-semibold text-white shadow-xs focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600 sm:hover:bg-red-400"
 									>Delete</button
 								>
@@ -396,6 +399,7 @@
 								{#if viewProject}
 									<button
 										type="button"
+										onclick={handleProjectUpdate}
 										class="ml-4 inline-flex cursor-pointer justify-center rounded-md bg-purple-600 px-3 py-2 text-sm font-semibold text-white shadow-xs focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600 sm:hover:bg-violet-400"
 										>Update</button
 									>
@@ -414,3 +418,68 @@
 		</div>
 	</div>
 </div>
+
+{#if showDeleteModal}
+	<div role="dialog" aria-modal="true" aria-labelledby="dialog-title" class="relative z-100">
+		<div
+			transition:fade
+			aria-hidden="true"
+			class="fixed inset-0 bg-black/40 transition-opacity"
+		></div>
+		<div class="fixed inset-0 z-10 w-screen overflow-y-auto">
+			<div class="flex min-h-full items-end justify-center p-4 text-center sm:items-center sm:p-0">
+				<div
+					transition:scale
+					class="relative transform overflow-hidden rounded-lg bg-white px-4 pt-5 pb-4 text-left shadow-xl transition-all sm:my-8 sm:w-full sm:max-w-lg sm:p-6"
+				>
+					<div class="sm:flex sm:items-start">
+						<div
+							class="mx-auto flex size-12 shrink-0 items-center justify-center rounded-full bg-red-100 sm:mx-0 sm:size-10"
+						>
+							<svg
+								viewBox="0 0 24 24"
+								fill="none"
+								stroke="currentColor"
+								stroke-width="1.5"
+								data-slot="icon"
+								aria-hidden="true"
+								class="size-6 text-red-600"
+							>
+								<path
+									d="M12 9v3.75m-9.303 3.376c-.866 1.5.217 3.374 1.948 3.374h14.71c1.73 0 2.813-1.874 1.948-3.374L13.949 3.378c-.866-1.5-3.032-1.5-3.898 0L2.697 16.126ZM12 15.75h.007v.008H12v-.008Z"
+									stroke-linecap="round"
+									stroke-linejoin="round"
+								/>
+							</svg>
+						</div>
+						<div class="mt-3 text-center sm:mt-0 sm:ml-4 sm:text-left">
+							<h3 id="dialog-title" class="text-base font-semibold text-gray-900">
+								Delete project
+							</h3>
+							<div class="mt-2">
+								<p class="text-sm text-gray-500">
+									Are you sure you want to delete this project? This project will be permanently
+									removed from our servers forever. This action cannot be undone.
+								</p>
+							</div>
+						</div>
+					</div>
+					<div class="mt-5 sm:mt-4 sm:flex sm:flex-row-reverse">
+						<button
+							type="button"
+							onclick={deleteProject}
+							class="inline-flex w-full cursor-pointer justify-center rounded-md bg-red-500 px-3 py-2 text-sm font-semibold text-white shadow-xs hover:bg-red-400 sm:ml-3 sm:w-auto"
+							>Delete</button
+						>
+						<button
+							type="button"
+							onclick={() => (showDeleteModal = false)}
+							class="mt-3 inline-flex w-full cursor-pointer justify-center rounded-md bg-white px-3 py-2 text-sm font-semibold text-gray-900 shadow-xs ring-1 ring-gray-300 ring-inset hover:bg-gray-50 sm:mt-0 sm:w-auto"
+							>Cancel</button
+						>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+{/if}

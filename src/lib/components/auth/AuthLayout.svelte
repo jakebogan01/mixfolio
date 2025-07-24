@@ -168,7 +168,7 @@
 		<div class="mt-8">
 			<button
 				type="submit"
-				class="inline-flex w-full items-center justify-center rounded-full border border-transparent bg-gray-950 px-4 py-[calc(--spacing(2)-1px)] text-base font-medium whitespace-nowrap text-white shadow-md data-disabled:bg-gray-950 data-disabled:opacity-40 data-hover:bg-gray-800"
+				class="inline-flex w-full cursor-pointer items-center justify-center rounded-full border border-transparent bg-gray-900 px-4 py-[calc(--spacing(2)-1px)] text-base font-medium whitespace-nowrap text-white shadow-md data-disabled:bg-gray-950 data-disabled:opacity-40 sm:transition-colors sm:hover:bg-gray-900/75"
 				>{btnText}</button
 			>
 		</div>

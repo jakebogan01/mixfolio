@@ -49,3 +49,14 @@ input[type='search']::-webkit-search-cancel-button {
 	background-color: #000000;
 	filter: grayscale(1);
 }
+
+html {
+	overflow-y: unset;
+	scrollbar-gutter: unset;
+}
+@media (width >= 40rem) {
+	html {
+		overflow-y: scroll;
+		scrollbar-gutter: stable;
+	}
+}

@@ -110,6 +110,7 @@
 				<p class="mt-2 text-sm text-gray-700">You do not have any projects.</p>
 				<button
 					type="button"
+					onclick={() => goto(PROJECTS, { state: { create: true } })}
 					class="block cursor-pointer rounded-md bg-purple-600 px-3 py-2 text-center text-sm font-semibold text-white shadow-xs hover:bg-violet-400 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
 					>Add a project</button
 				>
