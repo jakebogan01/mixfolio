@@ -43,8 +43,10 @@ export async function load({ parent, depends }) {
 					'expand.clients.id, ' +
 					'expand.clients.name, ' +
 					'expand.clients.link, ' +
-					'expand.clients.image',
-				expand: 'projects, testimonials, clients'
+					'expand.clients.image,'+
+					'expand.preferences.id,' +
+					'expand.preferences.portfolio_color',
+				expand: 'projects, testimonials, clients, preferences'
 			});
 
 		userProfile.avatar_url = userProfile.avatar

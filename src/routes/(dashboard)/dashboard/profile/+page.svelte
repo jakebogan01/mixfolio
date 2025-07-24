@@ -1,6 +1,48 @@
 <script>
 	import Profile from '$lib/components/dashboard/profile/Profile.svelte';
+	import { onMount } from 'svelte';
+	import iro from '@jaames/iro';
 	let { data } = $props();
+
+	onMount(() => {
+		const existingColor = data?.userProfile?.expand?.preferences?.portfolio_color || '#924999';
+		const existingPrefId = data?.userProfile?.expand?.preferences?.id;
+		const userId = data?.userProfile?.id;
+
+		const wheelPicker = new iro.ColorPicker("#wheelPicker", {
+			width: 250,
+			color: existingColor,
+			borderWidth: 1,
+			borderColor: "#fff",
+			layout: [
+				{
+					component: iro.ui.Slider,
+					options: { id: 'hue-slider', sliderType: 'hue' }
+				}
+			]
+		});
+
+		wheelPicker.on(["color:init", "color:change"], async function (color) {
+			const selectedColor = color.hexString;
+
+			try {
+				if (existingPrefId) {
+					await data.pb.collection('preferences').update(existingPrefId, {
+						portfolio_color: selectedColor
+					});
+				} else {
+					const newPref = await data.pb.collection('preferences').create({
+						portfolio_color: selectedColor
+					});
+					await data.pb.collection('profiles').update(userId, {
+						preferences: newPref.id
+					});
+				}
+			} catch (err) {
+				console.error("❌ Error updating preferences:", err);
+			}
+		});
+	});
 </script>
 
 <div
@@ -80,23 +122,11 @@
 				</h6>
 				<div class="flex flex-col gap-12">
 					<div>
-						<p class=" mb-4 block text-xs font-semibold text-gray-500 uppercase">account</p>
+						<p class=" mb-4 block text-xs font-semibold text-gray-500 uppercase">color</p>
 						<div class="flex flex-col gap-6">
 							<div class="inline-flex items-center">
-								<label class="relative inline-flex h-5 w-10 cursor-pointer items-center">
-									<input type="checkbox" class="peer sr-only" />
-									<span
-										class="absolute h-4 w-9 rounded-full bg-gray-300 transition-colors duration-200 ease-in-out peer-checked:bg-gray-900"
-									></span>
-									<span
-										class="absolute left-0 size-5 rounded-full border border-gray-300 bg-white shadow transition-transform duration-200 ease-in-out peer-checked:translate-x-5"
-									></span>
-								</label>
-								<label
-									class=" mt-px mb-0 ml-3 cursor-pointer text-sm font-normal select-none"
-									for="Email me when someone follows me"
-									>Email me when someone follows me
-								</label>
+										<div class="ColorPicker" id="wheelPicker">
+										</div>
 							</div>
 							<div class="inline-flex items-center">
 								<label class="relative inline-flex h-5 w-10 cursor-pointer items-center">
