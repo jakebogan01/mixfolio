@@ -39,6 +39,7 @@
 		"zod": "^3.25.76"
 	},
 	"dependencies": {
+		"@jaames/iro": "^5.5.2",
 		"@lottiefiles/dotlottie-web": "^0.47.0",
 		"@lottiefiles/svelte-lottie-player": "^0.3.1"
 	}

@@ -1,5 +1,4 @@
 <script>
-
 	import { onMount } from 'svelte';
 
 	let { data } = $props();
@@ -12,16 +11,15 @@
 	});
 
 	function colorPicker(selectedColor) {
-
-			console.log(selectedColor);
-			const lightness = getLightnessFromHex(selectedColor);
-			el.setAttribute(
-				'style',
-				`
+		console.log(selectedColor);
+		const lightness = getLightnessFromHex(selectedColor);
+		el.setAttribute(
+			'style',
+			`
 		--base-color: ${selectedColor};
 		--text-color: ${lightness > 60 ? 'black' : 'white'}		`
-			);
-		}
+		);
+	}
 
 	function getLightnessFromHex(hex) {
 		hex = hex.replace(/^#/, '');
@@ -52,18 +50,16 @@
 <!--</label>-->
 
 <div id="template-1" bind:this={el}>
-	<nav
-		class="sticky top-0 z-50 block w-full max-w-full rounded-none  px-4 py-4"
-	>
+	<nav class="sticky top-0 z-50 block w-full max-w-full rounded-none px-4 py-4">
 		<div class="container mx-auto flex items-center justify-between">
 			<p class=" block font-sans text-lg font-bold antialiased">
 				<a href="">{data.name}</a>
 			</p>
-			<ul class="ml-10 hidden items-center gap-8 lg:flex"  bind:this={section}>
+			<ul class="ml-10 hidden items-center gap-8 lg:flex" bind:this={section}>
 				<li>
 					<a
 						href="#projects"
-					target="_self"
+						target="_self"
 						class="flex items-center gap-2 font-sans text-base leading-relaxed font-medium antialiased"
 						><svg
 							xmlns="http://www.w3.org/2000/svg"
@@ -82,7 +78,7 @@
 						href="#testimonials"
 						target="_self"
 						class="flex items-center gap-2 font-sans text-base leading-relaxed font-medium antialiased"
-					><svg
+						><svg
 							xmlns="http://www.w3.org/2000/svg"
 							viewBox="0 0 24 24"
 							fill="currentColor"
@@ -524,23 +520,22 @@
 			color: var(--third-text-color);
 		}
 
-			button:hover {
-					background: var(--text-color);
-					color: var(--surface-color);
-			}
+		button:hover {
+			background: var(--text-color);
+			color: var(--surface-color);
+		}
 
-			img{
-					border-color: aliceblue;
-			}
+		img {
+			border-color: aliceblue;
+		}
 
 		.sticky {
 			background: var(--surface-color);
-				color: var(--third-text-color);
+			color: var(--third-text-color);
 		}
 
 		.icon {
 			background: var(--surface-color);
 		}
 	}
-
 </style>

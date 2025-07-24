@@ -43,7 +43,7 @@ export async function load({ parent, depends }) {
 					'expand.clients.id, ' +
 					'expand.clients.name, ' +
 					'expand.clients.link, ' +
-					'expand.clients.image,'+
+					'expand.clients.image,' +
 					'expand.preferences.id,' +
 					'expand.preferences.portfolio_color',
 				expand: 'projects, testimonials, clients, preferences'

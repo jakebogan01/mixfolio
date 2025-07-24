@@ -9,11 +9,11 @@
 		const existingPrefId = data?.userProfile?.expand?.preferences?.id;
 		const userId = data?.userProfile?.id;
 
-		const wheelPicker = new iro.ColorPicker("#wheelPicker", {
+		const wheelPicker = new iro.ColorPicker('#wheelPicker', {
 			width: 250,
 			color: existingColor,
 			borderWidth: 1,
-			borderColor: "#fff",
+			borderColor: '#fff',
 			layout: [
 				{
 					component: iro.ui.Slider,
@@ -22,7 +22,7 @@
 			]
 		});
 
-		wheelPicker.on(["color:init", "color:change"], async function (color) {
+		wheelPicker.on(['color:init', 'color:change'], async function (color) {
 			const selectedColor = color.hexString;
 
 			try {
@@ -39,7 +39,7 @@
 					});
 				}
 			} catch (err) {
-				console.error("❌ Error updating preferences:", err);
+				console.error('❌ Error updating preferences:', err);
 			}
 		});
 	});
@@ -125,8 +125,7 @@
 						<p class=" mb-4 block text-xs font-semibold text-gray-500 uppercase">color</p>
 						<div class="flex flex-col gap-6">
 							<div class="inline-flex items-center">
-										<div class="ColorPicker" id="wheelPicker">
-										</div>
+								<div class="ColorPicker" id="wheelPicker"></div>
 							</div>
 							<div class="inline-flex items-center">
 								<label class="relative inline-flex h-5 w-10 cursor-pointer items-center">
