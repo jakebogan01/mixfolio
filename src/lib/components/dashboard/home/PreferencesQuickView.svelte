@@ -10,113 +10,114 @@
 			<h6 class="text-base font-semibold text-gray-900">Preferences</h6>
 		</div>
 	</div>
-	<div class="flex flex-col gap-12 p-6 px-4 pt-0 sm:px-6 lg:px-8">
+	<div class="flex flex-col px-4 pt-0 sm:px-6 lg:px-8 pt-6 space-y-6">
 		<div>
-			<p class="mt-6 mb-4 block text-xs font-semibold text-gray-500 uppercase">account</p>
+			<p class="mb-4 block text-xs font-semibold text-gray-400">Portfolio Settings</p>
 			<div class="flex flex-col gap-6">
 				<div class="inline-flex items-center justify-between">
 					<label
 						class=" mt-px mb-0 cursor-pointer text-sm font-normal select-none"
-						for="Email me when someone follows me"
-						>Email me when someone follows me
+						for="hide-projects"
+					>
+						Hide projects section from portfolio
 					</label>
 					<label class="relative inline-flex h-5 w-10 cursor-pointer items-center">
-						<input type="checkbox" class="peer sr-only" />
+						<input type="checkbox" id="hide-projects" class="peer sr-only" />
 						<span
 							class="absolute h-4 w-9 rounded-full bg-gray-300 transition-colors duration-200 ease-in-out peer-checked:bg-gray-900"
 						></span>
 						<span
-							class="absolute left-0 size-5 rounded-full border border-gray-300 bg-white shadow transition-transform duration-200 ease-in-out peer-checked:translate-x-5"
+							class="absolute left-0 size-5 rounded-full border border-gray-400 bg-white shadow transition-transform duration-200 ease-in-out peer-checked:translate-x-5"
 						></span>
 					</label>
 				</div>
 				<div class="inline-flex items-center justify-between">
 					<label
 						class=" mt-px mb-0 cursor-pointer text-sm font-normal select-none"
-						for="Email me when someone answers on my post"
+						for="hide-testimonials"
 					>
-						Email me when someone answers on my post
+						Hide testimonials section from portfolio
 					</label>
 					<label class="relative inline-flex h-5 w-10 cursor-pointer items-center">
-						<input type="checkbox" class="peer sr-only" />
+						<input type="checkbox" id="hide-testimonials" class="peer sr-only" />
 						<span
 							class="absolute h-4 w-9 rounded-full bg-gray-300 transition-colors duration-200 ease-in-out peer-checked:bg-gray-900"
 						></span>
 						<span
-							class="absolute left-0 size-5 rounded-full border border-gray-300 bg-white shadow transition-transform duration-200 ease-in-out peer-checked:translate-x-5"
+							class="absolute left-0 size-5 rounded-full border border-gray-400 bg-white shadow transition-transform duration-200 ease-in-out peer-checked:translate-x-5"
 						></span>
 					</label>
 				</div>
 				<div class="inline-flex items-center justify-between">
 					<label
 						class=" mt-px mb-0 cursor-pointer text-sm font-normal select-none"
-						for="Email me when someone mentions me"
+						for="hide-clients"
 					>
-						Email me when someone mentions me
+						Hide clients section from portfolio
 					</label>
 					<label class="relative inline-flex h-5 w-10 cursor-pointer items-center">
-						<input type="checkbox" class="peer sr-only" checked />
+						<input type="checkbox" class="peer sr-only" id="hide-clients" />
 						<span
 							class="absolute h-4 w-9 rounded-full bg-gray-300 transition-colors duration-200 ease-in-out peer-checked:bg-gray-900"
 						></span>
 						<span
-							class="absolute left-0 size-5 rounded-full border border-gray-300 bg-white shadow transition-transform duration-200 ease-in-out peer-checked:translate-x-5"
+							class="absolute left-0 size-5 rounded-full border border-gray-400 bg-white shadow transition-transform duration-200 ease-in-out peer-checked:translate-x-5"
+						></span>
+					</label>
+				</div>
+				<div class="inline-flex items-center justify-between">
+					<label
+							class=" mt-px mb-0 cursor-pointer text-sm font-normal select-none"
+							for="hide-portfolio"
+					>
+						Make portfolio public
+					</label>
+					<label class="relative inline-flex h-5 w-10 cursor-pointer items-center">
+						<input type="checkbox" class="peer sr-only" id="hide-portfolio" checked />
+						<span
+								class="absolute h-4 w-9 rounded-full bg-gray-300 transition-colors duration-200 ease-in-out peer-checked:bg-gray-900"
+						></span>
+						<span
+								class="absolute left-0 size-5 rounded-full border border-gray-400 bg-white shadow transition-transform duration-200 ease-in-out peer-checked:translate-x-5"
 						></span>
 					</label>
 				</div>
 			</div>
 		</div>
+		<hr class="border-gray-300" />
 		<div>
-			<p class=" mb-4 block text-xs font-semibold text-gray-500 uppercase">application</p>
+			<p class="mb-4 block text-xs font-semibold text-gray-400">Account Settings</p>
 			<div class="flex flex-col gap-6">
 				<div class="inline-flex items-center justify-between">
 					<label
-						class=" mt-px mb-0 cursor-pointer text-sm font-normal select-none"
-						for="New launches and projects"
-					>
-						New launches and projects
+							class=" mt-px mb-0 cursor-pointer text-sm font-normal select-none"
+							for="hide-notifications"
+					>Disable notifications
 					</label>
 					<label class="relative inline-flex h-5 w-10 cursor-pointer items-center">
-						<input type="checkbox" class="peer sr-only" />
+						<input type="checkbox" class="peer sr-only" id="hide-notifications" />
 						<span
-							class="absolute h-4 w-9 rounded-full bg-gray-300 transition-colors duration-200 ease-in-out peer-checked:bg-gray-900"
+								class="absolute h-4 w-9 rounded-full bg-gray-300 transition-colors duration-200 ease-in-out peer-checked:bg-gray-900"
 						></span>
 						<span
-							class="absolute left-0 size-5 rounded-full border border-gray-300 bg-white shadow transition-transform duration-200 ease-in-out peer-checked:translate-x-5"
+								class="absolute left-0 size-5 rounded-full border border-gray-400 bg-white shadow transition-transform duration-200 ease-in-out peer-checked:translate-x-5"
 						></span>
 					</label>
 				</div>
 				<div class="inline-flex items-center justify-between">
 					<label
-						class=" mt-px mb-0 cursor-pointer text-sm font-normal select-none"
-						for="Monthly product updates"
+							class=" mt-px mb-0 cursor-pointer text-sm font-normal select-none"
+							for="hide-analytics"
 					>
-						Monthly product updates
+						Disable dashboard stats
 					</label>
 					<label class="relative inline-flex h-5 w-10 cursor-pointer items-center">
-						<input type="checkbox" class="peer sr-only" checked />
+						<input type="checkbox" class="peer sr-only" id="hide-analytics" />
 						<span
-							class="absolute h-4 w-9 rounded-full bg-gray-300 transition-colors duration-200 ease-in-out peer-checked:bg-gray-900"
+								class="absolute h-4 w-9 rounded-full bg-gray-300 transition-colors duration-200 ease-in-out peer-checked:bg-gray-900"
 						></span>
 						<span
-							class="absolute left-0 size-5 rounded-full border border-gray-300 bg-white shadow transition-transform duration-200 ease-in-out peer-checked:translate-x-5"
-						></span>
-					</label>
-				</div>
-				<div class="inline-flex items-center justify-between">
-					<label
-						class=" mt-px mb-0 cursor-pointer text-sm font-normal select-none"
-						for="Subscribe to newsletter"
-					>
-						Subscribe to newsletter
-					</label>
-					<label class="relative inline-flex h-5 w-10 cursor-pointer items-center">
-						<input type="checkbox" class="peer sr-only" />
-						<span
-							class="absolute h-4 w-9 rounded-full bg-gray-300 transition-colors duration-200 ease-in-out peer-checked:bg-gray-900"
-						></span>
-						<span
-							class="absolute left-0 size-5 rounded-full border border-gray-300 bg-white shadow transition-transform duration-200 ease-in-out peer-checked:translate-x-5"
+								class="absolute left-0 size-5 rounded-full border border-gray-400 bg-white shadow transition-transform duration-200 ease-in-out peer-checked:translate-x-5"
 						></span>
 					</label>
 				</div>

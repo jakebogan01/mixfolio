@@ -43,9 +43,15 @@ export async function load({ parent, depends }) {
 					'expand.clients.id, ' +
 					'expand.clients.name, ' +
 					'expand.clients.link, ' +
-					'expand.clients.image,' +
-					'expand.preferences.id,' +
-					'expand.preferences.portfolio_color',
+					'expand.clients.image, ' +
+					'expand.preferences.id, ' +
+					'expand.preferences.portfolio_color ' +
+					'expand.preferences.hide_projects ' +
+					'expand.preferences.hide_testimonials ' +
+					'expand.preferences.hide_clients ' +
+					'expand.preferences.hide_portfolio ' +
+					'expand.preferences.hide_notifications ' +
+					'expand.preferences.hide_analytics ',
 				expand: 'projects, testimonials, clients, preferences'
 			});
 
