@@ -50,6 +50,11 @@ input[type='search']::-webkit-search-cancel-button {
 	filter: grayscale(1);
 }
 
+.base {
+	background-color: oklch(21% 0.034 264.665) !important;
+	color: #ffffff !important;
+}
+
 html {
 	overflow-y: unset;
 	scrollbar-gutter: unset;

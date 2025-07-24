@@ -1,16 +1,10 @@
 <script>
-	import Profile from '$lib/components/dashboard/profile/Profile.svelte';
 	import { onMount } from 'svelte';
+	import { debounce } from '$lib/utils/misc.js';
 	import iro from '@jaames/iro';
-	let { data } = $props();
+	import Profile from '$lib/components/dashboard/profile/Profile.svelte';
 
-	const debounce = (fn, delay) => {
-		let timeout;
-		return (...args) => {
-			clearTimeout(timeout);
-			timeout = setTimeout(() => fn(...args), delay);
-		};
-	};
+	let { data } = $props();
 
 	onMount(() => {
 		const existingColor = data?.userProfile?.expand?.preferences?.portfolio_color || '#924999';

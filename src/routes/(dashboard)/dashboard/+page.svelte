@@ -11,7 +11,7 @@
 
 <DashboardStats userProfile={data?.userProfile} />
 <div class="mb-6 grid grid-cols-1 gap-x-6 gap-y-12 md:grid-cols-2 xl:grid-cols-3">
-	<ProfileQuickView userProfile={data?.userProfile} />
+	<ProfileQuickView {data} />
 	<PreferencesQuickView userProfile={data?.userProfile} />
 	<ClientsQuickView userProfile={data?.userProfile} />
 </div>
