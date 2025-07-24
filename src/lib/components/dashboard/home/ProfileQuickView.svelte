@@ -9,13 +9,13 @@
 	class="relative flex flex-col rounded-xl border border-gray-300 bg-white bg-clip-border py-10 text-gray-700"
 >
 	<div class="px-4 text-base/7 font-semibold sm:flex sm:items-start sm:px-6 lg:px-8">
-		<div class="sm:flex-auto">
+		<div class="pb-2 sm:flex-auto">
 			<h6 class="text-base font-semibold text-gray-900">Profile</h6>
 		</div>
 		<div class="mt-4 sm:mt-0 sm:ml-16 sm:flex-none">
 			<button
 				type="button"
-				class="inline-flex cursor-pointer items-center rounded-md bg-gray-900 px-2.5 py-1.5 text-sm font-normal text-white disabled:cursor-not-allowed disabled:opacity-30 disabled:hover:bg-white sm:transition-colors sm:hover:bg-violet-400"
+				class="inline-flex cursor-pointer items-center rounded-md bg-gray-900 px-2.5 py-1.5 text-sm font-normal text-white disabled:cursor-not-allowed disabled:opacity-30 disabled:hover:bg-white sm:transition-colors sm:hover:bg-gray-900/75"
 				>View</button
 			>
 		</div>

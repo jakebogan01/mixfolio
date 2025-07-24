@@ -19,7 +19,7 @@
 		{
 			id: 3,
 			title: 'Total Projects',
-			value: `${userProfile?.expand?.projects?.length || 0}/10`,
+			value: `${userProfile?.expand?.projects?.length || 0}/8`,
 			icon: 'stacks'
 		},
 		{

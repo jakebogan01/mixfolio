@@ -71,19 +71,19 @@
 								/>
 								<span>My Portfolio</span>
 							</a>
-							<a
-								id="menu-item-1"
-								role="menuitem"
-								href={SETTINGS}
-								tabindex="-1"
-								class="group group flex items-center space-x-2 rounded-lg px-3 py-1.5 text-sm text-white sm:hover:bg-blue-500"
-							>
-								<Icon
-									name="settings"
-									class="size-4 text-zinc-400 sm:group-hover:text-white"
-									stroke="none"
-								/>
-								<span>Settings</span>
+							<a id="menu-item-1" role="menuitem" href={SETTINGS} tabindex="-1">
+								<button
+									type="button"
+									onclick={toggleMenu}
+									class="group group flex w-full cursor-pointer items-center space-x-2 rounded-lg px-3 py-1.5 text-sm text-white sm:hover:bg-blue-500"
+								>
+									<Icon
+										name="settings"
+										class="size-4 text-zinc-400 sm:group-hover:text-white"
+										stroke="none"
+									/>
+									<span>Settings</span>
+								</button>
 							</a>
 						</div>
 						<div class="mx-3.5 my-1 h-px border-0 bg-white/10 sm:mx-3" role="separator"></div>
@@ -112,12 +112,13 @@
 					<li>
 						<a href={item.link}>
 							<button
+								type="button"
+								onclick={toggleMenu}
 								class="flex w-full cursor-pointer items-center gap-4 rounded-lg bg-gradient-to-tr px-4 py-3 leading-relaxed font-medium text-white select-none disabled:pointer-events-none sm:transition-colors {page.route.id.endsWith(
 									item.text.toLowerCase()
 								)
 									? 'from-purple-600 to-violet-400'
 									: 'bg-gray-900 sm:hover:bg-white/10'}"
-								type="button"
 							>
 								<Icon name={item.icon} class="size-5" stroke="none" />
 								{item.text}

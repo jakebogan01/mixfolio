@@ -15,7 +15,6 @@
 		"@eslint/compat": "^1.2.5",
 		"@eslint/js": "^9.18.0",
 		"@felte/reporter-dom": "^1.1.10",
-		"@felte/reporter-tippy": "^1.1.10",
 		"@felte/validator-zod": "^1.0.18",
 		"@splinetool/runtime": "^1.10.32",
 		"@sveltejs/adapter-auto": "^6.0.0",
@@ -40,7 +39,6 @@
 		"zod": "^3.25.76"
 	},
 	"dependencies": {
-		"@jaames/iro": "^5.5.2",
 		"@lottiefiles/dotlottie-web": "^0.47.0",
 		"@lottiefiles/svelte-lottie-player": "^0.3.1"
 	}

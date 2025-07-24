@@ -1,7 +1,8 @@
 <script>
-	import { DASHBOARD } from '$lib/utils/constants.js';
+	import { DASHBOARD, PROJECTS } from '$lib/utils/constants.js';
 	import { toISODate } from '$lib/utils/date.js';
 	import Icon from '$lib/components/Icon.svelte';
+	import { goto } from '$app/navigation';
 
 	let { userProfile } = $props();
 </script>
@@ -11,16 +12,19 @@
 >
 	{#if userProfile?.expand?.projects?.length}
 		<div class="px-4 text-base/7 font-semibold sm:flex sm:items-start sm:px-6 lg:px-8">
-			<div class="sm:flex-auto">
+			<div class="pb-2 sm:flex-auto">
 				<h6 class="text-base font-semibold text-gray-900">Projects</h6>
 			</div>
-			<div class="mt-4 sm:mt-0 sm:ml-16 sm:flex-none">
-				<button
-					type="button"
-					class="inline-flex cursor-pointer items-center rounded-md bg-purple-600 px-2.5 py-1.5 text-sm font-normal text-white disabled:cursor-not-allowed disabled:opacity-30 disabled:hover:bg-white sm:transition-colors sm:hover:bg-violet-400"
-					>Add project</button
-				>
-			</div>
+			{#if userProfile?.expand?.projects?.length < 8}
+				<div class="mt-4 sm:mt-0 sm:ml-16 sm:flex-none">
+					<button
+						type="button"
+						onclick={() => goto(PROJECTS, { state: { create: true } })}
+						class="inline-flex cursor-pointer items-center rounded-md bg-purple-600 px-2.5 py-1.5 text-sm font-normal text-white disabled:cursor-not-allowed disabled:opacity-30 disabled:hover:bg-white sm:transition-colors sm:hover:bg-violet-400"
+						>Add project</button
+					>
+				</div>
+			{/if}
 		</div>
 		<div class="mt-6 max-h-92 overflow-y-auto">
 			<table class="table-fixed text-left whitespace-nowrap">
@@ -70,7 +74,7 @@
 								<a
 									href={project?.link || DASHBOARD}
 									title="Copy link"
-									class="text-gray-900 sm:hover:text-violet-400"
+									class="text-gray-900 sm:hover:text-gray-900/75"
 								>
 									<Icon name="copy-link" class="size-6" stroke="none" />
 								</a>
@@ -90,7 +94,8 @@
 							<td class="py-4 pr-4 pl-0 text-right text-sm text-white sm:pr-6 lg:pr-8">
 								<button
 									type="button"
-									class="inline-flex cursor-pointer items-center rounded-md bg-gray-900 px-2.5 py-1.5 disabled:cursor-not-allowed disabled:opacity-30 disabled:hover:bg-white sm:transition-colors sm:hover:bg-violet-400"
+									onclick={() => goto(PROJECTS, { state: { view: true, projectId: project?.id } })}
+									class="inline-flex cursor-pointer items-center rounded-md bg-gray-900 px-2.5 py-1.5 disabled:cursor-not-allowed disabled:opacity-30 disabled:hover:bg-white sm:transition-colors sm:hover:bg-gray-900/75"
 									>Select<span class="sr-only">View {project?.name}</span></button
 								>
 							</td>

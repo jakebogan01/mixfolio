@@ -30,7 +30,7 @@
 	const toggleMenu = () => (menuOpen = !menuOpen);
 </script>
 
-<div class="relative flex min-h-screen bg-gray-100 pl-0 font-sans xl:pl-76">
+<div class="relative flex min-h-screen overflow-x-hidden bg-gray-100 pl-0 font-sans xl:pl-76">
 	<div class="absolute h-screen w-full max-w-7xl overflow-x-hidden">
 		<div
 			class="absolute -top-44 left-60 z-0 h-60 w-xl -rotate-10 rounded-full bg-linear-115 from-yellow-100 from-28% via-pink-400 via-70% to-purple-500 blur-3xl md:right-0"

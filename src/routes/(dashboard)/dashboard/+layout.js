@@ -32,6 +32,7 @@ export async function load({ parent, depends }) {
 					'expand.projects.link, ' +
 					'expand.projects.image, ' +
 					'expand.projects.created, ' +
+					'expand.projects.updated, ' +
 					'expand.testimonials.collectionId, ' +
 					'expand.testimonials.id, ' +
 					'expand.testimonials.name, ' +

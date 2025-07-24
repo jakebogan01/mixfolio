@@ -46,14 +46,14 @@
 </script>
 
 <div
-	class="relative h-72 w-full overflow-hidden rounded-xl bg-[url('https://demos.creative-tim.com/material-tailwind-dashboard-react/img/background-image.png')] bg-cover bg-center"
+	class="relative h-50 w-full overflow-hidden rounded-xl bg-[url('https://demos.creative-tim.com/material-tailwind-dashboard-react/img/background-image.png')] bg-cover bg-center"
 >
 	<div class="absolute inset-0 h-full w-full bg-gray-900/75"></div>
 </div>
 <div
 	class="relative mx-3 -mt-16 mb-6 flex flex-col rounded-xl border border-gray-300 bg-white bg-clip-border text-gray-700 shadow-md lg:mx-4"
 >
-	<div class="p-4">
+	<div class="px-4 pt-4 pb-8">
 		<div class="mb-10 flex flex-wrap items-start justify-between gap-6">
 			<div class="flex items-center gap-6">
 				<img
