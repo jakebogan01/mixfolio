@@ -4,6 +4,14 @@
 	import iro from '@jaames/iro';
 	let { data } = $props();
 
+	const debounce = (fn, delay) => {
+		let timeout;
+		return (...args) => {
+			clearTimeout(timeout);
+			timeout = setTimeout(() => fn(...args), delay);
+		};
+	};
+
 	onMount(() => {
 		const existingColor = data?.userProfile?.expand?.preferences?.portfolio_color || '#924999';
 		const existingPrefId = data?.userProfile?.expand?.preferences?.id;
@@ -22,14 +30,13 @@
 			]
 		});
 
-		wheelPicker.on(['color:init', 'color:change'], async function (color) {
-			const selectedColor = color.hexString;
-
+		const debouncedUpdate = debounce(async (selectedColor) => {
 			try {
 				if (existingPrefId) {
 					await data.pb.collection('preferences').update(existingPrefId, {
 						portfolio_color: selectedColor
 					});
+					console.log('✅ Color updated:', selectedColor);
 				} else {
 					const newPref = await data.pb.collection('preferences').create({
 						portfolio_color: selectedColor
@@ -37,10 +44,15 @@
 					await data.pb.collection('profiles').update(userId, {
 						preferences: newPref.id
 					});
+					console.log('✅ Preferences created:', newPref.id);
 				}
 			} catch (err) {
 				console.error('❌ Error updating preferences:', err);
 			}
+		}, 500);
+
+		wheelPicker.on('color:change', (color) => {
+			debouncedUpdate(color.hexString);
 		});
 	});
 </script>
