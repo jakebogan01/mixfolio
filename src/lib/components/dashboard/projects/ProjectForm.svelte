@@ -19,7 +19,7 @@
 
 	onMount(() => {
 		if (projectId) {
-			project = data?.userProfile?.expand?.projects.find((project) => project.id === projectId);
+			project = data?.userProfile?.expand?.projects.find((project) => project?.id === projectId);
 		}
 	});
 

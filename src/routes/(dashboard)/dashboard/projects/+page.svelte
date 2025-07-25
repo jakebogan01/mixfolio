@@ -1,7 +1,7 @@
 <script>
 	import { page } from '$app/state';
 	import { onMount } from 'svelte';
-	import Projects from '$lib/components/dashboard/projects/Projects.svelte';
+	import ProjectForm from '$lib/components/dashboard/projects/ProjectForm.svelte';
 
 	let { data } = $props();
 	let menuOpen = $state(false);
@@ -109,5 +109,5 @@
 </div>
 
 {#if menuOpen}
-	<Projects {data} {projectId} {viewProject} {toggleMenu} />
+	<ProjectForm {data} {projectId} {viewProject} {toggleMenu} />
 {/if}

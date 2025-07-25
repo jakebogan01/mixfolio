@@ -1,7 +1,25 @@
 <script>
-	import Icon from '$lib/components/Icon.svelte';
+	import { page } from '$app/state';
+	import { onMount } from 'svelte';
+	import TestimonialForm from '$lib/components/dashboard/testimonials/TestimonialForm.svelte';
 
 	let { data } = $props();
+	let menuOpen = $state(false);
+	let viewTestimonial = $state(false);
+	let testimonialId = $state(null);
+
+	onMount(() => {
+		if (page?.state?.create) {
+			menuOpen = true;
+			viewTestimonial = false;
+		} else if (page?.state?.view) {
+			menuOpen = true;
+			viewTestimonial = true;
+			testimonialId = page?.state?.testimonialId;
+		}
+	});
+
+	const toggleMenu = () => (menuOpen = !menuOpen);
 </script>
 
 <div class="space-y-12">
@@ -21,6 +39,10 @@
 					<div class="mt-4 sm:mt-0 sm:ml-16 sm:flex-none">
 						<button
 							type="button"
+							onclick={() => {
+								toggleMenu();
+								viewTestimonial = false;
+							}}
 							class="block cursor-pointer rounded-md bg-purple-600 px-3 py-2 text-center text-sm font-semibold text-white shadow-xs hover:bg-violet-400 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-purple-600"
 							>Add testimonial</button
 						>
@@ -100,9 +122,14 @@
 											>
 												<button
 													type="button"
+													onclick={() => {
+														toggleMenu();
+														viewTestimonial = true;
+														testimonialId = testimonial?.id;
+													}}
 													class="cursor-pointer text-gray-900 hover:text-violet-400"
 												>
-													Edit
+													View
 													<span class="sr-only">, {testimonial?.name || 'Name unavailable'}</span
 													></button
 												>
@@ -121,6 +148,10 @@
 					<p class="mt-2 text-sm text-gray-700">You do not have any testimonials.</p>
 					<button
 						type="button"
+						onclick={() => {
+							toggleMenu();
+							viewTestimonial = false;
+						}}
 						class="block cursor-pointer rounded-md bg-purple-600 px-3 py-2 text-center text-sm font-semibold text-white shadow-xs hover:bg-violet-400 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
 						>Add a testimonial</button
 					>
@@ -129,3 +160,7 @@
 		{/if}
 	</div>
 </div>
+
+{#if menuOpen}
+	<TestimonialForm {data} {testimonialId} {viewTestimonial} {toggleMenu} />
+{/if}
