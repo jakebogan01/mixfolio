@@ -68,7 +68,7 @@
 											class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">Title</th
 										>
 										<th scope="col" class="relative py-3.5 pr-4 pl-3 sm:pr-0">
-											<span class="sr-only">Edit</span>
+											<span class="sr-only">View</span>
 										</th>
 									</tr>
 								</thead>
