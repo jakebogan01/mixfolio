@@ -1,5 +1,25 @@
 <script>
-	let { userProfile } = $props();
+	import { createForm } from 'felte';
+	import { invalidate } from '$app/navigation';
+	import { toastMessage } from '$lib/utils/toast.js';
+
+	let { data } = $props();
+	let formEl;
+
+	const { form } = createForm({
+		initialValues: { slug: data?.userProfile?.slug || null },
+		onSubmit: async (values) => {
+			try {
+				await data.pb
+					.collection('preferences')
+					.update(data?.userProfile?.expand?.preferences?.id, values);
+				await invalidate('user_profile');
+				toastMessage('success', 'Settings Updated!');
+			} catch (error) {
+				console.dir(error, { depth: null });
+			}
+		}
+	});
 </script>
 
 <div
@@ -10,7 +30,7 @@
 			<h6 class="text-base font-semibold text-gray-900">Preferences</h6>
 		</div>
 	</div>
-	<div class="flex flex-col space-y-6 px-4 pt-0 pt-6 sm:px-6 lg:px-8">
+	<form bind:this={formEl} class="flex flex-col space-y-6 px-4 pt-0 pt-6 sm:px-6 lg:px-8" use:form>
 		<div>
 			<p class="mb-4 block text-xs font-semibold text-gray-400">Portfolio Settings</p>
 			<div class="flex flex-col gap-6">
@@ -22,7 +42,14 @@
 						Hide projects section from portfolio
 					</label>
 					<label class="relative inline-flex h-5 w-10 cursor-pointer items-center">
-						<input type="checkbox" id="hide-projects" class="peer sr-only" />
+						<input
+							type="checkbox"
+							onchange={() => formEl?.requestSubmit()}
+							name="hide_projects"
+							id="hide-projects"
+							class="peer sr-only"
+							checked={data?.userProfile?.expand?.preferences?.hide_projects}
+						/>
 						<span
 							class="absolute h-4 w-9 rounded-full bg-gray-300 transition-colors duration-200 ease-in-out peer-checked:bg-gray-900"
 						></span>
@@ -39,7 +66,14 @@
 						Hide testimonials section from portfolio
 					</label>
 					<label class="relative inline-flex h-5 w-10 cursor-pointer items-center">
-						<input type="checkbox" id="hide-testimonials" class="peer sr-only" />
+						<input
+							type="checkbox"
+							onchange={() => formEl?.requestSubmit()}
+							name="hide_testimonials"
+							id="hide-testimonials"
+							class="peer sr-only"
+							checked={data?.userProfile?.expand?.preferences?.hide_testimonials}
+						/>
 						<span
 							class="absolute h-4 w-9 rounded-full bg-gray-300 transition-colors duration-200 ease-in-out peer-checked:bg-gray-900"
 						></span>
@@ -56,7 +90,14 @@
 						Hide clients section from portfolio
 					</label>
 					<label class="relative inline-flex h-5 w-10 cursor-pointer items-center">
-						<input type="checkbox" class="peer sr-only" id="hide-clients" />
+						<input
+							type="checkbox"
+							onchange={() => formEl?.requestSubmit()}
+							name="hide_clients"
+							class="peer sr-only"
+							id="hide-clients"
+							checked={data?.userProfile?.expand?.preferences?.hide_clients}
+						/>
 						<span
 							class="absolute h-4 w-9 rounded-full bg-gray-300 transition-colors duration-200 ease-in-out peer-checked:bg-gray-900"
 						></span>
@@ -73,7 +114,14 @@
 						Make portfolio public
 					</label>
 					<label class="relative inline-flex h-5 w-10 cursor-pointer items-center">
-						<input type="checkbox" class="peer sr-only" id="hide-portfolio" checked />
+						<input
+							type="checkbox"
+							onchange={() => formEl?.requestSubmit()}
+							class="peer sr-only"
+							name="hide_portfolio"
+							id="hide-portfolio"
+							checked={data?.userProfile?.expand?.preferences?.hide_portfolio}
+						/>
 						<span
 							class="absolute h-4 w-9 rounded-full bg-gray-300 transition-colors duration-200 ease-in-out peer-checked:bg-gray-900"
 						></span>
@@ -95,7 +143,14 @@
 						>Disable notifications
 					</label>
 					<label class="relative inline-flex h-5 w-10 cursor-pointer items-center">
-						<input type="checkbox" class="peer sr-only" id="hide-notifications" />
+						<input
+							type="checkbox"
+							onchange={() => formEl?.requestSubmit()}
+							class="peer sr-only"
+							name="hide_notifications"
+							id="hide-notifications"
+							checked={data?.userProfile?.expand?.preferences?.hide_notifications}
+						/>
 						<span
 							class="absolute h-4 w-9 rounded-full bg-gray-300 transition-colors duration-200 ease-in-out peer-checked:bg-gray-900"
 						></span>
@@ -112,7 +167,14 @@
 						Disable dashboard stats
 					</label>
 					<label class="relative inline-flex h-5 w-10 cursor-pointer items-center">
-						<input type="checkbox" class="peer sr-only" id="hide-analytics" />
+						<input
+							type="checkbox"
+							onchange={() => formEl?.requestSubmit()}
+							class="peer sr-only"
+							name="hide_analytics"
+							id="hide-analytics"
+							checked={data?.userProfile?.expand?.preferences?.hide_analytics}
+						/>
 						<span
 							class="absolute h-4 w-9 rounded-full bg-gray-300 transition-colors duration-200 ease-in-out peer-checked:bg-gray-900"
 						></span>
@@ -123,5 +185,5 @@
 				</div>
 			</div>
 		</div>
-	</div>
+	</form>
 </div>

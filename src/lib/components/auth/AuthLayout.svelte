@@ -51,7 +51,10 @@
 				if (register) {
 					const newUser = await pb.collection('users').create(values);
 					await pb.collection('users').authWithPassword(values.email, values.password);
-					await pb.collection('profiles').create({ user_id: newUser.id });
+					let userPreferences = await pb.collection('preferences').create({ hide_portfolio: true });
+					await pb
+						.collection('profiles')
+						.create({ user_id: newUser.id, preferences: userPreferences.id });
 					user.model = pb;
 					await goto(DASHBOARD, { state: { type: 'success', message: 'Successfully registered' } });
 				} else {
