@@ -7,25 +7,23 @@
 	import reporterDom from '@felte/reporter-dom';
 	import { invalidate } from '$app/navigation';
 
-	let { data, testimonialId, viewTestimonial, toggleMenu = () => {} } = $props();
+	let { data, clientId, viewClient, toggleMenu = () => {} } = $props();
 	let previewInput = $state(null);
 	let fileInput = $state(null);
 	let isDragging = $state(false);
 	let showPreviewImage = $state(true);
-	let testimonial = $state(null);
-	let updatingTestimonial = $state(false);
+	let client = $state(null);
+	let updatingClient = $state(false);
 	let showDeleteModal = $state(false);
 
 	onMount(() => {
-		if (testimonialId) {
-			testimonial = data?.userProfile?.expand?.testimonials.find(
-				(testimonial) => testimonial?.id === testimonialId
-			);
+		if (clientId) {
+			client = data?.userProfile?.expand?.clients.find((client) => client?.id === clientId);
 		}
 	});
 
 	const schema = z.object({
-		testimonial_image: z
+		client_image: z
 			.instanceof(File)
 			.optional()
 			.refine((file) => !file || file.size < 52_428_800, {
@@ -38,43 +36,31 @@
 			.string({ message: 'This filed is required' })
 			.min(5, { message: 'Must be 5 or more characters long' })
 			.max(255, { message: 'No more than 255 characters long' }),
-		email: z
-			.string({ message: 'This filed is required' })
-			.email({ message: 'Please enter a valid email address' })
-			.max(255, { message: 'No more than 255 characters long' }),
-		company: z
-			.string({ message: 'This filed is required' })
-			.min(5, { message: 'Must be 5 or more characters long' })
-			.max(255, { message: 'No more than 255 characters long' }),
-		role: z
-			.string({ message: 'This filed is required' })
-			.min(5, 'Must be 5 or more characters long')
+		link: z.string({ message: 'This filed is required' }).url({ message: 'Invalid url' })
 	});
 
 	const { form, reset, setFields } = createForm({
 		initialValues: {
 			name: null,
-			email: null,
-			company: null,
-			role: null
+			link: null
 		},
 		extend: [validator({ schema }), reporterDom()],
 		onSubmit: async (values) => {
 			try {
-				if (updatingTestimonial) {
+				if (updatingClient) {
 					values.image = fileInput?.files?.[0];
-					await data.pb.collection('testimonials').update(testimonialId, values);
+					await data.pb.collection('clients').update(clientId, values);
 				} else {
 					values.image = fileInput?.files?.[0];
-					const user_testimonials = await data.pb.collection('testimonials').create(values);
-					const currentTestimonialsIds = data?.userProfile?.expand?.testimonials || [];
-					const updatedTestimonialsIds = [
-						...currentTestimonialsIds.map((p) => (typeof p === 'string' ? p : p.id)),
-						user_testimonials.id
+					const user_clients = await data.pb.collection('clients').create(values);
+					const currentClientIds = data?.userProfile?.expand?.clients || [];
+					const updatedClientIds = [
+						...currentClientIds.map((p) => (typeof p === 'string' ? p : p.id)),
+						user_clients.id
 					];
 					await data.pb
 						.collection('profiles')
-						.update(data?.userProfile?.id, { testimonials: updatedTestimonialsIds });
+						.update(data?.userProfile?.id, { clients: updatedClientIds });
 				}
 				toggleMenu();
 				reset();
@@ -114,10 +100,10 @@
 		}
 	};
 
-	const deleteTestimonial = async () => {
+	const deleteClient = async () => {
 		try {
-			await data.pb.collection('testimonials').delete(testimonialId);
-			testimonialId = null;
+			await data.pb.collection('clients').delete(clientId);
+			clientId = null;
 			toggleMenu();
 			showDeleteModal = false;
 			await invalidate('user_profile');
@@ -126,14 +112,12 @@
 		}
 	};
 
-	const handleTestimonialUpdate = () => {
-		viewTestimonial = false;
-		updatingTestimonial = true;
+	const handleClientUpdate = () => {
+		viewClient = false;
+		updatingClient = true;
 		setFields({
-			name: testimonial?.name,
-			email: testimonial?.email,
-			company: testimonial?.company,
-			role: testimonial?.role
+			name: client?.name,
+			link: client?.link
 		});
 	};
 </script>
@@ -157,7 +141,7 @@
 							<div class="bg-gray-900 px-4 py-6 sm:px-6">
 								<div class="flex items-center justify-between">
 									<h2 id="drawer-title" class="text-base font-semibold text-white">
-										{viewTestimonial ? 'View Testimonial' : 'Create New Testimonial'}
+										{viewClient ? 'View Client' : 'Create New Client'}
 									</h2>
 									<div class="ml-3 flex h-7 items-center">
 										<button
@@ -186,42 +170,29 @@
 									</div>
 								</div>
 							</div>
-							{#if viewTestimonial}
+							{#if viewClient}
 								<div>
 									<div class="pb-1 sm:pb-6">
 										<div>
 											<div class="relative h-40 sm:h-56">
-												{#if testimonial?.testimonial_image_url}
-													<img
-														src={testimonial?.testimonial_image_url}
-														alt={testimonial?.name || 'User avatar'}
-														bind:this={previewInput}
-														loading="eager"
-														class="absolute size-full object-cover object-top"
-													/>
-												{:else}
-													<span class="absolute size-full object-cover object-top">
-														<svg
-															viewBox="0 0 24 24"
-															fill="currentColor"
-															class="size-full text-gray-400"
-															><path
-																d="M24 20.993V24H0v-2.996A14.977 14.977 0 0112.004 15c4.904 0 9.26 2.354 11.996 5.993zM16.002 8.999a4 4 0 11-8 0 4 4 0 018 0z"
-															/></svg
-														>
-													</span>
-												{/if}
+												<img
+													src={client?.client_image_url
+														? client?.client_image_url
+														: 'https://images.unsplash.com/photo-1492724724894-7464c27d0ceb?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=512&q=80'}
+													alt=""
+													class="pointer-events-none aspect-10/7 object-cover"
+												/>
 											</div>
 											<div class="mt-6 px-4 sm:mt-8 sm:flex sm:items-end sm:px-6">
 												<div class="sm:flex-1">
 													<div>
 														<div class="flex items-center">
 															<h3 class="text-xl font-bold text-gray-900 sm:text-2xl">
-																{testimonial?.name || 'Name unavailable'}
+																{client?.name || 'Name unavailable'}
 															</h3>
 														</div>
 														<p class="text-sm text-gray-500">
-															{testimonial?.email || 'Email unavailable'}
+															{client?.email || 'Email unavailable'}
 														</p>
 													</div>
 												</div>
@@ -235,13 +206,13 @@
 													Company
 												</dt>
 												<dd class="mt-1 text-sm text-gray-900 sm:col-span-2">
-													{testimonial?.company || 'Comapny unavailable'}
+													{client?.company || 'Comapny unavailable'}
 												</dd>
 											</div>
 											<div>
 												<dt class="text-sm font-medium text-gray-500 sm:w-40 sm:shrink-0">Title</dt>
 												<dd class="mt-1 text-sm text-gray-900 sm:col-span-2">
-													{testimonial?.role || 'Role unavailable'}
+													{client?.role || 'Role unavailable'}
 												</dd>
 											</div>
 										</dl>
@@ -252,14 +223,13 @@
 									<div class="divide-y divide-gray-200 px-4 sm:px-6">
 										<div class="space-y-6 pt-6 pb-5">
 											<div>
-												<label for="testimonial_image" class="sr-only">User testimonial_image</label
-												>
+												<label for="client_image" class="sr-only">User client_image</label>
 												<input
 													type="file"
 													bind:this={fileInput}
 													onchange={showLogoPreview}
-													name="testimonial_image"
-													id="testimonial_image"
+													name="client_image"
+													id="client_image"
 													accept=".jpeg,.jpg,.png"
 													class="sr-only"
 													hidden
@@ -269,12 +239,12 @@
 														class="overflow-hidden rounded-lg bg-gray-100 focus-within:ring-2 focus-within:ring-indigo-500 focus-within:ring-offset-2 focus-within:ring-offset-gray-100"
 													>
 														<img
-															src={updatingTestimonial
-																? testimonial?.testimonial_image_url
+															src={updatingClient
+																? client?.client_image_url
 																: 'https://developers.elementor.com/docs/assets/img/elementor-placeholder-image.png'}
 															bind:this={previewInput}
 															loading="eager"
-															alt="User testimonial_image preview"
+															alt="User client_image preview"
 															class="pointer-events-none aspect-video object-cover object-top"
 														/>
 													</div>
@@ -309,7 +279,7 @@
 											</div>
 											<div>
 												<label for="name" class="block text-sm/6 font-medium text-gray-900"
-													>Name</label
+													>Company Name</label
 												>
 												<div class="mt-2">
 													<input
@@ -321,7 +291,7 @@
 														required
 														minlength="5"
 														maxlength="255"
-														aria-label="Testimonial name"
+														aria-label="Client name"
 														aria-describedby="name-validation"
 													/>
 												</div>
@@ -334,79 +304,28 @@
 												></div>
 											</div>
 											<div>
-												<label for="email" class="block text-sm/6 font-medium text-gray-900"
-													>Your email</label
+												<label for="link" class="block text-sm/6 font-medium text-gray-900"
+													>Company link</label
 												>
 												<div class="mt-2">
 													<input
-														id="email"
-														type="email"
-														name="email"
+														id="link"
+														type="url"
+														name="link"
+														pattern="https://.*"
 														class="col-start-1 row-start-1 block w-full rounded-lg border border-transparent bg-white py-1.5 pr-10 pl-3 text-base shadow-sm outline-1 -outline-offset-1 outline-gray-300 focus:outline-2 focus:-outline-offset-2 sm:pr-9 sm:text-sm/6"
 														aria-invalid="true"
 														required
 														minlength="5"
 														maxlength="255"
-														aria-label="Your email address"
-														aria-describedby="email-validation"
+														aria-label="Clients link"
+														aria-describedby="link-validation"
 													/>
 												</div>
 												<div
-													id="email-validation"
+													id="link-validation"
 													class="mt-1 text-sm text-red-500"
-													data-felte-reporter-dom-for="email"
-													aria-live="polite"
-													data-felte-reporter-dom-single-message
-												></div>
-											</div>
-											<div>
-												<label for="company" class="block text-sm/6 font-medium text-gray-900"
-													>Company</label
-												>
-												<div class="mt-2">
-													<input
-														id="company"
-														type="text"
-														name="company"
-														class="col-start-1 row-start-1 block w-full rounded-lg border border-transparent bg-white py-1.5 pr-10 pl-3 text-base shadow-sm outline-1 -outline-offset-1 outline-gray-300 focus:outline-2 focus:-outline-offset-2 sm:pr-9 sm:text-sm/6"
-														aria-invalid="true"
-														required
-														minlength="5"
-														maxlength="255"
-														aria-label="Testimonial company"
-														aria-describedby="company-validation"
-													/>
-												</div>
-												<div
-													id="company-validation"
-													class="mt-1 text-sm text-red-500"
-													data-felte-reporter-dom-for="company"
-													aria-live="polite"
-													data-felte-reporter-dom-single-message
-												></div>
-											</div>
-											<div>
-												<label for="role" class="block text-sm/6 font-medium text-gray-900"
-													>Job role</label
-												>
-												<div class="mt-2">
-													<input
-														id="role"
-														type="text"
-														name="role"
-														class="col-start-1 row-start-1 block w-full rounded-lg border border-transparent bg-white py-1.5 pr-10 pl-3 text-base shadow-sm outline-1 -outline-offset-1 outline-gray-300 focus:outline-2 focus:-outline-offset-2 sm:pr-9 sm:text-sm/6"
-														aria-invalid="true"
-														required
-														minlength="5"
-														maxlength="255"
-														aria-label="Testimonial role"
-														aria-describedby="role-validation"
-													/>
-												</div>
-												<div
-													id="role-validation"
-													class="mt-1 text-sm text-red-500"
-													data-felte-reporter-dom-for="role"
+													data-felte-reporter-dom-for="link"
 													aria-live="polite"
 													data-felte-reporter-dom-single-message
 												></div>
@@ -416,8 +335,8 @@
 								</div>
 							{/if}
 						</div>
-						<div class="flex px-4 py-4 {viewTestimonial ? 'justify-between' : 'justify-end'}">
-							{#if viewTestimonial}
+						<div class="flex px-4 py-4 {viewClient ? 'justify-between' : 'justify-end'}">
+							{#if viewClient}
 								<button
 									type="button"
 									onclick={() => (showDeleteModal = true)}
@@ -432,10 +351,10 @@
 									class="cursor-pointer rounded-md bg-white px-3 py-2 text-sm font-semibold text-gray-900 shadow-xs ring-1 ring-gray-300 ring-inset hover:bg-gray-50"
 									>Cancel</button
 								>
-								{#if viewTestimonial}
+								{#if viewClient}
 									<button
 										type="button"
-										onclick={handleTestimonialUpdate}
+										onclick={handleClientUpdate}
 										class="ml-4 inline-flex cursor-pointer justify-center rounded-md bg-purple-600 px-3 py-2 text-sm font-semibold text-white shadow-xs focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600 sm:hover:bg-violet-400"
 										>Update</button
 									>
@@ -489,13 +408,11 @@
 							</svg>
 						</div>
 						<div class="mt-3 text-center sm:mt-0 sm:ml-4 sm:text-left">
-							<h3 id="dialog-title" class="text-base font-semibold text-gray-900">
-								Delete testimonial
-							</h3>
+							<h3 id="dialog-title" class="text-base font-semibold text-gray-900">Delete client</h3>
 							<div class="mt-2">
 								<p class="text-sm text-gray-500">
-									Are you sure you want to delete this testimonial? This testimonial will be
-									permanently removed from our servers forever. This action cannot be undone.
+									Are you sure you want to delete this client? This client will be permanently
+									removed from our servers forever. This action cannot be undone.
 								</p>
 							</div>
 						</div>
@@ -503,7 +420,7 @@
 					<div class="mt-5 sm:mt-4 sm:flex sm:flex-row-reverse">
 						<button
 							type="button"
-							onclick={deleteTestimonial}
+							onclick={deleteClient}
 							class="inline-flex w-full cursor-pointer justify-center rounded-md bg-red-500 px-3 py-2 text-sm font-semibold text-white shadow-xs hover:bg-red-400 sm:ml-3 sm:w-auto"
 							>Delete</button
 						>
