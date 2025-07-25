@@ -30,9 +30,11 @@
 >
 	<div class="px-4 pt-4 pb-8">
 		<div class="text-base/7 font-semibold sm:flex sm:items-start">
-			<div class="pb-2 sm:flex-auto">
-				<h6 class="text-base font-semibold text-gray-900">Projects</h6>
-			</div>
+			{#if data?.userProfile?.expand?.projects?.length}
+				<div class="pb-2 sm:flex-auto">
+					<h6 class="text-base font-semibold text-gray-900">Projects</h6>
+				</div>
+			{/if}
 			{#if data?.userProfile?.expand?.projects?.length < 8}
 				<div class="mt-4 sm:mt-0 sm:ml-16 sm:flex-none">
 					<button
@@ -88,7 +90,7 @@
 				{/each}
 			</ul>
 		{:else}
-			<div class="flex h-full items-center justify-center">
+			<div class="flex h-full items-center justify-center pt-10 pb-8">
 				<div class="flex flex-col items-center space-y-2">
 					<p class="mt-2 text-sm text-gray-700">You do not have any projects.</p>
 					<button

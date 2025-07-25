@@ -38,6 +38,7 @@ export async function load({ parent, depends }) {
 					'expand.testimonials.name, ' +
 					'expand.testimonials.email, ' +
 					'expand.testimonials.role, ' +
+					'expand.testimonials.company, ' +
 					'expand.testimonials.avatar, ' +
 					'expand.clients.collectionId, ' +
 					'expand.clients.id, ' +
