@@ -1,10 +1,14 @@
 <script>
 	import { z } from 'zod';
+	import { onMount } from 'svelte';
+	import { fly, fade, scale } from 'svelte/transition';
 	import { createForm } from 'felte';
 	import { validator } from '@felte/validator-zod';
+	import reporterDom from '@felte/reporter-dom';
 	import { invalidate } from '$app/navigation';
+	import { toISODate } from '$lib/utils/date.js';
 
-	let { data } = $props();
+	let { data, toggleMenu = () => {} } = $props();
 	let editingUserProfileImage = $state(false);
 	let previewInput, fileInput;
 	let isDragging = $state(false);
@@ -20,40 +24,39 @@
 			.refine((file) => !file || ['image/jpeg', 'image/jpg', 'image/png'].includes(file.type), {
 				message: 'Only .jpeg, .jpg, or .png files are allowed'
 			}),
-		name: z.string().min(1, 'The name field cannot be empty').trim(),
-		phone: z.string().min(1, 'The phone field cannot be empty').trim(),
-		email: z.string().email({ message: 'Please enter a valid email address' }),
-		role: z.string().min(1, 'The role field cannot be empty').trim(),
-		address: z.string().min(1, 'The address field cannot be empty').trim(),
-		slug: z.string().min(1, 'The url field cannot be empty').trim(),
-		bio: z.string().min(1, 'The bio field cannot be empty').trim()
+		name: z.string({ message: 'This filed is required' }).min(5, { message: 'Must be 5 or more characters long' }).max(255, { message: 'No more than 255 characters long' }),
+		phone: z.string({ message: 'This filed is required' }).min(7, 'Must be 7 or more digits'),
+		email: z.string({ message: 'This filed is required' }).email({ message: 'Please enter a valid email address' }).max(255, { message: 'No more than 255 characters long' }),
+		role: z.string({ message: 'This filed is required' }).min(5, 'Must be 5 or more characters long'),
+		address: z.string({ message: 'This filed is required' }),
+		bio: z.string({ message: 'This filed is required' }).min(5, 'Must be 5 or more characters long').max(255, { message: 'No more than 500 characters long' })
 	});
 
 	const { form, reset, setFields } = createForm({
 		initialValues: {
-			name: null,
-			email: null,
-			phone: null,
-			address: null,
-			slug: null,
-			bio: null,
-			role: null
+			name: data?.userProfile?.name || null,
+			email: data?.userProfile?.email || null,
+			phone: data?.userProfile?.phone || null,
+			address: data?.userProfile?.address || null,
+			role: data?.userProfile?.role || null,
+			bio: data?.userProfile?.bio || null,
 		},
-		extend: [validator({ schema })],
+		extend: [validator({ schema }), reporterDom()],
 		onSubmit: async (values) => {
 			try {
-				if (!data?.userProfile?.id) {
-					values.user_id = data.pb.authStore.record.id;
-					values.avatar = fileInput?.files?.[0];
-					const newUserProfile = await data.pb.collection('profiles').create(values);
-					if (!newUserProfile) console.error('❌ Failed to create record:');
-				} else {
-					values.avatar = fileInput?.files?.[0];
-					const record = data.pb.collection('profiles').update(data?.userProfile?.id, values);
-					if (!record) console.log('❌ No record found.');
-				}
-				reset();
-				await invalidate('user_profile');
+				console.log(values);
+				// if (!data?.userProfile?.id) {
+				// 	values.user_id = data.pb.authStore.record.id;
+				// 	values.avatar = fileInput?.files?.[0];
+				// 	const newUserProfile = await data.pb.collection('profiles').create(values);
+				// 	if (!newUserProfile) console.error('❌ Failed to create record:');
+				// } else {
+				// 	values.avatar = fileInput?.files?.[0];
+				// 	const record = data.pb.collection('profiles').update(data?.userProfile?.id, values);
+				// 	if (!record) console.log('❌ No record found.');
+				// }
+				// reset();
+				// await invalidate('user_profile');
 			} catch (error) {
 				console.dir(error?.message, { depth: null });
 			}

@@ -38,7 +38,7 @@
 	</div>
 	<Nav {menuOpen} {toggleMenu} slug={data?.userProfile?.slug} />
 	<div
-		class="relative z-10 mx-auto flex max-w-430 flex-1 flex-col p-4 transition-[margin] duration-200 ease-linear"
+		class="relative z-10 mx-auto flex max-w-400 flex-1 flex-col p-4 transition-[margin] duration-200 ease-linear"
 	>
 		<Search {menuOpen} {scrolled} {toggleMenu} />
 		<main class="mt-12 flex flex-1 flex-col justify-between">
