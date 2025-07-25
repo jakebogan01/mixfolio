@@ -1,5 +1,5 @@
 <script>
-	import PreferencesForm from "$lib/components/dashboard/PreferencesForm.svelte";
+	import PreferencesForm from '$lib/components/dashboard/PreferencesForm.svelte';
 
 	let { data } = $props();
 </script>

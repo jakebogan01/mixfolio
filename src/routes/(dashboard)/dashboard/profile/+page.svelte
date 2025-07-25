@@ -4,8 +4,8 @@
 	// import iro from '@jaames/iro';
 	import { toISODate } from '$lib/utils/date.js';
 	import Profile from '$lib/components/dashboard/profile/Profile.svelte';
-	import PortfolioSlugInput from "$lib/components/dashboard/PortfolioSlugInput.svelte";
-	import PreferencesForm from "$lib/components/dashboard/PreferencesForm.svelte";
+	import PortfolioSlugInput from '$lib/components/dashboard/PortfolioSlugInput.svelte';
+	import PreferencesForm from '$lib/components/dashboard/PreferencesForm.svelte';
 
 	let { data } = $props();
 	let menuOpen = $state(false);
@@ -77,11 +77,13 @@
 						class="relative inline-block size-18 rounded-lg object-cover object-center shadow-md shadow-gray-500"
 					/>
 				{:else}
-					<span class="relative inline-block size-18 rounded-lg object-cover object-center shadow-md shadow-gray-500 bg-gray-200">
+					<span
+						class="relative inline-block size-18 rounded-lg bg-gray-200 object-cover object-center shadow-md shadow-gray-500"
+					>
 						<svg viewBox="0 0 24 24" fill="currentColor" class="size-full text-gray-400"
-						><path
+							><path
 								d="M24 20.993V24H0v-2.996A14.977 14.977 0 0112.004 15c4.904 0 9.26 2.354 11.996 5.993zM16.002 8.999a4 4 0 11-8 0 4 4 0 018 0z"
-						/></svg
+							/></svg
 						>
 					</span>
 				{/if}
@@ -89,7 +91,9 @@
 					<h5 class=" mb-1 block text-xl leading-snug font-semibold tracking-normal">
 						{data?.userProfile?.name || 'My Name'}
 					</h5>
-					<p class=" block text-sm leading-normal font-normal">{data?.userProfile?.role || 'Unknown job role'}</p>
+					<p class=" block text-sm leading-normal font-normal">
+						{data?.userProfile?.role || 'Unknown job role'}
+					</p>
 				</div>
 			</div>
 			<button
@@ -99,12 +103,14 @@
 				>Edit profile</button
 			>
 		</div>
-		<div class="gird-cols-1 mb-12 grid gap-x-12 2xl:gap-x-60 gap-y-12 px-4 lg:grid-cols-2">
-			<div class="relative flex flex-col rounded-xl bg-transparent bg-clip-border text-gray-700 shadow-none">
-				<div class="relative mx-0 mt-0 mb-4 overflow-hidden rounded-xl bg-transparent bg-clip-border text-gray-700 shadow-none">
-					<h6 class="block text-base leading-relaxed font-semibold tracking-normal">
-						My Profile
-					</h6>
+		<div class="gird-cols-1 mb-12 grid gap-x-12 gap-y-12 px-4 lg:grid-cols-2 2xl:gap-x-60">
+			<div
+				class="relative flex flex-col rounded-xl bg-transparent bg-clip-border text-gray-700 shadow-none"
+			>
+				<div
+					class="relative mx-0 mt-0 mb-4 overflow-hidden rounded-xl bg-transparent bg-clip-border text-gray-700 shadow-none"
+				>
+					<h6 class="block text-base leading-relaxed font-semibold tracking-normal">My Profile</h6>
 				</div>
 				<div class="p-0 text-sm leading-normal font-normal">
 					<div class="sm:max-w-xs">
@@ -139,7 +145,7 @@
 							</div>
 							<div class="sm:col-span-full">
 								<dt class="text-sm leading-normal font-semibold">About me</dt>
-								<dd class="mt-1 line-clamp-2 max-w-prose space-y-5 text-sm leading-normal font-normal">
+								<dd class="mt-1 max-w-prose space-y-5 text-sm leading-normal font-normal">
 									{@html data?.userProfile?.biography || '...'}
 								</dd>
 							</div>
@@ -151,7 +157,7 @@
 				<h6 class=" mb-3 block text-base leading-relaxed font-semibold tracking-normal">
 					My Preferences
 				</h6>
-				<div class="flex flex-col mt-6">
+				<div class="mt-6 flex flex-col">
 					<PreferencesForm {data} />
 				</div>
 			</div>

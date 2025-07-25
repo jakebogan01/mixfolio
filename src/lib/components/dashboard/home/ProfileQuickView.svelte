@@ -1,7 +1,7 @@
 <script>
 	import { PROFILE } from '$lib/utils/constants.js';
 	import { toISODate } from '$lib/utils/date.js';
-	import PortfolioSlugInput from "$lib/components/dashboard/PortfolioSlugInput.svelte";
+	import PortfolioSlugInput from '$lib/components/dashboard/PortfolioSlugInput.svelte';
 
 	let { data } = $props();
 </script>

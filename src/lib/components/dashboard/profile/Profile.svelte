@@ -1,16 +1,14 @@
 <script>
 	import { z } from 'zod';
-	import { onMount } from 'svelte';
-	import { fly, fade, scale } from 'svelte/transition';
+	import { fly } from 'svelte/transition';
 	import { createForm } from 'felte';
 	import { validator } from '@felte/validator-zod';
 	import reporterDom from '@felte/reporter-dom';
 	import { invalidate } from '$app/navigation';
-	import { toISODate } from '$lib/utils/date.js';
 
 	let { data, toggleMenu = () => {} } = $props();
-	let editingUserProfileImage = $state(false);
-	let previewInput, fileInput;
+	let previewInput = $state(null);
+	let fileInput = $state(null);
 	let isDragging = $state(false);
 	let showPreviewImage = $state(true);
 
@@ -24,39 +22,41 @@
 			.refine((file) => !file || ['image/jpeg', 'image/jpg', 'image/png'].includes(file.type), {
 				message: 'Only .jpeg, .jpg, or .png files are allowed'
 			}),
-		name: z.string({ message: 'This filed is required' }).min(5, { message: 'Must be 5 or more characters long' }).max(255, { message: 'No more than 255 characters long' }),
-		phone: z.string({ message: 'This filed is required' }).min(7, 'Must be 7 or more digits'),
-		email: z.string({ message: 'This filed is required' }).email({ message: 'Please enter a valid email address' }).max(255, { message: 'No more than 255 characters long' }),
-		role: z.string({ message: 'This filed is required' }).min(5, 'Must be 5 or more characters long'),
+		name: z
+			.string({ message: 'This filed is required' })
+			.min(5, { message: 'Must be 5 or more characters long' })
+			.max(255, { message: 'No more than 255 characters long' }),
+		phone: z.string({ message: 'This filed is required' }).min(7, 'Invalid phone number'),
+		email: z
+			.string({ message: 'This filed is required' })
+			.email({ message: 'Please enter a valid email address' })
+			.max(255, { message: 'No more than 255 characters long' }),
+		role: z
+			.string({ message: 'This filed is required' })
+			.min(5, 'Must be 5 or more characters long'),
 		address: z.string({ message: 'This filed is required' }),
-		bio: z.string({ message: 'This filed is required' }).min(5, 'Must be 5 or more characters long').max(255, { message: 'No more than 500 characters long' })
+		biography: z
+			.string({ message: 'This filed is required' })
+			.min(5, 'Must be 5 or more characters long')
+			.max(500, { message: 'No more than 500 characters long' })
 	});
 
-	const { form, reset, setFields } = createForm({
+	const { form } = createForm({
 		initialValues: {
 			name: data?.userProfile?.name || null,
 			email: data?.userProfile?.email || null,
 			phone: data?.userProfile?.phone || null,
 			address: data?.userProfile?.address || null,
 			role: data?.userProfile?.role || null,
-			bio: data?.userProfile?.bio || null,
+			biography: data?.userProfile?.biography || null
 		},
 		extend: [validator({ schema }), reporterDom()],
 		onSubmit: async (values) => {
 			try {
-				console.log(values);
-				// if (!data?.userProfile?.id) {
-				// 	values.user_id = data.pb.authStore.record.id;
-				// 	values.avatar = fileInput?.files?.[0];
-				// 	const newUserProfile = await data.pb.collection('profiles').create(values);
-				// 	if (!newUserProfile) console.error('❌ Failed to create record:');
-				// } else {
-				// 	values.avatar = fileInput?.files?.[0];
-				// 	const record = data.pb.collection('profiles').update(data?.userProfile?.id, values);
-				// 	if (!record) console.log('❌ No record found.');
-				// }
-				// reset();
-				// await invalidate('user_profile');
+				values.avatar = fileInput?.files?.[0];
+				await data.pb.collection('profiles').update(data?.userProfile?.id, values);
+				toggleMenu();
+				await invalidate('user_profile');
 			} catch (error) {
 				console.dir(error?.message, { depth: null });
 			}
@@ -170,9 +170,13 @@
 														/>
 													{:else}
 														<span class="pointer-events-none aspect-video object-cover">
-															<svg viewBox="0 0 24 24" fill="currentColor" class="size-full text-gray-400"
-															><path d="M24 20.993V24H0v-2.996A14.977 14.977 0 0112.004 15c4.904 0 9.26 2.354 11.996 5.993zM16.002 8.999a4 4 0 11-8 0 4 4 0 018 0z"
-															/></svg
+															<svg
+																viewBox="0 0 24 24"
+																fill="currentColor"
+																class="size-full text-gray-400"
+																><path
+																	d="M24 20.993V24H0v-2.996A14.977 14.977 0 0112.004 15c4.904 0 9.26 2.354 11.996 5.993zM16.002 8.999a4 4 0 11-8 0 4 4 0 018 0z"
+																/></svg
 															>
 														</span>
 													{/if}
@@ -193,11 +197,11 @@
 														viewBox="0 0 24 24"
 														fill="currentColor"
 														class="mx-auto size-12 text-gray-400/70"
-													><path
-														fill-rule="evenodd"
-														d="M1.5 6a2.25 2.25 0 0 1 2.25-2.25h16.5A2.25 2.25 0 0 1 22.5 6v12a2.25 2.25 0 0 1-2.25 2.25H3.75A2.25 2.25 0 0 1 1.5 18V6ZM3 16.06V18c0 .414.336.75.75.75h16.5A.75.75 0 0 0 21 18v-1.94l-2.69-2.689a1.5 1.5 0 0 0-2.12 0l-.88.879.97.97a.75.75 0 1 1-1.06 1.06l-5.16-5.159a1.5 1.5 0 0 0-2.12 0L3 16.061Zm10.125-7.81a1.125 1.125 0 1 1 2.25 0 1.125 1.125 0 0 1-2.25 0Z"
-														clip-rule="evenodd"
-													/></svg
+														><path
+															fill-rule="evenodd"
+															d="M1.5 6a2.25 2.25 0 0 1 2.25-2.25h16.5A2.25 2.25 0 0 1 22.5 6v12a2.25 2.25 0 0 1-2.25 2.25H3.75A2.25 2.25 0 0 1 1.5 18V6ZM3 16.06V18c0 .414.336.75.75.75h16.5A.75.75 0 0 0 21 18v-1.94l-2.69-2.689a1.5 1.5 0 0 0-2.12 0l-.88.879.97.97a.75.75 0 1 1-1.06 1.06l-5.16-5.159a1.5 1.5 0 0 0-2.12 0L3 16.061Zm10.125-7.81a1.125 1.125 0 1 1 2.25 0 1.125 1.125 0 0 1-2.25 0Z"
+															clip-rule="evenodd"
+														/></svg
 													>
 													<span class="mt-2 block text-sm font-semibold text-gray-400">
 														Drag &amp; drop<br />
@@ -207,81 +211,158 @@
 											</div>
 										</div>
 										<div>
-											<label for="title" class="block text-sm/6 font-medium text-gray-900"
-											>Project name</label
+											<label for="name" class="block text-sm/6 font-medium text-gray-900"
+												>Your name</label
 											>
 											<div class="mt-2">
 												<input
-													id="title"
+													id="name"
 													type="text"
-													name="title"
+													name="name"
 													class="col-start-1 row-start-1 block w-full rounded-lg border border-transparent bg-white py-1.5 pr-10 pl-3 text-base shadow-sm outline-1 -outline-offset-1 outline-gray-300 focus:outline-2 focus:-outline-offset-2 sm:pr-9 sm:text-sm/6"
 													aria-invalid="true"
 													required
 													minlength="5"
 													maxlength="255"
-													aria-label="Project title"
-													aria-describedby="title-validation"
+													aria-label="Your name"
+													aria-describedby="name-validation"
 												/>
 											</div>
 											<div
-												id="title-validation"
+												id="name-validation"
 												class="mt-1 text-sm text-red-500"
-												data-felte-reporter-dom-for="title"
+												data-felte-reporter-dom-for="name"
 												aria-live="polite"
 												data-felte-reporter-dom-single-message
 											></div>
 										</div>
 										<div>
-											<label for="link" class="block text-sm/6 font-medium text-gray-900"
-											>Project link</label
+											<label for="email" class="block text-sm/6 font-medium text-gray-900"
+												>Your email</label
 											>
 											<div class="mt-2">
 												<input
-													id="link"
-													type="url"
-													name="link"
-													pattern="https://.*"
+													id="email"
+													type="email"
+													name="email"
 													class="col-start-1 row-start-1 block w-full rounded-lg border border-transparent bg-white py-1.5 pr-10 pl-3 text-base shadow-sm outline-1 -outline-offset-1 outline-gray-300 focus:outline-2 focus:-outline-offset-2 sm:pr-9 sm:text-sm/6"
 													aria-invalid="true"
 													required
 													minlength="5"
 													maxlength="255"
-													aria-label="Project link"
-													aria-describedby="link-validation"
+													aria-label="Your email address"
+													aria-describedby="email-validation"
 												/>
 											</div>
 											<div
-												id="link-validation"
+												id="email-validation"
 												class="mt-1 text-sm text-red-500"
-												data-felte-reporter-dom-for="link"
+												data-felte-reporter-dom-for="email"
 												aria-live="polite"
 												data-felte-reporter-dom-single-message
 											></div>
 										</div>
 										<div>
-											<label for="description" class="block text-sm/6 font-medium text-gray-900"
-											>Description</label
+											<label for="phone" class="block text-sm/6 font-medium text-gray-900"
+												>Your phone</label
+											>
+											<div class="mt-2">
+												<input
+													id="phone"
+													type="text"
+													name="phone"
+													class="col-start-1 row-start-1 block w-full rounded-lg border border-transparent bg-white py-1.5 pr-10 pl-3 text-base shadow-sm outline-1 -outline-offset-1 outline-gray-300 focus:outline-2 focus:-outline-offset-2 sm:pr-9 sm:text-sm/6"
+													aria-invalid="true"
+													required
+													minlength="5"
+													maxlength="255"
+													aria-label="Your phone number"
+													aria-describedby="phone-validation"
+												/>
+											</div>
+											<div
+												id="phone-validation"
+												class="mt-1 text-sm text-red-500"
+												data-felte-reporter-dom-for="phone"
+												aria-live="polite"
+												data-felte-reporter-dom-single-message
+											></div>
+										</div>
+										<div>
+											<label for="role" class="block text-sm/6 font-medium text-gray-900"
+												>Your job role</label
+											>
+											<div class="mt-2">
+												<input
+													id="role"
+													type="text"
+													name="role"
+													class="col-start-1 row-start-1 block w-full rounded-lg border border-transparent bg-white py-1.5 pr-10 pl-3 text-base shadow-sm outline-1 -outline-offset-1 outline-gray-300 focus:outline-2 focus:-outline-offset-2 sm:pr-9 sm:text-sm/6"
+													aria-invalid="true"
+													required
+													minlength="5"
+													maxlength="255"
+													aria-label="Your job role"
+													aria-describedby="role-validation"
+												/>
+											</div>
+											<div
+												id="role-validation"
+												class="mt-1 text-sm text-red-500"
+												data-felte-reporter-dom-for="role"
+												aria-live="polite"
+												data-felte-reporter-dom-single-message
+											></div>
+										</div>
+										<div>
+											<label for="address" class="block text-sm/6 font-medium text-gray-900"
+												>Your address</label
+											>
+											<div class="mt-2">
+												<input
+													id="address"
+													type="text"
+													name="address"
+													class="col-start-1 row-start-1 block w-full rounded-lg border border-transparent bg-white py-1.5 pr-10 pl-3 text-base shadow-sm outline-1 -outline-offset-1 outline-gray-300 focus:outline-2 focus:-outline-offset-2 sm:pr-9 sm:text-sm/6"
+													aria-invalid="true"
+													required
+													minlength="5"
+													maxlength="255"
+													aria-label="Your address"
+													aria-describedby="address-validation"
+												/>
+											</div>
+											<div
+												id="address-validation"
+												class="mt-1 text-sm text-red-500"
+												data-felte-reporter-dom-for="address"
+												aria-live="polite"
+												data-felte-reporter-dom-single-message
+											></div>
+										</div>
+										<div>
+											<label for="biography" class="block text-sm/6 font-medium text-gray-900"
+												>About me</label
 											>
 											<div class="mt-2">
 												<textarea
 													rows="3"
 													type="text"
-													name="description"
-													id="description"
+													name="biography"
+													id="biography"
 													class="col-start-1 row-start-1 block w-full rounded-lg border border-transparent bg-white py-1.5 pr-10 pl-3 text-base shadow-sm outline-1 -outline-offset-1 outline-gray-300 focus:outline-2 focus:-outline-offset-2 sm:pr-9 sm:text-sm/6"
 													aria-invalid="true"
 													required
 													minlength="5"
-													maxlength="255"
-													aria-label="Project description"
-													aria-describedby="description-validation"
+													maxlength="500"
+													aria-label="About you"
+													aria-describedby="biography-validation"
 												></textarea>
 											</div>
 											<div
-												id="description-validation"
+												id="biography-validation"
 												class="mt-1 text-sm text-red-500"
-												data-felte-reporter-dom-for="description"
+												data-felte-reporter-dom-for="biography"
 												aria-live="polite"
 												data-felte-reporter-dom-single-message
 											></div>
@@ -290,18 +371,18 @@
 								</div>
 							</div>
 						</div>
-						<div class="flex px-4 py-4 justify-end">
+						<div class="flex justify-end px-4 py-4">
 							<div class="flex shrink-0 justify-end">
 								<button
 									type="button"
 									onclick={toggleMenu}
 									class="cursor-pointer rounded-md bg-white px-3 py-2 text-sm font-semibold text-gray-900 shadow-xs ring-1 ring-gray-300 ring-inset hover:bg-gray-50"
-								>Cancel</button
+									>Cancel</button
 								>
 								<button
 									type="submit"
 									class="ml-4 inline-flex cursor-pointer justify-center rounded-md bg-purple-600 px-3 py-2 text-sm font-semibold text-white shadow-xs focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600 sm:hover:bg-violet-400"
-								>Save</button
+									>Save</button
 								>
 							</div>
 						</div>
@@ -310,128 +391,4 @@
 			</div>
 		</div>
 	</div>
-</div>
-
-<div class="mx-auto max-w-7xl px-6">
-	<form onsubmit={(event) => event.preventDefault()} enctype="multipart/form-data" use:form>
-		<h2 class="mb-2 text-2xl font-bold">User Bio</h2>
-		<div class="space-y-6">
-			<div>
-				<label for="avatar" class="sr-only">User avatar</label>
-				<input
-					type="file"
-					bind:this={fileInput}
-					onchange={showLogoPreview}
-					name="avatar"
-					id="avatar"
-					accept=".jpeg,.jpg,.png"
-					class="sr-only"
-					hidden
-				/>
-				<div class="flex items-center justify-between">
-					<img
-						src={editingUserProfileImage
-							? data?.userProfile?.avatar_url ||
-								'https://developers.elementor.com/docs/assets/img/elementor-placeholder-image.png'
-							: 'https://developers.elementor.com/docs/assets/img/elementor-placeholder-image.png'}
-						bind:this={previewInput}
-						loading="eager"
-						alt="User avatar preview"
-						width="245"
-						height="164"
-						class="mr-2 h-41 rounded-lg object-cover"
-					/>
-					<button
-						type="button"
-						onclick={() => fileInput.click()}
-						ondragenter={handleDragOver}
-						ondragover={handleDragOver}
-						ondragleave={handleDragLeave}
-						ondrop={handleDrop}
-						class="relative block min-h-41 w-full rounded-lg border-2 border-dashed p-8 text-center {isDragging
-							? 'border-indigo-600 bg-indigo-100'
-							: 'border-gray-400'}"
-					>
-						<svg
-							xmlns="http://www.w3.org/2000/svg"
-							viewBox="0 0 24 24"
-							fill="currentColor"
-							class="mx-auto size-12 text-gray-400/70"
-							><path
-								fill-rule="evenodd"
-								d="M1.5 6a2.25 2.25 0 0 1 2.25-2.25h16.5A2.25 2.25 0 0 1 22.5 6v12a2.25 2.25 0 0 1-2.25 2.25H3.75A2.25 2.25 0 0 1 1.5 18V6ZM3 16.06V18c0 .414.336.75.75.75h16.5A.75.75 0 0 0 21 18v-1.94l-2.69-2.689a1.5 1.5 0 0 0-2.12 0l-.88.879.97.97a.75.75 0 1 1-1.06 1.06l-5.16-5.159a1.5 1.5 0 0 0-2.12 0L3 16.061Zm10.125-7.81a1.125 1.125 0 1 1 2.25 0 1.125 1.125 0 0 1-2.25 0Z"
-								clip-rule="evenodd"
-							/></svg
-						>
-						<span class="mt-2 block text-sm font-semibold text-gray-400">
-							Drag &amp; drop<br />
-							<span class="text-xs font-medium text-gray-400">(Optional)</span>
-						</span>
-					</button>
-				</div>
-			</div>
-			<div>
-				<label for="name" class="sr-only">Name</label>
-				<input type="text" name="name" id="name" placeholder="Name" class="w-full rounded-md" />
-			</div>
-			<div>
-				<label for="email" class="sr-only">Email</label>
-				<input type="email" name="email" id="email" placeholder="Email" class="w-full rounded-md" />
-			</div>
-			<div>
-				<label for="phone" class="sr-only">Phone</label>
-				<input
-					type="text"
-					name="phone"
-					id="phone"
-					placeholder="Phone"
-					maxlength="12"
-					class="w-full rounded-md"
-				/>
-			</div>
-			<div>
-				<label for="role" class="sr-only">Job Role</label>
-				<input type="text" name="role" id="role" placeholder="role" class="w-full rounded-md" />
-			</div>
-			<div>
-				<label for="address" class="sr-only">Address</label>
-				<input
-					type="text"
-					name="address"
-					id="address"
-					placeholder="address"
-					class="w-full rounded-md"
-				/>
-			</div>
-
-			<div>
-				<label for="slug" class="sr-only">URL</label>
-				<div>
-					<div
-						class="flex items-center overflow-hidden rounded-md pl-3 outline-1 -outline-offset-1 focus-within:outline-2 focus-within:-outline-offset-2 focus-within:outline-indigo-600"
-					>
-						<div class="shrink-0 text-gray-500 select-none">mixfolio.com/</div>
-						<input
-							type="text"
-							name="slug"
-							id="slug"
-							class="focus:border-l-none block min-w-0 grow rounded-tr-md rounded-br-md border-l-0 pl-0 placeholder:!text-gray-400 focus:ring-0"
-							placeholder="erin-martin"
-						/>
-					</div>
-				</div>
-			</div>
-
-			<div>
-				<label for="bio" class="sr-only">Bio</label>
-				<textarea name="bio" id="bio" rows="3" placeholder="About me..." class="w-full rounded-md"
-				></textarea>
-			</div>
-			<div class="flex justify-end">
-				<button type="submit" class="cursor-pointer rounded-md border border-gray-900 px-2 py-1"
-					>Submit</button
-				>
-			</div>
-		</div>
-	</form>
 </div>
