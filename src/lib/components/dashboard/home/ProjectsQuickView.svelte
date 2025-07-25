@@ -3,8 +3,20 @@
 	import { toISODate } from '$lib/utils/date.js';
 	import Icon from '$lib/components/Icon.svelte';
 	import { goto } from '$app/navigation';
+	import { page } from '$app/state';
+	import { toastMessage } from '$lib/utils/toast.js';
 
 	let { userProfile } = $props();
+
+	const copyToClipboard = async (link) => {
+		if (!link) return;
+		try {
+			await navigator.clipboard.writeText(link);
+			toastMessage('success', 'Successfully copied project link!');
+		} catch (error) {
+			console.dir(error?.message, { depth: null });
+		}
+	};
 </script>
 
 <div
@@ -71,13 +83,16 @@
 								</div>
 							</td>
 							<td class="py-4 pr-4 pl-0 sm:pr-8">
-								<a
-									href={project?.link || DASHBOARD}
-									title="Copy link"
-									class="text-gray-900 sm:hover:text-gray-900/75"
+								<button
+									type="button"
+									onclick={() => {
+										copyToClipboard(project?.link);
+									}}
+									aria-label="Copy project link"
+									class="cursor-pointer text-gray-900 sm:hover:text-gray-900/75"
 								>
 									<Icon name="copy-link" class="size-6" stroke="none" />
-								</a>
+								</button>
 							</td>
 							<td class="hidden py-4 pr-4 pl-0 text-sm/6 sm:block sm:pr-8 lg:pr-20">
 								<p class="max-w-50 truncate text-gray-700">

@@ -3,7 +3,7 @@
 	// import { debounce } from '$lib/utils/misc.js';
 	// import iro from '@jaames/iro';
 	import { toISODate } from '$lib/utils/date.js';
-	import Profile from '$lib/components/dashboard/profile/Profile.svelte';
+	import ProfileForm from '$lib/components/dashboard/profile/ProfileForm.svelte';
 	import PortfolioSlugInput from '$lib/components/dashboard/PortfolioSlugInput.svelte';
 	import PreferencesForm from '$lib/components/dashboard/PreferencesForm.svelte';
 
@@ -166,5 +166,5 @@
 </div>
 
 {#if menuOpen}
-	<Profile {data} {toggleMenu} />
+	<ProfileForm {data} {toggleMenu} />
 {/if}

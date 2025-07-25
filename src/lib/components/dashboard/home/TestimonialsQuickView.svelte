@@ -1,4 +1,7 @@
 <script>
+	import { goto } from '$app/navigation';
+	import { TESTIMONIALS } from '$lib/utils/constants.js';
+
 	let { userProfile } = $props();
 </script>
 
@@ -13,6 +16,7 @@
 			<div class="mt-4 sm:mt-0 sm:ml-4 sm:flex-none">
 				<button
 					type="button"
+					onclick={() => goto(TESTIMONIALS, { state: { create: true } })}
 					class="inline-flex cursor-pointer items-center rounded-md bg-purple-600 px-2.5 py-1.5 text-sm font-normal text-white disabled:cursor-not-allowed disabled:opacity-30 disabled:hover:bg-white sm:transition-colors sm:hover:bg-violet-400"
 					>Add testimonial</button
 				>
@@ -38,10 +42,12 @@
 								</p>
 							</div>
 						</div>
-						<a
-							href="/"
-							class="rounded-full bg-gray-900 px-2.5 py-1 text-xs font-semibold text-white sm:transition-colors sm:hover:bg-gray-900/75"
-							>View</a
+						<button
+							type="button"
+							onclick={() =>
+								goto(TESTIMONIALS, { state: { view: true, testimonialId: testimonial?.id } })}
+							class="cursor-pointer rounded-full bg-gray-900 px-2.5 py-1 text-xs font-semibold text-white sm:transition-colors sm:hover:bg-gray-900/75"
+							>View</button
 						>
 					</li>
 				{/each}
@@ -53,6 +59,7 @@
 				<p class="mt-2 text-sm text-gray-700">You do not have any testimonials.</p>
 				<button
 					type="button"
+					onclick={() => goto(TESTIMONIALS, { state: { create: true } })}
 					class="block cursor-pointer rounded-md bg-purple-600 px-3 py-2 text-center text-sm font-semibold text-white shadow-xs hover:bg-violet-400 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
 					>Add a testimonial</button
 				>
