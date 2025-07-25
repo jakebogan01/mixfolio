@@ -1,9 +1,56 @@
 <script>
-	import { DASHBOARD } from '$lib/utils/constants.js';
+	import { CLIENTS, DASHBOARD, PROJECTS, TESTIMONIALS } from '$lib/utils/constants.js';
 	import Icon from '$lib/components/Icon.svelte';
 	import { page } from '$app/state';
+	import { goto } from '$app/navigation';
+	import { debounce } from '$lib/utils/misc.js';
+	import { onMount } from 'svelte';
 
-	let { menuOpen, scrolled, toggleMenu = () => {} } = $props();
+	let { userProfile, menuOpen, scrolled, toggleMenu = () => {} } = $props();
+	let searchTerm = $state('');
+	let filteredProjects = $state(null);
+	let filteredTestimonials = $state(null);
+	let filteredClients = $state(null);
+	let hasMatches = $state(null);
+	const match = (text = '') => text.toLowerCase().includes(searchTerm.toLowerCase());
+
+	onMount(() => {
+		hasMatches =
+			userProfile?.expand?.projects?.some((p) => match(p.title)) ||
+			userProfile?.expand?.clients?.some((c) => match(c.name)) ||
+			userProfile?.expand?.testimonials?.some((t) => match(t.name));
+		filteredProjects =
+			userProfile?.expand?.projects?.filter((project) =>
+				project?.title?.toLowerCase().includes(searchTerm.toLowerCase())
+			) || [];
+		filteredTestimonials =
+			userProfile?.expand?.testimonials?.filter((testimonial) =>
+				testimonial?.name?.toLowerCase().includes(searchTerm.toLowerCase())
+			) || [];
+		filteredClients =
+			userProfile?.expand?.clients?.filter((client) =>
+				client?.name?.toLowerCase().includes(searchTerm.toLowerCase())
+			) || [];
+	});
+
+	const handleSearch = debounce(async () => {
+		hasMatches =
+			userProfile?.expand?.projects?.some((p) => match(p.title)) ||
+			userProfile?.expand?.clients?.some((c) => match(c.name)) ||
+			userProfile?.expand?.testimonials?.some((t) => match(t.name));
+		filteredProjects =
+			userProfile?.expand?.projects?.filter((project) =>
+				project?.title?.toLowerCase().includes(searchTerm.toLowerCase())
+			) || [];
+		filteredTestimonials =
+			userProfile?.expand?.testimonials?.filter((testimonial) =>
+				testimonial?.name?.toLowerCase().includes(searchTerm.toLowerCase())
+			) || [];
+		filteredClients =
+			userProfile?.expand?.clients?.filter((client) =>
+				client?.name?.toLowerCase().includes(searchTerm.toLowerCase())
+			) || [];
+	}, 500);
 </script>
 
 <nav
@@ -34,12 +81,14 @@
 		</div>
 
 		<div class="flex items-center">
-			<div class="mr-auto md:mr-4 md:w-56">
+			<div class="relative mr-auto md:mr-4 md:w-56">
 				<div class="relative h-10 w-full min-w-50">
 					<input
 						type="search"
 						id="search"
 						class="peer h-full w-full rounded-md border border-gray-400/70 bg-transparent px-3 py-2.5 font-normal outline-0 transition-colors outline-none not-placeholder-shown:border-t-transparent focus:border focus:border-gray-900 focus:border-t-transparent focus:ring-0 focus:outline-0"
+						oninput={handleSearch}
+						bind:value={searchTerm}
 						placeholder=" "
 					/><label
 						for="search"
@@ -47,6 +96,96 @@
 						>Search
 					</label>
 				</div>
+				{#if hasMatches && searchTerm.length > 0}
+					<ul
+						class="absolute z-10 mt-2 mr-2 max-h-60 w-74 overflow-auto rounded-md border border-gray-300 bg-white py-1 pt-3 text-sm shadow-lg shadow-black/50"
+						role="listbox"
+					>
+						{#if filteredProjects?.length}
+							<li>
+								<span class="pl-4 leading-normal font-semibold text-gray-900">Projects</span>
+								<ul>
+									{#each filteredProjects as project (project?.id)}
+										<li
+											class="cursor-pointer px-3 py-2 font-medium text-gray-600 select-none hover:bg-purple-600 hover:text-white"
+										>
+											<button
+												type="button"
+												onclick={() => {
+													searchTerm = '';
+													goto(PROJECTS, { state: { view: true, projectId: project?.id } });
+												}}
+												class="cursor-pointer px-4 py-1"
+											>
+												{project?.title || 'Title unavailable'}
+											</button>
+										</li>
+									{/each}
+								</ul>
+							</li>
+						{/if}
+						{#if filteredTestimonials?.length}
+							<li>
+								<span class="pl-4 leading-normal font-semibold text-gray-900">Testimonials</span>
+								<ul>
+									{#each filteredTestimonials as testimonial (testimonial?.id)}
+										<li
+											class="cursor-pointer px-3 py-2 font-medium text-gray-600 select-none hover:bg-purple-600 hover:text-white"
+										>
+											<button
+												type="button"
+												onclick={() => {
+													searchTerm = '';
+													goto(TESTIMONIALS, {
+														state: { view: true, testimonialId: testimonial?.id }
+													});
+												}}
+												class="cursor-pointer px-4 py-1"
+											>
+												{testimonial?.name || 'Name unavailable'}
+											</button>
+										</li>
+									{/each}
+								</ul>
+							</li>
+						{/if}
+						{#if filteredClients?.length}
+							<li>
+								<span class="pl-4 leading-normal font-semibold text-gray-900">Clients</span>
+								<ul>
+									{#each filteredClients as client (client?.id)}
+										<li
+											class="cursor-pointer px-3 py-2 font-medium text-gray-600 select-none hover:bg-purple-600 hover:text-white"
+										>
+											<button
+												type="button"
+												onclick={() => {
+													searchTerm = '';
+													goto(CLIENTS, { state: { view: true, clientId: client?.id } });
+												}}
+												class="cursor-pointer px-4 py-1"
+											>
+												{client?.name || 'Name unavailable'}
+											</button>
+										</li>
+									{/each}
+								</ul>
+							</li>
+						{/if}
+					</ul>
+				{/if}
+				{#if !filteredProjects?.length && !filteredClients?.length && !filteredTestimonials?.length && searchTerm}
+					<ul
+						class="absolute z-10 mt-2 mr-2 max-h-60 w-74 overflow-auto rounded-md border border-gray-300 bg-white py-1 pt-3 text-sm shadow-lg shadow-black/50"
+						role="listbox"
+					>
+						<li
+							class="cursor-pointer px-3 py-2 font-medium text-gray-600 select-none hover:bg-purple-600 hover:text-white"
+						>
+							No results found
+						</li>
+					</ul>
+				{/if}
 			</div>
 			<button
 				onclick={toggleMenu}
