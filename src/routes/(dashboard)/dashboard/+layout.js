@@ -1,7 +1,11 @@
+import { goto, invalidateAll } from '$app/navigation';
+
 export const ssr = false;
 
 import { redirect } from '@sveltejs/kit';
 import { processExpandedItems } from '$lib/utils/misc.js';
+import { LOGOUT } from '$lib/utils/constants.js';
+import { user } from '$lib/stores/user.svelte.js';
 
 export async function load({ parent, depends }) {
 	const { pb } = await parent();
@@ -89,6 +93,10 @@ export async function load({ parent, depends }) {
 		return { userProfile: userProfile || {} };
 	} catch (error) {
 		console.dir(error?.message, { depth: null });
+		user.model = null;
+		pb.authStore.clear();
+		await goto('/', { state: { type: 'error', message: 'Something went wrong' } });
+		await invalidateAll();
 	}
 	return { userProfile: {} };
 }
