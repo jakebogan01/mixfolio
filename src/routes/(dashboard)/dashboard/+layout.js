@@ -93,10 +93,6 @@ export async function load({ parent, depends }) {
 		return { userProfile: userProfile || {} };
 	} catch (error) {
 		console.dir(error?.message, { depth: null });
-		user.model = null;
-		pb.authStore.clear();
-		await goto('/', { state: { type: 'error', message: 'Something went wrong' } });
-		await invalidateAll();
 	}
 	return { userProfile: {} };
 }
