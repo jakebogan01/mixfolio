@@ -2,6 +2,7 @@
 	import { page } from '$app/state';
 	import { onMount } from 'svelte';
 	import ClientForm from '$lib/components/dashboard/clients/ClientForm.svelte';
+	import Button from '$lib/components/global/Button.svelte';
 
 	let { data } = $props();
 	let menuOpen = $state(false);
@@ -24,10 +25,10 @@
 
 <div class="space-y-12">
 	<div
-		class="relative mt-6 flex flex-col rounded-xl border border-gray-300 bg-white bg-clip-border text-gray-700"
+		class="border-light-border text-dark-text relative mt-6 flex flex-col rounded-xl border bg-white bg-clip-border"
 	>
 		<div
-			class="relative mx-4 -mt-6 mb-8 overflow-hidden rounded-xl bg-gradient-to-tr from-purple-600 to-violet-400 bg-clip-border p-6 text-white shadow-lg shadow-gray-900/20"
+			class="from-primary-from to-secondary-to relative mx-4 -mt-6 mb-8 overflow-hidden rounded-xl bg-gradient-to-tr bg-clip-border p-6 text-white shadow-lg shadow-gray-900/20"
 		>
 			<h6 class="block text-base leading-relaxed font-semibold tracking-normal text-white">
 				Clients
@@ -37,15 +38,14 @@
 			<div class="px-4 sm:px-6 lg:px-8">
 				<div class="sm:flex sm:items-center sm:justify-end">
 					<div class="mt-4 sm:mt-0 sm:ml-16 sm:flex-none">
-						<button
-							type="button"
-							onclick={() => {
+						<Button
+							callBack={() => {
 								toggleMenu();
 								viewClient = false;
 							}}
-							class="block cursor-pointer rounded-md bg-purple-600 px-3 py-2 text-center text-sm font-semibold text-white shadow-xs hover:bg-violet-400 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-purple-600"
-							>Add client</button
-						>
+							text="Add client"
+							class="bg-primary-btn-bg sm:hover:bg-primary-btn-hover"
+						/>
 					</div>
 				</div>
 				<div class="mt-8 flow-root">
@@ -97,19 +97,17 @@
 											<td
 												class="relative py-5 pr-4 pl-3 text-right text-sm font-medium whitespace-nowrap sm:pr-0"
 											>
-												<button
-													type="button"
-													onclick={() => {
+												<Button
+													callBack={() => {
 														toggleMenu();
 														viewClient = true;
 														clientId = client?.id;
 													}}
-													class="cursor-pointer text-gray-900 hover:text-violet-400"
+													text="View"
+													class="text-dark-text! sm:hover:text-light-text!"
 												>
-													View
-													<span class="sr-only">, {client?.name || 'Name unavailable'}</span
-													></button
-												>
+													<span class="sr-only">, {client?.name || 'Name unavailable'}</span>
+												</Button>
 											</td>
 										</tr>
 									{/each}
@@ -122,16 +120,15 @@
 		{:else}
 			<div class="flex h-full items-center justify-center pt-6 pb-16">
 				<div class="flex flex-col items-center space-y-2">
-					<p class="mt-2 text-sm text-gray-700">You do not have any clients.</p>
-					<button
-						type="button"
-						onclick={() => {
+					<p class="text-dark-text mt-2 text-sm">You do not have any clients.</p>
+					<Button
+						callBack={() => {
 							toggleMenu();
 							viewClient = false;
 						}}
-						class="block cursor-pointer rounded-md bg-purple-600 px-3 py-2 text-center text-sm font-semibold text-white shadow-xs hover:bg-violet-400 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
-						>Add a client</button
-					>
+						text="Add client"
+						class="bg-primary-btn-bg sm:hover:bg-primary-btn-hover"
+					/>
 				</div>
 			</div>
 		{/if}

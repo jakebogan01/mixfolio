@@ -101,7 +101,7 @@
 				<div
 					in:fly|local={{ x: 448, opacity: 1, duration: 300 }}
 					out:fly|local={{ x: 448, opacity: 1, duration: 300 }}
-					class="pointer-events-auto w-screen max-w-md border-l border-gray-300"
+					class="border-light-border pointer-events-auto w-screen max-w-md border-l"
 				>
 					<form
 						class="flex h-full flex-col divide-y divide-gray-200 bg-white shadow-xl"
@@ -109,7 +109,7 @@
 						use:form
 					>
 						<div class="h-0 flex-1 overflow-y-auto">
-							<div class="bg-gray-900 px-4 py-6 sm:px-6">
+							<div class="bg-primary px-4 py-6 sm:px-6">
 								<div class="flex items-center justify-between">
 									<h2 id="drawer-title" class="text-base font-semibold text-white">
 										Update Your Profile
@@ -118,7 +118,7 @@
 										<button
 											type="button"
 											onclick={toggleMenu}
-											class="relative cursor-pointer rounded-md bg-gray-900 text-gray-300 hover:text-white focus-visible:ring-2 focus-visible:ring-white focus-visible:outline-hidden"
+											class="bg-secondary-btn-bg relative cursor-pointer rounded-md text-gray-300 hover:text-white focus-visible:ring-2 focus-visible:ring-white focus-visible:outline-hidden"
 										>
 											<span class="absolute -inset-2.5"></span>
 											<span class="sr-only">Close panel</span>
@@ -184,16 +184,16 @@
 														xmlns="http://www.w3.org/2000/svg"
 														viewBox="0 0 24 24"
 														fill="currentColor"
-														class="mx-auto size-12 text-gray-400/70"
+														class="text-light-text/70 mx-auto size-12"
 														><path
 															fill-rule="evenodd"
 															d="M1.5 6a2.25 2.25 0 0 1 2.25-2.25h16.5A2.25 2.25 0 0 1 22.5 6v12a2.25 2.25 0 0 1-2.25 2.25H3.75A2.25 2.25 0 0 1 1.5 18V6ZM3 16.06V18c0 .414.336.75.75.75h16.5A.75.75 0 0 0 21 18v-1.94l-2.69-2.689a1.5 1.5 0 0 0-2.12 0l-.88.879.97.97a.75.75 0 1 1-1.06 1.06l-5.16-5.159a1.5 1.5 0 0 0-2.12 0L3 16.061Zm10.125-7.81a1.125 1.125 0 1 1 2.25 0 1.125 1.125 0 0 1-2.25 0Z"
 															clip-rule="evenodd"
 														/></svg
 													>
-													<span class="mt-2 block text-sm font-semibold text-gray-400">
+													<span class="text-light-text mt-2 block text-sm font-semibold">
 														Drag &amp; drop<br />
-														<span class="text-xs font-medium text-gray-400">(Optional)</span>
+														<span class="text-light-text text-xs font-medium">(Optional)</span>
 													</span>
 												</button>
 											</div>
@@ -369,7 +369,7 @@
 								>
 								<button
 									type="submit"
-									class="ml-4 inline-flex cursor-pointer justify-center rounded-md bg-purple-600 px-3 py-2 text-sm font-semibold text-white shadow-xs focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600 sm:hover:bg-violet-400"
+									class="bg-primary-btn-bg sm:hover:bg-primary-btn-hover ml-4 inline-flex cursor-pointer justify-center rounded-md px-3 py-2 text-sm font-semibold text-white shadow-xs focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
 									>Save</button
 								>
 							</div>

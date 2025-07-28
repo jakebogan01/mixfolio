@@ -65,7 +65,7 @@
 		<div class="mx-auto max-w-2xl lg:max-w-7xl">
 			<div>
 				<h2
-					class="font-mono text-xs/5 font-semibold tracking-widest text-gray-500 uppercase data-dark:text-gray-400"
+					class="data-dark:text-light-text font-mono text-xs/5 font-semibold tracking-widest text-gray-500 uppercase"
 				>
 					Testimonials
 				</h2>

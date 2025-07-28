@@ -2,28 +2,30 @@
 	import { PROFILE } from '$lib/utils/constants.js';
 	import { toISODate } from '$lib/utils/date.js';
 	import PortfolioSlugInput from '$lib/components/dashboard/PortfolioSlugInput.svelte';
+	import Button from '$lib/components/global/Button.svelte';
 
 	let { data } = $props();
 </script>
 
 <div
-	class="relative flex flex-col rounded-xl border border-gray-300 bg-white bg-clip-border py-10 text-gray-700"
+	class="border-light-border text-dark-text relative flex flex-col rounded-xl border bg-white bg-clip-border py-10"
 >
 	<div class="px-4 text-base/7 font-semibold sm:flex sm:items-start sm:px-6 lg:px-8">
 		<div class="pb-2 sm:flex-auto">
 			<h6 class="text-base font-semibold text-gray-900">Profile</h6>
 		</div>
 		<div class="mt-4 sm:mt-0 sm:ml-16 sm:flex-none">
-			<a
-				href={PROFILE}
-				class="inline-flex cursor-pointer items-center rounded-md bg-gray-900 px-2.5 py-1.5 text-sm font-normal text-white disabled:cursor-not-allowed disabled:opacity-30 disabled:hover:bg-white sm:transition-colors sm:hover:bg-gray-900/75"
-				>View profile</a
-			>
+			<Button
+				link={true}
+				url={PROFILE}
+				text="View profile"
+				class="bg-secondary-btn-bg sm:hover:bg-secondary-btn-hover"
+			/>
 		</div>
 	</div>
 	<div class="mt-6 px-4 text-base/7 sm:px-6 lg:px-8">
 		<PortfolioSlugInput {data} />
-		<hr class="my-6 border-gray-300" />
+		<hr class="border-light-border my-6" />
 		<div class="mx-auto max-w-5xl">
 			<dl class="grid grid-cols-1 gap-x-4 gap-y-4 sm:grid-cols-2">
 				<div class="flex shrink-0 items-center sm:col-span-full">
@@ -36,7 +38,7 @@
 							/>
 						{:else}
 							<span class="inline-block size-12 overflow-hidden rounded-full bg-gray-200">
-								<svg viewBox="0 0 24 24" fill="currentColor" class="size-full text-gray-400"
+								<svg viewBox="0 0 24 24" fill="currentColor" class="text-light-text size-full"
 									><path
 										d="M24 20.993V24H0v-2.996A14.977 14.977 0 0112.004 15c4.904 0 9.26 2.354 11.996 5.993zM16.002 8.999a4 4 0 11-8 0 4 4 0 018 0z"
 									/></svg
@@ -45,7 +47,7 @@
 						{/if}
 					</div>
 					<div class="ml-3">
-						<p class="text-sm font-medium text-gray-700">
+						<p class="text-dark-text text-sm font-medium">
 							{data?.userProfile?.name || 'My Name'}
 						</p>
 						<p class="text-xs font-medium text-gray-500">

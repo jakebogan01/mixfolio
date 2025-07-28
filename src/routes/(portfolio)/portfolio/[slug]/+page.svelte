@@ -44,7 +44,7 @@
 <!--								class="inline-flex justify-center gap-x-1.5 rounded-md bg-white px-3 py-2 text-sm font-semibold text-gray-900 shadow-xs ring-1 ring-gray-300 ring-inset hover:bg-gray-50"-->
 <!--							>-->
 <!--								<svg-->
-<!--									class="-ml-0.5 size-5 text-gray-400"-->
+<!--									class="-ml-0.5 size-5 text-light-text"-->
 <!--									viewBox="0 0 20 20"-->
 <!--									fill="currentColor"-->
 <!--									aria-hidden="true"-->
@@ -64,7 +64,7 @@
 <!--								class="inline-flex justify-center gap-x-1.5 rounded-md bg-white px-3 py-2 text-sm font-semibold text-gray-900 shadow-xs ring-1 ring-gray-300 ring-inset hover:bg-gray-50"-->
 <!--							>-->
 <!--								<svg-->
-<!--									class="-ml-0.5 size-5 text-gray-400"-->
+<!--									class="-ml-0.5 size-5 text-light-text"-->
 <!--									viewBox="0 0 20 20"-->
 <!--									fill="currentColor"-->
 <!--									aria-hidden="true"-->
@@ -89,33 +89,33 @@
 <!--		<dl class="grid grid-cols-1 sm:grid-cols-2">-->
 <!--			<div class="border-t border-gray-100 px-4 py-6 sm:col-span-1 sm:px-0">-->
 <!--				<dt class="text-sm/6 font-medium text-gray-900">Full name</dt>-->
-<!--				<dd class="mt-1 text-sm/6 text-gray-700 sm:mt-2">{data?.userProfile?.name}</dd>-->
+<!--				<dd class="mt-1 text-sm/6 text-dark-text sm:mt-2">{data?.userProfile?.name}</dd>-->
 <!--			</div>-->
 <!--			<div class="border-t border-gray-100 px-4 py-6 sm:col-span-1 sm:px-0">-->
 <!--				<dt class="text-sm/6 font-medium text-gray-900">Phone</dt>-->
-<!--				<dd class="mt-1 text-sm/6 text-gray-700 sm:mt-2">{data?.userProfile?.phone}</dd>-->
+<!--				<dd class="mt-1 text-sm/6 text-dark-text sm:mt-2">{data?.userProfile?.phone}</dd>-->
 <!--			</div>-->
 <!--			<div class="border-t border-gray-100 px-4 py-6 sm:col-span-1 sm:px-0">-->
 <!--				<dt class="text-sm/6 font-medium text-gray-900">Email address</dt>-->
-<!--				<dd class="mt-1 text-sm/6 text-gray-700 sm:mt-2">{data?.userProfile?.email}</dd>-->
+<!--				<dd class="mt-1 text-sm/6 text-dark-text sm:mt-2">{data?.userProfile?.email}</dd>-->
 <!--			</div>-->
 <!--			<div class="border-t border-gray-100 px-4 py-6 sm:col-span-1 sm:px-0">-->
 <!--				<dt class="text-sm/6 font-medium text-gray-900">Address</dt>-->
-<!--				<dd class="mt-1 text-sm/6 text-gray-700 sm:mt-2">{data?.userProfile?.address}</dd>-->
+<!--				<dd class="mt-1 text-sm/6 text-dark-text sm:mt-2">{data?.userProfile?.address}</dd>-->
 <!--			</div>-->
 <!--			<div class="border-t border-gray-100 px-4 py-6 sm:col-span-1 sm:px-0">-->
 <!--				<dt class="text-sm/6 font-medium text-gray-900">Role</dt>-->
-<!--				<dd class="mt-1 text-sm/6 text-gray-700 sm:mt-2">{data?.userProfile?.role}</dd>-->
+<!--				<dd class="mt-1 text-sm/6 text-dark-text sm:mt-2">{data?.userProfile?.role}</dd>-->
 <!--			</div>-->
 <!--			<div class="border-t border-gray-100 px-4 py-6 sm:col-span-1 sm:px-0">-->
 <!--				<dt class="text-sm/6 font-medium text-gray-900">Slug</dt>-->
-<!--				<dd class="mt-1 text-sm/6 text-gray-700 sm:mt-2">-->
+<!--				<dd class="mt-1 text-sm/6 text-dark-text sm:mt-2">-->
 <!--					mixfolio.com/{data?.userProfile?.slug}-->
 <!--				</dd>-->
 <!--			</div>-->
 <!--			<div class="border-t border-gray-100 px-4 py-6 sm:col-span-2 sm:px-0">-->
 <!--				<dt class="text-sm/6 font-medium text-gray-900">About</dt>-->
-<!--				<dd class="mt-1 text-sm/6 text-gray-700 sm:mt-2">{data?.userProfile?.bio}</dd>-->
+<!--				<dd class="mt-1 text-sm/6 text-dark-text sm:mt-2">{data?.userProfile?.bio}</dd>-->
 <!--			</div>-->
 <!--		</dl>-->
 <!--	</div>-->

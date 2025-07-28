@@ -62,10 +62,10 @@
 			type="button"
 			onclick={copyToClipboard}
 			title="Copy portfolio link"
-			class="shrink-0 cursor-pointer rounded-l-md border border-gray-300 border-r-transparent bg-white px-2 text-sm font-semibold text-gray-900 hover:bg-gray-50 focus:relative focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 {data
+			class="border-light-border shrink-0 cursor-pointer rounded-l-md border border-r-transparent bg-white px-2 text-sm font-semibold text-gray-900 hover:bg-gray-50 focus:relative focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 {data
 				?.userProfile?.slug
 				? ''
-				: 'disabled:pointer-events-none disabled:text-gray-400'}"
+				: 'disabled:text-light-text disabled:pointer-events-none'}"
 			aria-label="Copy your portfolio link"
 			disabled={!data?.userProfile?.slug}
 		>
@@ -89,7 +89,7 @@
 				oninput={debouncedSubmit}
 				name="slug"
 				placeholder="my-name"
-				class="focus:ring-none block w-full min-w-0 border-none py-1.5 pr-3 pl-1 text-base leading-normal font-medium placeholder:!text-gray-400 focus:border-0 focus:border-none focus:ring-0 focus:outline-0 focus:outline-none sm:text-sm/6"
+				class="focus:ring-none placeholder:!text-light-text block w-full min-w-0 border-none py-1.5 pr-3 pl-1 text-base leading-normal font-medium focus:border-0 focus:border-none focus:ring-0 focus:outline-0 focus:outline-none sm:text-sm/6"
 				style="color: {showSlugWarning}"
 				aria-invalid="true"
 				required

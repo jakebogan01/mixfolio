@@ -1,9 +1,9 @@
-<div class="mx-2 mt-2 rounded-4xl bg-gray-900 py-32 xl:mx-6">
+<div class="bg-primary mx-2 mt-2 rounded-4xl py-32 xl:mx-6">
 	<div class="px-6 lg:px-8">
 		<div class="mx-auto max-w-2xl lg:max-w-7xl">
 			<h2
 				data-dark="true"
-				class="font-mono text-xs/5 font-semibold tracking-widest text-gray-500 uppercase data-dark:text-gray-400"
+				class="data-dark:text-light-text font-mono text-xs/5 font-semibold tracking-widest text-gray-500 uppercase"
 			>
 				Connections
 			</h2>
@@ -29,7 +29,7 @@
 					<div class="relative p-10">
 						<h3
 							data-dark="true"
-							class="font-mono text-xs/5 font-semibold tracking-widest text-gray-500 uppercase data-dark:text-gray-400"
+							class="data-dark:text-light-text font-mono text-xs/5 font-semibold tracking-widest text-gray-500 uppercase"
 						>
 							Networking
 						</h3>
@@ -38,7 +38,7 @@
 						>
 							Sell at the speed of light
 						</p>
-						<p class="mt-2 max-w-[600px] text-sm/6 text-gray-600 group-data-dark:text-gray-400">
+						<p class="group-data-dark:text-light-text mt-2 max-w-[600px] text-sm/6 text-gray-600">
 							Our RadiantAI chat assistants analyze the sentiment of your conversations in real
 							time, ensuring you're always one step ahead.
 						</p>
@@ -282,7 +282,7 @@
 					<div class="relative p-10">
 						<h3
 							data-dark="true"
-							class="font-mono text-xs/5 font-semibold tracking-widest text-gray-500 uppercase data-dark:text-gray-400"
+							class="data-dark:text-light-text font-mono text-xs/5 font-semibold tracking-widest text-gray-500 uppercase"
 						>
 							Integrations
 						</h3>
@@ -291,7 +291,7 @@
 						>
 							Meet leads where they are
 						</p>
-						<p class="mt-2 max-w-[600px] text-sm/6 text-gray-600 group-data-dark:text-gray-400">
+						<p class="group-data-dark:text-light-text mt-2 max-w-[600px] text-sm/6 text-gray-600">
 							With thousands of integrations, no one will be able to escape your cold outreach.
 						</p>
 					</div>
@@ -725,7 +725,7 @@
 					<div class="relative p-10">
 						<h3
 							data-dark="true"
-							class="font-mono text-xs/5 font-semibold tracking-widest text-gray-500 uppercase data-dark:text-gray-400"
+							class="data-dark:text-light-text font-mono text-xs/5 font-semibold tracking-widest text-gray-500 uppercase"
 						>
 							Meetings
 						</h3>
@@ -734,7 +734,7 @@
 						>
 							Smart call scheduling
 						</p>
-						<p class="mt-2 max-w-[600px] text-sm/6 text-gray-600 group-data-dark:text-gray-400">
+						<p class="group-data-dark:text-light-text mt-2 max-w-[600px] text-sm/6 text-gray-600">
 							Automatically insert intro calls into your leads' calendars without their consent.
 						</p>
 					</div>
@@ -754,7 +754,7 @@
 					<div class="relative p-10">
 						<h3
 							data-dark="true"
-							class="font-mono text-xs/5 font-semibold tracking-widest text-gray-500 uppercase data-dark:text-gray-400"
+							class="data-dark:text-light-text font-mono text-xs/5 font-semibold tracking-widest text-gray-500 uppercase"
 						>
 							Engagement
 						</h3>
@@ -763,7 +763,7 @@
 						>
 							Become a thought leader
 						</p>
-						<p class="mt-2 max-w-[600px] text-sm/6 text-gray-600 group-data-dark:text-gray-400">
+						<p class="group-data-dark:text-light-text mt-2 max-w-[600px] text-sm/6 text-gray-600">
 							RadiantAI automatically writes LinkedIn posts that relate current events to B2B sales,
 							helping you build a reputation as a thought leader.
 						</p>

@@ -6,6 +6,7 @@
 	import ProfileForm from '$lib/components/dashboard/profile/ProfileForm.svelte';
 	import PortfolioSlugInput from '$lib/components/dashboard/PortfolioSlugInput.svelte';
 	import PreferencesForm from '$lib/components/dashboard/PreferencesForm.svelte';
+	import Button from '$lib/components/global/Button.svelte';
 
 	let { data } = $props();
 	let menuOpen = $state(false);
@@ -62,10 +63,12 @@
 <!--</div>-->
 
 <div class="relative h-50 w-full overflow-hidden rounded-xl">
-	<div class="absolute inset-0 h-full w-full bg-gradient-to-tr from-purple-600 to-violet-400"></div>
+	<div
+		class="from-primary-from to-secondary-to absolute inset-0 h-full w-full bg-gradient-to-tr"
+	></div>
 </div>
 <div
-	class="relative mx-3 -mt-16 mb-6 flex flex-col rounded-xl border border-gray-300 bg-white bg-clip-border text-gray-700 shadow-md lg:mx-4"
+	class="border-light-border text-dark-text relative mx-3 -mt-16 mb-6 flex flex-col rounded-xl border bg-white bg-clip-border shadow-md lg:mx-4"
 >
 	<div class="px-4 pt-4 pb-8">
 		<div class="mb-10 flex flex-wrap items-start justify-between gap-6">
@@ -80,7 +83,7 @@
 					<span
 						class="relative inline-block size-18 rounded-lg bg-gray-200 object-cover object-center shadow-md shadow-gray-500"
 					>
-						<svg viewBox="0 0 24 24" fill="currentColor" class="size-full text-gray-400"
+						<svg viewBox="0 0 24 24" fill="currentColor" class="text-light-text size-full"
 							><path
 								d="M24 20.993V24H0v-2.996A14.977 14.977 0 0112.004 15c4.904 0 9.26 2.354 11.996 5.993zM16.002 8.999a4 4 0 11-8 0 4 4 0 018 0z"
 							/></svg
@@ -96,19 +99,18 @@
 					</p>
 				</div>
 			</div>
-			<button
-				type="button"
-				onclick={toggleMenu}
-				class="block cursor-pointer rounded-md bg-purple-600 px-3 py-2 text-center text-sm font-semibold text-white shadow-xs hover:bg-violet-400 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-purple-600"
-				>Edit profile</button
-			>
+			<Button
+				callBack={toggleMenu}
+				text="Edit profile"
+				class="bg-primary-btn-bg sm:hover:bg-primary-btn-hover"
+			/>
 		</div>
 		<div class="gird-cols-1 mb-12 grid gap-x-12 gap-y-12 px-4 lg:grid-cols-2 2xl:gap-x-60">
 			<div
-				class="relative flex flex-col rounded-xl bg-transparent bg-clip-border text-gray-700 shadow-none"
+				class="text-dark-text relative flex flex-col rounded-xl bg-transparent bg-clip-border shadow-none"
 			>
 				<div
-					class="relative mx-0 mt-0 mb-4 overflow-hidden rounded-xl bg-transparent bg-clip-border text-gray-700 shadow-none"
+					class="text-dark-text relative mx-0 mt-0 mb-4 overflow-hidden rounded-xl bg-transparent bg-clip-border shadow-none"
 				>
 					<h6 class="block text-base leading-relaxed font-semibold tracking-normal">My Profile</h6>
 				</div>
@@ -116,7 +118,7 @@
 					<div class="sm:max-w-xs">
 						<PortfolioSlugInput {data} />
 					</div>
-					<hr class="my-8 border-gray-300" />
+					<hr class="border-light-border my-8" />
 					<div class="mx-auto max-w-5xl">
 						<dl class="grid grid-cols-1 gap-x-4 gap-y-4 sm:grid-cols-2">
 							<div class="sm:col-span-1">
