@@ -223,7 +223,7 @@
 			/>
 		</div>
 	</header>
-
+	{#if data?.expand?.projects?.length > 0}
 	<section class="px-8 py-28" id="projects">
 		<div class="container mx-auto mb-20 text-center">
 			<h2
@@ -280,6 +280,7 @@
 			{/each}
 		</div>
 	</section>
+		{/if}
 
 	<section class="px-8 py-12 lg:py-24" id="testimonials">
 		<div class="container mx-auto max-w-screen-lg">

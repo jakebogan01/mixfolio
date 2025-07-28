@@ -1,13 +1,10 @@
 <script>
 	import Template1 from '$lib/components/templates/Template1.svelte';
 	let { data } = $props();
+	console.log('slug version',data);
 </script>
 
 <Template1 data={data.userProfile} />
-
-<!--<script>-->
-<!--	let { data } = $props();-->
-<!--</script>-->
 
 <!--<div class="mx-auto max-w-7xl px-6">-->
 <!--	<div class="px-4 sm:px-0">-->
