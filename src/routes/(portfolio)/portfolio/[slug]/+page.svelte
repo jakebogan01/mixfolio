@@ -1,7 +1,7 @@
 <script>
 	import Template1 from '$lib/components/templates/Template1.svelte';
 	let { data } = $props();
-	console.log('slug version',data);
+	console.log('slug version', data);
 </script>
 
 <Template1 data={data.userProfile} />

@@ -1,10 +1,9 @@
-import { goto, invalidateAll } from '$app/navigation';
+import { goto } from '$app/navigation';
 
 export const ssr = false;
 
 import { redirect } from '@sveltejs/kit';
 import { processExpandedItems } from '$lib/utils/misc.js';
-import { LOGOUT } from '$lib/utils/constants.js';
 import { user } from '$lib/stores/user.svelte.js';
 
 export async function load({ parent, depends }) {
@@ -12,6 +11,15 @@ export async function load({ parent, depends }) {
 	depends('user_profile');
 
 	if (!pb?.authStore?.isValid) redirect(303, '/');
+
+	try {
+		await pb.collection('users').authRefresh();
+	} catch (error) {
+		console.dir(error, { depth: null });
+		user.model = null;
+		pb.authStore.clear();
+		await goto('/', { state: { type: 'error', message: 'Something went wrong.' } });
+	}
 
 	try {
 		const userProfile = await pb

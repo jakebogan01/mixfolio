@@ -145,13 +145,13 @@
 								<div class="divide-y divide-gray-200 px-4 sm:px-6">
 									<div class="space-y-6 pt-6 pb-5">
 										<div>
-											<label for="project_image" class="sr-only">User project_image</label>
+											<label for="avatar" class="sr-only">User avatar</label>
 											<input
 												type="file"
 												bind:this={fileInput}
 												onchange={showLogoPreview}
-												name="project_image"
-												id="project_image"
+												name="avatar"
+												id="avatar"
 												accept=".jpeg,.jpg,.png"
 												class="sr-only"
 												hidden
@@ -160,26 +160,14 @@
 												<div
 													class="overflow-hidden rounded-lg bg-gray-100 focus-within:ring-2 focus-within:ring-indigo-500 focus-within:ring-offset-2 focus-within:ring-offset-gray-100"
 												>
-													{#if data?.userProfile?.avatar_url}
-														<img
-															src={data?.userProfile?.avatar_url}
-															alt={data?.userProfile?.name || 'User avatar'}
-															bind:this={previewInput}
-															loading="eager"
-															class="pointer-events-none aspect-[8/6] object-cover object-top"
-														/>
-													{:else}
-														<span class="pointer-events-none aspect-video object-cover">
-															<svg
-																viewBox="0 0 24 24"
-																fill="currentColor"
-																class="size-full text-gray-400"
-																><path
-																	d="M24 20.993V24H0v-2.996A14.977 14.977 0 0112.004 15c4.904 0 9.26 2.354 11.996 5.993zM16.002 8.999a4 4 0 11-8 0 4 4 0 018 0z"
-																/></svg
-															>
-														</span>
-													{/if}
+													<img
+														src={data?.userProfile?.avatar_url ||
+															'https://developers.elementor.com/docs/assets/img/elementor-placeholder-image.png'}
+														alt={data?.userProfile?.name || 'User avatar'}
+														bind:this={previewInput}
+														loading="eager"
+														class="pointer-events-none aspect-[8/6] object-cover object-top"
+													/>
 												</div>
 												<button
 													type="button"

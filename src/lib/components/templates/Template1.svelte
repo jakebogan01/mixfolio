@@ -224,63 +224,65 @@
 		</div>
 	</header>
 	{#if data?.expand?.projects?.length > 0}
-	<section class="px-8 py-28" id="projects">
-		<div class="container mx-auto mb-20 text-center">
-			<h2
-				class="mb-4 block font-sans text-4xl leading-[1.3] font-semibold tracking-normal antialiased"
-			>
-				My Projects
-			</h2>
-			<p
-				class="mx-auto block w-full px-4 font-sans text-xl leading-relaxed font-normal text-inherit antialiased lg:w-8/12"
-			>
-				Whether you have a mobile app idea that needs to come to life or a website that requires a
-				facelift, I'm here to turn your digital dreams into reality.
-			</p>
-		</div>
+		<section class="px-8 py-28" id="projects">
+			<div class="container mx-auto mb-20 text-center">
+				<h2
+					class="mb-4 block font-sans text-4xl leading-[1.3] font-semibold tracking-normal antialiased"
+				>
+					My Projects
+				</h2>
+				<p
+					class="mx-auto block w-full px-4 font-sans text-xl leading-relaxed font-normal text-inherit antialiased lg:w-8/12"
+				>
+					Whether you have a mobile app idea that needs to come to life or a website that requires a
+					facelift, I'm here to turn your digital dreams into reality.
+				</p>
+			</div>
 
-		<div class="container mx-auto grid grid-cols-1 gap-x-10 gap-y-20 md:grid-cols-2 xl:grid-cols-4">
-			{#each data?.expand?.projects.slice().reverse() as project, i (project?.id)}
-				<div class="relative flex flex-col rounded-xl bg-clip-border shadow-none">
-					<div
-						class="relative mx-0 mt-0 mb-6 h-48 overflow-hidden rounded-xl bg-clip-border shadow-lg"
-					>
-						<img
-							alt={project?.title}
-							loading="lazy"
-							width="768"
-							height="768"
-							decoding="async"
-							class="h-full w-full object-cover"
-							style="color:transparent"
-							src={project?.project_image_url ||
-								'https://demos.creative-tim.com/material-tailwind-dashboard-react/img/home-decor-1.jpeg'}
-						/>
-					</div>
-					<div class="p-0">
-						<a href={project?.link || '#'} class="transition-colors">
-							<h5
-								class="mb-2 block font-sans text-xl leading-snug font-semibold tracking-normal text-inherit antialiased"
+			<div
+				class="container mx-auto grid grid-cols-1 gap-x-10 gap-y-20 md:grid-cols-2 xl:grid-cols-4"
+			>
+				{#each data?.expand?.projects.slice().reverse() as project, i (project?.id)}
+					<div class="relative flex flex-col rounded-xl bg-clip-border shadow-none">
+						<div
+							class="relative mx-0 mt-0 mb-6 h-48 overflow-hidden rounded-xl bg-clip-border shadow-lg"
+						>
+							<img
+								alt={project?.title}
+								loading="lazy"
+								width="768"
+								height="768"
+								decoding="async"
+								class="h-full w-full object-cover"
+								style="color:transparent"
+								src={project?.project_image_url ||
+									'https://demos.creative-tim.com/material-tailwind-dashboard-react/img/home-decor-1.jpeg'}
+							/>
+						</div>
+						<div class="p-0">
+							<a href={project?.link || '#'} class="transition-colors">
+								<h5
+									class="mb-2 block font-sans text-xl leading-snug font-semibold tracking-normal text-inherit antialiased"
+								>
+									{project?.title || `Project #${i + 1}`}
+								</h5>
+							</a>
+							<p
+								class="mb-6 block font-sans text-base leading-relaxed font-normal text-inherit antialiased"
 							>
-								{project?.title || `Project #${i + 1}`}
-							</h5>
-						</a>
-						<p
-							class="mb-6 block font-sans text-base leading-relaxed font-normal text-inherit antialiased"
-						>
-							{project?.description || 'No description provided.'}
-						</p>
-						<button
-							class="rounded-lg px-4 py-2 text-center align-middle font-sans text-xs font-bold uppercase shadow-md shadow-gray-900/10 transition-all select-none hover:shadow-lg hover:shadow-gray-900/20 focus:opacity-[0.85] focus:shadow-none active:opacity-[0.85] active:shadow-none disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none"
-							type="button"
-							><a href={project?.link || '/404'} target="_blank">see details</a></button
-						>
+								{project?.description || 'No description provided.'}
+							</p>
+							<button
+								class="rounded-lg px-4 py-2 text-center align-middle font-sans text-xs font-bold uppercase shadow-md shadow-gray-900/10 transition-all select-none hover:shadow-lg hover:shadow-gray-900/20 focus:opacity-[0.85] focus:shadow-none active:opacity-[0.85] active:shadow-none disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none"
+								type="button"
+								><a href={project?.link || '/404'} target="_blank">see details</a></button
+							>
+						</div>
 					</div>
-				</div>
-			{/each}
-		</div>
-	</section>
-		{/if}
+				{/each}
+			</div>
+		</section>
+	{/if}
 
 	<section class="px-8 py-12 lg:py-24" id="testimonials">
 		<div class="container mx-auto max-w-screen-lg">

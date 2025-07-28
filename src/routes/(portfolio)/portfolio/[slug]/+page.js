@@ -80,7 +80,7 @@ export async function load({ parent, params }) {
 			);
 
 		if ('collectionId' in userProfile) delete userProfile.collectionId;
-		console.log('Try+Catch',userProfile);
+		console.log('Try+Catch', userProfile);
 		return { userProfile: userProfile || {} };
 	} catch (error) {
 		console.dir(error?.message, { depth: null });
