@@ -83,9 +83,11 @@
 </script>
 
 <div class="space-y-12">
-	<div class="relative mt-6 flex flex-col rounded-xl border border-gray-300 bg-white text-gray-700">
+	<div
+		class="border-light-border text-dark-text relative mt-6 flex flex-col rounded-xl border bg-white"
+	>
 		<div
-			class="relative mx-4 -mt-6 mb-8 rounded-xl bg-gradient-to-tr from-purple-600 to-violet-400 p-6 text-white shadow-lg"
+			class="from-primary-from to-secondary-to relative mx-4 -mt-6 mb-8 rounded-xl bg-gradient-to-tr p-6 text-white shadow-lg"
 		>
 			<h6 class="text-base font-semibold tracking-normal">Themes</h6>
 		</div>
@@ -99,7 +101,7 @@
 					</div>
 					<p class="text-sm font-normal">Light or Dark Mode</p>
 
-					<button type="button" on:click={setLightColor} class="text-gray-700">
+					<button type="button" on:click={setLightColor} class="text-dark-text">
 						<svg
 							xmlns="http://www.w3.org/2000/svg"
 							fill="none"

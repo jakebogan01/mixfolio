@@ -24,7 +24,7 @@
 
 <form bind:this={formEl} class="space-y-6" use:form>
 	<div>
-		<p class="mb-4 block text-xs font-semibold text-gray-400">Portfolio Settings</p>
+		<p class="text-light-text mb-4 block text-xs font-semibold">Portfolio Settings</p>
 		<div class="flex flex-col gap-6">
 			<div class="inline-flex items-center justify-between">
 				<label
@@ -43,7 +43,7 @@
 						checked={data?.userProfile?.expand?.preferences?.hide_projects}
 					/>
 					<span
-						class="absolute h-4 w-9 rounded-full bg-gray-300 transition-colors duration-200 ease-in-out peer-checked:bg-gray-900"
+						class="peer-checked:bg-primary absolute h-4 w-9 rounded-full bg-gray-300 transition-colors duration-200 ease-in-out"
 					></span>
 					<span
 						class="absolute left-0 size-5 rounded-full border border-gray-400 bg-white shadow transition-transform duration-200 ease-in-out peer-checked:translate-x-5"
@@ -67,7 +67,7 @@
 						checked={data?.userProfile?.expand?.preferences?.hide_testimonials}
 					/>
 					<span
-						class="absolute h-4 w-9 rounded-full bg-gray-300 transition-colors duration-200 ease-in-out peer-checked:bg-gray-900"
+						class="peer-checked:bg-primary absolute h-4 w-9 rounded-full bg-gray-300 transition-colors duration-200 ease-in-out"
 					></span>
 					<span
 						class="absolute left-0 size-5 rounded-full border border-gray-400 bg-white shadow transition-transform duration-200 ease-in-out peer-checked:translate-x-5"
@@ -91,7 +91,7 @@
 						checked={data?.userProfile?.expand?.preferences?.hide_clients}
 					/>
 					<span
-						class="absolute h-4 w-9 rounded-full bg-gray-300 transition-colors duration-200 ease-in-out peer-checked:bg-gray-900"
+						class="peer-checked:bg-primary absolute h-4 w-9 rounded-full bg-gray-300 transition-colors duration-200 ease-in-out"
 					></span>
 					<span
 						class="absolute left-0 size-5 rounded-full border border-gray-400 bg-white shadow transition-transform duration-200 ease-in-out peer-checked:translate-x-5"
@@ -115,7 +115,7 @@
 						checked={data?.userProfile?.expand?.preferences?.hide_portfolio}
 					/>
 					<span
-						class="absolute h-4 w-9 rounded-full bg-gray-300 transition-colors duration-200 ease-in-out peer-checked:bg-gray-900"
+						class="peer-checked:bg-primary absolute h-4 w-9 rounded-full bg-gray-300 transition-colors duration-200 ease-in-out"
 					></span>
 					<span
 						class="absolute left-0 size-5 rounded-full border border-gray-400 bg-white shadow transition-transform duration-200 ease-in-out peer-checked:translate-x-5"
@@ -124,9 +124,9 @@
 			</div>
 		</div>
 	</div>
-	<hr class="border-gray-300" />
+	<hr class="border-light-border" />
 	<div>
-		<p class="mb-4 block text-xs font-semibold text-gray-400">Account Settings</p>
+		<p class="text-light-text mb-4 block text-xs font-semibold">Account Settings</p>
 		<div class="flex flex-col gap-6">
 			<div class="inline-flex items-center justify-between">
 				<label
@@ -144,7 +144,7 @@
 						checked={data?.userProfile?.expand?.preferences?.hide_notifications}
 					/>
 					<span
-						class="absolute h-4 w-9 rounded-full bg-gray-300 transition-colors duration-200 ease-in-out peer-checked:bg-gray-900"
+						class="peer-checked:bg-primary absolute h-4 w-9 rounded-full bg-gray-300 transition-colors duration-200 ease-in-out"
 					></span>
 					<span
 						class="absolute left-0 size-5 rounded-full border border-gray-400 bg-white shadow transition-transform duration-200 ease-in-out peer-checked:translate-x-5"
@@ -168,7 +168,7 @@
 						checked={data?.userProfile?.expand?.preferences?.hide_analytics}
 					/>
 					<span
-						class="absolute h-4 w-9 rounded-full bg-gray-300 transition-colors duration-200 ease-in-out peer-checked:bg-gray-900"
+						class="peer-checked:bg-primary absolute h-4 w-9 rounded-full bg-gray-300 transition-colors duration-200 ease-in-out"
 					></span>
 					<span
 						class="absolute left-0 size-5 rounded-full border border-gray-400 bg-white shadow transition-transform duration-200 ease-in-out peer-checked:translate-x-5"

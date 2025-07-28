@@ -5,6 +5,7 @@
 	import { goto } from '$app/navigation';
 	import { debounce } from '$lib/utils/misc.js';
 	import { onMount } from 'svelte';
+	import Button from '$lib/components/global/Button.svelte';
 
 	let { userProfile, menuOpen, scrolled, toggleMenu = () => {} } = $props();
 	let searchTerm = $state('');
@@ -55,18 +56,22 @@
 
 <nav
 	class="sticky top-4 z-40 rounded-xl border bg-white px-4 py-3 shadow-md transition-shadow sm:duration-200 {scrolled
-		? 'border-gray-300 xl:shadow-[0_4px_6px_-1px_rgba(0,0,0,0.1),0_2px_4px_-2px_rgba(0,0,0,0.1)]'
-		: 'border-gray-300 xl:border-transparent xl:bg-transparent xl:shadow-transparent'}"
+		? 'border-light-border xl:shadow-[0_4px_6px_-1px_rgba(0,0,0,0.1),0_2px_4px_-2px_rgba(0,0,0,0.1)]'
+		: 'border-light-border xl:border-transparent xl:bg-transparent xl:shadow-transparent'}"
 >
 	<div class="flex flex-col-reverse justify-between gap-6 md:flex-row md:items-center">
 		<div aria-label="Breadcrumb" class="flex">
 			<ol role="list" class="flex items-center space-x-4">
 				<li>
 					<div>
-						<a href={DASHBOARD} class="text-gray-900 sm:transition-colors sm:hover:text-purple-600">
+						<Button
+							link={true}
+							url={DASHBOARD}
+							defaultStyles="text-gray-900 sm:transition-colors sm:hover:text-purple-600"
+						>
 							<Icon name="home" class="size-5 shrink-0" stroke="none" />
 							<span class="sr-only">Home</span>
-						</a>
+						</Button>
 					</div>
 				</li>
 				<li>
@@ -98,7 +103,7 @@
 				</div>
 				{#if hasMatches && searchTerm.length > 0}
 					<ul
-						class="absolute z-10 mt-2 mr-2 max-h-60 w-74 overflow-auto rounded-md border border-gray-300 bg-white py-1 pt-3 text-sm shadow-lg shadow-black/50"
+						class="border-light-border absolute z-10 mt-2 mr-2 max-h-60 w-74 overflow-auto rounded-md border bg-white py-1 pt-3 text-sm shadow-lg shadow-black/50"
 						role="listbox"
 					>
 						{#if filteredProjects?.length}
@@ -107,7 +112,7 @@
 								<ul>
 									{#each filteredProjects as project (project?.id)}
 										<li
-											class="cursor-pointer px-3 py-2 font-medium text-gray-600 select-none hover:bg-purple-600 hover:text-white"
+											class="hover:bg-primary-btn-bg cursor-pointer px-3 py-2 font-medium text-gray-600 select-none hover:text-white"
 										>
 											<button
 												type="button"
@@ -130,7 +135,7 @@
 								<ul>
 									{#each filteredTestimonials as testimonial (testimonial?.id)}
 										<li
-											class="cursor-pointer px-3 py-2 font-medium text-gray-600 select-none hover:bg-purple-600 hover:text-white"
+											class="hover:bg-primary-btn-bg cursor-pointer px-3 py-2 font-medium text-gray-600 select-none hover:text-white"
 										>
 											<button
 												type="button"
@@ -155,7 +160,7 @@
 								<ul>
 									{#each filteredClients as client (client?.id)}
 										<li
-											class="cursor-pointer px-3 py-2 font-medium text-gray-600 select-none hover:bg-purple-600 hover:text-white"
+											class="hover:bg-primary-btn-bg cursor-pointer px-3 py-2 font-medium text-gray-600 select-none hover:text-white"
 										>
 											<button
 												type="button"
@@ -176,21 +181,18 @@
 				{/if}
 				{#if !filteredProjects?.length && !filteredClients?.length && !filteredTestimonials?.length && searchTerm}
 					<ul
-						class="absolute z-10 mt-2 mr-2 max-h-60 w-74 overflow-auto rounded-md border border-gray-300 bg-white py-1 pt-3 text-sm shadow-lg shadow-black/50"
+						class="border-light-border absolute z-10 mt-2 mr-2 max-h-60 w-74 overflow-auto rounded-md border bg-white py-1 pt-3 text-sm shadow-lg shadow-black/50"
 						role="listbox"
 					>
-						<li
-							class="cursor-pointer px-3 py-2 font-medium text-gray-600 select-none hover:bg-purple-600 hover:text-white"
-						>
+						<li class="cursor-pointer px-3 py-2 font-medium text-gray-600 select-none">
 							No results found
 						</li>
 					</ul>
 				{/if}
 			</div>
-			<button
-				onclick={toggleMenu}
-				type="button"
-				class="relative size-10 max-h-10 max-w-10 cursor-pointer rounded-lg text-center select-none disabled:pointer-events-none sm:transition-colors sm:hover:bg-gray-200/90 xl:hidden"
+			<Button
+				callBack={toggleMenu}
+				defaultStyles="relative size-10 max-h-10 max-w-10 cursor-pointer rounded-lg text-center select-none disabled:pointer-events-none sm:transition-colors sm:hover:bg-gray-200/90 xl:hidden"
 			>
 				<span class="sr-only">Toggle main menu</span>
 				<span
@@ -202,14 +204,13 @@
 						<Icon name="dashboard-menu" class="size-6" stroke="none" />
 					{/if}
 				</span>
-			</button>
+			</Button>
 			<div class="relative">
-				<button
-					type="button"
-					class="flex size-10 max-h-10 max-w-10 cursor-pointer items-center justify-center rounded-lg text-gray-900 select-none disabled:pointer-events-none sm:transition-colors sm:hover:bg-gray-200/90 sm:hover:text-purple-600"
+				<Button
+					defaultStyles="flex size-10 max-h-10 max-w-10 cursor-pointer items-center justify-center rounded-lg text-gray-900 select-none disabled:pointer-events-none sm:transition-colors sm:hover:bg-gray-200/90 sm:hover:text-purple-600"
 				>
 					<Icon name="notification" class="size-5" stroke="none" />
-				</button>
+				</Button>
 			</div>
 		</div>
 	</div>

@@ -1,10 +1,11 @@
 <script>
-	import { DASHBOARD, PROJECTS } from '$lib/utils/constants.js';
+	import { CLIENTS, DASHBOARD, PROJECTS } from '$lib/utils/constants.js';
 	import { toISODate } from '$lib/utils/date.js';
 	import Icon from '$lib/components/Icon.svelte';
 	import { goto } from '$app/navigation';
 	import { page } from '$app/state';
 	import { toastMessage } from '$lib/utils/toast.js';
+	import Button from '$lib/components/global/Button.svelte';
 
 	let { userProfile } = $props();
 
@@ -20,7 +21,7 @@
 </script>
 
 <div
-	class="relative flex flex-col overflow-hidden rounded-xl border border-gray-300 bg-white bg-clip-border py-10 text-gray-700 xl:col-span-2"
+	class="border-light-border text-dark-text relative flex flex-col overflow-hidden rounded-xl border bg-white bg-clip-border py-10 xl:col-span-2"
 >
 	{#if userProfile?.expand?.projects?.length}
 		<div class="px-4 text-base/7 font-semibold sm:flex sm:items-start sm:px-6 lg:px-8">
@@ -29,12 +30,11 @@
 			</div>
 			{#if userProfile?.expand?.projects?.length < 8}
 				<div class="mt-4 sm:mt-0 sm:ml-16 sm:flex-none">
-					<button
-						type="button"
-						onclick={() => goto(PROJECTS, { state: { create: true } })}
-						class="inline-flex cursor-pointer items-center rounded-md bg-purple-600 px-2.5 py-1.5 text-sm font-normal text-white disabled:cursor-not-allowed disabled:opacity-30 disabled:hover:bg-white sm:transition-colors sm:hover:bg-violet-400"
-						>Add project</button
-					>
+					<Button
+						callBack={() => goto(PROJECTS, { state: { create: true } })}
+						text="Add project"
+						class="bg-primary-btn-bg sm:hover:bg-primary-btn-hover"
+					/>
 				</div>
 			{/if}
 		</div>
@@ -47,7 +47,7 @@
 					<col class="lg:w-1/12" />
 					<col class="lg:w-1/12" />
 				</colgroup>
-				<thead class="sticky top-0 border-b border-gray-300 text-sm/6 text-gray-900">
+				<thead class="border-light-border sticky top-0 border-b text-sm/6 text-gray-900">
 					<tr class="bg-white">
 						<th scope="col" class="py-2 pr-8 pl-4 font-semibold sm:pl-6 lg:pl-8">Project</th>
 						<th scope="col" class="py-2 pr-8 pl-0 font-semibold">Link</th>
@@ -77,7 +77,7 @@
 										alt={project?.name || 'Project name unavailable'}
 										class="size-8 rounded bg-gray-800"
 									/>
-									<div class="truncate text-sm/6 font-medium text-gray-700">
+									<div class="text-dark-text truncate text-sm/6 font-medium">
 										{project?.title || 'Title unavailable'}
 									</div>
 								</div>
@@ -95,24 +95,25 @@
 								</button>
 							</td>
 							<td class="hidden py-4 pr-4 pl-0 text-sm/6 sm:block sm:pr-8 lg:pr-20">
-								<p class="max-w-50 truncate text-gray-700">
+								<p class="text-dark-text max-w-50 truncate">
 									{project?.description || 'Description unavailable'}
 								</p>
 							</td>
 							<td
-								class="hidden py-4 pr-4 pl-0 text-right text-sm/6 text-gray-700 sm:table-cell sm:pr-6 lg:pr-8"
+								class="text-dark-text hidden py-4 pr-4 pl-0 text-right text-sm/6 sm:table-cell sm:pr-6 lg:pr-8"
 							>
 								<time datetime="2023-01-23T11:00"
 									>{toISODate(project?.created) || 'Data unavailable'}</time
 								>
 							</td>
 							<td class="py-4 pr-4 pl-0 text-right text-sm text-white sm:pr-6 lg:pr-8">
-								<button
-									type="button"
-									onclick={() => goto(PROJECTS, { state: { view: true, projectId: project?.id } })}
-									class="inline-flex cursor-pointer items-center rounded-md bg-gray-900 px-2.5 py-1.5 disabled:cursor-not-allowed disabled:opacity-30 disabled:hover:bg-white sm:transition-colors sm:hover:bg-gray-900/75"
-									>Select<span class="sr-only">View {project?.name}</span></button
+								<Button
+									callBack={() => goto(PROJECTS, { state: { view: true, projectId: project?.id } })}
+									text="Select"
+									class="bg-secondary-btn-bg sm:hover:bg-secondary-btn-hover"
 								>
+									<span class="sr-only">View {project?.name}</span>
+								</Button>
 							</td>
 						</tr>
 					{/each}
@@ -122,13 +123,12 @@
 	{:else}
 		<div class="flex h-full items-center justify-center">
 			<div class="flex flex-col items-center space-y-2">
-				<p class="mt-2 text-sm text-gray-700">You do not have any projects.</p>
-				<button
-					type="button"
-					onclick={() => goto(PROJECTS, { state: { create: true } })}
-					class="block cursor-pointer rounded-md bg-purple-600 px-3 py-2 text-center text-sm font-semibold text-white shadow-xs hover:bg-violet-400 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
-					>Add a project</button
-				>
+				<p class="text-dark-text mt-2 text-sm">You do not have any projects.</p>
+				<Button
+					callBack={() => goto(PROJECTS, { state: { create: true } })}
+					text="Add project"
+					class="bg-primary-btn-bg sm:hover:bg-primary-btn-hover"
+				/>
 			</div>
 		</div>
 	{/if}

@@ -2,6 +2,7 @@
 	import { page } from '$app/state';
 	import { onMount } from 'svelte';
 	import ProjectForm from '$lib/components/dashboard/projects/ProjectForm.svelte';
+	import Button from '$lib/components/global/Button.svelte';
 
 	let { data } = $props();
 	let menuOpen = $state(false);
@@ -23,10 +24,12 @@
 </script>
 
 <div class="relative h-50 w-full overflow-hidden rounded-xl">
-	<div class="absolute inset-0 h-full w-full bg-gradient-to-tr from-purple-600 to-violet-400"></div>
+	<div
+		class="from-primary-from to-secondary-to absolute inset-0 h-full w-full bg-gradient-to-tr"
+	></div>
 </div>
 <div
-	class="relative mx-3 -mt-16 mb-6 flex flex-col rounded-xl border border-gray-300 bg-white bg-clip-border text-gray-700 shadow-md lg:mx-4"
+	class="border-light-border text-dark-text relative mx-3 -mt-16 mb-6 flex flex-col rounded-xl border bg-white bg-clip-border shadow-md lg:mx-4"
 >
 	<div class="px-4 pt-4 pb-8">
 		<div class="text-base/7 font-semibold sm:flex sm:items-start">
@@ -37,15 +40,14 @@
 			{/if}
 			{#if data?.userProfile?.expand?.projects?.length < 8}
 				<div class="mt-4 sm:mt-0 sm:ml-16 sm:flex-none">
-					<button
-						type="button"
-						onclick={() => {
+					<Button
+						callBack={() => {
 							toggleMenu();
 							viewProject = false;
 						}}
-						class="block cursor-pointer rounded-md bg-purple-600 px-3 py-2 text-center text-sm font-semibold text-white shadow-xs hover:bg-violet-400 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-purple-600"
-						>Add project</button
-					>
+						text="Add project"
+						class="bg-primary-btn-bg sm:hover:bg-primary-btn-hover"
+					/>
 				</div>
 			{/if}
 		</div>
@@ -75,16 +77,15 @@
 							{project?.description}
 						</p>
 						<div class="mt-3">
-							<button
-								type="button"
-								onclick={() => {
+							<Button
+								callBack={() => {
 									toggleMenu();
 									viewProject = true;
 									projectId = project?.id;
 								}}
-								class="cursor-pointer rounded-md bg-gray-900 px-4 py-2 text-center align-middle text-xs font-bold text-white uppercase transition-all select-none hover:bg-gray-900/75 focus:ring focus:ring-gray-300 active:opacity-[0.85] disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none"
-								>view project
-							</button>
+								text="view project"
+								class="bg-secondary-btn-bg sm:hover:bg-secondary-btn-hover"
+							/>
 						</div>
 					</li>
 				{/each}
@@ -92,16 +93,15 @@
 		{:else}
 			<div class="flex h-full items-center justify-center pt-10 pb-8">
 				<div class="flex flex-col items-center space-y-2">
-					<p class="mt-2 text-sm text-gray-700">You do not have any projects.</p>
-					<button
-						type="button"
-						onclick={() => {
+					<p class="text-dark-text mt-2 text-sm">You do not have any projects.</p>
+					<Button
+						callBack={() => {
 							toggleMenu();
 							viewProject = false;
 						}}
-						class="block cursor-pointer rounded-md bg-purple-600 px-3 py-2 text-center text-sm font-semibold text-white shadow-xs hover:bg-violet-400 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
-						>Add a project</button
-					>
+						text="Add project"
+						class="bg-primary-btn-bg sm:hover:bg-primary-btn-hover"
+					/>
 				</div>
 			</div>
 		{/if}

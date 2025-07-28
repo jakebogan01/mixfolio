@@ -6,6 +6,7 @@
 	import { PORTFOLIO, SETTINGS, LOGOUT } from '$lib/utils/constants.js';
 	import { page } from '$app/state';
 	import Icon from '$lib/components/Icon.svelte';
+	import Button from '$lib/components/global/Button.svelte';
 
 	let { menuOpen, toggleMenu = () => {}, slug } = $props();
 	let smallMenuOpen = $state(false);
@@ -20,24 +21,22 @@
 		? 'translate-x-0'
 		: '-translate-x-80 xl:translate-x-0'}"
 >
-	<button
-		type="button"
-		onclick={toggleMenu}
-		class="relative z-100 flex w-full cursor-pointer items-center gap-4 rounded-xl bg-gray-900 px-4 py-3 leading-relaxed font-medium text-white select-none active:bg-red-400 disabled:pointer-events-none sm:transition-colors sm:hover:bg-red-500 xl:hidden"
+	<Button
+		callBack={toggleMenu}
+		defaultStyles="relative z-100 flex w-full cursor-pointer items-center gap-4 rounded-xl bg-secondary-btn-bg px-4 py-3 leading-relaxed font-medium text-white select-none active:bg-red-400 disabled:pointer-events-none sm:transition-colors sm:hover:bg-red-500 xl:hidden"
 	>
 		<span class="sr-only">Close main menu</span>
 		<Icon name="close" class="size-5" stroke="none" />
 		Close
-	</button>
-	<div class="relative z-100 flex h-[calc(100vh-90px)] flex-col rounded-xl bg-gray-900 xl:h-full">
+	</Button>
+	<div class="bg-primary relative z-100 flex h-[calc(100vh-90px)] flex-col rounded-xl xl:h-full">
 		<div class="relative">
 			<div
 				class="relative flex flex-col border-b border-zinc-950/5 p-4 dark:border-white/5 [&>[data-slot=section]+[data-slot=section]]:mt-2.5"
 			>
-				<button
-					onclick={handleToggleMenu}
-					type="button"
-					class="flex w-full cursor-pointer items-center justify-between gap-4 rounded-lg px-4 py-[0.4375rem] text-center text-white select-none disabled:pointer-events-none sm:transition-colors sm:hover:bg-white/10 {smallMenuOpen
+				<Button
+					callBack={handleToggleMenu}
+					defaultStyles="flex w-full cursor-pointer items-center justify-between gap-4 rounded-lg px-4 py-[0.4375rem] text-center text-white select-none disabled:pointer-events-none sm:transition-colors sm:hover:bg-white/10 {smallMenuOpen
 						? 'bg-white/10'
 						: 'bg-transparent'}"
 				>
@@ -47,7 +46,7 @@
 						disableLink={(e) => e.preventDefault()}
 					/>
 					<Icon name="down-arrow" class="size-5" fill="none" />
-				</button>
+				</Button>
 				{#if smallMenuOpen}
 					<div
 						role="menu"
@@ -57,12 +56,13 @@
 						class="absolute top-19 left-4 isolate z-10 w-64 origin-top-right overflow-y-auto rounded-lg bg-zinc-800/75 p-1 shadow-lg ring-1 ring-white/10 outline outline-transparent backdrop-blur-xl ring-inset focus:outline-hidden"
 					>
 						<div role="none">
-							<a
+							<Button
+								link={true}
+								url="{PORTFOLIO}{slug}"
+								tabindex="-1"
 								id="menu-item-0"
 								role="menuitem"
-								href="{PORTFOLIO}{slug}"
-								tabindex="-1"
-								class="group group flex items-center space-x-2 rounded-lg px-3 py-1.5 text-sm text-white sm:hover:bg-blue-500"
+								defaultStyles="group group flex items-center space-x-2 rounded-lg px-3 py-1.5 text-sm text-white sm:hover:bg-blue-500"
 							>
 								<Icon
 									name="view-portfolio"
@@ -70,12 +70,11 @@
 									stroke="none"
 								/>
 								<span>My Portfolio</span>
-							</a>
+							</Button>
 							<a id="menu-item-1" role="menuitem" href={SETTINGS} tabindex="-1">
-								<button
-									type="button"
-									onclick={toggleMenu}
-									class="group group flex w-full cursor-pointer items-center space-x-2 rounded-lg px-3 py-1.5 text-sm text-white sm:hover:bg-blue-500"
+								<Button
+									callBack={toggleMenu}
+									defaultStyles="group group flex w-full cursor-pointer items-center space-x-2 rounded-lg px-3 py-1.5 text-sm text-white sm:hover:bg-blue-500"
 								>
 									<Icon
 										name="settings"
@@ -83,16 +82,15 @@
 										stroke="none"
 									/>
 									<span>Settings</span>
-								</button>
+								</Button>
 							</a>
 						</div>
 						<div class="mx-3.5 my-1 h-px border-0 bg-white/10 sm:mx-3" role="separator"></div>
 						<div role="none">
-							<button
-								type="button"
+							<Button
 								role="menuitem"
-								onclick={() => goto(LOGOUT)}
-								class="group group flex w-full cursor-pointer items-center space-x-2 rounded-lg px-3 py-1.5 text-sm text-white sm:hover:bg-blue-500"
+								callBack={() => goto(LOGOUT)}
+								defaultStyles="group group flex w-full cursor-pointer items-center space-x-2 rounded-lg px-3 py-1.5 text-sm text-white sm:hover:bg-blue-500"
 							>
 								<Icon
 									name="logout"
@@ -100,7 +98,7 @@
 									stroke="none"
 								/>
 								<span>Sign Out</span>
-							</button>
+							</Button>
 						</div>
 					</div>
 				{/if}
@@ -111,18 +109,17 @@
 				{#each navLinks as item (item.id)}
 					<li>
 						<a href={item.link}>
-							<button
-								type="button"
-								onclick={toggleMenu}
-								class="flex w-full cursor-pointer items-center gap-4 rounded-lg bg-gradient-to-tr px-4 py-3 leading-relaxed font-medium text-white select-none disabled:pointer-events-none sm:transition-colors {page.route.id.endsWith(
+							<Button
+								callBack={toggleMenu}
+								defaultStyles="flex w-full cursor-pointer items-center gap-4 rounded-lg bg-gradient-to-tr px-4 py-3 leading-relaxed font-medium text-white select-none disabled:pointer-events-none sm:transition-colors {page.route.id.endsWith(
 									item.text.toLowerCase()
 								)
-									? 'from-purple-600 to-violet-400'
-									: 'bg-gray-900 sm:hover:bg-white/10'}"
+									? 'from-primary-from to-secondary-to'
+									: 'bg-secondary-btn-bg sm:hover:bg-white/10'}"
 							>
 								<Icon name={item.icon} class="size-5" stroke="none" />
 								{item.text}
-							</button>
+							</Button>
 						</a>
 					</li>
 				{/each}

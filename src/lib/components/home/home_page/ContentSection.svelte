@@ -36,7 +36,7 @@
 	<div class="px-6 lg:px-8">
 		<div class="mx-auto max-w-2xl lg:max-w-7xl">
 			<h2
-				class="font-mono text-xs/5 font-semibold tracking-widest text-gray-500 uppercase data-dark:text-gray-400"
+				class="data-dark:text-light-text font-mono text-xs/5 font-semibold tracking-widest text-gray-500 uppercase"
 			>
 				Dashboard
 			</h2>

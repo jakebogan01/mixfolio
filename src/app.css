@@ -3,9 +3,23 @@
 @plugin '@tailwindcss/typography';
 
 @theme {
+	/* FONTS */
 	--font-sans: Inter, sans-serif;
 	--font-sans--font-feature-settings: 'cv11';
 
+	/* DASHBOARD COLORS */
+	--color-primary-btn-bg: oklch(55.8% 0.288 302.321);
+	--color-primary-btn-hover: oklch(70.2% 0.183 293.541);
+	--color-secondary-btn-bg: oklch(21% 0.034 264.665);
+	--color-secondary-btn-hover: color-mix(in oklab, var(--color-gray-900) 75%, transparent);
+	--color-dark-text: oklch(37.3% 0.034 259.733);
+	--color-light-text: oklch(70.7% 0.022 261.325);
+	--color-primary: oklch(21% 0.034 264.665);
+	--color-light-border: oklch(87.2% 0.01 258.338);
+	--color-primary-from: oklch(55.8% 0.288 302.321);
+	--color-secondary-to: oklch(70.2% 0.183 293.541);
+
+	/* ANIMATIONS */
 	--animate-outterLogoRing: outterLogoRing 0.5s ease-in-out 0.4s;
 	--animate-innerLogoRing: innerLogoRing 0.5s ease-in-out 0.2s;
 	--animate-logoCircle: logoCircle 0.5s ease-in-out 0s;
