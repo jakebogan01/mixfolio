@@ -31,6 +31,7 @@ export async function load({ parent, params }) {
 				'expand.testimonials.id, ' +
 				'expand.testimonials.name, ' +
 				'expand.testimonials.email, ' +
+				'expand.testimonials.quote, ' +
 				'expand.testimonials.role, ' +
 				'expand.testimonials.company, ' +
 				'expand.testimonials.avatar, ' +

@@ -272,6 +272,13 @@
 														</span>
 													</button>
 												</div>
+												<div
+													id="client_image-validation"
+													class="mt-1 text-sm text-red-500"
+													data-felte-reporter-dom-for="client_image"
+													aria-live="polite"
+													data-felte-reporter-dom-single-message
+												></div>
 											</div>
 											<div>
 												<label for="name" class="block text-sm/6 font-medium text-gray-900"

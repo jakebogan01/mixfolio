@@ -288,6 +288,13 @@
 														</span>
 													</button>
 												</div>
+												<div
+													id="project_image-validation"
+													class="mt-1 text-sm text-red-500"
+													data-felte-reporter-dom-for="project_image"
+													aria-live="polite"
+													data-felte-reporter-dom-single-message
+												></div>
 											</div>
 											<div>
 												<label for="title" class="block text-sm/6 font-medium text-gray-900"
