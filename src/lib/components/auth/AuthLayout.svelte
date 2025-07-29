@@ -87,7 +87,8 @@
 					user_id: authData?.record.id,
 					preferences: userPreferences.id,
 					name: authData?.meta?.name,
-					email: authData?.meta?.email
+					email: authData?.meta?.email,
+					oauth: true
 				});
 			}
 
@@ -121,7 +122,8 @@
 					user_id: authData?.record.id,
 					preferences: userPreferences.id,
 					name: authData?.meta?.name,
-					email: authData?.meta?.email
+					email: authData?.meta?.email,
+					oauth: true
 				});
 			}
 

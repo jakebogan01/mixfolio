@@ -138,131 +138,133 @@
 >
 	<div class="px-4 pt-4 pb-8">
 		<div class="divide-light-border divide-y">
-			<div
-				class="grid max-w-7xl grid-cols-1 gap-x-8 gap-y-10 px-4 py-16 sm:px-6 md:grid-cols-3 lg:px-8"
-			>
-				<div>
-					<h2 class="text-base/7 font-semibold">Change email</h2>
-					<p class="text-light-text mt-1 text-sm/6">
-						Update your email associated with your account.
-					</p>
+			{#if !data?.userProfile?.oauth}
+				<div
+					class="grid max-w-7xl grid-cols-1 gap-x-8 gap-y-10 px-4 py-16 sm:px-6 md:grid-cols-3 lg:px-8"
+				>
+					<div>
+						<h2 class="text-base/7 font-semibold">Change email</h2>
+						<p class="text-light-text mt-1 text-sm/6">
+							Update your email associated with your account.
+						</p>
+					</div>
+
+					<form class="md:col-span-2" use:emailForm>
+						<div class="grid grid-cols-1 gap-x-6 gap-y-8 sm:max-w-xl sm:grid-cols-6">
+							<div class="col-span-full">
+								<label for="email" class="block text-sm/6 font-medium">Email address</label>
+								<div class="mt-2">
+									<input
+										id="email"
+										type="email"
+										name="email"
+										aria-invalid="true"
+										required
+										autocomplete="email"
+										minlength="4"
+										maxlength="255"
+										aria-label="Email address"
+										aria-describedby="email-validation"
+										class="block w-full rounded-md bg-white/5 px-3 py-1.5 text-base outline-1 -outline-offset-1 outline-white/10 placeholder:text-gray-500 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-500 sm:text-sm/6"
+									/>
+								</div>
+								<div
+									id="email-validation"
+									class="text-sm text-red-500"
+									data-felte-reporter-dom-for="email"
+									aria-live="polite"
+									data-felte-reporter-dom-single-message
+								></div>
+							</div>
+						</div>
+
+						<div class="mt-8 flex">
+							<Button
+								type="submit"
+								text="Save"
+								class="bg-primary-btn-bg sm:hover:bg-primary-btn-hover"
+							/>
+						</div>
+					</form>
 				</div>
 
-				<form class="md:col-span-2" use:emailForm>
-					<div class="grid grid-cols-1 gap-x-6 gap-y-8 sm:max-w-xl sm:grid-cols-6">
-						<div class="col-span-full">
-							<label for="email" class="block text-sm/6 font-medium">Email address</label>
-							<div class="mt-2">
-								<input
-									id="email"
-									type="email"
-									name="email"
-									aria-invalid="true"
-									required
-									autocomplete="email"
-									minlength="4"
-									maxlength="255"
-									aria-label="Email address"
-									aria-describedby="email-validation"
-									class="block w-full rounded-md bg-white/5 px-3 py-1.5 text-base outline-1 -outline-offset-1 outline-white/10 placeholder:text-gray-500 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-500 sm:text-sm/6"
-								/>
+				<div
+					class="grid max-w-7xl grid-cols-1 gap-x-8 gap-y-10 px-4 py-16 sm:px-6 md:grid-cols-3 lg:px-8"
+				>
+					<div>
+						<h2 class="text-base/7 font-semibold">Change password</h2>
+						<p class="mt-1 text-sm/6 text-gray-400">
+							Update your password associated with your account.
+						</p>
+					</div>
+
+					<form class="md:col-span-2" use:passwordForm>
+						<div class="grid grid-cols-1 gap-x-6 gap-y-8 sm:max-w-xl sm:grid-cols-6">
+							<div class="col-span-full">
+								<label for="password" class="block text-sm/6 font-medium">New password</label>
+								<div class="mt-2">
+									<input
+										id="password"
+										autocomplete="current-password"
+										type="password"
+										name="password"
+										aria-invalid="true"
+										required
+										minlength="8"
+										maxlength="71"
+										aria-label="Password"
+										aria-describedby="password-validation"
+										class="block w-full rounded-md bg-white/5 px-3 py-1.5 text-base outline-1 -outline-offset-1 outline-white/10 placeholder:text-gray-500 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-500 sm:text-sm/6"
+									/>
+								</div>
+								<div
+									id="password-validation"
+									class="text-sm text-red-500"
+									data-felte-reporter-dom-for="password"
+									aria-live="polite"
+									data-felte-reporter-dom-single-message
+								></div>
 							</div>
-							<div
-								id="email-validation"
-								class="text-sm text-red-500"
-								data-felte-reporter-dom-for="email"
-								aria-live="polite"
-								data-felte-reporter-dom-single-message
-							></div>
+
+							<div class="col-span-full">
+								<label for="passwordConfirm" class="block text-sm/6 font-medium"
+									>Confirm password</label
+								>
+								<div class="mt-2">
+									<input
+										name="passwordConfirm"
+										id="passwordConfirm"
+										autocomplete="current-password"
+										type="password"
+										aria-invalid="true"
+										required
+										minlength="8"
+										maxlength="71"
+										aria-label="Confirm Password"
+										aria-describedby="passwordConfirm-validation"
+										class="block w-full rounded-md bg-white/5 px-3 py-1.5 text-base outline-1 -outline-offset-1 outline-white/10 placeholder:text-gray-500 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-500 sm:text-sm/6"
+									/>
+								</div>
+								<div
+									id="passwordConfirm-validation"
+									class="text-sm text-red-500"
+									data-felte-reporter-dom-for="passwordConfirm"
+									aria-live="polite"
+									data-felte-reporter-dom-single-message
+								></div>
+							</div>
 						</div>
-					</div>
 
-					<div class="mt-8 flex">
-						<Button
-							type="submit"
-							text="Save"
-							class="bg-primary-btn-bg sm:hover:bg-primary-btn-hover"
-						/>
-					</div>
-				</form>
-			</div>
-
-			<div
-				class="grid max-w-7xl grid-cols-1 gap-x-8 gap-y-10 px-4 py-16 sm:px-6 md:grid-cols-3 lg:px-8"
-			>
-				<div>
-					<h2 class="text-base/7 font-semibold">Change password</h2>
-					<p class="mt-1 text-sm/6 text-gray-400">
-						Update your password associated with your account.
-					</p>
+						<div class="mt-8 flex">
+							<Button
+								type="submit"
+								text="Save"
+								class="bg-primary-btn-bg sm:hover:bg-primary-btn-hover"
+							/>
+						</div>
+					</form>
 				</div>
-
-				<form class="md:col-span-2" use:passwordForm>
-					<div class="grid grid-cols-1 gap-x-6 gap-y-8 sm:max-w-xl sm:grid-cols-6">
-						<div class="col-span-full">
-							<label for="password" class="block text-sm/6 font-medium">New password</label>
-							<div class="mt-2">
-								<input
-									id="password"
-									autocomplete="current-password"
-									type="password"
-									name="password"
-									aria-invalid="true"
-									required
-									minlength="8"
-									maxlength="71"
-									aria-label="Password"
-									aria-describedby="password-validation"
-									class="block w-full rounded-md bg-white/5 px-3 py-1.5 text-base outline-1 -outline-offset-1 outline-white/10 placeholder:text-gray-500 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-500 sm:text-sm/6"
-								/>
-							</div>
-							<div
-								id="password-validation"
-								class="text-sm text-red-500"
-								data-felte-reporter-dom-for="password"
-								aria-live="polite"
-								data-felte-reporter-dom-single-message
-							></div>
-						</div>
-
-						<div class="col-span-full">
-							<label for="passwordConfirm" class="block text-sm/6 font-medium"
-								>Confirm password</label
-							>
-							<div class="mt-2">
-								<input
-									name="passwordConfirm"
-									id="passwordConfirm"
-									autocomplete="current-password"
-									type="password"
-									aria-invalid="true"
-									required
-									minlength="8"
-									maxlength="71"
-									aria-label="Confirm Password"
-									aria-describedby="passwordConfirm-validation"
-									class="block w-full rounded-md bg-white/5 px-3 py-1.5 text-base outline-1 -outline-offset-1 outline-white/10 placeholder:text-gray-500 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-500 sm:text-sm/6"
-								/>
-							</div>
-							<div
-								id="passwordConfirm-validation"
-								class="text-sm text-red-500"
-								data-felte-reporter-dom-for="passwordConfirm"
-								aria-live="polite"
-								data-felte-reporter-dom-single-message
-							></div>
-						</div>
-					</div>
-
-					<div class="mt-8 flex">
-						<Button
-							type="submit"
-							text="Save"
-							class="bg-primary-btn-bg sm:hover:bg-primary-btn-hover"
-						/>
-					</div>
-				</form>
-			</div>
+			{/if}
 
 			<div
 				class="grid max-w-7xl grid-cols-1 gap-x-8 gap-y-10 px-4 py-16 sm:px-6 md:grid-cols-3 lg:px-8"
