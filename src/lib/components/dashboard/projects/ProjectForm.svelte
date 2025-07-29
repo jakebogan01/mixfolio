@@ -7,6 +7,7 @@
 	import reporterDom from '@felte/reporter-dom';
 	import { invalidate } from '$app/navigation';
 	import { toISODate } from '$lib/utils/date.js';
+	import Button from '$lib/components/global/Button.svelte';
 
 	let { data, projectId, viewProject, toggleMenu = () => {} } = $props();
 	let previewInput = $state(null);
@@ -179,17 +180,10 @@
 								<div>
 									<div class="pb-1 sm:pb-6">
 										<div>
-											<div class="relative h-40 sm:h-56">
-												<img
-													src={project?.project_image_url
-														? project?.project_image_url
-														: 'https://images.unsplash.com/photo-1492724724894-7464c27d0ceb?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=512&q=80'}
-													alt=""
-													width="399"
-													height="224"
-													class="absolute size-full object-cover"
-												/>
-											</div>
+											<div
+												class="h-60 bg-white bg-contain bg-center bg-no-repeat"
+												style="background-image: url({project?.project_image_url})"
+											></div>
 											<div class="mt-6 px-4 sm:mt-8 sm:flex sm:items-end sm:px-6">
 												<div class="sm:flex-1">
 													<div>
@@ -382,33 +376,30 @@
 						</div>
 						<div class="flex px-4 py-4 {viewProject ? 'justify-between' : 'justify-end'}">
 							{#if viewProject}
-								<button
-									type="button"
-									onclick={() => (showDeleteModal = true)}
-									class="inline-flex cursor-pointer justify-center rounded-md bg-red-500 px-3 py-2 text-sm font-semibold text-white shadow-xs focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600 sm:hover:bg-red-400"
-									>Delete</button
-								>
+								<Button
+									callBack={() => (showDeleteModal = true)}
+									text="Delete"
+									class="bg-red-500 sm:hover:bg-red-400"
+								/>
 							{/if}
 							<div class="flex shrink-0 justify-end">
-								<button
-									type="button"
-									onclick={toggleMenu}
-									class="cursor-pointer rounded-md bg-white px-3 py-2 text-sm font-semibold text-gray-900 shadow-xs ring-1 ring-gray-300 ring-inset hover:bg-gray-50"
-									>Cancel</button
-								>
+								<Button
+									callBack={toggleMenu}
+									text="Cancel"
+									class="text-dark-text! border-light-border border bg-white"
+								/>
 								{#if viewProject}
-									<button
-										type="button"
-										onclick={handleProjectUpdate}
-										class="bg-primary-btn-bg sm:hover:bg-primary-btn-hover ml-4 inline-flex cursor-pointer justify-center rounded-md px-3 py-2 text-sm font-semibold text-white shadow-xs focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
-										>Update</button
-									>
+									<Button
+										callBack={handleProjectUpdate}
+										text="Update"
+										class="bg-primary-btn-bg sm:hover:bg-primary-btn-hover ml-4"
+									/>
 								{:else}
-									<button
+									<Button
 										type="submit"
-										class="bg-primary-btn-bg sm:hover:bg-primary-btn-hover ml-4 inline-flex cursor-pointer justify-center rounded-md px-3 py-2 text-sm font-semibold text-white shadow-xs focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
-										>Save</button
-									>
+										text="Save"
+										class="bg-primary-btn-bg sm:hover:bg-primary-btn-hover ml-4"
+									/>
 								{/if}
 							</div>
 						</div>
@@ -465,18 +456,16 @@
 						</div>
 					</div>
 					<div class="mt-5 sm:mt-4 sm:flex sm:flex-row-reverse">
-						<button
-							type="button"
-							onclick={deleteProject}
-							class="inline-flex w-full cursor-pointer justify-center rounded-md bg-red-500 px-3 py-2 text-sm font-semibold text-white shadow-xs hover:bg-red-400 sm:ml-3 sm:w-auto"
-							>Delete</button
-						>
-						<button
-							type="button"
-							onclick={() => (showDeleteModal = false)}
-							class="mt-3 inline-flex w-full cursor-pointer justify-center rounded-md bg-white px-3 py-2 text-sm font-semibold text-gray-900 shadow-xs ring-1 ring-gray-300 ring-inset hover:bg-gray-50 sm:mt-0 sm:w-auto"
-							>Cancel</button
-						>
+						<Button
+							callBack={deleteProject}
+							text="Delete"
+							class="bg-red-500 sm:ml-3 sm:hover:hover:bg-red-400"
+						/>
+						<Button
+							callBack={() => (showDeleteModal = false)}
+							text="Cancel"
+							class="text-dark-text! border-light-border border bg-white"
+						/>
 					</div>
 				</div>
 			</div>

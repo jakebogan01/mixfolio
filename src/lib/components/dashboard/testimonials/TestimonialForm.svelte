@@ -6,6 +6,7 @@
 	import { validator } from '@felte/validator-zod';
 	import reporterDom from '@felte/reporter-dom';
 	import { invalidate } from '$app/navigation';
+	import Button from '$lib/components/global/Button.svelte';
 
 	let { data, testimonialId, viewTestimonial, toggleMenu = () => {} } = $props();
 	let previewInput = $state(null);
@@ -190,28 +191,10 @@
 								<div>
 									<div class="pb-1 sm:pb-6">
 										<div>
-											<div class="relative h-40 sm:h-56">
-												{#if testimonial?.testimonial_image_url}
-													<img
-														src={testimonial?.testimonial_image_url}
-														alt={testimonial?.name || 'User avatar'}
-														bind:this={previewInput}
-														loading="eager"
-														class="absolute size-full object-cover object-top"
-													/>
-												{:else}
-													<span class="absolute size-full object-cover object-top">
-														<svg
-															viewBox="0 0 24 24"
-															fill="currentColor"
-															class="text-light-text size-full"
-															><path
-																d="M24 20.993V24H0v-2.996A14.977 14.977 0 0112.004 15c4.904 0 9.26 2.354 11.996 5.993zM16.002 8.999a4 4 0 11-8 0 4 4 0 018 0z"
-															/></svg
-														>
-													</span>
-												{/if}
-											</div>
+											<div
+												class="h-60 bg-white bg-contain bg-center bg-no-repeat"
+												style="background-image: url({testimonial?.testimonial_image_url})"
+											></div>
 											<div class="mt-6 px-4 sm:mt-8 sm:flex sm:items-end sm:px-6">
 												<div class="sm:flex-1">
 													<div>
@@ -418,33 +401,30 @@
 						</div>
 						<div class="flex px-4 py-4 {viewTestimonial ? 'justify-between' : 'justify-end'}">
 							{#if viewTestimonial}
-								<button
-									type="button"
-									onclick={() => (showDeleteModal = true)}
-									class="inline-flex cursor-pointer justify-center rounded-md bg-red-500 px-3 py-2 text-sm font-semibold text-white shadow-xs focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600 sm:hover:bg-red-400"
-									>Delete</button
-								>
+								<Button
+									callBack={() => (showDeleteModal = true)}
+									text="Delete"
+									class="bg-red-500 sm:hover:bg-red-400"
+								/>
 							{/if}
 							<div class="flex shrink-0 justify-end">
-								<button
-									type="button"
-									onclick={toggleMenu}
-									class="cursor-pointer rounded-md bg-white px-3 py-2 text-sm font-semibold text-gray-900 shadow-xs ring-1 ring-gray-300 ring-inset hover:bg-gray-50"
-									>Cancel</button
-								>
+								<Button
+									callBack={toggleMenu}
+									text="Cancel"
+									class="text-dark-text! border-light-border border bg-white"
+								/>
 								{#if viewTestimonial}
-									<button
-										type="button"
-										onclick={handleTestimonialUpdate}
-										class="bg-primary-btn-bg sm:hover:bg-primary-btn-hover ml-4 inline-flex cursor-pointer justify-center rounded-md px-3 py-2 text-sm font-semibold text-white shadow-xs focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
-										>Update</button
-									>
+									<Button
+										callBack={handleTestimonialUpdate}
+										text="Update"
+										class="bg-primary-btn-bg sm:hover:bg-primary-btn-hover ml-4"
+									/>
 								{:else}
-									<button
+									<Button
 										type="submit"
-										class="bg-primary-btn-bg sm:hover:bg-primary-btn-hover ml-4 inline-flex cursor-pointer justify-center rounded-md px-3 py-2 text-sm font-semibold text-white shadow-xs focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
-										>Save</button
-									>
+										text="Save"
+										class="bg-primary-btn-bg sm:hover:bg-primary-btn-hover ml-4"
+									/>
 								{/if}
 							</div>
 						</div>
@@ -501,18 +481,16 @@
 						</div>
 					</div>
 					<div class="mt-5 sm:mt-4 sm:flex sm:flex-row-reverse">
-						<button
-							type="button"
-							onclick={deleteTestimonial}
-							class="inline-flex w-full cursor-pointer justify-center rounded-md bg-red-500 px-3 py-2 text-sm font-semibold text-white shadow-xs hover:bg-red-400 sm:ml-3 sm:w-auto"
-							>Delete</button
-						>
-						<button
-							type="button"
-							onclick={() => (showDeleteModal = false)}
-							class="mt-3 inline-flex w-full cursor-pointer justify-center rounded-md bg-white px-3 py-2 text-sm font-semibold text-gray-900 shadow-xs ring-1 ring-gray-300 ring-inset hover:bg-gray-50 sm:mt-0 sm:w-auto"
-							>Cancel</button
-						>
+						<Button
+							callBack={deleteTestimonial}
+							text="Delete"
+							class="bg-red-500 sm:ml-3 sm:hover:hover:bg-red-400"
+						/>
+						<Button
+							callBack={() => (showDeleteModal = false)}
+							text="Cancel"
+							class="text-dark-text! border-light-border border bg-white"
+						/>
 					</div>
 				</div>
 			</div>

@@ -23,7 +23,7 @@
 	const toggleMenu = () => (menuOpen = !menuOpen);
 </script>
 
-<div class="relative h-50 w-full overflow-hidden rounded-xl">
+<div class="relative h-30 w-full overflow-hidden rounded-xl xl:h-50">
 	<div
 		class="from-primary-from to-secondary-to absolute inset-0 h-full w-full bg-gradient-to-tr"
 	></div>

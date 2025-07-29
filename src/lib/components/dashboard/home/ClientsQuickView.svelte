@@ -7,47 +7,42 @@
 </script>
 
 <div
-	class="border-light-border text-dark-text relative flex flex-col rounded-xl border bg-white bg-clip-border py-10 md:col-span-2 xl:col-span-1"
+	class="border-light-border text-dark-text relative flex flex-col overflow-x-hidden rounded-xl border bg-white bg-clip-border pt-10 md:col-span-2 xl:col-span-1"
 >
 	{#if userProfile?.expand?.clients?.length}
 		<div class="px-4 text-base/7 font-semibold sm:flex sm:items-start sm:px-6 lg:px-8">
 			<div class="pb-2 sm:flex-auto">
 				<h6 class="text-base font-semibold text-gray-900">Clients</h6>
 			</div>
-			<div class="mt-4 sm:mt-0 sm:ml-4 sm:flex-none">
-				<Button
-					callBack={() => goto(CLIENTS, { state: { create: true } })}
-					text="Add client"
-					class="bg-primary-btn-bg sm:hover:bg-primary-btn-hover"
-				/>
-			</div>
+			{#if userProfile?.expand?.clients?.length < 6}
+				<div class="mt-4 sm:mt-0 sm:ml-4 sm:flex-none">
+					<Button
+						callBack={() => goto(CLIENTS, { state: { create: true } })}
+						text="Add client"
+						class="bg-primary-btn-bg sm:hover:bg-primary-btn-hover"
+					/>
+				</div>
+			{/if}
 		</div>
-		<div class="mt-6 max-h-72 overflow-y-auto px-4 text-base/7 font-semibold sm:px-6 lg:px-8">
-			<ul role="list" class="space-y-5 divide-y divide-gray-100">
+		<div class="mt-5 flex-1 overflow-y-auto px-4 text-base/7 font-semibold sm:px-6 lg:px-8">
+			<ul role="list" class="max-h-72 space-y-3.5">
 				{#each userProfile?.expand?.clients as client (client?.id)}
 					<li class="flex items-center justify-between gap-x-6">
 						<div class="flex min-w-0 gap-x-4">
-							<img
-								src={client?.client_image_url ||
-									'https://images.unsplash.com/photo-1494790108377-be9c29b29330?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80'}
-								alt=""
-								class="size-12 flex-none rounded bg-gray-50"
-							/>
 							<div class="min-w-0 flex-auto">
 								<p class="text-sm/6 font-semibold text-gray-900">
 									{client?.name || 'Name unavailable'}
 								</p>
-								<p class="mt-1 truncate text-xs/5 text-gray-500">
+								<p class="truncate text-xs/5 text-gray-500">
 									{client?.link || 'Link unavailable'}
 								</p>
 							</div>
 						</div>
-						<button
-							type="button"
-							onclick={() => goto(CLIENTS, { state: { view: true, clientId: client?.id } })}
-							class="bg-secondary-btn-bg sm:hover:bg-secondary-btn-hover cursor-pointer rounded-full px-2.5 py-1 text-xs font-semibold text-white sm:transition-colors"
-							>View</button
-						>
+						<Button
+							callBack={() => goto(CLIENTS, { state: { create: true, clientId: client?.id } })}
+							text="View"
+							class="bg-secondary-btn-bg sm:hover:bg-secondary-btn-hover rounded-full! px-2.5! py-1! text-xs! font-normal!"
+						/>
 					</li>
 				{/each}
 			</ul>

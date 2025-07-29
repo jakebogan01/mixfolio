@@ -5,6 +5,7 @@
 	import { validator } from '@felte/validator-zod';
 	import reporterDom from '@felte/reporter-dom';
 	import { invalidate } from '$app/navigation';
+	import Button from '$lib/components/global/Button.svelte';
 
 	let { data, toggleMenu = () => {} } = $props();
 	let previewInput = $state(null);
@@ -361,17 +362,16 @@
 						</div>
 						<div class="flex justify-end px-4 py-4">
 							<div class="flex shrink-0 justify-end">
-								<button
-									type="button"
-									onclick={toggleMenu}
-									class="cursor-pointer rounded-md bg-white px-3 py-2 text-sm font-semibold text-gray-900 shadow-xs ring-1 ring-gray-300 ring-inset hover:bg-gray-50"
-									>Cancel</button
-								>
-								<button
+								<Button
+									callBack={toggleMenu}
+									text="Cancel"
+									class="text-dark-text! border-light-border border bg-white"
+								/>
+								<Button
 									type="submit"
-									class="bg-primary-btn-bg sm:hover:bg-primary-btn-hover ml-4 inline-flex cursor-pointer justify-center rounded-md px-3 py-2 text-sm font-semibold text-white shadow-xs focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
-									>Save</button
-								>
+									text="Save"
+									class="bg-primary-btn-bg sm:hover:bg-primary-btn-hover ml-4"
+								/>
 							</div>
 						</div>
 					</form>
