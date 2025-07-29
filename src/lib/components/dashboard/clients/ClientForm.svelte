@@ -53,6 +53,7 @@
 					await data.pb.collection('clients').update(clientId, values);
 				} else {
 					values.image = fileInput?.files?.[0];
+					values.profile_id = data?.userProfile?.id;
 					const user_clients = await data.pb.collection('clients').create(values);
 					const currentClientIds = data?.userProfile?.expand?.clients || [];
 					const updatedClientIds = [

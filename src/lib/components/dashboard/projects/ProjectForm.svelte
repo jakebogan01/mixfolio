@@ -57,6 +57,7 @@
 					await data.pb.collection('projects').update(projectId, values);
 				} else {
 					values.image = fileInput?.files?.[0];
+					values.profile_id = data?.userProfile?.id;
 					const user_projects = await data.pb.collection('projects').create(values);
 					const currentProjectIds = data?.userProfile?.expand?.projects || [];
 					const updatedProjectIds = [

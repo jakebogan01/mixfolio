@@ -61,7 +61,7 @@
 			email: null,
 			company: null,
 			role: null,
-			quote: null,
+			quote: null
 		},
 		extend: [validator({ schema }), reporterDom()],
 		onSubmit: async (values) => {
@@ -71,6 +71,7 @@
 					await data.pb.collection('testimonials').update(testimonialId, values);
 				} else {
 					values.avatar = fileInput?.files?.[0];
+					values.profile_id = data?.userProfile?.id;
 					const user_testimonials = await data.pb.collection('testimonials').create(values);
 					const currentTestimonialsIds = data?.userProfile?.expand?.testimonials || [];
 					const updatedTestimonialsIds = [
@@ -414,7 +415,7 @@
 											</div>
 											<div>
 												<label for="quote" class="block text-sm/6 font-medium text-gray-900"
-												>Quote</label
+													>Quote</label
 												>
 												<div class="mt-2">
 													<textarea

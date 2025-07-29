@@ -37,7 +37,6 @@
 	console.log(data);
 
 	let chosenTestimonial = $state(data?.expand?.testimonials[0] || []);
-
 </script>
 
 <!--<label for="base-color-input">-->
@@ -221,7 +220,7 @@
 				height="1024"
 				decoding="async"
 				data-nimg="1"
-				class="h-[36rem] w-full rounded-xl object-cover borderImg"
+				class="borderImg h-[36rem] w-full rounded-xl object-cover"
 				style="color:transparent"
 				src={data.avatar_url}
 			/>
@@ -246,19 +245,17 @@
 			<div
 				class="container mx-auto grid grid-cols-1 gap-x-10 gap-y-20 md:grid-cols-2 xl:grid-cols-4"
 			>
-<!--				rounded-xl bg-clip-border-->
+				<!--				rounded-xl bg-clip-border-->
 				{#each data?.expand?.projects.slice().reverse() as project, i (project?.id)}
 					<div class="relative flex flex-col shadow-none">
-						<div
-							class="relative mx-0 mt-0 mb-6 h-48 overflow-hidden bg-clip-border shadow-lg"
-						>
+						<div class="relative mx-0 mt-0 mb-6 h-48 overflow-hidden bg-clip-border shadow-lg">
 							<img
 								alt={project?.title}
 								loading="lazy"
 								width="768"
 								height="768"
 								decoding="async"
-								class="h-full w-full object-cover rounded-xl borderImg"
+								class="borderImg h-full w-full rounded-xl object-cover"
 								style="color:transparent"
 								src={project?.project_image_url ||
 									'https://demos.creative-tim.com/material-tailwind-dashboard-react/img/home-decor-1.jpeg'}
@@ -318,7 +315,6 @@
 							class="mb-3 block w-full font-sans text-base leading-relaxed font-normal text-inherit antialiased lg:w-8/12"
 						>
 							{chosenTestimonial?.quote || 'Quote'}
-
 						</p>
 						<h6
 							class=" leading-relanpxed mb-0.5 block font-sans text-base font-semibold tracking-normal antialiased"
@@ -331,22 +327,23 @@
 							{chosenTestimonial?.role || 'Role'}
 						</p>
 
-							<div class="flex items-center gap-4">
-								{#each data?.expand?.testimonials as testimonial, i (testimonial?.id)}
-									<button onclick={()=>{
+						<div class="flex items-center gap-4">
+							{#each data?.expand?.testimonials as testimonial, i (testimonial?.id)}
+								<button
+									onclick={() => {
 										chosenTestimonial = testimonial;
 									}}
 									class="rounded-md"
-									>
-								<img
-									src={testimonial?.testimonial_image_url ||
-										'https://demos.creative-tim.com/material-tailwind-dashboard-react/img/home-decor-1.jpeg'}
-									alt="spotify"
-									class="relative inline-block h-9 w-9 cursor-pointer rounded-md object-cover object-center opacity-50"
-								/>
-									</button>
-								{/each}
-							</div>
+								>
+									<img
+										src={testimonial?.testimonial_image_url ||
+											'https://demos.creative-tim.com/material-tailwind-dashboard-react/img/home-decor-1.jpeg'}
+										alt="spotify"
+										class="relative inline-block h-9 w-9 cursor-pointer rounded-md object-cover object-center opacity-50"
+									/>
+								</button>
+							{/each}
+						</div>
 					</div>
 
 					<div class="h-[21rem] w-full shrink-0 rounded-lg sm:w-[18rem]">
@@ -359,7 +356,8 @@
 							data-nimg="1"
 							class="h-full w-full rounded-lg object-cover"
 							style="color:transparent"
-							src={chosenTestimonial?.testimonial_image_url || 'https://demos.creative-tim.com/material-tailwind-dashboard-react/img/home-decor-1.jpeg'}
+							src={chosenTestimonial?.testimonial_image_url ||
+								'https://demos.creative-tim.com/material-tailwind-dashboard-react/img/home-decor-1.jpeg'}
 						/>
 					</div>
 				</div>
@@ -377,12 +375,20 @@
 				</h2>
 				<p
 					class="mx-auto block w-full px-4 font-sans text-xl leading-relaxed font-normal text-inherit antialiased lg:w-8/12"
-				>Trusted by the world’s most innovative teams</p>
-				<div class="flex flex-wrap justify-center max-w-6xl mx-auto gap-5">
+				>
+					Trusted by the world’s most innovative teams
+				</p>
+				<div class="mx-auto flex max-w-6xl flex-wrap justify-center gap-5">
 					{#each data?.expand?.clients.slice() as clients, i (clients?.id)}
-					<img width="158" height="48" src={clients.client_image_url || 'https://demos.creative-tim.com/material-tailwind-dashboard-react/img/home-decor-1.jpeg'} alt="Transistor" class="max-h-30 object-contain" />
+						<img
+							width="158"
+							height="48"
+							src={clients.client_image_url ||
+								'https://demos.creative-tim.com/material-tailwind-dashboard-react/img/home-decor-1.jpeg'}
+							alt="Transistor"
+							class="max-h-30 object-contain"
+						/>
 					{/each}
-
 				</div>
 			</div>
 		</div>
@@ -523,7 +529,8 @@
 			</div>
 		</div>
 	</footer>
-		</div>
+</div>
+
 <!--css color picker code-->
 
 <style>

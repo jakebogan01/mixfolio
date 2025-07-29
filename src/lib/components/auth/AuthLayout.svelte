@@ -52,9 +52,10 @@
 					const newUser = await pb.collection('users').create(values);
 					await pb.collection('users').authWithPassword(values.email, values.password);
 					let userPreferences = await pb.collection('preferences').create({ hide_portfolio: true });
-					await pb
+					let profile = await pb
 						.collection('profiles')
 						.create({ user_id: newUser.id, preferences: userPreferences.id });
+					await pb.collection('preferences').update(userPreferences.id, { profile_id: profile.id });
 					user.model = pb;
 					await goto(DASHBOARD, { state: { type: 'success', message: 'Successfully registered' } });
 				} else {
@@ -83,13 +84,14 @@
 
 			if (existingProfiles.length === 0) {
 				let userPreferences = await pb.collection('preferences').create({ hide_portfolio: true });
-				await pb.collection('profiles').create({
+				let profile = await pb.collection('profiles').create({
 					user_id: authData?.record.id,
 					preferences: userPreferences.id,
 					name: authData?.meta?.name,
 					email: authData?.meta?.email,
 					oauth: true
 				});
+				await pb.collection('preferences').update(userPreferences.id, { profile_id: profile.id });
 			}
 
 			user.model = pb;
@@ -118,13 +120,14 @@
 
 			if (existingProfiles.length === 0) {
 				let userPreferences = await pb.collection('preferences').create({ hide_portfolio: true });
-				await pb.collection('profiles').create({
+				let profile = await pb.collection('profiles').create({
 					user_id: authData?.record.id,
 					preferences: userPreferences.id,
 					name: authData?.meta?.name,
 					email: authData?.meta?.email,
 					oauth: true
 				});
+				await pb.collection('preferences').update(userPreferences.id, { profile_id: profile.id });
 			}
 
 			user.model = pb;
