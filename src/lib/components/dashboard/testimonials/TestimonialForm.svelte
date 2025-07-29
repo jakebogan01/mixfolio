@@ -67,10 +67,10 @@
 		onSubmit: async (values) => {
 			try {
 				if (updatingTestimonial) {
-					values.image = fileInput?.files?.[0];
+					values.avatar = fileInput?.files?.[0];
 					await data.pb.collection('testimonials').update(testimonialId, values);
 				} else {
-					values.image = fileInput?.files?.[0];
+					values.avatar = fileInput?.files?.[0];
 					const user_testimonials = await data.pb.collection('testimonials').create(values);
 					const currentTestimonialsIds = data?.userProfile?.expand?.testimonials || [];
 					const updatedTestimonialsIds = [
