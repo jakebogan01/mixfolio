@@ -36,19 +36,22 @@
 				message: 'Only .jpeg, .jpg, or .png files are allowed'
 			}),
 		name: z
-			.string({ message: 'This filed is required' })
+			.string({ message: 'This field is required' })
 			.min(5, { message: 'Must be 5 or more characters long' })
 			.max(255, { message: 'No more than 255 characters long' }),
 		email: z
-			.string({ message: 'This filed is required' })
+			.string({ message: 'This field is required' })
 			.email({ message: 'Please enter a valid email address' })
 			.max(255, { message: 'No more than 255 characters long' }),
 		company: z
-			.string({ message: 'This filed is required' })
+			.string({ message: 'This field is required' })
 			.min(5, { message: 'Must be 5 or more characters long' })
 			.max(255, { message: 'No more than 255 characters long' }),
 		role: z
-			.string({ message: 'This filed is required' })
+			.string({ message: 'This field is required' })
+			.min(5, 'Must be 5 or more characters long'),
+		quote: z
+			.string({ message: 'This field is required' })
 			.min(5, 'Must be 5 or more characters long')
 	});
 
@@ -57,7 +60,8 @@
 			name: null,
 			email: null,
 			company: null,
-			role: null
+			role: null,
+			quote: null,
 		},
 		extend: [validator({ schema }), reporterDom()],
 		onSubmit: async (values) => {
@@ -134,7 +138,8 @@
 			name: testimonial?.name,
 			email: testimonial?.email,
 			company: testimonial?.company,
-			role: testimonial?.role
+			role: testimonial?.role,
+			quote: testimonial?.quote
 		});
 	};
 </script>
@@ -227,6 +232,12 @@
 													{testimonial?.role || 'Role unavailable'}
 												</dd>
 											</div>
+											<div>
+												<dt class="text-sm font-medium text-gray-500 sm:w-40 sm:shrink-0">Quote</dt>
+												<dd class="mt-1 text-sm text-gray-900 sm:col-span-2">
+													{testimonial?.quote || 'Quote unavailable'}
+												</dd>
+											</div>
 										</dl>
 									</div>
 								</div>
@@ -289,6 +300,13 @@
 														</span>
 													</button>
 												</div>
+												<div
+													id="testimonial_image-validation"
+													class="mt-1 text-sm text-red-500"
+													data-felte-reporter-dom-for="testimonial_image"
+													aria-live="polite"
+													data-felte-reporter-dom-single-message
+												></div>
 											</div>
 											<div>
 												<label for="name" class="block text-sm/6 font-medium text-gray-900"
@@ -390,6 +408,33 @@
 													id="role-validation"
 													class="mt-1 text-sm text-red-500"
 													data-felte-reporter-dom-for="role"
+													aria-live="polite"
+													data-felte-reporter-dom-single-message
+												></div>
+											</div>
+											<div>
+												<label for="quote" class="block text-sm/6 font-medium text-gray-900"
+												>Quote</label
+												>
+												<div class="mt-2">
+													<textarea
+														rows="3"
+														type="text"
+														name="quote"
+														id="quote"
+														class="col-start-1 row-start-1 block w-full rounded-lg border border-transparent bg-white py-1.5 pr-10 pl-3 text-base shadow-sm outline-1 -outline-offset-1 outline-gray-300 focus:outline-2 focus:-outline-offset-2 sm:pr-9 sm:text-sm/6"
+														aria-invalid="true"
+														required
+														minlength="5"
+														maxlength="255"
+														aria-label="Project quote"
+														aria-describedby="quote-validation"
+													></textarea>
+												</div>
+												<div
+													id="quote-validation"
+													class="mt-1 text-sm text-red-500"
+													data-felte-reporter-dom-for="quote"
 													aria-live="polite"
 													data-felte-reporter-dom-single-message
 												></div>

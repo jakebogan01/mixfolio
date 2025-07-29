@@ -1,5 +1,6 @@
 <script>
 	import { onMount } from 'svelte';
+	import Button from '$lib/components/global/Button.svelte';
 
 	let { data } = $props();
 	let el, section;
@@ -34,6 +35,9 @@
 	}
 
 	console.log(data);
+
+	let chosenTestimonial = $state(data?.expand?.testimonials[0] || []);
+
 </script>
 
 <!--<label for="base-color-input">-->
@@ -217,7 +221,7 @@
 				height="1024"
 				decoding="async"
 				data-nimg="1"
-				class="h-[36rem] w-full rounded-xl object-cover"
+				class="h-[36rem] w-full rounded-xl object-cover borderImg"
 				style="color:transparent"
 				src={data.avatar_url}
 			/>
@@ -242,10 +246,11 @@
 			<div
 				class="container mx-auto grid grid-cols-1 gap-x-10 gap-y-20 md:grid-cols-2 xl:grid-cols-4"
 			>
+<!--				rounded-xl bg-clip-border-->
 				{#each data?.expand?.projects.slice().reverse() as project, i (project?.id)}
-					<div class="relative flex flex-col rounded-xl bg-clip-border shadow-none">
+					<div class="relative flex flex-col shadow-none">
 						<div
-							class="relative mx-0 mt-0 mb-6 h-48 overflow-hidden rounded-xl bg-clip-border shadow-lg"
+							class="relative mx-0 mt-0 mb-6 h-48 overflow-hidden bg-clip-border shadow-lg"
 						>
 							<img
 								alt={project?.title}
@@ -253,7 +258,7 @@
 								width="768"
 								height="768"
 								decoding="async"
-								class="h-full w-full object-cover"
+								class="h-full w-full object-cover rounded-xl borderImg"
 								style="color:transparent"
 								src={project?.project_image_url ||
 									'https://demos.creative-tim.com/material-tailwind-dashboard-react/img/home-decor-1.jpeg'}
@@ -307,35 +312,41 @@
 						<h3
 							class=" mb-4 block font-sans text-3xl leading-snug font-bold tracking-normal antialiased lg:max-w-xs"
 						>
-							{data?.expand?.testimonials?.name || 'erin'}
+							{chosenTestimonial?.name || 'Name'}
 						</h3>
 						<p
 							class="mb-3 block w-full font-sans text-base leading-relaxed font-normal text-inherit antialiased lg:w-8/12"
 						>
-							I had the pleasure of working with Lily on a critical web development project, and I
-							can confidently say that their expertise and professionalism exceeded my expectations.
+							{chosenTestimonial?.quote || 'Quote'}
+
 						</p>
 						<h6
 							class=" leading-relanpxed mb-0.5 block font-sans text-base font-semibold tracking-normal antialiased"
 						>
-							{data?.expand?.testimonials?.name || 'erin'}
+							{chosenTestimonial?.company || 'Company'}
 						</h6>
 						<p
 							class="mb-5 block font-sans text-sm leading-normal font-normal text-inherit antialiased"
 						>
-							{data?.expand?.testimonials?.name || 'erin'}
+							{chosenTestimonial?.role || 'Role'}
 						</p>
 
-						{#each data?.expand?.testimonials as testimonial, i (testimonial?.id)}
 							<div class="flex items-center gap-4">
+								{#each data?.expand?.testimonials as testimonial, i (testimonial?.id)}
+									<button onclick={()=>{
+										chosenTestimonial = testimonial;
+									}}
+									class="rounded-md"
+									>
 								<img
-									src={testimonial?.avatar_url ||
+									src={testimonial?.testimonial_image_url ||
 										'https://demos.creative-tim.com/material-tailwind-dashboard-react/img/home-decor-1.jpeg'}
 									alt="spotify"
 									class="relative inline-block h-9 w-9 cursor-pointer rounded-md object-cover object-center opacity-50"
 								/>
+									</button>
+								{/each}
 							</div>
-						{/each}
 					</div>
 
 					<div class="h-[21rem] w-full shrink-0 rounded-lg sm:w-[18rem]">
@@ -348,9 +359,30 @@
 							data-nimg="1"
 							class="h-full w-full rounded-lg object-cover"
 							style="color:transparent"
-							src={'https://demos.creative-tim.com/material-tailwind-dashboard-react/img/home-decor-1.jpeg'}
+							src={chosenTestimonial?.testimonial_image_url || 'https://demos.creative-tim.com/material-tailwind-dashboard-react/img/home-decor-1.jpeg'}
 						/>
 					</div>
+				</div>
+			</div>
+		</div>
+	</section>
+
+	<section class="px-8 py-12 lg:py-24" id="testimonials">
+		<div class="container mx-auto max-w-screen-lg">
+			<div class="container mx-auto mb-20 text-center">
+				<h2
+					class="mb-4 block font-sans text-4xl leading-[1.3] font-semibold tracking-normal antialiased"
+				>
+					Clients
+				</h2>
+				<p
+					class="mx-auto block w-full px-4 font-sans text-xl leading-relaxed font-normal text-inherit antialiased lg:w-8/12"
+				>Trusted by the world’s most innovative teams</p>
+				<div class="flex flex-wrap justify-center max-w-6xl mx-auto gap-5">
+					{#each data?.expand?.clients.slice() as clients, i (clients?.id)}
+					<img width="158" height="48" src={clients.client_image_url || 'https://demos.creative-tim.com/material-tailwind-dashboard-react/img/home-decor-1.jpeg'} alt="Transistor" class="max-h-30 object-contain" />
+					{/each}
+
 				</div>
 			</div>
 		</div>
@@ -491,8 +523,7 @@
 			</div>
 		</div>
 	</footer>
-</div>
-
+		</div>
 <!--css color picker code-->
 
 <style>
@@ -517,7 +548,7 @@
 			color: var(--surface-color);
 		}
 
-		img {
+		.borderImg {
 			border: 3px solid var(--surface-color);
 		}
 
