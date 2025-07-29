@@ -36,18 +36,20 @@
 		</div>
 		{#if data?.userProfile?.expand?.clients?.length}
 			<div class="px-4 sm:px-6 lg:px-8">
-				<div class="sm:flex sm:items-center sm:justify-end">
-					<div class="mt-4 sm:mt-0 sm:ml-16 sm:flex-none">
-						<Button
-							callBack={() => {
-								toggleMenu();
-								viewClient = false;
-							}}
-							text="Add client"
-							class="bg-primary-btn-bg sm:hover:bg-primary-btn-hover"
-						/>
+				{#if data?.userProfile?.expand?.clients?.length < 6}
+					<div class="sm:flex sm:items-center sm:justify-end">
+						<div class="mt-4 sm:mt-0 sm:ml-16 sm:flex-none">
+							<Button
+								callBack={() => {
+									toggleMenu();
+									viewClient = false;
+								}}
+								text="Add client"
+								class="bg-primary-btn-bg sm:hover:bg-primary-btn-hover"
+							/>
+						</div>
 					</div>
-				</div>
+				{/if}
 				<div class="mt-8 flow-root">
 					<div class="-mx-4 -my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
 						<div class="inline-block min-w-full py-2 align-middle sm:px-6 lg:px-8">
@@ -65,7 +67,8 @@
 										>
 										<th
 											scope="col"
-											class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">Link</th
+											class="hidden px-3 py-3.5 text-left text-sm font-semibold text-gray-900 sm:table-cell"
+											>Link</th
 										>
 										<th scope="col" class="relative py-3.5 pr-4 pl-3 sm:pr-0">
 											<span class="sr-only">View</span>
@@ -75,14 +78,14 @@
 								<tbody class="divide-y divide-gray-200 bg-white">
 									{#each data?.userProfile?.expand?.clients as client (client?.id)}
 										<tr>
-											<td class="size-11 shrink-0 py-5 pr-3 pl-4 text-sm whitespace-nowrap sm:pl-0">
-												<div class="size-11 shrink-0">
+											<td class="size-12 shrink-0 py-5 pr-3 pl-4 text-sm whitespace-nowrap sm:pl-0">
+												<div class="w-12 shrink-0">
 													<img
 														src={client?.client_image_url
 															? client?.client_image_url
 															: 'https://images.unsplash.com/photo-1492724724894-7464c27d0ceb?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=512&q=80'}
 														alt=""
-														class="pointer-events-none aspect-10/7 object-cover"
+														class="pointer-events-none w-full object-cover"
 													/>
 												</div>
 											</td>
@@ -91,11 +94,12 @@
 													{client?.name || 'Name unavailable'}
 												</div>
 											</td>
-											<td class="px-3 py-5 text-sm whitespace-nowrap text-gray-500"
+											<td
+												class="hidden px-3 py-5 text-sm whitespace-nowrap text-gray-500 sm:table-cell"
 												>{client?.link || 'Link unavailable'}</td
 											>
 											<td
-												class="relative py-5 pr-4 pl-3 text-right text-sm font-medium whitespace-nowrap sm:pr-0"
+												class="relative py-5 pr-4 pl-3 text-sm font-medium whitespace-nowrap sm:pr-0"
 											>
 												<Button
 													callBack={() => {
@@ -104,7 +108,7 @@
 														clientId = client?.id;
 													}}
 													text="View"
-													class="text-dark-text! sm:hover:text-light-text!"
+													class="bg-secondary-btn-bg sm:hover:bg-secondary-btn-hover ml-auto rounded-full! px-2.5! py-1! text-xs! font-normal!"
 												>
 													<span class="sr-only">, {client?.name || 'Name unavailable'}</span>
 												</Button>

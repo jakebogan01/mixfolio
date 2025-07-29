@@ -1,9 +1,8 @@
 <script>
-	import { CLIENTS, DASHBOARD, PROJECTS } from '$lib/utils/constants.js';
+	import { PROJECTS } from '$lib/utils/constants.js';
 	import { toISODate } from '$lib/utils/date.js';
 	import Icon from '$lib/components/Icon.svelte';
 	import { goto } from '$app/navigation';
-	import { page } from '$app/state';
 	import { toastMessage } from '$lib/utils/toast.js';
 	import Button from '$lib/components/global/Button.svelte';
 
@@ -21,7 +20,7 @@
 </script>
 
 <div
-	class="border-light-border text-dark-text relative flex flex-col overflow-hidden rounded-xl border bg-white bg-clip-border py-10 xl:col-span-2"
+	class="border-light-border text-dark-text relative flex flex-col overflow-hidden rounded-xl border bg-white bg-clip-border pt-10 xl:col-span-2"
 >
 	{#if userProfile?.expand?.projects?.length}
 		<div class="px-4 text-base/7 font-semibold sm:flex sm:items-start sm:px-6 lg:px-8">
@@ -38,7 +37,7 @@
 				</div>
 			{/if}
 		</div>
-		<div class="mt-6 max-h-92 overflow-y-auto">
+		<div class="mt-5 max-h-92 flex-1 overflow-y-auto">
 			<table class="table-fixed text-left whitespace-nowrap">
 				<colgroup>
 					<col class="w-full sm:w-4/12" />

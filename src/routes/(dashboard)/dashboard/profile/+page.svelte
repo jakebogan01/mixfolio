@@ -62,7 +62,7 @@
 <!--	<div class="ColorPicker" id="wheelPicker"></div>-->
 <!--</div>-->
 
-<div class="relative h-50 w-full overflow-hidden rounded-xl">
+<div class="relative h-30 w-full overflow-hidden rounded-xl xl:h-50">
 	<div
 		class="from-primary-from to-secondary-to absolute inset-0 h-full w-full bg-gradient-to-tr"
 	></div>
@@ -125,6 +125,12 @@
 								<dt class="text-sm leading-normal font-semibold">Phone</dt>
 								<dd class="text-sm leading-normal font-normal">
 									{data?.userProfile?.phone || '000-000-0000'}
+								</dd>
+							</div>
+							<div class="sm:col-span-1">
+								<dt class="text-sm leading-normal font-semibold">Email</dt>
+								<dd class="text-sm leading-normal font-normal">
+									{data?.userProfile?.email || 'me@example.com'}
 								</dd>
 							</div>
 							<div class="sm:col-span-1">

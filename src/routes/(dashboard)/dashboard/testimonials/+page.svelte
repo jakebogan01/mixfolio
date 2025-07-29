@@ -36,18 +36,20 @@
 		</div>
 		{#if data?.userProfile?.expand?.testimonials?.length}
 			<div class="px-4 sm:px-6 lg:px-8">
-				<div class="sm:flex sm:items-center sm:justify-end">
-					<div class="mt-4 sm:mt-0 sm:ml-16 sm:flex-none">
-						<Button
-							callBack={() => {
-								toggleMenu();
-								viewTestimonial = false;
-							}}
-							text="Add testimonial"
-							class="bg-primary-btn-bg sm:hover:bg-primary-btn-hover"
-						/>
+				{#if data?.userProfile?.expand?.testimonials?.length < 6}
+					<div class="sm:flex sm:items-center sm:justify-end">
+						<div class="mt-4 sm:mt-0 sm:ml-16 sm:flex-none">
+							<Button
+								callBack={() => {
+									toggleMenu();
+									viewTestimonial = false;
+								}}
+								text="Add testimonial"
+								class="bg-primary-btn-bg sm:hover:bg-primary-btn-hover"
+							/>
+						</div>
 					</div>
-				</div>
+				{/if}
 				<div class="mt-8 flow-root">
 					<div class="-mx-4 -my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
 						<div class="inline-block min-w-full py-2 align-middle sm:px-6 lg:px-8">
@@ -61,11 +63,13 @@
 										>
 										<th
 											scope="col"
-											class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">Company</th
+											class="hidden px-3 py-3.5 text-left text-sm font-semibold text-gray-900 sm:table-cell"
+											>Company</th
 										>
 										<th
 											scope="col"
-											class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">Title</th
+											class="hidden px-3 py-3.5 text-left text-sm font-semibold text-gray-900 sm:table-cell"
+											>Title</th
 										>
 										<th scope="col" class="relative py-3.5 pr-4 pl-3 sm:pr-0">
 											<span class="sr-only">View</span>
@@ -109,16 +113,19 @@
 													</div>
 												</div>
 											</td>
-											<td class="px-3 py-5 text-sm whitespace-nowrap text-gray-500">
+											<td
+												class="hidden px-3 py-5 text-sm whitespace-nowrap text-gray-500 sm:table-cell"
+											>
 												<div class="mt-1 text-gray-500">
 													{testimonial?.company || 'Company unavailable'}
 												</div>
 											</td>
-											<td class="px-3 py-5 text-sm whitespace-nowrap text-gray-500"
+											<td
+												class="hidden px-3 py-5 text-sm whitespace-nowrap text-gray-500 sm:table-cell"
 												>{testimonial?.role || 'Role unavailable'}</td
 											>
 											<td
-												class="relative py-5 pr-4 pl-3 text-right text-sm font-medium whitespace-nowrap sm:pr-0"
+												class="relative py-5 pr-4 pl-3 text-sm font-medium whitespace-nowrap sm:pr-0"
 											>
 												<Button
 													callBack={() => {
@@ -127,7 +134,7 @@
 														testimonialId = testimonial?.id;
 													}}
 													text="View"
-													class="text-dark-text! sm:hover:text-light-text!"
+													class="bg-secondary-btn-bg sm:hover:bg-secondary-btn-hover ml-auto rounded-full! px-2.5! py-1! text-xs! font-normal!"
 												>
 													<span class="sr-only">, {testimonial?.name || 'Name unavailable'}</span>
 												</Button>
