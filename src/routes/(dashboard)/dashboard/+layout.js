@@ -35,6 +35,7 @@ export async function load({ parent, depends }) {
 					'role, ' +
 					'biography, ' +
 					'slug, ' +
+					'oauth, ' +
 					'avatar, ' +
 					'created, ' +
 					'expand.projects.collectionId, ' +
