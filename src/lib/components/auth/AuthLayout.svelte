@@ -31,7 +31,7 @@
 				})
 		: z.object({
 				email: z
-					.string({ message: 'Please confirm a password' })
+					.string({ message: 'Please enter a valid email address' })
 					.email({ message: 'Please enter a valid email address' }),
 				password: z
 					.string()
