@@ -35,8 +35,8 @@
 	}
 
 	console.log(data);
-
-	let chosenTestimonial = $state(data?.expand?.testimonials[0] || []);
+//$state(data?.expand?.testimonials[0] ||
+	let chosenTestimonial = [];
 </script>
 
 <!--<label for="base-color-input">-->
