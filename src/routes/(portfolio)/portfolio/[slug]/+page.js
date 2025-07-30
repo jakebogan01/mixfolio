@@ -91,10 +91,14 @@ export async function load({ parent, params }) {
 			);
 
 		if ('collectionId' in userProfile) delete userProfile.collectionId;
-		// let portfolioPublic = userProfile?.expand?.preferences?.hide_portfolio;
-		// if (!portfolioPublic) {
-		// 	error(404, 'Not found')
-		// }
+
+		let portfolioPublic = userProfile?.expand?.preferences?.hide_portfolio;
+		console.log('User profile:', userProfile);
+
+		if (!portfolioPublic) {
+			console.log('Public portfolio:', portfolioPublic);
+			error(404, 'Not found')
+		}
 		return { userProfile: userProfile || {} };
 	} catch (err) {
 		console.dir(err?.message, { depth: null });

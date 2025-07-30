@@ -3,13 +3,7 @@
 
 	let { data } = $props();
 
-	// use this for button clicks for each project
-	// window.umami?.track('project', { 'TITLE OF PROJECT GOES HERE': 'visited' });
 </script>
-
-<button onclick={() => window.umami?.track('View Project', { project: 'visited' })}
-	>Like project</button
->
 
 <svelte:head>
 	<script

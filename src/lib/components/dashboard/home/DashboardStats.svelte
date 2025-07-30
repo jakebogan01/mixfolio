@@ -10,6 +10,7 @@
 		data?.userProfile?.expand?.testimonials?.length > 0,
 		data?.userProfile?.expand?.clients?.length > 0
 	];
+	$inspect(data);
 
 	const total = fields.length;
 	const filled = fields.filter(Boolean).length;
