@@ -7,7 +7,7 @@ export async function load({ parent, params }) {
 	const { pb } = await parent();
 
 	try {
-		const record = await pb.collection('profiles').getFirstListItem(`slug="${params?.slug}"`, {
+		await pb.collection('profiles').getFirstListItem(`slug="${params?.slug}"`, {
 			fields: 'slug'
 		});
 	} catch (error) {
@@ -27,6 +27,7 @@ export async function load({ parent, params }) {
 				'role, ' +
 				'biography, ' +
 				'slug, ' +
+				'oauth, ' +
 				'avatar, ' +
 				'created, ' +
 				'expand.projects.collectionId, ' +
@@ -57,10 +58,10 @@ export async function load({ parent, params }) {
 				'expand.preferences.hide_clients, ' +
 				'expand.preferences.hide_portfolio, ' +
 				'expand.preferences.hide_notifications, ' +
-				'expand.preferences.hide_analytics',
+				'expand.preferences.hide_analytics, ' +
+				'expand.preferences.theme_id',
 			expand: 'projects, testimonials, clients, preferences'
 		});
-		console.log(userProfile);
 
 		userProfile.avatar_url = userProfile.avatar
 			? pb.files.getURL(userProfile, userProfile.avatar)
@@ -97,7 +98,7 @@ export async function load({ parent, params }) {
 
 		if (!portfolioPublic) {
 			console.log('Public portfolio:', portfolioPublic);
-			error(404, 'Not found')
+			error(404, 'Not found');
 		}
 		return { userProfile: userProfile || {} };
 	} catch (err) {

@@ -2,7 +2,6 @@
 	import Template1 from '$lib/components/templates/Template1.svelte';
 
 	let { data } = $props();
-
 </script>
 
 <svelte:head>
