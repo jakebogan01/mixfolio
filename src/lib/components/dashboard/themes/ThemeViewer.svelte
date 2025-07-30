@@ -158,15 +158,14 @@
 												</div>
 											</dd>
 										</div>
-										<div class="w-full">
-											<div class="h-150 w-[1280px] origin-top-left scale-[0.5]">
-												<iframe
-													bind:this={el}
-													src={`${page?.url?.origin}/portfolio/${data?.userProfile?.slug}`}
-													class="h-full w-full border-none"
-													title="Portfolio Preview"
-												></iframe>
-											</div>
+										<div class="h-75 w-99">
+											<iframe
+												bind:this={el}
+												src={`${page?.url?.origin}/portfolio/${data?.userProfile?.slug}`}
+												class="pointer-events-auto h-200 w-320 origin-top-left scale-[0.32]"
+												title="Portfolio Preview"
+												scrolling="no"
+											></iframe>
 										</div>
 									</dl>
 								</div>

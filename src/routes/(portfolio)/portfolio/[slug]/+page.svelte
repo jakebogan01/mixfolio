@@ -4,6 +4,28 @@
 	console.log('slug version', data);
 </script>
 
+<svelte:head>
+	<script>
+		if (typeof window !== 'undefined' && window.self !== window.top) {
+			const existing = document.querySelector('meta[name="viewport"]');
+			if (existing) existing.remove(); // remove default meta
+
+			const meta = document.createElement('meta');
+			meta.name = 'viewport';
+			meta.content = 'width=1280';
+			document.head.appendChild(meta); // inject custom one
+		}
+
+		if (window.self !== window.top) {
+			Object.defineProperty(window, 'innerWidth', {
+				get() {
+					return 1280;
+				}
+			});
+		}
+	</script>
+</svelte:head>
+
 <Template1 data={data.userProfile} />
 
 <!--<div class="mx-auto max-w-7xl px-6">-->
