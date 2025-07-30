@@ -1,9 +1,19 @@
 import { processExpandedItems } from '$lib/utils/misc.js';
+import { error } from '@sveltejs/kit';
 
 export const ssr = false;
 
 export async function load({ parent, params }) {
 	const { pb } = await parent();
+
+	try {
+		const record = await pb.collection('profiles').getFirstListItem(`slug="${params?.slug}"`, {
+			fields: 'slug'
+		});
+	} catch (error) {
+		console.dir(error?.message, { depth: null });
+		error(404, 'Not found')
+	}
 
 	try {
 		const userProfile = await pb.collection('profiles').getFirstListItem(`slug="${params?.slug}"`, {
@@ -82,9 +92,14 @@ export async function load({ parent, params }) {
 
 		if ('collectionId' in userProfile) delete userProfile.collectionId;
 		console.log('Try+Catch', userProfile);
+		let portfolioPublic = userProfile?.expand?.preferences?.hide_portfolio;
+		if (!portfolioPublic) {
+			error(404, 'Not found')
+		}
 		return { userProfile: userProfile || {} };
-	} catch (error) {
-		console.dir(error?.message, { depth: null });
+	} catch (err) {
+		console.dir(err?.message, { depth: null });
+		error(404, 'Not found')
 	}
-	return { userProfile: {} };
+	// return { userProfile: {} };
 }
