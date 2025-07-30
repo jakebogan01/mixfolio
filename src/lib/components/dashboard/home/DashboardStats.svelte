@@ -1,25 +1,41 @@
 <script>
 	import Icon from '$lib/components/Icon.svelte';
 
-	let { userProfile } = $props();
-	let numOfPageVisits = 2536;
+	let { data } = $props();
+	const fields = [
+		data?.userProfile?.name,
+		data?.userProfile?.biography,
+		data?.userProfile?.avatar,
+		data?.userProfile?.expand?.projects?.length > 0,
+		data?.userProfile?.expand?.testimonials?.length > 0,
+		data?.userProfile?.expand?.clients?.length > 0
+	];
+
+	const total = fields.length;
+	const filled = fields.filter(Boolean).length;
+	const completion = Math.round((filled / total) * 100);
+
+	let totalVisits = data?.metrics.find((item) => {
+		return item.x === `/portfolio/${data?.userProfile?.slug}`;
+	});
+
 	let stats = [
 		{
 			id: 1,
 			title: 'Profile Completion',
-			value: `${53}&percnt;`,
+			value: `${completion}&percnt;`,
 			icon: 'checkmark'
 		},
 		{
 			id: 2,
 			title: 'Page Visits',
-			value: numOfPageVisits.toLocaleString('en-US'),
+			value: totalVisits?.y.toLocaleString('en-US') || 0,
 			icon: 'eye'
 		},
 		{
 			id: 3,
 			title: 'Total Projects',
-			value: `${userProfile?.expand?.projects?.length || 0}/8`,
+			value: `${data?.userProfile?.expand?.projects?.length || 0}/8`,
 			icon: 'stacks'
 		},
 		{

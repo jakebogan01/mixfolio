@@ -1,10 +1,22 @@
 <script>
 	import Template1 from '$lib/components/templates/Template1.svelte';
+
 	let { data } = $props();
-	console.log('slug version', data);
+
+	// use this for button clicks for each project
+	// window.umami?.track('project', { 'TITLE OF PROJECT GOES HERE': 'visited' });
 </script>
 
+<button onclick={() => window.umami?.track('View Project', { project: 'visited' })}
+	>Like project</button
+>
+
 <svelte:head>
+	<script
+		defer
+		src="https://cloud.umami.is/script.js"
+		data-website-id="837fba8a-3e41-4c4c-bb07-ab54e6541fdd"
+	></script>
 	<script>
 		if (typeof window !== 'undefined' && window.self !== window.top) {
 			const existing = document.querySelector('meta[name="viewport"]');
