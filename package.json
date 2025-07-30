@@ -41,6 +41,7 @@
 	"dependencies": {
 		"@jaames/iro": "^5.5.2",
 		"@lottiefiles/dotlottie-web": "^0.47.0",
-		"@lottiefiles/svelte-lottie-player": "^0.3.1"
+		"@lottiefiles/svelte-lottie-player": "^0.3.1",
+		"@umami/api-client": "^0.80.0"
 	}
 }

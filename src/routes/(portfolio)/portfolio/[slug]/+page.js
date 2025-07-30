@@ -12,7 +12,7 @@ export async function load({ parent, params }) {
 		});
 	} catch (error) {
 		console.dir(error?.message, { depth: null });
-		error(404, 'Not found')
+		error(404, 'Not found');
 	}
 
 	try {
@@ -91,15 +91,14 @@ export async function load({ parent, params }) {
 			);
 
 		if ('collectionId' in userProfile) delete userProfile.collectionId;
-		console.log('Try+Catch', userProfile);
-		let portfolioPublic = userProfile?.expand?.preferences?.hide_portfolio;
-		if (!portfolioPublic) {
-			error(404, 'Not found')
-		}
+		// let portfolioPublic = userProfile?.expand?.preferences?.hide_portfolio;
+		// if (!portfolioPublic) {
+		// 	error(404, 'Not found')
+		// }
 		return { userProfile: userProfile || {} };
 	} catch (err) {
 		console.dir(err?.message, { depth: null });
-		error(404, 'Not found')
+		error(404, 'Not found');
 	}
 	// return { userProfile: {} };
 }

@@ -20,7 +20,7 @@
 </script>
 
 <div
-	class="border-light-border text-dark-text relative flex flex-col overflow-hidden rounded-xl border bg-white bg-clip-border pt-10 xl:col-span-2"
+	class="border-light-border text-dark-text relative flex flex-col overflow-hidden rounded-xl border bg-white bg-clip-border pt-10 pb-5 xl:col-span-2"
 >
 	{#if userProfile?.expand?.projects?.length}
 		<div class="px-4 text-base/7 font-semibold sm:flex sm:items-start sm:px-6 lg:px-8">

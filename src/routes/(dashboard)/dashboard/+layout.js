@@ -1,7 +1,6 @@
-import { goto } from '$app/navigation';
-
 export const ssr = false;
 
+import { goto } from '$app/navigation';
 import { redirect } from '@sveltejs/kit';
 import { processExpandedItems } from '$lib/utils/misc.js';
 import { user } from '$lib/stores/user.svelte.js';
