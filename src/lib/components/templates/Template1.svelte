@@ -1,5 +1,6 @@
 <script>
 	import { onMount } from 'svelte';
+	import { fly } from 'svelte/transition';
 
 	let { data } = $props();
 	let el, section;
@@ -67,7 +68,11 @@
 <!--</label>-->
 
 <div id="template-1" bind:this={el}>
-	<nav class="sticky top-0 z-50 block w-full max-w-full rounded-none px-4 py-4">
+	<nav
+		class="sticky top-0 z-50 block w-full max-w-full rounded-none px-4 py-4 {mobileMenu
+			? 'h-52'
+			: 'h-18'} transition-[height] duration-300"
+	>
 		<div class="container mx-auto flex items-center justify-between">
 			<p class=" block font-sans text-lg font-bold antialiased">
 				<a href="">{data.name}</a>
@@ -178,7 +183,7 @@
 		</div>
 		{#if userHasContent}
 			{#if mobileMenu}
-				<div class="block w-full basis-full">
+				<div transition:fly={{ y: -200 }} class="block w-full basis-full">
 					<div class="container mx-auto mt-3 border-t border-gray-200 px-2 pt-4">
 						<ul class="flex flex-col gap-4">
 							{#if !userPreferences?.hide_projects && data?.expand?.projects?.length > 0}
