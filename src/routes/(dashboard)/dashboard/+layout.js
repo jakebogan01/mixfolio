@@ -66,7 +66,8 @@ export async function load({ parent, depends }) {
 					'expand.preferences.hide_clients, ' +
 					'expand.preferences.hide_portfolio, ' +
 					'expand.preferences.hide_notifications, ' +
-					'expand.preferences.hide_analytics',
+					'expand.preferences.hide_analytics, ' +
+					'expand.preferences.theme_id',
 				expand: 'projects, testimonials, clients, preferences'
 			});
 

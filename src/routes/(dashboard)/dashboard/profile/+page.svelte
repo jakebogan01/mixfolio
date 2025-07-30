@@ -1,7 +1,4 @@
 <script>
-	// import { onMount } from 'svelte';
-	// import { debounce } from '$lib/utils/misc.js';
-	// import iro from '@jaames/iro';
 	import { toISODate } from '$lib/utils/date.js';
 	import ProfileForm from '$lib/components/dashboard/profile/ProfileForm.svelte';
 	import PortfolioSlugInput from '$lib/components/dashboard/PortfolioSlugInput.svelte';
@@ -11,56 +8,8 @@
 	let { data } = $props();
 	let menuOpen = $state(false);
 
-	// onMount(() => {
-	// 	const existingColor = data?.userProfile?.expand?.preferences?.portfolio_color || '#924999';
-	// 	const existingPrefId = data?.userProfile?.expand?.preferences?.id;
-	// 	const userId = data?.userProfile?.id;
-	//
-	// 	const wheelPicker = new iro.ColorPicker('#wheelPicker', {
-	// 		width: 250,
-	// 		color: existingColor,
-	// 		borderWidth: 1,
-	// 		borderColor: '#fff',
-	// 		layout: [
-	// 			{
-	// 				component: iro.ui.Slider,
-	// 				options: { id: 'hue-slider', sliderType: 'hue' }
-	// 			}
-	// 		]
-	// 	});
-	//
-	// 	const debouncedUpdate = debounce(async (selectedColor) => {
-	// 		try {
-	// 			if (existingPrefId) {
-	// 				await data.pb.collection('preferences').update(existingPrefId, {
-	// 					portfolio_color: selectedColor
-	// 				});
-	// 				console.log('✅ Color updated:', selectedColor);
-	// 			} else {
-	// 				const newPref = await data.pb.collection('preferences').create({
-	// 					portfolio_color: selectedColor
-	// 				});
-	// 				await data.pb.collection('profiles').update(userId, {
-	// 					preferences: newPref.id
-	// 				});
-	// 				console.log('✅ Preferences created:', newPref.id);
-	// 			}
-	// 		} catch (error) {
-	// 			console.dir(error, { depth: null });
-	// 		}
-	// 	}, 500);
-	//
-	// 	wheelPicker.on('color:change', (color) => {
-	// 		debouncedUpdate(color.hexString);
-	// 	});
-	// });
-
 	const toggleMenu = () => (menuOpen = !menuOpen);
 </script>
-
-<!--<div class="inline-flex items-center">-->
-<!--	<div class="ColorPicker" id="wheelPicker"></div>-->
-<!--</div>-->
 
 <div class="relative h-30 w-full overflow-hidden rounded-xl xl:h-50">
 	<div

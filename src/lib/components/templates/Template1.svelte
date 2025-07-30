@@ -379,7 +379,7 @@
 					Trusted by the world’s most innovative teams
 				</p>
 				<div class="mx-auto flex max-w-6xl flex-wrap justify-center gap-5">
-					{#each data?.expand?.clients.slice() as clients, i (clients?.id)}
+					{#each data?.expand?.clients?.slice() as clients, i (clients?.id)}
 						<img
 							width="158"
 							height="48"
