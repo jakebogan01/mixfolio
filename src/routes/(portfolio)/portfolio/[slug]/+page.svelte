@@ -1,8 +1,9 @@
 <script>
 	import Template1 from '$lib/components/templates/Template1.svelte';
+	import Template2 from '$lib/components/templates/Template2.svelte';
 
 	let { data } = $props();
-	console.log('theme id', data?.userProfile?.expand?.preferences?.theme_id);
+	//console.log('theme id', data?.userProfile?.expand?.preferences?.theme_id);
 </script>
 
 <svelte:head>
@@ -32,7 +33,14 @@
 	</script>
 </svelte:head>
 
+
+{#if data?.userProfile?.expand?.preferences?.theme_id === '2whobvuscrqffc7'}
 <Template1 data={data.userProfile} />
+	{:else if data?.userProfile?.expand?.preferences?.theme_id === '9abg9ofan3u2vl3'}
+	<Template2 data={data.userProfile} />
+	{:else}
+	<Template1 data={data.userProfile} />
+{/if}
 
 <!--<div class="mx-auto max-w-7xl px-6">-->
 <!--	<div class="px-4 sm:px-0">-->

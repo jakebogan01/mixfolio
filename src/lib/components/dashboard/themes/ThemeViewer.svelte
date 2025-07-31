@@ -12,13 +12,20 @@
 	let { data, themeId, toggleMenu = () => {} } = $props();
 	let theme = $state(null);
 	let el;
+	let isWhiteOrBlack = $state(false);
+	let colorVisible = $state(true);
 
 	onMount(() => {
 		if (themeId) {
 			theme = data?.themes.find((theme) => theme?.id === themeId);
 		}
 
-		const existingColor = data?.userProfile?.expand?.preferences?.portfolio_color || '#924999';
+		if (data?.userProfile?.expand?.preferences?.portfolio_color === '#000000' || data?.userProfile?.expand?.preferences?.portfolio_color === '#ffffff'){
+			isWhiteOrBlack = true;
+		}
+		console.log('isWhiteOrBlack', isWhiteOrBlack);
+		const existingColor = (isWhiteOrBlack ? '#924999': data?.userProfile?.expand?.preferences?.portfolio_color);
+		// const existingColor = data?.userProfile?.expand?.preferences?.portfolio_color || '#924999';
 		const existingPrefId = data?.userProfile?.expand?.preferences?.id;
 		const userId = data?.userProfile?.id;
 
@@ -59,6 +66,7 @@
 
 		wheelPicker.on('color:change', (color) => {
 			debouncedUpdate(color.hexString);
+
 		});
 	});
 
@@ -70,6 +78,32 @@
 			toggleMenu();
 			await invalidate('user_profile');
 			toastMessage('success', 'Successfully updated your theme!');
+		} catch (error) {
+			console.dir(error, { depth: null });
+		}
+	};
+
+	const lightMode = async () => {
+		console.log('lightMode');
+		let lightColor = '#ffffff';
+		try {
+			await data.pb
+				.collection('preferences')
+				.update(data?.userProfile?.expand?.preferences?.id, { portfolio_color: lightColor });
+			el.contentWindow.location.reload(true);
+		} catch (error) {
+			console.dir(error, { depth: null });
+		}
+	};
+
+	const darkMode = async () => {
+		console.log('darkMode');
+		let lightColor = '#000000';
+		try {
+			await data.pb
+				.collection('preferences')
+				.update(data?.userProfile?.expand?.preferences?.id, { portfolio_color: lightColor });
+			el.contentWindow.location.reload(true);
 		} catch (error) {
 			console.dir(error, { depth: null });
 		}
@@ -150,11 +184,23 @@
 										</div>
 										<div>
 											<dt class="text-sm font-medium text-gray-500 sm:w-40 sm:shrink-0">
-												Theme picker
+												Color picker
 											</dt>
 											<dd class="mt-1 text-sm text-gray-900 sm:col-span-2">
-												<div class="inline-flex items-center">
-													<div class="ColorPicker" id="wheelPicker"></div>
+												<div class="inline-flex items-center {!theme?.color ? 'lg:hidden' : ''}">
+													<div class="ColorPicker py-2" id="wheelPicker"></div>
+												</div>
+												<div class="flex shrink-0 {theme?.color ? 'lg:hidden' : 'py-2'}">
+													<Button
+														callBack={lightMode}
+														text="White"
+														class="text-dark-text! border-light-border border bg-white"
+													/>
+													<Button
+														callBack={darkMode}
+														text="Black"
+														class="bg-secondary-btn-bg sm:hover:bg-secondary-btn-hover ml-4"
+													/>
 												</div>
 											</dd>
 										</div>

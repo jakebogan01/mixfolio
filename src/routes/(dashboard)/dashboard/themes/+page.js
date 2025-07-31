@@ -11,8 +11,8 @@ export async function load({ parent, depends }) {
 		let allThemes = themes;
 
 		if (themes) allThemes = processExpandedItems(pb, themes, 'image', 'theme_image_url');
-
 		return { themes: themes || [] };
+
 	} catch (error) {
 		console.dir(error?.message, { depth: null });
 	}
