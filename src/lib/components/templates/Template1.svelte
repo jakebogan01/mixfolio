@@ -71,8 +71,7 @@
 			? 'h-56'
 			: 'h-18'} transition-[height] duration-300"-->
 <div id="template-1" bind:this={el}>
-	<nav
-		class="sticky top-0 z-50 block w-full max-w-full rounded-none px-4 py-4">
+	<nav class="sticky top-0 z-50 block w-full max-w-full rounded-none px-4 py-4">
 		<div class="container mx-auto flex items-center justify-between">
 			<p class="block font-sans text-lg font-bold antialiased">
 				<a href="">{data.name}</a>
@@ -84,8 +83,8 @@
 							href="#projects"
 							target="_self"
 							class="flex items-center gap-2 font-sans text-base leading-relaxed font-medium antialiased hover:underline"
-						><Icon name="projects" class="w-4 h-4 " />
-						Projects</a
+							><Icon name="projects" class="h-4 w-4 " />
+							Projects</a
 						>
 					</li>
 				{/if}
@@ -95,7 +94,7 @@
 							href="#clients"
 							target="_self"
 							class="flex items-center gap-2 font-sans text-base leading-relaxed font-medium antialiased hover:underline"
-							><Icon name="clients" class="w-4 h-4 " />
+							><Icon name="clients" class="h-4 w-4 " />
 							Clients</a
 						>
 					</li>
@@ -106,7 +105,7 @@
 							href="#testimonials"
 							target="_self"
 							class="flex items-center gap-2 font-sans text-base leading-relaxed font-medium antialiased hover:underline"
-						><Icon name="testimonials" class="w-4 h-4 " />
+							><Icon name="testimonials" class="h-4 w-4 " />
 							Testimonials</a
 						>
 					</li>
@@ -155,48 +154,51 @@
 			{#if mobileMenu}
 				<div class="lg:hidden">
 					<div
-					bind:this={wrapper}
-					class="overflow-hidden transition-[height] duration-300"
-					style="height: {mobileMenu ? `${wrapper?.scrollHeight}px` : '0px'}"
-				>
-					<div transition:slide class="container mx-auto mt-4 mb-3 border-t border-gray-200 px-2 pt-4">
-						<ul class="flex flex-col gap-4 ">
-							{#if !userPreferences?.hide_projects && data?.expand?.projects?.length > 0}
-								<li>
-									<a
-										href="#projects"
-										target="_self"
-										class="flex items-center gap-2 font-sans text-base leading-relaxed font-medium antialiased hover:underline"
-										><Icon name="projects" class="w-4 h-4 " />
-										Projects</a
-									>
-								</li>
-							{/if}
-							{#if !userPreferences?.hide_clients && data?.expand?.clients?.length > 0}
-								<li>
-									<a
-										href="#clients"
-										target="_self"
-										class="flex items-center gap-2 font-sans text-base leading-relaxed font-medium antialiased hover:underline"
-										><Icon name="clients" class="w-4 h-4 " />
-										Clients</a
-									>
-								</li>
-							{/if}
-							{#if !userPreferences?.hide_testimonials && data?.expand?.testimonials?.length > 0}
-								<li>
-									<a
-										href="#testimonials"
-										target="_self"
-										class="flex items-center gap-2 font-sans text-base leading-relaxed font-medium antialiased hover:underline"
-									><Icon name="testimonials" class="w-4 h-4 " />
-										Testimonials</a
-									>
-								</li>
-							{/if}
-						</ul>
+						bind:this={wrapper}
+						class="overflow-hidden transition-[height] duration-300"
+						style="height: {mobileMenu ? `${wrapper?.scrollHeight}px` : '0px'}"
+					>
+						<div
+							transition:slide
+							class="container mx-auto mt-4 mb-3 border-t border-gray-200 px-2 pt-4"
+						>
+							<ul class="flex flex-col gap-4">
+								{#if !userPreferences?.hide_projects && data?.expand?.projects?.length > 0}
+									<li>
+										<a
+											href="#projects"
+											target="_self"
+											class="flex items-center gap-2 font-sans text-base leading-relaxed font-medium antialiased hover:underline"
+											><Icon name="projects" class="h-4 w-4 " />
+											Projects</a
+										>
+									</li>
+								{/if}
+								{#if !userPreferences?.hide_clients && data?.expand?.clients?.length > 0}
+									<li>
+										<a
+											href="#clients"
+											target="_self"
+											class="flex items-center gap-2 font-sans text-base leading-relaxed font-medium antialiased hover:underline"
+											><Icon name="clients" class="h-4 w-4 " />
+											Clients</a
+										>
+									</li>
+								{/if}
+								{#if !userPreferences?.hide_testimonials && data?.expand?.testimonials?.length > 0}
+									<li>
+										<a
+											href="#testimonials"
+											target="_self"
+											class="flex items-center gap-2 font-sans text-base leading-relaxed font-medium antialiased hover:underline"
+											><Icon name="testimonials" class="h-4 w-4 " />
+											Testimonials</a
+										>
+									</li>
+								{/if}
+							</ul>
+						</div>
 					</div>
-				</div>
 				</div>
 			{/if}
 		{/if}
@@ -306,7 +308,6 @@
 		{/if}
 	{/if}
 
-
 	{#if !userPreferences?.hide_clients}
 		{#if data?.expand?.clients?.length > 0}
 			<section class="px-8 py-12 lg:py-24" id="clients">
@@ -338,7 +339,6 @@
 		{/if}
 	{/if}
 
-
 	{#if !userPreferences?.hide_testimonials}
 		{#if data?.expand?.testimonials?.length > 0}
 			<section class="px-8 py-12 lg:py-24" id="testimonials">
@@ -352,8 +352,8 @@
 						<p
 							class="mx-auto block w-full px-4 font-sans text-xl leading-relaxed font-normal text-inherit antialiased lg:w-8/12"
 						>
-							Discover what some people have to say about their experiences working with me. My client's
-							satisfaction is my greatest achievement!
+							Discover what some people have to say about their experiences working with me. My
+							client's satisfaction is my greatest achievement!
 						</p>
 					</div>
 					<div
@@ -388,7 +388,7 @@
 											onclick={() => {
 												chosenTestimonial = testimonial;
 											}}
-											class="rounded-md button"
+											class="button rounded-md"
 										>
 											<img
 												src={testimonial?.testimonial_image_url ||
@@ -409,7 +409,7 @@
 									height="768"
 									decoding="async"
 									data-nimg="1"
-									class="h-full w-full rounded-lg object-cover borderImg"
+									class="borderImg h-full w-full rounded-lg object-cover"
 									style="color:transparent"
 									src={chosenTestimonial?.testimonial_image_url ||
 										'https://demos.creative-tim.com/material-tailwind-dashboard-react/img/home-decor-1.jpeg'}

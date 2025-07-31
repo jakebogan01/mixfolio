@@ -2,23 +2,25 @@
 	import { createForm } from 'felte';
 	import { invalidate } from '$app/navigation';
 	import { toastMessage } from '$lib/utils/toast.js';
+	import { debounce } from '$lib/utils/misc.js';
 
 	let { data } = $props();
 	let formEl;
+	const debouncedSubmit = debounce(async (values) => {
+		try {
+			await data.pb
+				.collection('preferences')
+				.update(data?.userProfile?.expand?.preferences?.id, values);
+			await invalidate('user_profile');
+			toastMessage('success', 'Settings Updated!');
+		} catch (error) {
+			console.dir(error, { depth: null });
+		}
+	}, 1000);
 
 	const { form } = createForm({
 		initialValues: { slug: data?.userProfile?.slug || null },
-		onSubmit: async (values) => {
-			try {
-				await data.pb
-					.collection('preferences')
-					.update(data?.userProfile?.expand?.preferences?.id, values);
-				await invalidate('user_profile');
-				toastMessage('success', 'Settings Updated!');
-			} catch (error) {
-				console.dir(error, { depth: null });
-			}
-		}
+		onSubmit: debouncedSubmit
 	});
 </script>
 

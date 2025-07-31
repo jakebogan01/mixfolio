@@ -40,7 +40,7 @@
 	<div
 		class="relative z-10 mx-auto flex max-w-400 flex-1 flex-col p-4 transition-[margin] duration-200 ease-linear"
 	>
-		<Search userProfile={data?.userProfile} {menuOpen} {scrolled} {toggleMenu} />
+		<Search userProfile={data?.userProfile} {menuOpen} {scrolled} {toggleMenu} {data} />
 		<main class="mt-12 flex flex-1 flex-col justify-between">
 			<div>
 				{@render children()}

@@ -1,5 +1,7 @@
 <script>
 	import { CLIENTS, DASHBOARD, PROJECTS, TESTIMONIALS } from '$lib/utils/constants.js';
+	import { fly } from 'svelte/transition';
+	import { handleToggleMenuFactory } from '$lib/utils/menuHandlers.js';
 	import Icon from '$lib/components/Icon.svelte';
 	import { page } from '$app/state';
 	import { goto } from '$app/navigation';
@@ -7,12 +9,17 @@
 	import { onMount } from 'svelte';
 	import Button from '$lib/components/global/Button.svelte';
 
-	let { userProfile, menuOpen, scrolled, toggleMenu = () => {} } = $props();
+	let { userProfile, menuOpen, scrolled, toggleMenu = () => {}, data } = $props();
 	let searchTerm = $state('');
 	let filteredProjects = $state(null);
 	let filteredTestimonials = $state(null);
 	let filteredClients = $state(null);
 	let hasMatches = $state(null);
+	let showHistory = $state(false);
+	const handleToggleMenu = handleToggleMenuFactory(
+		() => showHistory,
+		(val) => (showHistory = val)
+	);
 	const match = (text = '') => text.toLowerCase().includes(searchTerm.toLowerCase());
 
 	onMount(() => {
@@ -94,6 +101,7 @@
 						class="peer h-full w-full rounded-md border border-gray-400/70 bg-transparent px-3 py-2.5 font-normal outline-0 transition-colors outline-none not-placeholder-shown:border-t-transparent focus:border focus:border-gray-900 focus:border-t-transparent focus:ring-0 focus:outline-0"
 						oninput={handleSearch}
 						bind:value={searchTerm}
+						onblur={() => (searchTerm = '')}
 						placeholder=" "
 					/><label
 						for="search"
@@ -103,6 +111,7 @@
 				</div>
 				{#if hasMatches && searchTerm.length > 0}
 					<ul
+						transition:fly={{ y: 20 }}
 						class="border-light-border absolute z-10 mt-2 mr-2 max-h-60 w-74 overflow-auto rounded-md border bg-white py-1 pt-3 text-sm shadow-lg shadow-black/50"
 						role="listbox"
 					>
@@ -207,10 +216,33 @@
 			</Button>
 			<div class="relative">
 				<Button
-					defaultStyles="flex size-10 max-h-10 max-w-10 cursor-pointer items-center justify-center rounded-lg text-gray-900 select-none disabled:pointer-events-none sm:transition-colors sm:hover:bg-gray-200/90 sm:hover:text-purple-600"
+					callBack={handleToggleMenu}
+					defaultStyles="flex size-10 max-h-10 max-w-10 cursor-pointer items-center justify-center rounded-lg select-none disabled:pointer-events-none sm:transition-colors transition-colors duration-200 {showHistory
+						? 'bg-gray-200/90 text-purple-600'
+						: 'text-gray-900 bg-transparent sm:hover:bg-gray-200/90 sm:hover:text-purple-600'}"
 				>
 					<Icon name="notification" class="size-5" stroke="none" />
 				</Button>
+				{#if showHistory}
+					<ul
+						transition:fly={{ y: 20 }}
+						class="border-light-border absolute -right-6 z-10 mt-2 mr-2 max-h-60 w-74 overflow-auto rounded-md border bg-white text-sm shadow-lg shadow-black/50"
+						role="listbox"
+					>
+						{#each data?.events as event, i (i)}
+							<li class="px-3 py-2 font-medium text-gray-500 select-none">
+								Someone view your project
+								<span class="text-dark-text font-semibold">{event?.propertyName}</span>
+							</li>
+						{/each}
+						{#each data?.metrics as metric, i (i)}
+							<li class="text-dark-text px-3 py-2 font-semibold select-none">
+								Someone visited your portfolio
+								<span class="text-dark-text sr-only font-semibold">{metric?.y}</span>
+							</li>
+						{/each}
+					</ul>
+				{/if}
 			</div>
 		</div>
 	</div>

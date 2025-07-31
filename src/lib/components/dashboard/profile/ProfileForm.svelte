@@ -101,7 +101,7 @@
 			console.log(data?.userProfile?.id);
 
 			await data.pb.collection('profiles').update(data?.userProfile?.id, {
-				'avatar': null,
+				avatar: null
 			});
 
 			toggleMenu();
@@ -453,8 +453,8 @@
 							</h3>
 							<div class="mt-2">
 								<p class="text-sm text-gray-500">
-									Are you sure you want to delete your photo? This photo will be permanently
-									removed from our servers forever. This action cannot be undone.
+									Are you sure you want to delete your photo? This photo will be permanently removed
+									from our servers forever. This action cannot be undone.
 								</p>
 							</div>
 						</div>
@@ -476,7 +476,6 @@
 		</div>
 	</div>
 {/if}
-
 
 {#if showDeleteImage}
 	<div role="dialog" aria-modal="true" aria-labelledby="dialog-title" class="relative z-100">
@@ -517,8 +516,8 @@
 							</h3>
 							<div class="mt-2">
 								<p class="text-sm text-gray-500">
-									Are you sure you want to delete your photo? This photo will be permanently
-									removed from our servers forever. This action cannot be undone.
+									Are you sure you want to delete your photo? This photo will be permanently removed
+									from our servers forever. This action cannot be undone.
 								</p>
 							</div>
 						</div>
