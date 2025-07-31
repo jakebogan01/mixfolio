@@ -236,7 +236,7 @@
 						>
 							{#each data?.events as event, i (i)}
 								<li class="px-3 py-2 font-medium text-gray-500 select-none">
-									Someone view your project
+									Someone viewed your project
 									<span class="text-dark-text font-semibold">{event?.propertyName}</span>
 								</li>
 							{/each}
