@@ -1,5 +1,14 @@
 <script>
+	import { Toaster } from 'svelte-5-french-toast';
+	import { onMount } from 'svelte';
+	import { page } from '$app/state';
+	import { toastMessage } from '$lib/utils/toast.js';
+
 	let { children } = $props();
+
+	onMount(() => {
+		if (page?.state?.message) toastMessage(page.state.type, page.state.message);
+	});
 </script>
 
 <main class="overflow-hidden bg-gray-50">
@@ -12,3 +21,5 @@
 		{@render children()}
 	</div>
 </main>
+
+<Toaster />

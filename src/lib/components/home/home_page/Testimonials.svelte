@@ -54,7 +54,6 @@
 	];
 
 	const activateTestimonial = (id, percentToMoveBy) => {
-		console.log(percentToMoveBy);
 		testimonialId = id;
 		moveSlidBy = percentToMoveBy;
 	};

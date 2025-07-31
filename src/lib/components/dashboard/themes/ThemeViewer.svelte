@@ -127,7 +127,7 @@
 					class="border-light-border pointer-events-auto w-screen max-w-md border-l"
 				>
 					<form class="flex h-full flex-col divide-y divide-gray-200 bg-white shadow-xl">
-						<div class="h-0 flex-1 overflow-y-auto overflow-x-hidden">
+						<div class="h-0 flex-1 overflow-x-hidden overflow-y-auto">
 							<div class="bg-primary px-4 py-6 sm:px-6">
 								<div class="flex items-center justify-between">
 									<h2 id="drawer-title" class="text-base font-semibold text-white">View Theme</h2>
@@ -211,16 +211,16 @@
 											</dd>
 										</div>
 										{#if themeId === data?.userProfile?.expand?.preferences?.theme_id}
-										<div class="h-75 w-99">
-											<iframe
-												bind:this={el}
-												src={`${page?.url?.origin}/portfolio/${data?.userProfile?.slug}`}
-												class="pointer-events-auto h-200 w-320 origin-top-left scale-[0.32]"
-												title="Portfolio Preview"
-												scrolling="no"
-											></iframe>
-										</div>
-											{/if}
+											<div class="h-75 w-99">
+												<iframe
+													bind:this={el}
+													src={`${page?.url?.origin}/portfolio/${data?.userProfile?.slug}`}
+													class="pointer-events-auto h-200 w-320 origin-top-left scale-[0.32]"
+													title="Portfolio Preview"
+													scrolling="no"
+												></iframe>
+											</div>
+										{/if}
 									</dl>
 								</div>
 							</div>

@@ -98,9 +98,6 @@
 
 	const deleteImage = async () => {
 		try {
-			console.log(data?.userProfile?.avatar);
-			console.log(data?.userProfile?.id);
-
 			await data.pb.collection('profiles').update(data?.userProfile?.id, {
 				avatar: null
 			});

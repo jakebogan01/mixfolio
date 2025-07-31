@@ -222,13 +222,14 @@
 				<div class="relative">
 					<Button
 						callBack={handleToggleMenu}
-						defaultStyles="flex size-10 max-h-10 max-w-10 cursor-pointer items-center justify-center rounded-lg select-none disabled:pointer-events-none sm:transition-colors transition-colors duration-200 {showHistory
+						disabled={!data?.events?.length && !data?.metrics?.length}
+						defaultStyles="flex size-10 max-h-10 max-w-10 cursor-pointer items-center justify-center rounded-lg select-none sm:transition-colors transition-colors duration-200 disabled:text-gray-400 disabled:hover:text-gray-400 {showHistory
 							? 'bg-gray-200/90 text-purple-600'
 							: 'text-gray-900 bg-transparent sm:hover:bg-gray-200/90 sm:hover:text-purple-600'}"
 					>
 						<Icon name="notification" class="size-5" stroke="none" />
 					</Button>
-					{#if showHistory}
+					{#if showHistory && (data?.events?.length || data?.metrics?.length)}
 						<ul
 							transition:fly={{ y: 20 }}
 							class="border-light-border absolute -right-6 z-10 mt-2 mr-2 max-h-60 w-74 overflow-auto rounded-md border bg-white text-sm shadow-lg shadow-black/50"
