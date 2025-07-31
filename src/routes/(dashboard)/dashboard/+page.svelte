@@ -15,7 +15,7 @@
 	<PreferencesQuickView {data} />
 	<ClientsQuickView userProfile={data?.userProfile} />
 </div>
-<div class="mb-4 grid grid-cols-1 gap-6 xl:grid-cols-3">
+<div class="mb-4 grid grid-cols-1 sm:gap-y-6 xl:grid-cols-3 xl:gap-6">
 	<ProjectsQuickView userProfile={data?.userProfile} />
 	<TestimonialsQuickView userProfile={data?.userProfile} />
 </div>

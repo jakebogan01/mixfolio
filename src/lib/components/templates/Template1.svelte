@@ -154,12 +154,12 @@
 		{#if userHasContent}
 			{#if mobileMenu}
 				<div class="lg:hidden">
-				<div
+					<div
 					bind:this={wrapper}
 					class="overflow-hidden transition-[height] duration-300"
 					style="height: {mobileMenu ? `${wrapper?.scrollHeight}px` : '0px'}"
 				>
-								<div transition:slide class="container mx-auto mt-4 mb-3 border-t border-gray-200 px-2 pt-4">
+					<div transition:slide class="container mx-auto mt-4 mb-3 border-t border-gray-200 px-2 pt-4">
 						<ul class="flex flex-col gap-4 ">
 							{#if !userPreferences?.hide_projects && data?.expand?.projects?.length > 0}
 								<li>

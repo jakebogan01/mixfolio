@@ -2,6 +2,7 @@
 	import Template1 from '$lib/components/templates/Template1.svelte';
 
 	let { data } = $props();
+	console.log('theme id', data?.userProfile?.expand?.preferences?.theme_id);
 </script>
 
 <svelte:head>

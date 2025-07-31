@@ -48,6 +48,7 @@
 	];
 </script>
 
+{#if !data?.userProfile?.expand?.preferences?.hide_analytics}
 <div class="mb-6 grid gap-x-6 gap-y-10 md:grid-cols-2 xl:grid-cols-4">
 	{#each stats as stat (stat.id)}
 		<div
@@ -69,3 +70,4 @@
 		</div>
 	{/each}
 </div>
+	{/if}
