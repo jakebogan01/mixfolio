@@ -2,6 +2,7 @@
 	import Icon from '$lib/components/Icon.svelte';
 
 	let { data } = $props();
+	let totalVisits = $derived(data?.metrics[0]?.y || 0);
 	const fields = [
 		data?.userProfile?.name,
 		data?.userProfile?.biography,
@@ -10,15 +11,14 @@
 		data?.userProfile?.expand?.testimonials?.length > 0,
 		data?.userProfile?.expand?.clients?.length > 0
 	];
-	$inspect(data);
+	const popularProject =
+		data?.events?.length > 0
+			? data.events.reduce((max, item) => (item.total > max.total ? item : max))
+			: null;
 
 	const total = fields.length;
 	const filled = fields.filter(Boolean).length;
 	const completion = Math.round((filled / total) * 100);
-
-	let totalVisits = data?.metrics.find((item) => {
-		return item.x === `/portfolio/${data?.userProfile?.slug}`;
-	});
 
 	let stats = [
 		{
@@ -30,7 +30,7 @@
 		{
 			id: 2,
 			title: 'Page Visits',
-			value: totalVisits?.y.toLocaleString('en-US') || 0,
+			value: typeof totalVisits === 'number' ? totalVisits.toLocaleString('en-US') : '0',
 			icon: 'eye'
 		},
 		{
@@ -42,7 +42,7 @@
 		{
 			id: 4,
 			title: 'Popular Project',
-			value: 'Simple Calculator',
+			value: popularProject?.propertyName || 'None',
 			icon: 'like'
 		}
 	];
