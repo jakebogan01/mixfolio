@@ -93,7 +93,11 @@
 		</div>
 
 		<div class="flex items-center">
-			<div class="relative mr-auto md:mr-4 md:w-56">
+			<div
+				class="relative mr-auto md:w-56 {data?.userProfile?.expand?.preferences?.hide_notifications
+					? ''
+					: 'md:mr-4'}"
+			>
 				<div class="relative h-10 w-full min-w-50">
 					<input
 						type="search"
@@ -214,36 +218,38 @@
 					{/if}
 				</span>
 			</Button>
-			<div class="relative">
-				<Button
-					callBack={handleToggleMenu}
-					defaultStyles="flex size-10 max-h-10 max-w-10 cursor-pointer items-center justify-center rounded-lg select-none disabled:pointer-events-none sm:transition-colors transition-colors duration-200 {showHistory
-						? 'bg-gray-200/90 text-purple-600'
-						: 'text-gray-900 bg-transparent sm:hover:bg-gray-200/90 sm:hover:text-purple-600'}"
-				>
-					<Icon name="notification" class="size-5" stroke="none" />
-				</Button>
-				{#if showHistory}
-					<ul
-						transition:fly={{ y: 20 }}
-						class="border-light-border absolute -right-6 z-10 mt-2 mr-2 max-h-60 w-74 overflow-auto rounded-md border bg-white text-sm shadow-lg shadow-black/50"
-						role="listbox"
+			{#if !data?.userProfile?.expand?.preferences?.hide_notifications}
+				<div class="relative">
+					<Button
+						callBack={handleToggleMenu}
+						defaultStyles="flex size-10 max-h-10 max-w-10 cursor-pointer items-center justify-center rounded-lg select-none disabled:pointer-events-none sm:transition-colors transition-colors duration-200 {showHistory
+							? 'bg-gray-200/90 text-purple-600'
+							: 'text-gray-900 bg-transparent sm:hover:bg-gray-200/90 sm:hover:text-purple-600'}"
 					>
-						{#each data?.events as event, i (i)}
-							<li class="px-3 py-2 font-medium text-gray-500 select-none">
-								Someone view your project
-								<span class="text-dark-text font-semibold">{event?.propertyName}</span>
-							</li>
-						{/each}
-						{#each data?.metrics as metric, i (i)}
-							<li class="text-dark-text px-3 py-2 font-semibold select-none">
-								Someone visited your portfolio
-								<span class="text-dark-text sr-only font-semibold">{metric?.y}</span>
-							</li>
-						{/each}
-					</ul>
-				{/if}
-			</div>
+						<Icon name="notification" class="size-5" stroke="none" />
+					</Button>
+					{#if showHistory}
+						<ul
+							transition:fly={{ y: 20 }}
+							class="border-light-border absolute -right-6 z-10 mt-2 mr-2 max-h-60 w-74 overflow-auto rounded-md border bg-white text-sm shadow-lg shadow-black/50"
+							role="listbox"
+						>
+							{#each data?.events as event, i (i)}
+								<li class="px-3 py-2 font-medium text-gray-500 select-none">
+									Someone view your project
+									<span class="text-dark-text font-semibold">{event?.propertyName}</span>
+								</li>
+							{/each}
+							{#each data?.metrics as metric, i (i)}
+								<li class="text-dark-text px-3 py-2 font-semibold select-none">
+									Someone visited your portfolio
+									<span class="text-dark-text sr-only font-semibold">{metric?.y}</span>
+								</li>
+							{/each}
+						</ul>
+					{/if}
+				</div>
+			{/if}
 		</div>
 	</div>
 </nav>
