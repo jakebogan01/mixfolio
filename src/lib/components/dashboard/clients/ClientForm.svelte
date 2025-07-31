@@ -34,10 +34,10 @@
 				message: 'Only .jpeg, .jpg, or .png files are allowed'
 			}),
 		name: z
-			.string({ message: 'This filed is required' })
+			.string({ message: 'This field is required' })
 			.min(5, { message: 'Must be 5 or more characters long' })
 			.max(255, { message: 'No more than 255 characters long' }),
-		link: z.string({ message: 'This filed is required' }).url({ message: 'Invalid url' })
+		link: z.string({ message: 'This field is required' }).url({ message: 'Invalid url' })
 	});
 
 	const { form, reset, setFields } = createForm({
@@ -242,7 +242,7 @@
 															bind:this={previewInput}
 															loading="eager"
 															alt="User client_image preview"
-															class="pointer-events-none aspect-video object-cover object-top"
+															class="pointer-events-none aspect-video ${client?.client_image_url ? `object-contain object-center` : `object-cover object-top`}"
 														/>
 													</div>
 													<button

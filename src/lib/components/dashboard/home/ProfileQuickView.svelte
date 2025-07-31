@@ -34,7 +34,7 @@
 							<img
 								src={data?.userProfile?.avatar_url}
 								alt={data?.userProfile?.name || 'User avatar'}
-								class="inline-block size-12 rounded-full"
+								class="inline-block size-12 rounded-full object-cover"
 							/>
 						{:else}
 							<span class="inline-block size-12 overflow-hidden rounded-full bg-gray-200">
