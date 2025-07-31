@@ -6,12 +6,14 @@
 	import reporterDom from '@felte/reporter-dom';
 	import { invalidate } from '$app/navigation';
 	import Button from '$lib/components/global/Button.svelte';
+	import { onMount } from 'svelte';
 
 	let { data, toggleMenu = () => {} } = $props();
 	let previewInput = $state(null);
 	let fileInput = $state(null);
 	let isDragging = $state(false);
 	let showPreviewImage = $state(true);
+	let showDeleteImage = $state(false);
 
 	const schema = z.object({
 		avatar: z
@@ -24,20 +26,20 @@
 				message: 'Only .jpeg, .jpg, or .png files are allowed'
 			}),
 		name: z
-			.string({ message: 'This filed is required' })
+			.string({ message: 'This field is required' })
 			.min(5, { message: 'Must be 5 or more characters long' })
 			.max(255, { message: 'No more than 255 characters long' }),
-		phone: z.string({ message: 'This filed is required' }).min(7, 'Invalid phone number'),
+		phone: z.string({ message: 'This field is required' }).min(7, 'Invalid phone number'),
 		email: z
-			.string({ message: 'This filed is required' })
+			.string({ message: 'This field is required' })
 			.email({ message: 'Please enter a valid email address' })
 			.max(255, { message: 'No more than 255 characters long' }),
 		role: z
-			.string({ message: 'This filed is required' })
+			.string({ message: 'This field is required' })
 			.min(5, 'Must be 5 or more characters long'),
-		address: z.string({ message: 'This filed is required' }),
+		address: z.string({ message: 'This field is required' }),
 		biography: z
-			.string({ message: 'This filed is required' })
+			.string({ message: 'This field is required' })
 			.min(5, 'Must be 5 or more characters long')
 			.max(500, { message: 'No more than 500 characters long' })
 	});
@@ -90,6 +92,23 @@
 			fileInput.files = files;
 			showLogoPreview(event);
 			isDragging = false;
+		}
+	};
+
+	const deleteImage = async () => {
+		try {
+			console.log(data?.userProfile?.avatar);
+			console.log(data?.userProfile?.id);
+
+			await data.pb.collection('profiles').update(data?.userProfile?.id, {
+				'avatar': null,
+			});
+
+			toggleMenu();
+			showDeleteImage = false;
+			await invalidate('profiles');
+		} catch (error) {
+			console.dir(error?.message, { depth: null });
 		}
 	};
 </script>
@@ -197,6 +216,13 @@
 														<span class="text-light-text text-xs font-medium">(Optional)</span>
 													</span>
 												</button>
+												{#if data?.userProfile?.avatar_url}
+													<Button
+														callBack={() => (showDeleteImage = true)}
+														text="Delete Image"
+														class="bg-red-500 sm:hover:bg-red-400"
+													/>
+												{/if}
 											</div>
 											<div
 												id="avatar-validation"
@@ -387,3 +413,66 @@
 		</div>
 	</div>
 </div>
+
+{#if showDeleteImage}
+	<div role="dialog" aria-modal="true" aria-labelledby="dialog-title" class="relative z-100">
+		<div
+			transition:fade
+			aria-hidden="true"
+			class="fixed inset-0 bg-black/40 transition-opacity"
+		></div>
+		<div class="fixed inset-0 z-10 w-screen overflow-y-auto">
+			<div class="flex min-h-full items-end justify-center p-4 text-center sm:items-center sm:p-0">
+				<div
+					transition:scale
+					class="relative transform overflow-hidden rounded-lg bg-white px-4 pt-5 pb-4 text-left shadow-xl transition-all sm:my-8 sm:w-full sm:max-w-lg sm:p-6"
+				>
+					<div class="sm:flex sm:items-start">
+						<div
+							class="mx-auto flex size-12 shrink-0 items-center justify-center rounded-full bg-red-100 sm:mx-0 sm:size-10"
+						>
+							<svg
+								viewBox="0 0 24 24"
+								fill="none"
+								stroke="currentColor"
+								stroke-width="1.5"
+								data-slot="icon"
+								aria-hidden="true"
+								class="size-6 text-red-600"
+							>
+								<path
+									d="M12 9v3.75m-9.303 3.376c-.866 1.5.217 3.374 1.948 3.374h14.71c1.73 0 2.813-1.874 1.948-3.374L13.949 3.378c-.866-1.5-3.032-1.5-3.898 0L2.697 16.126ZM12 15.75h.007v.008H12v-.008Z"
+									stroke-linecap="round"
+									stroke-linejoin="round"
+								/>
+							</svg>
+						</div>
+						<div class="mt-3 text-center sm:mt-0 sm:ml-4 sm:text-left">
+							<h3 id="dialog-title" class="text-base font-semibold text-gray-900">
+								Delete profile photo
+							</h3>
+							<div class="mt-2">
+								<p class="text-sm text-gray-500">
+									Are you sure you want to delete your photo? This photo will be permanently
+									removed from our servers forever. This action cannot be undone.
+								</p>
+							</div>
+						</div>
+					</div>
+					<div class="mt-5 sm:mt-4 sm:flex sm:flex-row-reverse">
+						<Button
+							callBack={deleteImage}
+							text="Delete"
+							class="bg-red-500 sm:ml-3 sm:hover:hover:bg-red-400"
+						/>
+						<Button
+							callBack={() => (showDeleteImage = false)}
+							text="Cancel"
+							class="text-dark-text! border-light-border border bg-white"
+						/>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+{/if}

@@ -1,9 +1,10 @@
 <script>
 	import { onMount } from 'svelte';
-	import { fly } from 'svelte/transition';
+	import { slide, fade } from 'svelte/transition';
+	import Icon from '$lib/components/Icon.svelte';
 
 	let { data } = $props();
-	let el, section;
+	let el, section, wrapper;
 
 	let selectedColor = data?.expand?.preferences?.portfolio_color || '#924999';
 
@@ -66,15 +67,14 @@
 <!--		<option value="#ffa500">Orange</option>-->
 <!--	</datalist>-->
 <!--</label>-->
-
+<!--{mobileMenu
+			? 'h-56'
+			: 'h-18'} transition-[height] duration-300"-->
 <div id="template-1" bind:this={el}>
 	<nav
-		class="sticky top-0 z-50 block w-full max-w-full rounded-none px-4 py-4 {mobileMenu
-			? 'h-52'
-			: 'h-18'} transition-[height] duration-300"
-	>
+		class="sticky top-0 z-50 block w-full max-w-full rounded-none px-4 py-4">
 		<div class="container mx-auto flex items-center justify-between">
-			<p class=" block font-sans text-lg font-bold antialiased">
+			<p class="block font-sans text-lg font-bold antialiased">
 				<a href="">{data.name}</a>
 			</p>
 			<ul class="ml-10 hidden items-center gap-8 lg:flex" bind:this={section}>
@@ -84,16 +84,8 @@
 							href="#projects"
 							target="_self"
 							class="flex items-center gap-2 font-sans text-base leading-relaxed font-medium antialiased hover:underline"
-							><svg
-								xmlns="http://www.w3.org/2000/svg"
-								viewBox="0 0 24 24"
-								fill="currentColor"
-								aria-hidden="true"
-								class="h-5 w-5"
-								><path
-									d="M5.566 4.657A4.505 4.505 0 016.75 4.5h10.5c.41 0 .806.055 1.183.157A3 3 0 0015.75 3h-7.5a3 3 0 00-2.684 1.657zM2.25 12a3 3 0 013-3h13.5a3 3 0 013 3v6a3 3 0 01-3 3H5.25a3 3 0 01-3-3v-6zM5.25 7.5c-.41 0-.806.055-1.184.157A3 3 0 016.75 6h10.5a3 3 0 012.683 1.657A4.505 4.505 0 0018.75 7.5H5.25z"
-								></path></svg
-							>Projects</a
+						><Icon name="projects" class="w-4 h-4 " />
+						Projects</a
 						>
 					</li>
 				{/if}
@@ -103,21 +95,7 @@
 							href="#clients"
 							target="_self"
 							class="flex items-center gap-2 font-sans text-base leading-relaxed font-medium antialiased hover:underline"
-							><svg
-								xmlns="http://www.w3.org/2000/svg"
-								viewBox="0 0 24 24"
-								fill="currentColor"
-								class="size-6"
-							>
-								<path
-									fill-rule="evenodd"
-									d="M7.5 5.25a3 3 0 0 1 3-3h3a3 3 0 0 1 3 3v.205c.933.085 1.857.197 2.774.334 1.454.218 2.476 1.483 2.476 2.917v3.033c0 1.211-.734 2.352-1.936 2.752A24.726 24.726 0 0 1 12 15.75c-2.73 0-5.357-.442-7.814-1.259-1.202-.4-1.936-1.541-1.936-2.752V8.706c0-1.434 1.022-2.7 2.476-2.917A48.814 48.814 0 0 1 7.5 5.455V5.25Zm7.5 0v.09a49.488 49.488 0 0 0-6 0v-.09a1.5 1.5 0 0 1 1.5-1.5h3a1.5 1.5 0 0 1 1.5 1.5Zm-3 8.25a.75.75 0 1 0 0-1.5.75.75 0 0 0 0 1.5Z"
-									clip-rule="evenodd"
-								/>
-								<path
-									d="M3 18.4v-2.796a4.3 4.3 0 0 0 .713.31A26.226 26.226 0 0 0 12 17.25c2.892 0 5.68-.468 8.287-1.335.252-.084.49-.189.713-.311V18.4c0 1.452-1.047 2.728-2.523 2.923-2.12.282-4.282.427-6.477.427a49.19 49.19 0 0 1-6.477-.427C4.047 21.128 3 19.852 3 18.4Z"
-								/>
-							</svg>
+							><Icon name="clients" class="w-4 h-4 " />
 							Clients</a
 						>
 					</li>
@@ -128,24 +106,15 @@
 							href="#testimonials"
 							target="_self"
 							class="flex items-center gap-2 font-sans text-base leading-relaxed font-medium antialiased hover:underline"
-							><svg
-								xmlns="http://www.w3.org/2000/svg"
-								viewBox="0 0 24 24"
-								fill="currentColor"
-								aria-hidden="true"
-								class="h-5 w-5"
-								><path
-									fill-rule="evenodd"
-									d="M18.685 19.097A9.723 9.723 0 0021.75 12c0-5.385-4.365-9.75-9.75-9.75S2.25 6.615 2.25 12a9.723 9.723 0 003.065 7.097A9.716 9.716 0 0012 21.75a9.716 9.716 0 006.685-2.653zm-12.54-1.285A7.486 7.486 0 0112 15a7.486 7.486 0 015.855 2.812A8.224 8.224 0 0112 20.25a8.224 8.224 0 01-5.855-2.438zM15.75 9a3.75 3.75 0 11-7.5 0 3.75 3.75 0 017.5 0z"
-									clip-rule="evenodd"
-								></path></svg
-							>Testimonials</a
+						><Icon name="testimonials" class="w-4 h-4 " />
+							Testimonials</a
 						>
 					</li>
 				{/if}
 			</ul>
+
 			<button
-				class="hover:/10 active:/20 relative ml-auto inline-block h-10 max-h-[40px] w-10 max-w-[40px] rounded-lg text-center align-middle font-sans text-xs font-medium uppercase transition-all select-none disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none lg:hidden"
+				class="relative ml-auto inline-block h-10 max-h-[40px] w-10 max-w-[40px] rounded-lg text-center align-middle font-sans text-xs font-medium uppercase transition-all select-none disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none lg:hidden"
 				type="button"
 				onclick={setMobileMenu}
 				><span class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 transform">
@@ -181,27 +150,25 @@
 				</span></button
 			>
 		</div>
+
 		{#if userHasContent}
 			{#if mobileMenu}
-				<div transition:fly={{ y: -200 }} class="block w-full basis-full">
-					<div class="container mx-auto mt-3 border-t border-gray-200 px-2 pt-4">
-						<ul class="flex flex-col gap-4">
+				<div class="lg:hidden">
+				<div
+					bind:this={wrapper}
+					class="overflow-hidden transition-[height] duration-300"
+					style="height: {mobileMenu ? `${wrapper?.scrollHeight}px` : '0px'}"
+				>
+								<div transition:slide class="container mx-auto mt-4 mb-3 border-t border-gray-200 px-2 pt-4">
+						<ul class="flex flex-col gap-4 ">
 							{#if !userPreferences?.hide_projects && data?.expand?.projects?.length > 0}
 								<li>
 									<a
 										href="#projects"
 										target="_self"
 										class="flex items-center gap-2 font-sans text-base leading-relaxed font-medium antialiased hover:underline"
-										><svg
-											xmlns="http://www.w3.org/2000/svg"
-											viewBox="0 0 24 24"
-											fill="currentColor"
-											aria-hidden="true"
-											class="h-5 w-5"
-											><path
-												d="M5.566 4.657A4.505 4.505 0 016.75 4.5h10.5c.41 0 .806.055 1.183.157A3 3 0 0015.75 3h-7.5a3 3 0 00-2.684 1.657zM2.25 12a3 3 0 013-3h13.5a3 3 0 013 3v6a3 3 0 01-3 3H5.25a3 3 0 01-3-3v-6zM5.25 7.5c-.41 0-.806.055-1.184.157A3 3 0 016.75 6h10.5a3 3 0 012.683 1.657A4.505 4.505 0 0018.75 7.5H5.25z"
-											></path></svg
-										>Projects</a
+										><Icon name="projects" class="w-4 h-4 " />
+										Projects</a
 									>
 								</li>
 							{/if}
@@ -211,21 +178,7 @@
 										href="#clients"
 										target="_self"
 										class="flex items-center gap-2 font-sans text-base leading-relaxed font-medium antialiased hover:underline"
-										><svg
-											xmlns="http://www.w3.org/2000/svg"
-											viewBox="0 0 24 24"
-											fill="currentColor"
-											class="size-6"
-										>
-											<path
-												fill-rule="evenodd"
-												d="M7.5 5.25a3 3 0 0 1 3-3h3a3 3 0 0 1 3 3v.205c.933.085 1.857.197 2.774.334 1.454.218 2.476 1.483 2.476 2.917v3.033c0 1.211-.734 2.352-1.936 2.752A24.726 24.726 0 0 1 12 15.75c-2.73 0-5.357-.442-7.814-1.259-1.202-.4-1.936-1.541-1.936-2.752V8.706c0-1.434 1.022-2.7 2.476-2.917A48.814 48.814 0 0 1 7.5 5.455V5.25Zm7.5 0v.09a49.488 49.488 0 0 0-6 0v-.09a1.5 1.5 0 0 1 1.5-1.5h3a1.5 1.5 0 0 1 1.5 1.5Zm-3 8.25a.75.75 0 1 0 0-1.5.75.75 0 0 0 0 1.5Z"
-												clip-rule="evenodd"
-											/>
-											<path
-												d="M3 18.4v-2.796a4.3 4.3 0 0 0 .713.31A26.226 26.226 0 0 0 12 17.25c2.892 0 5.68-.468 8.287-1.335.252-.084.49-.189.713-.311V18.4c0 1.452-1.047 2.728-2.523 2.923-2.12.282-4.282.427-6.477.427a49.19 49.19 0 0 1-6.477-.427C4.047 21.128 3 19.852 3 18.4Z"
-											/>
-										</svg>
+										><Icon name="clients" class="w-4 h-4 " />
 										Clients</a
 									>
 								</li>
@@ -236,28 +189,19 @@
 										href="#testimonials"
 										target="_self"
 										class="flex items-center gap-2 font-sans text-base leading-relaxed font-medium antialiased hover:underline"
-										><svg
-											xmlns="http://www.w3.org/2000/svg"
-											viewBox="0 0 24 24"
-											fill="currentColor"
-											aria-hidden="true"
-											class="h-5 w-5"
-											><path
-												fill-rule="evenodd"
-												d="M18.685 19.097A9.723 9.723 0 0021.75 12c0-5.385-4.365-9.75-9.75-9.75S2.25 6.615 2.25 12a9.723 9.723 0 003.065 7.097A9.716 9.716 0 0012 21.75a9.716 9.716 0 006.685-2.653zm-12.54-1.285A7.486 7.486 0 0112 15a7.486 7.486 0 015.855 2.812A8.224 8.224 0 0112 20.25a8.224 8.224 0 01-5.855-2.438zM15.75 9a3.75 3.75 0 11-7.5 0 3.75 3.75 0 017.5 0z"
-												clip-rule="evenodd"
-											></path></svg
-										>Testimonials</a
+									><Icon name="testimonials" class="w-4 h-4 " />
+										Testimonials</a
 									>
 								</li>
 							{/if}
 						</ul>
 					</div>
 				</div>
+				</div>
 			{/if}
 		{/if}
 	</nav>
-	<header class=" p-8">
+	<header class="p-8">
 		{#if data.avatar_url}
 			<div
 				class="container mx-auto grid h-full min-h-[60vh] w-full grid-cols-1 items-center gap-10 lg:grid-cols-2"
@@ -322,12 +266,11 @@
 					<!--				rounded-xl bg-clip-border-->
 					{#each data?.expand?.projects.slice().reverse() as project, i (project?.id)}
 						<div class="relative flex flex-col shadow-none">
-							<div class="relative mx-0 mt-0 mb-6 h-48 overflow-hidden bg-clip-border shadow-lg">
+							<div class="relative mx-0 mt-0 mb-6 overflow-hidden bg-clip-border shadow-lg">
 								<img
 									alt={project?.title}
 									loading="lazy"
 									width="768"
-									height="768"
 									decoding="async"
 									class="borderImg h-full w-full rounded-xl object-cover"
 									style="color:transparent"
@@ -349,7 +292,7 @@
 									{project?.description || 'No description provided.'}
 								</p>
 								<button
-									class="rounded-lg px-4 py-2 text-center align-middle font-sans text-xs font-bold uppercase shadow-md shadow-gray-900/10 transition-all select-none hover:shadow-lg hover:shadow-gray-900/20 focus:opacity-[0.85] focus:shadow-none active:opacity-[0.85] active:shadow-none disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none"
+									class="button rounded-lg px-4 py-2 text-center align-middle font-sans text-xs font-bold uppercase shadow-md shadow-gray-900/10 transition-all select-none hover:shadow-lg hover:shadow-gray-900/20 focus:opacity-[0.85] focus:shadow-none active:opacity-[0.85] active:shadow-none disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none"
 									type="button"
 									onclick={() => window.umami?.track(`${project?.title}`, { project: 'visited' })}
 									><a href={project?.link || '/404'} target="_blank">see details</a></button
@@ -361,6 +304,39 @@
 			</section>
 		{/if}
 	{/if}
+
+
+	{#if !userPreferences?.hide_clients}
+		{#if data?.expand?.clients?.length > 0}
+			<section class="px-8 py-12 lg:py-24" id="clients">
+				<div class="container mx-auto max-w-screen-lg">
+					<div class="container mx-auto mb-20 text-center">
+						<h2
+							class="mb-4 block font-sans text-4xl leading-[1.3] font-semibold tracking-normal antialiased"
+						>
+							Clients
+						</h2>
+						<p
+							class="mx-auto block w-full px-4 font-sans text-xl leading-relaxed font-normal text-inherit antialiased lg:w-8/12"
+						>
+							Trusted by the world’s most innovative teams
+						</p>
+						<div class="mx-auto mt-5 flex max-w-6xl flex-wrap justify-center gap-5">
+							{#each data?.expand?.clients?.slice() as clients (clients?.id)}
+								<img
+									src={clients?.client_image_url ||
+										'https://demos.creative-tim.com/material-tailwind-dashboard-react/img/home-decor-1.jpeg'}
+									alt="Transistor"
+									class="max-h-30 object-contain"
+								/>
+							{/each}
+						</div>
+					</div>
+				</div>
+			</section>
+		{/if}
+	{/if}
+
 
 	{#if !userPreferences?.hide_testimonials}
 		{#if data?.expand?.testimonials?.length > 0}
@@ -375,7 +351,7 @@
 						<p
 							class="mx-auto block w-full px-4 font-sans text-xl leading-relaxed font-normal text-inherit antialiased lg:w-8/12"
 						>
-							Discover what clients have to say about their experiences working with me. My client's
+							Discover what some people have to say about their experiences working with me. My client's
 							satisfaction is my greatest achievement!
 						</p>
 					</div>
@@ -411,7 +387,7 @@
 											onclick={() => {
 												chosenTestimonial = testimonial;
 											}}
-											class="rounded-md"
+											class="rounded-md button"
 										>
 											<img
 												src={testimonial?.testimonial_image_url ||
@@ -432,45 +408,12 @@
 									height="768"
 									decoding="async"
 									data-nimg="1"
-									class="h-full w-full rounded-lg object-cover"
+									class="h-full w-full rounded-lg object-cover borderImg"
 									style="color:transparent"
 									src={chosenTestimonial?.testimonial_image_url ||
 										'https://demos.creative-tim.com/material-tailwind-dashboard-react/img/home-decor-1.jpeg'}
 								/>
 							</div>
-						</div>
-					</div>
-				</div>
-			</section>
-		{/if}
-	{/if}
-
-	{#if !userPreferences?.hide_clients}
-		{#if data?.expand?.clients?.length > 0}
-			<section class="px-8 py-12 lg:py-24" id="testimonials">
-				<div class="container mx-auto max-w-screen-lg">
-					<div class="container mx-auto mb-20 text-center">
-						<h2
-							class="mb-4 block font-sans text-4xl leading-[1.3] font-semibold tracking-normal antialiased"
-						>
-							Clients
-						</h2>
-						<p
-							class="mx-auto block w-full px-4 font-sans text-xl leading-relaxed font-normal text-inherit antialiased lg:w-8/12"
-						>
-							Trusted by the world’s most innovative teams
-						</p>
-						<div class="mx-auto flex max-w-6xl flex-wrap justify-center gap-5">
-							{#each data?.expand?.clients?.slice() as clients (clients?.id)}
-								<img
-									width="158"
-									height="48"
-									src={clients?.client_image_url ||
-										'https://demos.creative-tim.com/material-tailwind-dashboard-react/img/home-decor-1.jpeg'}
-									alt="Transistor"
-									class="max-h-30 object-contain"
-								/>
-							{/each}
 						</div>
 					</div>
 				</div>
@@ -487,13 +430,13 @@
 					class="! block text-center font-sans text-base leading-relaxed font-normal text-inherit antialiased"
 				>
 					© 2025 Made with
-					<a href="/home" target="_blank">MixFolio</a>
+					<a href="/" target="_blank" class="hover:underline">MixFolio</a>
 				</p>
 				<ul class="flex items-center gap-8">
 					<li>
 						<a
 							href="mailto:{data?.email}"
-							class="text block font-sans text-sm leading-normal font-normal hover:underline"
+							class="text block font-sans text-base leading-normal font-normal hover:underline"
 							>Contact {data?.name}</a
 						>
 					</li>
@@ -522,7 +465,7 @@
 			color: var(--third-text-color);
 		}
 
-		button:hover {
+		.button:hover {
 			background: var(--text-color);
 			color: var(--surface-color);
 		}

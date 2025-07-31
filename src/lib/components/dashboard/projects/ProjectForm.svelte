@@ -35,11 +35,11 @@
 				message: 'Only .jpeg, .jpg, or .png files are allowed'
 			}),
 		title: z
-			.string({ message: 'This filed is required' })
+			.string({ message: 'This field is required' })
 			.min(5, { message: 'Must be 5 or more characters long' }),
-		link: z.string({ message: 'This filed is required' }).url({ message: 'Invalid url' }),
+		link: z.string({ message: 'This field is required' }).url({ message: 'Invalid url' }),
 		description: z
-			.string({ message: 'This filed is required' })
+			.string({ message: 'This field is required' })
 			.min(5, { message: 'Must be 5 or more characters long' })
 	});
 
