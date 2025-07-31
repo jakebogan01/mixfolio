@@ -404,9 +404,14 @@
 								<Button
 									disabled={buttonDisabled}
 									type="submit"
-									text="Update"
 									class="bg-primary-btn-bg sm:hover:bg-primary-btn-hover ml-4"
-								/>
+								>
+									{#if buttonDisabled}
+										<span class="loader"></span>
+									{:else}
+										Update
+									{/if}
+								</Button>
 							</div>
 						</div>
 					</form>

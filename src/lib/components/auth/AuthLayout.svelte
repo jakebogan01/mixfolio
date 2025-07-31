@@ -244,9 +244,14 @@
 			<button
 				disabled={buttonDisabled}
 				type="submit"
-				class="bg-secondary-btn-bg sm:hover:bg-secondary-btn-hover inline-flex w-full cursor-pointer items-center justify-center rounded-full border border-transparent px-4 py-[calc(--spacing(2)-1px)] text-base font-medium whitespace-nowrap text-white shadow-md disabled:bg-gray-950 disabled:opacity-50 sm:transition-colors"
-				>{btnText}</button
+				class="bg-secondary-btn-bg sm:hover:bg-secondary-btn-hover inline-flex h-10 w-full cursor-pointer items-center justify-center rounded-full border border-transparent px-4 py-[calc(--spacing(2)-1px)] text-base font-medium whitespace-nowrap text-white shadow-md disabled:bg-gray-950 disabled:opacity-50 sm:transition-colors"
 			>
+				{#if buttonDisabled}
+					<span class="loader"></span>
+				{:else}
+					{btnText}
+				{/if}
+			</button>
 		</div>
 		<hr />
 

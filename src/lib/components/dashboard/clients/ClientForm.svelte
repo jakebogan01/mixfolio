@@ -367,9 +367,14 @@
 									<Button
 										disabled={buttonDisabled}
 										type="submit"
-										text="Save"
 										class="bg-primary-btn-bg sm:hover:bg-primary-btn-hover ml-4"
-									/>
+									>
+										{#if buttonDisabled}
+											<span class="loader"></span>
+										{:else}
+											Save
+										{/if}
+									</Button>
 								{/if}
 							</div>
 						</div>

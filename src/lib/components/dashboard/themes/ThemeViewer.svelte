@@ -232,9 +232,14 @@
 							<Button
 								disabled={buttonDisabled}
 								callBack={updateUserPreferences}
-								text="Select"
 								class="bg-primary-btn-bg sm:hover:bg-primary-btn-hover ml-4"
-							/>
+							>
+								{#if buttonDisabled}
+									<span class="loader"></span>
+								{:else}
+									Select
+								{/if}
+							</Button>
 						</div>
 					</form>
 				</div>
