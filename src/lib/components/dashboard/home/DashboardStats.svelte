@@ -49,25 +49,25 @@
 </script>
 
 {#if !data?.userProfile?.expand?.preferences?.hide_analytics}
-<div class="mb-6 grid gap-x-6 gap-y-10 md:grid-cols-2 xl:grid-cols-4">
-	{#each stats as stat (stat.id)}
-		<div
-			class="border-light-border text-dark-text relative flex flex-col rounded-xl border bg-white bg-clip-border"
-		>
+	<div class="mb-6 grid gap-x-6 gap-y-10 md:grid-cols-2 xl:grid-cols-4">
+		{#each stats as stat (stat.id)}
 			<div
-				class="absolute mx-4 mt-4 grid h-12 w-12 place-items-center overflow-hidden rounded-xl bg-gradient-to-tr from-gray-900 to-gray-800 bg-clip-border text-white"
+				class="border-light-border text-dark-text relative flex flex-col rounded-xl border bg-white bg-clip-border"
 			>
-				<Icon name={stat.icon} class="size-6 text-white" stroke="none" />
-			</div>
-			<div class="py-4 pr-4 pl-18 text-right">
-				<p class="block font-sans text-sm leading-normal font-normal">{stat.title}</p>
-				<h4
-					class="ml-auto block max-w-70 truncate font-sans text-2xl leading-snug font-semibold tracking-normal"
+				<div
+					class="absolute mx-4 mt-4 grid h-12 w-12 place-items-center overflow-hidden rounded-xl bg-gradient-to-tr from-gray-900 to-gray-800 bg-clip-border text-white"
 				>
-					{@html stat.value}
-				</h4>
+					<Icon name={stat.icon} class="size-6 text-white" stroke="none" />
+				</div>
+				<div class="py-4 pr-4 pl-18 text-right">
+					<p class="block font-sans text-sm leading-normal font-normal">{stat.title}</p>
+					<h4
+						class="ml-auto block max-w-70 truncate font-sans text-2xl leading-snug font-semibold tracking-normal"
+					>
+						{@html stat.value}
+					</h4>
+				</div>
 			</div>
-		</div>
-	{/each}
-</div>
-	{/if}
+		{/each}
+	</div>
+{/if}

@@ -20,11 +20,16 @@
 			theme = data?.themes.find((theme) => theme?.id === themeId);
 		}
 
-		if (data?.userProfile?.expand?.preferences?.portfolio_color === '#000000' || data?.userProfile?.expand?.preferences?.portfolio_color === '#ffffff'){
+		if (
+			data?.userProfile?.expand?.preferences?.portfolio_color === '#000000' ||
+			data?.userProfile?.expand?.preferences?.portfolio_color === '#ffffff'
+		) {
 			isWhiteOrBlack = true;
 		}
 		console.log('isWhiteOrBlack', isWhiteOrBlack);
-		const existingColor = (isWhiteOrBlack ? '#924999': data?.userProfile?.expand?.preferences?.portfolio_color);
+		const existingColor = isWhiteOrBlack
+			? '#924999'
+			: data?.userProfile?.expand?.preferences?.portfolio_color;
 		// const existingColor = data?.userProfile?.expand?.preferences?.portfolio_color || '#924999';
 		const existingPrefId = data?.userProfile?.expand?.preferences?.id;
 		const userId = data?.userProfile?.id;
@@ -66,7 +71,6 @@
 
 		wheelPicker.on('color:change', (color) => {
 			debouncedUpdate(color.hexString);
-
 		});
 	});
 

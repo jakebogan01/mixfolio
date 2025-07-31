@@ -33,12 +33,11 @@
 	</script>
 </svelte:head>
 
-
 {#if data?.userProfile?.expand?.preferences?.theme_id === '2whobvuscrqffc7'}
-<Template1 data={data.userProfile} />
-	{:else if data?.userProfile?.expand?.preferences?.theme_id === '9abg9ofan3u2vl3'}
+	<Template1 data={data.userProfile} />
+{:else if data?.userProfile?.expand?.preferences?.theme_id === '9abg9ofan3u2vl3'}
 	<Template2 data={data.userProfile} />
-	{:else}
+{:else}
 	<Template1 data={data.userProfile} />
 {/if}
 

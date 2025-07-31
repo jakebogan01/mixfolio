@@ -242,7 +242,9 @@
 															bind:this={previewInput}
 															loading="eager"
 															alt="User client_image preview"
-															class="pointer-events-none aspect-video ${client?.client_image_url ? `object-contain object-center` : `object-cover object-top`}"
+															class="pointer-events-none aspect-video ${client?.client_image_url
+																? `object-contain object-center`
+																: `object-cover object-top`}"
 														/>
 													</div>
 													<button
