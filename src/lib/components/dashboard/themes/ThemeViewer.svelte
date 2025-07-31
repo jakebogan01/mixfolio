@@ -14,6 +14,7 @@
 	let el;
 	let isWhiteOrBlack = $state(false);
 	let colorVisible = $state(true);
+	let buttonDisabled = $state(false);
 
 	onMount(() => {
 		if (themeId) {
@@ -76,6 +77,7 @@
 
 	const updateUserPreferences = async () => {
 		try {
+			buttonDisabled = true;
 			await data.pb
 				.collection('preferences')
 				.update(data?.userProfile?.expand?.preferences?.id, { theme_id: theme?.id });
@@ -228,6 +230,7 @@
 								class="text-dark-text! border-light-border border bg-white"
 							/>
 							<Button
+								disabled={buttonDisabled}
 								callBack={updateUserPreferences}
 								text="Select"
 								class="bg-primary-btn-bg sm:hover:bg-primary-btn-hover ml-4"

@@ -12,6 +12,7 @@
 	let { message, title, btnText, register = true, pb } = $props();
 	let isPasswordVisible = $state(false);
 	let isConfirmPasswordVisible = $state(false);
+	let buttonDisabled = $state(false);
 
 	const schema = register
 		? z
@@ -48,6 +49,7 @@
 		extend: [validator({ schema }), reporterDom()],
 		onSubmit: async (values) => {
 			try {
+				buttonDisabled = true;
 				if (register) {
 					const newUser = await pb.collection('users').create(values);
 					await pb.collection('users').authWithPassword(values.email, values.password);
@@ -240,8 +242,9 @@
 		{/if}
 		<div class="mt-8 mb-4">
 			<button
+				disabled={buttonDisabled}
 				type="submit"
-				class="bg-secondary-btn-bg sm:hover:bg-secondary-btn-hover inline-flex w-full cursor-pointer items-center justify-center rounded-full border border-transparent px-4 py-[calc(--spacing(2)-1px)] text-base font-medium whitespace-nowrap text-white shadow-md data-disabled:bg-gray-950 data-disabled:opacity-40 sm:transition-colors"
+				class="bg-secondary-btn-bg sm:hover:bg-secondary-btn-hover inline-flex w-full cursor-pointer items-center justify-center rounded-full border border-transparent px-4 py-[calc(--spacing(2)-1px)] text-base font-medium whitespace-nowrap text-white shadow-md disabled:bg-gray-950 disabled:opacity-50 sm:transition-colors"
 				>{btnText}</button
 			>
 		</div>

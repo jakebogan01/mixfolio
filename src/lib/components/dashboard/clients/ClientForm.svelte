@@ -16,6 +16,7 @@
 	let client = $state(null);
 	let updatingClient = $state(false);
 	let showDeleteModal = $state(false);
+	let buttonDisabled = $state(false);
 
 	onMount(() => {
 		if (clientId) {
@@ -48,6 +49,7 @@
 		extend: [validator({ schema }), reporterDom()],
 		onSubmit: async (values) => {
 			try {
+				buttonDisabled = true;
 				if (updatingClient) {
 					values.image = fileInput?.files?.[0];
 					await data.pb.collection('clients').update(clientId, values);
@@ -363,6 +365,7 @@
 									/>
 								{:else}
 									<Button
+										disabled={buttonDisabled}
 										type="submit"
 										text="Save"
 										class="bg-primary-btn-bg sm:hover:bg-primary-btn-hover ml-4"

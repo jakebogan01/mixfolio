@@ -49,7 +49,7 @@
 </script>
 
 {#if !data?.userProfile?.expand?.preferences?.hide_analytics}
-	<div class="mb-6 grid gap-x-6 gap-y-10 md:grid-cols-2 xl:grid-cols-4">
+	<div class="mb-6 grid gap-4 md:grid-cols-2 xl:grid-cols-4">
 		{#each stats as stat (stat.id)}
 			<div
 				class="border-light-border text-dark-text relative flex flex-col rounded-xl border bg-white bg-clip-border"

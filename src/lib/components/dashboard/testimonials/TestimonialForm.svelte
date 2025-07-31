@@ -16,6 +16,7 @@
 	let testimonial = $state(null);
 	let updatingTestimonial = $state(false);
 	let showDeleteModal = $state(false);
+	let buttonDisabled = $state(false);
 
 	onMount(() => {
 		if (testimonialId) {
@@ -66,6 +67,7 @@
 		extend: [validator({ schema }), reporterDom()],
 		onSubmit: async (values) => {
 			try {
+				buttonDisabled = true;
 				if (updatingTestimonial) {
 					values.avatar = fileInput?.files?.[0];
 					await data.pb.collection('testimonials').update(testimonialId, values);
@@ -467,6 +469,7 @@
 									/>
 								{:else}
 									<Button
+										disabled={buttonDisabled}
 										type="submit"
 										text="Save"
 										class="bg-primary-btn-bg sm:hover:bg-primary-btn-hover ml-4"

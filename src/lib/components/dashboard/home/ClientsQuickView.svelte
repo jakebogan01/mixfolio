@@ -7,7 +7,7 @@
 </script>
 
 <div
-	class="border-light-border text-dark-text relative flex flex-col overflow-x-hidden rounded-xl border bg-white bg-clip-border pt-10 pb-5 md:col-span-2 xl:col-span-1"
+	class="border-light-border text-dark-text relative flex flex-col overflow-x-hidden rounded-xl border bg-white bg-clip-border pt-10 pb-5 md:col-span-2 2xl:col-span-1"
 >
 	{#if userProfile?.expand?.clients?.length}
 		<div class="px-4 text-base/7 font-semibold sm:flex sm:items-start sm:px-6 lg:px-8">

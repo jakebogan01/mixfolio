@@ -6,7 +6,7 @@
 		url = '/',
 		type = 'button',
 		text = '',
-		defaultStyles = 'block cursor-pointer rounded-md px-3 py-2 text-sm font-semibold text-white disabled:cursor-not-allowed disabled:opacity-30  disabled:hover:bg-white sm:transition-colors',
+		defaultStyles = 'block cursor-pointer rounded-md px-3 py-2 text-sm font-semibold text-white disabled:cursor-not-allowed disabled:opacity-50  sm:transition-colors',
 		callBack = () => {},
 		...rest
 	} = $props();

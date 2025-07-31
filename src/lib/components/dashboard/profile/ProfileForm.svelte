@@ -6,7 +6,6 @@
 	import reporterDom from '@felte/reporter-dom';
 	import { invalidate } from '$app/navigation';
 	import Button from '$lib/components/global/Button.svelte';
-	import { onMount } from 'svelte';
 
 	let { data, toggleMenu = () => {} } = $props();
 	let previewInput = $state(null);
@@ -14,6 +13,7 @@
 	let isDragging = $state(false);
 	let showPreviewImage = $state(true);
 	let showDeleteImage = $state(false);
+	let buttonDisabled = $state(false);
 
 	const schema = z.object({
 		avatar: z
@@ -56,6 +56,7 @@
 		extend: [validator({ schema }), reporterDom()],
 		onSubmit: async (values) => {
 			try {
+				buttonDisabled = true;
 				values.avatar = fileInput?.files?.[0];
 				await data.pb.collection('profiles').update(data?.userProfile?.id, values);
 				toggleMenu();
@@ -401,8 +402,9 @@
 									class="text-dark-text! border-light-border border bg-white"
 								/>
 								<Button
+									disabled={buttonDisabled}
 									type="submit"
-									text="Save"
+									text="Update"
 									class="bg-primary-btn-bg sm:hover:bg-primary-btn-hover ml-4"
 								/>
 							</div>
