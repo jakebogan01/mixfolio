@@ -93,7 +93,7 @@
 									<Icon name="copy-link" class="size-6" stroke="none" />
 								</button>
 							</td>
-							<td class="hidden py-4 pr-4 pl-0 text-sm/6 sm:block sm:pr-8 lg:pr-20">
+							<td class="text-dark-text hidden py-4 pr-4 pl-0 text-sm/6 sm:table-cell sm:pr-6 lg:pr-8">
 								<p class="text-dark-text max-w-50 truncate">
 									{project?.description || 'Description unavailable'}
 								</p>

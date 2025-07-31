@@ -127,7 +127,7 @@
 					class="border-light-border pointer-events-auto w-screen max-w-md border-l"
 				>
 					<form class="flex h-full flex-col divide-y divide-gray-200 bg-white shadow-xl">
-						<div class="h-0 flex-1 overflow-y-auto">
+						<div class="h-0 flex-1 overflow-y-auto overflow-x-hidden">
 							<div class="bg-primary px-4 py-6 sm:px-6">
 								<div class="flex items-center justify-between">
 									<h2 id="drawer-title" class="text-base font-semibold text-white">View Theme</h2>
@@ -210,6 +210,7 @@
 												</div>
 											</dd>
 										</div>
+										{#if themeId === data?.userProfile?.expand?.preferences?.theme_id}
 										<div class="h-75 w-99">
 											<iframe
 												bind:this={el}
@@ -219,6 +220,7 @@
 												scrolling="no"
 											></iframe>
 										</div>
+											{/if}
 									</dl>
 								</div>
 							</div>
