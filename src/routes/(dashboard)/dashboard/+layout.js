@@ -5,7 +5,7 @@ import { redirect } from '@sveltejs/kit';
 import { processExpandedItems } from '$lib/utils/misc.js';
 import { user } from '$lib/stores/user.svelte.js';
 
-export async function load({ parent, depends, fetch }) {
+export async function load({ parent, depends }) {
 	const { pb } = await parent();
 	depends('user_profile');
 
@@ -100,23 +100,8 @@ export async function load({ parent, depends, fetch }) {
 
 		if ('collectionId' in userProfile) delete userProfile.collectionId;
 
-		const res = await fetch(`/api/umami/${userProfile?.slug}`);
-		if (!res.ok) {
-			const { error } = await res.json();
-			return {
-				slug: userProfile?.slug,
-				events: [],
-				metrics: [],
-				error
-			};
-		}
-
-		let trackingData = await res.json();
-
 		return {
-			userProfile: userProfile || {},
-			events: trackingData?.events || [],
-			metrics: trackingData?.metrics || []
+			userProfile: userProfile || {}
 		};
 	} catch (error) {
 		console.dir(error?.message, { depth: null });

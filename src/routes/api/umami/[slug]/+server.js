@@ -61,5 +61,13 @@ export async function GET({ fetch, params }) {
 		return lastSegment === slug;
 	});
 
-	return json({ slug, events: filteredEvents, metrics: filteredMetrics });
+	return json(
+		{ slug, events: filteredEvents, metrics: filteredMetrics },
+		{
+			status: 200,
+			headers: {
+				'Cache-Control': 'public, max-age=60'
+			}
+		}
+	);
 }
