@@ -2,6 +2,7 @@
 	import { onMount } from 'svelte';
 	import { page } from '$app/state';
 	import { trackingData } from '$lib/stores/trackingData.svelte.js';
+	import { darkMode } from '$lib/stores/darkMode.svelte.js';
 	import { Toaster } from 'svelte-5-french-toast';
 	import { toastMessage } from '$lib/utils/toast.js';
 	import Nav from '$lib/components/dashboard/Nav.svelte';
@@ -42,7 +43,11 @@
 	const toggleMenu = () => (menuOpen = !menuOpen);
 </script>
 
-<div class="relative flex min-h-screen bg-gray-100 pl-0 font-sans xl:pl-76">
+<div
+	class="relative flex min-h-screen bg-gray-100 pl-0 font-sans xl:pl-76 dark:bg-black {darkMode.status
+		? 'dark'
+		: 'light'}"
+>
 	<div class="absolute left-0 h-screen w-full max-w-7xl overflow-x-hidden">
 		<div
 			class="z-0 h-60 w-xl translate-x-60 -translate-y-44 -rotate-10 rounded-full bg-linear-115 from-yellow-100 from-28% via-pink-400 via-70% to-purple-500 blur-3xl md:right-0 xl:translate-x-90"

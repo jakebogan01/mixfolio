@@ -1,6 +1,7 @@
 <script>
 	import { CLIENTS, DASHBOARD, PROJECTS, TESTIMONIALS } from '$lib/utils/constants.js';
 	import { trackingData } from '$lib/stores/trackingData.svelte.js';
+	import { darkMode } from '$lib/stores/darkMode.svelte.js';
 	import { fly } from 'svelte/transition';
 	import { handleToggleMenuFactory } from '$lib/utils/menuHandlers.js';
 	import Icon from '$lib/components/Icon.svelte';
@@ -60,6 +61,21 @@
 				client?.name?.toLowerCase().includes(searchTerm.toLowerCase())
 			) || [];
 	}, 500);
+
+	const changeTheme = () => {
+		if (!document.startViewTransition) {
+			updateTheme();
+			return;
+		}
+
+		document.startViewTransition(() => {
+			updateTheme();
+		});
+	};
+
+	const updateTheme = () => {
+		darkMode.status = !darkMode.status;
+	};
 </script>
 
 <nav
@@ -252,6 +268,9 @@
 					{/if}
 				</div>
 			{/if}
+			<button type="button" class="cursor-pointer dark:text-white" onclick={changeTheme}>
+				theme
+			</button>
 		</div>
 	</div>
 </nav>
