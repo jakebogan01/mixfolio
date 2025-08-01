@@ -8,24 +8,24 @@
 </script>
 
 <div
-	class="border-light-border text-dark-text relative flex flex-col rounded-xl border bg-white bg-clip-border pt-10 pb-5"
+	class="border-light-border-theme-light dark:border-light-border-theme-dark text-dark-text-theme-light dark:text-dark-text-theme-dark dark:bg-primary-theme-dark relative flex flex-col rounded-xl border bg-white bg-clip-border pt-10 pb-5"
 >
 	<div class="px-4 text-base/7 font-semibold sm:flex sm:items-start sm:px-6 lg:px-8">
 		<div class="pb-2 sm:flex-auto">
-			<h6 class="text-base font-semibold text-gray-900">Profile</h6>
+			<h6 class="text-base font-semibold text-gray-900 dark:text-white">Profile</h6>
 		</div>
 		<div class="mt-4 sm:mt-0 sm:ml-16 sm:flex-none">
 			<Button
 				link={true}
 				url={PROFILE}
 				text="View profile"
-				class="bg-secondary-btn-bg sm:hover:bg-secondary-btn-hover"
+				class="bg-secondary-btn-bg-theme-light dark:bg-secondary-btn-bg-theme-dark sm:hover:bg-secondary-btn-hover-theme-light sm:dark:hover:bg-secondary-btn-hover-theme-dark inline"
 			/>
 		</div>
 	</div>
 	<div class="mt-6 px-4 text-base/7 sm:px-6 lg:px-8">
 		<PortfolioSlugInput {data} />
-		<hr class="border-light-border my-6" />
+		<hr class="border-light-border-theme-light dark:border-light-border-theme-dark my-6" />
 		<div class="mx-auto max-w-5xl">
 			<dl class="grid grid-cols-1 gap-x-4 gap-y-4 sm:grid-cols-2">
 				<div class="flex shrink-0 items-center sm:col-span-full">
@@ -38,7 +38,10 @@
 							/>
 						{:else}
 							<span class="inline-block size-12 overflow-hidden rounded-full bg-gray-200">
-								<svg viewBox="0 0 24 24" fill="currentColor" class="text-light-text size-full"
+								<svg
+									viewBox="0 0 24 24"
+									fill="currentColor"
+									class="text-light-text-theme-light dark:text-light-text-theme-dark size-full"
 									><path
 										d="M24 20.993V24H0v-2.996A14.977 14.977 0 0112.004 15c4.904 0 9.26 2.354 11.996 5.993zM16.002 8.999a4 4 0 11-8 0 4 4 0 018 0z"
 									/></svg
@@ -47,10 +50,12 @@
 						{/if}
 					</div>
 					<div class="ml-3">
-						<p class="text-dark-text text-sm font-medium">
+						<p
+							class="text-dark-text-theme-light dark:text-dark-text-theme-dark text-sm font-medium"
+						>
 							{data?.userProfile?.name || 'My Name'}
 						</p>
-						<p class="text-xs font-medium text-gray-500">
+						<p class="text-xs font-medium text-gray-500 dark:text-gray-400">
 							{data?.userProfile?.email || 'me@example.com'}
 						</p>
 					</div>

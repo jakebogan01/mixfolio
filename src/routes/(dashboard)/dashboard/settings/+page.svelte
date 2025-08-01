@@ -130,21 +130,21 @@
 
 <div class="relative h-30 w-full overflow-hidden rounded-xl xl:h-50">
 	<div
-		class="from-primary-from to-secondary-to absolute inset-0 h-full w-full bg-gradient-to-tr"
+		class="from-primary-from-theme-light to-secondary-to-theme-light dark:to-secondary-to-theme-dark absolute inset-0 h-full w-full bg-gradient-to-tr dark:from-gray-950"
 	></div>
 </div>
 <div
-	class="border-light-border text-dark-text relative mx-3 -mt-16 mb-6 flex flex-col rounded-xl border bg-white bg-clip-border shadow-md lg:mx-4"
+	class="border-light-border-theme-light dark:border-light-border-theme-dark text-dark-text-theme-light dark:text-dark-text-theme-dark dark:bg-primary-theme-dark relative mx-3 -mt-16 mb-6 flex flex-col rounded-xl border bg-white bg-clip-border shadow-md lg:mx-4"
 >
 	<div class="px-4 pt-4 pb-8">
-		<div class="divide-light-border divide-y">
+		<div class="divide-light-border-theme-light dark:divide-light-border-theme-dark divide-y">
 			{#if !data?.userProfile?.oauth}
 				<div
 					class="grid max-w-7xl grid-cols-1 gap-x-8 gap-y-10 px-4 py-16 sm:px-6 md:grid-cols-3 lg:px-8"
 				>
 					<div>
 						<h2 class="text-base/7 font-semibold">Change email</h2>
-						<p class="text-light-text mt-1 text-sm/6">
+						<p class="text-light-text-theme-light dark:text-light-text-theme-dark mt-1 text-sm/6">
 							Update your email associated with your account.
 						</p>
 					</div>
@@ -182,7 +182,7 @@
 							<Button
 								type="submit"
 								text="Save"
-								class="bg-primary-btn-bg sm:hover:bg-primary-btn-hover"
+								class="bg-primary-btn-bg-theme-light dark:bg-primary-btn-bg-theme-dark sm:hover:bg-primary-btn-hover-theme-light sm:dark:hover:bg-secondary-btn-hover-theme-dark"
 							/>
 						</div>
 					</form>
@@ -259,7 +259,7 @@
 							<Button
 								type="submit"
 								text="Save"
-								class="bg-primary-btn-bg sm:hover:bg-primary-btn-hover"
+								class="bg-primary-btn-bg-theme-light dark:bg-primary-btn-bg-theme-dark sm:hover:bg-primary-btn-hover-theme-light sm:dark:hover:bg-secondary-btn-hover-theme-dark"
 							/>
 						</div>
 					</form>
@@ -343,7 +343,7 @@
 						<Button
 							callBack={() => (showDeleteModal = false)}
 							text="Cancel"
-							class="text-dark-text! border-light-border border bg-white"
+							class="text-dark-text-theme-light dark:text-dark-text-theme-dark! border-light-border-theme-light border bg-white"
 						/>
 					</div>
 				</div>

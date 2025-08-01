@@ -53,7 +53,7 @@
 	<div class="mb-6 grid gap-4 md:grid-cols-2 xl:grid-cols-4">
 		{#each stats as stat (stat.id)}
 			<div
-				class="border-light-border text-dark-text relative flex flex-col rounded-xl border bg-white bg-clip-border"
+				class="border-light-border-theme-light dark:border-light-border-theme-dark text-dark-text-theme-light dark:text-dark-text-theme-dark dark:bg-primary-theme-dark relative flex flex-col rounded-xl border bg-white bg-clip-border"
 			>
 				<div
 					class="absolute mx-4 mt-4 grid h-12 w-12 place-items-center overflow-hidden rounded-xl bg-gradient-to-tr from-gray-900 to-gray-800 bg-clip-border text-white"

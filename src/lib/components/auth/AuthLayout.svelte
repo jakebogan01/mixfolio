@@ -198,7 +198,7 @@
 					onclick={() => (isPasswordVisible = !isPasswordVisible)}
 					type="button"
 					aria-label="Toggle password visibility"
-					class="text-light-text inline-flex cursor-pointer items-center rounded-l-none rounded-r-lg border border-transparent px-3 outline-1 -outline-offset-1 outline-gray-300 focus:outline-2 focus:-outline-offset-2 sm:transition-colors sm:hover:bg-purple-600 sm:hover:text-white"
+					class="text-light-text-theme-light dark:text-light-text-theme-dark inline-flex cursor-pointer items-center rounded-l-none rounded-r-lg border border-transparent px-3 outline-1 -outline-offset-1 outline-gray-300 focus:outline-2 focus:-outline-offset-2 sm:transition-colors sm:hover:bg-purple-600 sm:hover:text-white"
 				>
 					<Icon name="eye" class="size-4" stroke="none" />
 				</button>
@@ -232,7 +232,7 @@
 						onclick={() => (isConfirmPasswordVisible = !isConfirmPasswordVisible)}
 						type="button"
 						aria-label="Toggle password visibility"
-						class="text-light-text inline-flex cursor-pointer items-center rounded-l-none rounded-r-lg border border-transparent px-3 outline-1 -outline-offset-1 outline-gray-300 focus:outline-2 focus:-outline-offset-2 sm:transition-colors sm:hover:bg-purple-600 sm:hover:text-white"
+						class="text-light-text-theme-light dark:text-light-text-theme-dark inline-flex cursor-pointer items-center rounded-l-none rounded-r-lg border border-transparent px-3 outline-1 -outline-offset-1 outline-gray-300 focus:outline-2 focus:-outline-offset-2 sm:transition-colors sm:hover:bg-purple-600 sm:hover:text-white"
 					>
 						<Icon name="eye" class="size-4" stroke="none" />
 					</button>
@@ -250,7 +250,7 @@
 			<button
 				disabled={buttonDisabled}
 				type="submit"
-				class="bg-primary-btn-bg sm:hover:bg-primary-btn-hover inline-flex h-10 w-full cursor-pointer items-center justify-center rounded-full border border-transparent px-4 py-[calc(--spacing(2)-1px)] text-base font-medium whitespace-nowrap text-white disabled:opacity-50 sm:transition-colors"
+				class="bg-primary-btn-bg-theme-light dark:bg-primary-btn-bg-theme-dark sm:hover:bg-primary-btn-hover-theme-light sm:dark:hover:bg-secondary-btn-hover-theme-dark inline-flex h-10 w-full cursor-pointer items-center justify-center rounded-full border border-transparent px-4 py-[calc(--spacing(2)-1px)] text-base font-medium whitespace-nowrap text-white disabled:opacity-50 sm:transition-colors"
 			>
 				{#if buttonDisabled}
 					<span class="loader"></span>
@@ -260,16 +260,19 @@
 			</button>
 		</div>
 		<div
-			class="after:border-light-border relative my-6 text-center text-sm after:absolute after:inset-0 after:top-1/2 after:z-0 after:flex after:items-center after:border-t"
+			class="after:border-light-border-theme-light relative my-6 text-center text-sm after:absolute after:inset-0 after:top-1/2 after:z-0 after:flex after:items-center after:border-t"
 		>
-			<span class="text-light-text relative z-10 bg-white px-2">Or continue with</span>
+			<span
+				class="text-light-text-theme-light dark:text-light-text-theme-dark relative z-10 bg-white px-2"
+				>Or continue with</span
+			>
 		</div>
 		<div class="mt-4">
 			<button
 				disabled={buttonDisabled}
 				type="button"
 				onclick={googleAuthTest}
-				class="border-light-border text-dark-text inline-flex w-full cursor-pointer items-center justify-center rounded-full border bg-white px-4 py-5 py-[calc(--spacing(2)-1px)] text-base font-medium whitespace-nowrap disabled:hover:bg-white sm:transition-colors sm:hover:bg-gray-200"
+				class="border-light-border-theme-light text-dark-text-theme-light dark:text-dark-text-theme-dark inline-flex w-full cursor-pointer items-center justify-center rounded-full border bg-white px-4 py-5 py-[calc(--spacing(2)-1px)] text-base font-medium whitespace-nowrap disabled:hover:bg-white sm:transition-colors sm:hover:bg-gray-200"
 				id="btn"
 			>
 				<svg
@@ -325,7 +328,7 @@
 				disabled={buttonDisabled}
 				type="button"
 				onclick={githubAuthTest}
-				class="bg-secondary-btn-bg sm:hover:bg-secondary-btn-hover disabled:hover:bg-secondary-btn-bg inline-flex w-full cursor-pointer items-center justify-center rounded-full border border-transparent px-4 py-5 py-[calc(--spacing(2)-1px)] text-base font-medium whitespace-nowrap text-white disabled:hover:text-white sm:transition-colors"
+				class="bg-secondary-btn-bg-theme-light dark:bg-secondary-btn-bg-theme-dark sm:hover:bg-secondary-btn-hover-theme-light sm:dark:hover:bg-secondary-btn-hover-theme-dark disabled:hover:bg-secondary-btn-bg-theme-light inline-flex w-full cursor-pointer items-center justify-center rounded-full border border-transparent px-4 py-5 py-[calc(--spacing(2)-1px)] text-base font-medium whitespace-nowrap text-white disabled:hover:text-white sm:transition-colors"
 				id="btn2"
 			>
 				<svg

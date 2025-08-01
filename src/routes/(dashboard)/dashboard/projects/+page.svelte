@@ -25,17 +25,17 @@
 
 <div class="relative h-30 w-full overflow-hidden rounded-xl xl:h-50">
 	<div
-		class="from-primary-from to-secondary-to absolute inset-0 h-full w-full bg-gradient-to-tr"
+		class="from-primary-from-theme-light to-secondary-to-theme-light dark:to-secondary-to-theme-dark absolute inset-0 h-full w-full bg-gradient-to-tr dark:from-gray-950"
 	></div>
 </div>
 <div
-	class="border-light-border text-dark-text relative mx-3 -mt-16 mb-6 flex flex-col rounded-xl border bg-white bg-clip-border shadow-md lg:mx-4"
+	class="border-light-border-theme-light dark:border-light-border-theme-dark text-dark-text-theme-light dark:text-dark-text-theme-dark dark:bg-primary-theme-dark relative mx-3 -mt-16 mb-6 flex flex-col rounded-xl border bg-white bg-clip-border shadow-md lg:mx-4"
 >
 	<div class="px-4 pt-4 pb-8">
 		<div class="text-base/7 font-semibold sm:flex sm:items-start">
 			{#if data?.userProfile?.expand?.projects?.length}
 				<div class="pb-2 sm:flex-auto">
-					<h6 class="text-base font-semibold text-gray-900">Projects</h6>
+					<h6 class="text-base font-semibold text-gray-900 dark:text-white">Projects</h6>
 				</div>
 			{/if}
 			{#if data?.userProfile?.expand?.projects?.length < 8}
@@ -46,7 +46,7 @@
 							viewProject = false;
 						}}
 						text="Add project"
-						class="bg-primary-btn-bg sm:hover:bg-primary-btn-hover"
+						class="bg-primary-btn-bg-theme-light dark:bg-primary-btn-bg-theme-dark sm:hover:bg-primary-btn-hover-theme-light sm:dark:hover:bg-secondary-btn-hover-theme-dark"
 					/>
 				</div>
 			{/if}
@@ -69,11 +69,13 @@
 								class="pointer-events-none aspect-10/7 object-cover"
 							/>
 						</div>
-						<p class="mt-4 block text-sm leading-normal font-normal">Project #{i + 1}</p>
+						<p class="mt-4 block text-sm leading-normal font-normal dark:text-gray-300">
+							Project #{i + 1}
+						</p>
 						<h5 class=" my-1 block truncate text-xl leading-snug font-semibold tracking-normal">
 							{project?.title}
 						</h5>
-						<p class=" block truncate text-sm leading-normal font-normal">
+						<p class=" block truncate text-sm leading-normal font-normal dark:text-gray-400">
 							{project?.description}
 						</p>
 						<div class="mt-3">
@@ -84,7 +86,7 @@
 									projectId = project?.id;
 								}}
 								text="view project"
-								class="bg-secondary-btn-bg sm:hover:bg-secondary-btn-hover"
+								class="bg-secondary-btn-bg-theme-light dark:bg-secondary-btn-bg-theme-dark sm:hover:bg-secondary-btn-hover-theme-light sm:dark:hover:bg-secondary-btn-hover-theme-dark"
 							/>
 						</div>
 					</li>
@@ -93,14 +95,16 @@
 		{:else}
 			<div class="flex h-full items-center justify-center pt-10 pb-8">
 				<div class="flex flex-col items-center space-y-2">
-					<p class="text-dark-text mt-2 text-sm">You do not have any projects.</p>
+					<p class="text-dark-text-theme-light dark:text-dark-text-theme-dark mt-2 text-sm">
+						You do not have any projects.
+					</p>
 					<Button
 						callBack={() => {
 							toggleMenu();
 							viewProject = false;
 						}}
 						text="Add project"
-						class="bg-primary-btn-bg sm:hover:bg-primary-btn-hover"
+						class="bg-primary-btn-bg-theme-light dark:bg-primary-btn-bg-theme-dark sm:hover:bg-primary-btn-hover-theme-light sm:dark:hover:bg-secondary-btn-hover-theme-dark"
 					/>
 				</div>
 			</div>
