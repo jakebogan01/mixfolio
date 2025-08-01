@@ -196,15 +196,16 @@
 												<div class="inline-flex items-center {!theme?.color ? 'lg:hidden' : ''}">
 													<div class="ColorPicker py-2" id="wheelPicker"></div>
 												</div>
-												<div class="flex shrink-0 {theme?.color ? 'lg:hidden' : 'py-2'}">
+<!--												{theme?.color ? 'lg:hidden' : 'py-2'}-->
+												<div class="flex shrink-0 ">
 													<Button
 														callBack={lightMode}
-														text="White"
+														text="Light"
 														class="text-dark-text! border-light-border border bg-white"
 													/>
 													<Button
 														callBack={darkMode}
-														text="Black"
+														text="Dark"
 														class="bg-secondary-btn-bg sm:hover:bg-secondary-btn-hover ml-4"
 													/>
 												</div>
