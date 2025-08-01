@@ -1,5 +1,5 @@
 <script>
-	import { onMount } from 'svelte';
+	import { trackingData } from '$lib/stores/trackingData.svelte.js';
 	import Icon from '$lib/components/Icon.svelte';
 
 	let { data } = $props();
@@ -15,24 +15,10 @@
 	const filled = fields.filter(Boolean).length;
 	const completion = Math.round((filled / total) * 100);
 
-	let metrics = $state([]);
-	let events = $state([]);
-
-	onMount(async () => {
-		try {
-			const res = await fetch(`/api/umami/${data?.userProfile?.slug}`);
-
-			if (res.ok) {
-				let trackingData = await res.json();
-				((metrics = trackingData?.metrics || []), (events = trackingData?.events || []));
-			}
-		} catch (error) {
-			console.dir(error, { depth: null });
-		}
-	});
-
 	let popularProject = $derived(
-		events?.length > 0 ? events.reduce((max, item) => (item.total > max.total ? item : max)) : null
+		trackingData.events?.length > 0
+			? trackingData.events.reduce((max, item) => (item.total > max.total ? item : max))
+			: null
 	);
 
 	let stats = $derived([
@@ -45,7 +31,7 @@
 		{
 			id: 2,
 			title: 'Page Visits',
-			value: metrics[0]?.y.toLocaleString('en-US') || 0,
+			value: trackingData.metrics[0]?.y.toLocaleString('en-US') || 0,
 			icon: 'eye'
 		},
 		{

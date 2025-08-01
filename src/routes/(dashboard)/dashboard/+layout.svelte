@@ -1,6 +1,7 @@
 <script>
 	import { onMount } from 'svelte';
 	import { page } from '$app/state';
+	import { trackingData } from '$lib/stores/trackingData.svelte.js';
 	import { Toaster } from 'svelte-5-french-toast';
 	import { toastMessage } from '$lib/utils/toast.js';
 	import Nav from '$lib/components/dashboard/Nav.svelte';
@@ -10,8 +11,19 @@
 	let menuOpen = $state(false);
 	let scrolled = $state(false);
 
-	onMount(() => {
+	onMount(async () => {
 		if (page?.state?.message) toastMessage(page.state.type, page.state.message);
+
+		try {
+			const res = await fetch(`/api/umami/${data?.userProfile?.slug}`);
+
+			if (res.ok) {
+				let data = await res.json();
+				((trackingData.metrics = data?.metrics || []), (trackingData.events = data?.events || []));
+			}
+		} catch (error) {
+			console.dir(error, { depth: null });
+		}
 	});
 
 	$effect(() => {

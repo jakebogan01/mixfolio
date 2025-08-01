@@ -158,7 +158,7 @@
 				<div
 					id="highlight"
 					role="presentation"
-					class="from-primary-from to-secondary-to absolute left-0 z-0 h-12.5 w-full rounded-lg bg-gradient-to-tr transition-transform duration-1000 ease-in-out"
+					class="from-primary-from to-secondary-to absolute left-0 z-0 h-12.5 w-full rounded-lg bg-gradient-to-tr transition-transform duration-750 ease-in-out"
 					style="transform: translateY(0px);"
 				></div>
 				{#each navLinks as item (item.id)}
