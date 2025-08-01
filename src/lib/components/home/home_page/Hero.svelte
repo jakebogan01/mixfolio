@@ -157,15 +157,15 @@
 				</p>
 				<div class="mt-12 flex flex-col gap-x-6 gap-y-4 sm:flex-row">
 					{#if currentUser}
-					<a
-						class="relative inline-flex items-center justify-center rounded-full border border-transparent bg-gray-950 px-4 py-[calc(--spacing(2)-1px)] text-base font-medium whitespace-nowrap text-white shadow-md sm:transition-colors sm:hover:bg-[#6a17bb]"
-						href={DASHBOARD}>Edit your page</a
-					>{:else}
+						<a
+							class="relative inline-flex items-center justify-center rounded-full border border-transparent bg-gray-950 px-4 py-[calc(--spacing(2)-1px)] text-base font-medium whitespace-nowrap text-white shadow-md sm:transition-colors sm:hover:bg-[#6a17bb]"
+							href={DASHBOARD}>Edit your page</a
+						>{:else}
 						<a
 							class="relative inline-flex items-center justify-center rounded-full border border-transparent bg-gray-950 px-4 py-[calc(--spacing(2)-1px)] text-base font-medium whitespace-nowrap text-white shadow-md sm:transition-colors sm:hover:bg-[#6a17bb]"
 							href={LOGIN}>Get started</a
 						>
-						{/if}
+					{/if}
 
 					<!--<a-->
 					<!--	class="relative inline-flex items-center justify-center rounded-full border border-transparent bg-white/15 px-4 py-[calc(&#45;&#45;spacing(2)-1px)] text-base font-medium whitespace-nowrap text-gray-950 shadow-md ring-1 ring-[#D15052]/15 after:absolute after:inset-0 after:rounded-full after:shadow-[inset_0_0_2px_1px_#ffffff4d] sm:transition-colors sm:hover:bg-transparent"-->

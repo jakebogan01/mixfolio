@@ -196,8 +196,8 @@
 												<div class="inline-flex items-center {!theme?.color ? 'lg:hidden' : ''}">
 													<div class="ColorPicker py-2" id="wheelPicker"></div>
 												</div>
-<!--												{theme?.color ? 'lg:hidden' : 'py-2'}-->
-												<div class="flex shrink-0 ">
+												<!--												{theme?.color ? 'lg:hidden' : 'py-2'}-->
+												<div class="flex shrink-0">
 													<Button
 														callBack={lightMode}
 														text="Light"
