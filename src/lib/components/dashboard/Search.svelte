@@ -1,5 +1,6 @@
 <script>
 	import { CLIENTS, DASHBOARD, PROJECTS, TESTIMONIALS } from '$lib/utils/constants.js';
+	import { trackingData } from '$lib/stores/trackingData.svelte.js';
 	import { fly } from 'svelte/transition';
 	import { handleToggleMenuFactory } from '$lib/utils/menuHandlers.js';
 	import Icon from '$lib/components/Icon.svelte';
@@ -16,8 +17,6 @@
 	let filteredClients = $state(null);
 	let hasMatches = $state(null);
 	let showHistory = $state(false);
-	let metrics = $state([]);
-	let events = $state([]);
 	const handleToggleMenu = handleToggleMenuFactory(
 		() => showHistory,
 		(val) => (showHistory = val)
@@ -25,17 +24,6 @@
 	const match = (text = '') => text.toLowerCase().includes(searchTerm.toLowerCase());
 
 	onMount(async () => {
-		try {
-			const res = await fetch(`/api/umami/${userProfile?.slug}`);
-
-			if (res.ok) {
-				let trackingData = await res.json();
-				((metrics = trackingData?.metrics || []), (events = trackingData?.events || []));
-			}
-		} catch (error) {
-			console.dir(error, { depth: null });
-		}
-
 		hasMatches =
 			userProfile?.expand?.projects?.some((p) => match(p.title)) ||
 			userProfile?.expand?.clients?.some((c) => match(c.name)) ||
@@ -235,26 +223,26 @@
 				<div class="relative">
 					<Button
 						callBack={handleToggleMenu}
-						disabled={events?.length === 0 && metrics?.length === 0}
+						disabled={trackingData.events?.length === 0 && trackingData.metrics?.length === 0}
 						defaultStyles="flex size-10 max-h-10 max-w-10 cursor-pointer items-center justify-center rounded-lg select-none sm:transition-colors transition-colors duration-200 disabled:text-gray-400 disabled:hover:text-gray-400 {showHistory
 							? 'bg-gray-200/90 text-purple-600'
 							: 'text-gray-900 bg-transparent sm:hover:bg-gray-200/90 sm:hover:text-purple-600'}"
 					>
 						<Icon name="notification" class="size-5" stroke="none" />
 					</Button>
-					{#if showHistory && (events?.length || metrics?.length)}
+					{#if showHistory && (trackingData.events?.length || trackingData.metrics?.length)}
 						<ul
 							transition:fly={{ y: 20 }}
 							class="border-light-border absolute -right-6 z-10 mt-2 mr-2 max-h-60 w-74 overflow-auto rounded-md border bg-white text-sm shadow-lg shadow-black/50"
 							role="listbox"
 						>
-							{#each events as event, i (i)}
+							{#each trackingData.events as event, i (i)}
 								<li class="px-3 py-2 font-medium text-gray-500 select-none">
 									Someone viewed your project
 									<span class="text-dark-text font-semibold">{event?.propertyName}</span>
 								</li>
 							{/each}
-							{#each metrics as metric, i (i)}
+							{#each trackingData.metrics as metric, i (i)}
 								<li class="text-dark-text px-3 py-2 font-semibold select-none">
 									Someone visited your portfolio
 									<span class="text-dark-text sr-only font-semibold">{metric?.y}</span>
