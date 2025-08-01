@@ -4,7 +4,8 @@
 	import Icon from '$lib/components/Icon.svelte';
 
 	let { data } = $props();
-	let el, section, wrapper;
+	let el, section, wrapper, isWhite;
+
 
 	let selectedColor = data?.expand?.preferences?.portfolio_color || '#924999';
 
@@ -14,11 +15,17 @@
 
 	function colorPicker(selectedColor) {
 		const lightness = getLightnessFromHex(selectedColor);
+
+		if(selectedColor === '#ffffff'){
+			isWhite = true;
+		}
+
 		el.setAttribute(
 			'style',
 			`
 		--base-color: ${selectedColor};
-		--text-color: ${lightness > 60 ? 'black' : 'white'}		`
+		--text-color: ${lightness > 60 ? 'black' : 'white'};
+		--button-hover-color: ${isWhite? '#cccccc' : 'white'};`
 		);
 	}
 
@@ -83,7 +90,7 @@
 							href="#projects"
 							target="_self"
 							class="flex items-center gap-2 font-sans text-base leading-relaxed font-medium antialiased hover:underline"
-							><Icon name="projects" class="h-4 w-4 " />
+						><Icon name="projects" class="h-4 w-4 " />
 							Projects</a
 						>
 					</li>
@@ -94,7 +101,7 @@
 							href="#clients"
 							target="_self"
 							class="flex items-center gap-2 font-sans text-base leading-relaxed font-medium antialiased hover:underline"
-							><Icon name="clients" class="h-4 w-4 " />
+						><Icon name="clients" class="h-4 w-4 " />
 							Clients</a
 						>
 					</li>
@@ -105,7 +112,7 @@
 							href="#testimonials"
 							target="_self"
 							class="flex items-center gap-2 font-sans text-base leading-relaxed font-medium antialiased hover:underline"
-							><Icon name="testimonials" class="h-4 w-4 " />
+						><Icon name="testimonials" class="h-4 w-4 " />
 							Testimonials</a
 						>
 					</li>
@@ -116,7 +123,7 @@
 				class="relative ml-auto inline-block h-10 max-h-[40px] w-10 max-w-[40px] rounded-lg text-center align-middle font-sans text-xs font-medium uppercase transition-all select-none disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none lg:hidden"
 				type="button"
 				onclick={setMobileMenu}
-				><span class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 transform">
+			><span class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 transform">
 					{#if userHasContent}
 						{#if !mobileMenu}
 							<svg
@@ -126,11 +133,11 @@
 								aria-hidden="true"
 								stroke-width="2"
 								class="h-6 w-6"
-								><path
-									fill-rule="evenodd"
-									d="M3 6.75A.75.75 0 013.75 6h16.5a.75.75 0 010 1.5H3.75A.75.75 0 013 6.75zM3 12a.75.75 0 01.75-.75h16.5a.75.75 0 010 1.5H3.75A.75.75 0 013 12zm0 5.25a.75.75 0 01.75-.75h16.5a.75.75 0 010 1.5H3.75a.75.75 0 01-.75-.75z"
-									clip-rule="evenodd"
-								></path></svg
+							><path
+								fill-rule="evenodd"
+								d="M3 6.75A.75.75 0 013.75 6h16.5a.75.75 0 010 1.5H3.75A.75.75 0 013 6.75zM3 12a.75.75 0 01.75-.75h16.5a.75.75 0 010 1.5H3.75A.75.75 0 013 12zm0 5.25a.75.75 0 01.75-.75h16.5a.75.75 0 010 1.5H3.75a.75.75 0 01-.75-.75z"
+								clip-rule="evenodd"
+							></path></svg
 							>{:else}
 							<svg
 								xmlns="http://www.w3.org/2000/svg"
@@ -169,7 +176,7 @@
 											href="#projects"
 											target="_self"
 											class="flex items-center gap-2 font-sans text-base leading-relaxed font-medium antialiased hover:underline"
-											><Icon name="projects" class="h-4 w-4 " />
+										><Icon name="projects" class="h-4 w-4 " />
 											Projects</a
 										>
 									</li>
@@ -180,7 +187,7 @@
 											href="#clients"
 											target="_self"
 											class="flex items-center gap-2 font-sans text-base leading-relaxed font-medium antialiased hover:underline"
-											><Icon name="clients" class="h-4 w-4 " />
+										><Icon name="clients" class="h-4 w-4 " />
 											Clients</a
 										>
 									</li>
@@ -191,7 +198,7 @@
 											href="#testimonials"
 											target="_self"
 											class="flex items-center gap-2 font-sans text-base leading-relaxed font-medium antialiased hover:underline"
-											><Icon name="testimonials" class="h-4 w-4 " />
+										><Icon name="testimonials" class="h-4 w-4 " />
 											Testimonials</a
 										>
 									</li>
@@ -210,12 +217,12 @@
 			>
 				<div class="row-start-2 lg:row-auto">
 					<h1
-						class=" mb-4 block font-sans text-3xl !leading-tight font-semibold tracking-normal antialiased lg:text-5xl"
+						class=" mb-4 block font-sans text-3xl !leading-tight font-semibold tracking-normal antialiased lg:text-5xl not-lg:text-center"
 					>
 						Welcome to {data?.name}'s <br /> Portfolio!
 					</h1>
 					<p
-						class="! mb-4 block font-sans text-xl leading-relaxed font-normal text-inherit antialiased md:pr-16 xl:pr-28"
+						class="! mb-4 block font-sans text-xl leading-relaxed font-normal text-inherit antialiased md:pr-16 xl:pr-28 not-lg:text-center"
 					>
 						{@html data?.biography}
 					</p>
@@ -233,15 +240,15 @@
 				/>
 			</div>
 		{:else}<div class="container mx-auto flex min-h-[60vh] w-full items-center justify-center">
-				<div class="text-center">
-					<h1 class="mb-4 font-sans text-4xl font-semibold tracking-normal antialiased lg:text-5xl">
-						Welcome to {data?.name}'s <br /> Portfolio!
-					</h1>
-					<p class="mb-4 font-sans text-xl leading-relaxed font-normal text-inherit antialiased">
-						{@html data?.biography}
-					</p>
-				</div>
+			<div class="text-center">
+				<h1 class="mb-4 font-sans text-4xl font-semibold tracking-normal antialiased lg:text-5xl">
+					Welcome to {data?.name}'s <br /> Portfolio!
+				</h1>
+				<p class="mb-4 font-sans text-xl leading-relaxed font-normal text-inherit antialiased">
+					{@html data?.biography}
+				</p>
 			</div>
+		</div>
 		{/if}
 	</header>
 
@@ -298,7 +305,7 @@
 									type="button"
 									onclick={() =>
 										window.umami?.track(`${data?.slug}`, { [project?.title]: 'visited' })}
-									><a href={project?.link || '/404'} target="_blank">see details</a></button
+								><a href={project?.link || '/404'} target="_blank">see details</a></button
 								>
 							</div>
 						</div>
@@ -321,7 +328,7 @@
 						<p
 							class="mx-auto block w-full px-4 font-sans text-xl leading-relaxed font-normal text-inherit antialiased lg:w-8/12"
 						>
-							Trusted by the world’s most innovative teams
+							Trusted by the most innovative teams
 						</p>
 						<div class="mx-auto mt-5 flex max-w-6xl flex-wrap justify-center gap-5">
 							{#each data?.expand?.clients?.slice() as clients (clients?.id)}
@@ -425,7 +432,7 @@
 	<footer class="mt-10 px-8 pt-20">
 		<div class="container mx-auto">
 			<div
-				class="mt-16 flex flex-wrap items-center justify-center gap-y-4 border-t border-gray-200 py-6 md:justify-between"
+				class="mt-16 flex flex-wrap items-center gap-y-4 border-t border-gray-200 py-6 justify-between"
 			>
 				<p
 					class="! block text-center font-sans text-base leading-relaxed font-normal text-inherit antialiased"
@@ -438,7 +445,7 @@
 						<a
 							href="mailto:{data?.email}"
 							class="text block font-sans text-base leading-normal font-normal hover:underline"
-							>Contact {data?.name}</a
+						>Contact {data?.name}</a
 						>
 					</li>
 				</ul>
@@ -450,38 +457,39 @@
 <!--css color picker code-->
 
 <style>
-	#template-1 {
-		--base-color: #2a6788;
-		--surface-color: oklch(from var(--base-color) 30% c h);
-		--brand-color: okclh(from var(--base-color) calc(1 * 3) calc(c * 5) h);
-		--text-color: white;
-		--secondary-text-color: oklch(from var(--text-color) l c h / 0.6);
-		--third-text-color: white;
+    #template-1 {
+        --base-color: #2a6788;
+        --surface-color: oklch(from var(--base-color) 30% c h);
+        --brand-color: okclh(from var(--base-color) calc(1 * 3) calc(c * 5) h);
+        --text-color: white;
+        --secondary-text-color: oklch(from var(--text-color) l c h / 0.6);
+        --third-text-color: white;
+        --button-hover-color: white;
 
-		background: var(--base-color);
-		color: var(--text-color);
+        background: var(--base-color);
+        color: var(--text-color);
 
-		button {
-			background: var(--surface-color);
-			color: var(--third-text-color);
-		}
+        button {
+            background: var(--surface-color);
+            color: var(--third-text-color);
+        }
 
-		.button:hover {
-			background: var(--text-color);
-			color: var(--surface-color);
-		}
+        button:hover {
+            background: var(--button-hover-color);
+            color: var(--surface-color);
+        }
 
-		.borderImg {
-			border: 3px solid var(--surface-color);
-		}
+        .borderImg {
+            border: 3px solid var(--surface-color);
+        }
 
-		.sticky {
-			background: var(--surface-color);
-			color: var(--third-text-color);
-		}
+        .sticky {
+            background: var(--surface-color);
+            color: var(--third-text-color);
+        }
 
-		.icon {
-			background: var(--surface-color);
-		}
-	}
+        .icon {
+            background: var(--surface-color);
+        }
+    }
 </style>

@@ -7,6 +7,7 @@
 	import { page } from '$app/state';
 	import Icon from '$lib/components/Icon.svelte';
 	import Button from '$lib/components/global/Button.svelte';
+	import { fly } from 'svelte/transition';
 
 	let { menuOpen, toggleMenu = () => {}, slug } = $props();
 	let smallMenuOpen = $state(false);
@@ -50,6 +51,7 @@
 				{#if smallMenuOpen}
 					<div
 						role="menu"
+						transition:fly
 						tabindex="-1"
 						aria-labelledby="menu-button"
 						aria-orientation="vertical"

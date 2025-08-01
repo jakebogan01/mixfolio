@@ -47,7 +47,7 @@
 			</div>
 			<footer class="flex w-full justify-end gap-6 px-2 py-2">
 				<p class=" text-sm leading-normal font-normal text-gray-500">
-					© 2025, Created by MixFolio Team.
+					© {new Date().getFullYear()}, Created by <a href="/" class="hover:underline">MixFolio</a> Team.
 				</p>
 			</footer>
 		</main>
