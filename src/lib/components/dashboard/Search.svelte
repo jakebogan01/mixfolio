@@ -79,9 +79,9 @@
 </script>
 
 <nav
-	class="sticky top-4 z-40 rounded-xl border bg-white px-4 py-3 shadow-md transition-shadow sm:duration-200 {scrolled
-		? 'border-light-border xl:shadow-[0_4px_6px_-1px_rgba(0,0,0,0.1),0_2px_4px_-2px_rgba(0,0,0,0.1)]'
-		: 'border-light-border xl:border-transparent xl:bg-transparent xl:shadow-transparent'}"
+	class="transition-[shadow, color] sticky top-4 z-40 rounded-xl border px-4 py-3 shadow-md sm:duration-200 {scrolled
+		? 'border-light-border-theme-light dark:border-light-border-theme-dark dark:bg-primary-theme-dark xl:shadow-[0_4px_6px_-1px_rgba(0,0,0,0.1),0_2px_4px_-2px_rgba(0,0,0,0.1)]'
+		: 'border-light-border-theme-light dark:border-light-border-theme-dark dark:bg-primary-theme-dark bg-white xl:border-transparent xl:bg-transparent xl:shadow-transparent dark:xl:border-transparent xl:dark:bg-transparent'}"
 >
 	<div class="flex flex-col-reverse justify-between gap-6 md:flex-row md:items-center">
 		<div aria-label="Breadcrumb" class="flex">
@@ -91,7 +91,7 @@
 						<Button
 							link={true}
 							url={DASHBOARD}
-							defaultStyles="text-gray-900 sm:transition-colors sm:hover:text-purple-600"
+							defaultStyles="text-gray-900 dark:text-white sm:transition-colors sm:hover:text-purple-600 sm:dark:hover:text-gray-400"
 						>
 							<Icon name="home" class="size-5 shrink-0" stroke="none" />
 							<span class="sr-only">Home</span>
@@ -99,7 +99,7 @@
 					</div>
 				</li>
 				<li>
-					<div class="flex items-center text-gray-900">
+					<div class="flex items-center text-gray-900 dark:text-gray-400">
 						<Icon name="right-arrow" class="size-5 shrink-0" stroke="none" />
 						<span class="ml-4 text-sm leading-normal font-medium capitalize"
 							>{page.route.id.split('/').filter(Boolean).pop()}</span
@@ -119,30 +119,33 @@
 					<input
 						type="search"
 						id="search"
-						class="peer h-full w-full rounded-md border border-gray-400/70 bg-transparent px-3 py-2.5 font-normal outline-0 transition-colors outline-none not-placeholder-shown:border-t-transparent focus:border focus:border-gray-900 focus:border-t-transparent focus:ring-0 focus:outline-0"
+						class="peer h-full w-full rounded-md border border-gray-400/70 bg-transparent px-3 py-2.5 font-normal outline-0 transition-colors outline-none not-placeholder-shown:border-t-transparent focus:border focus:border-gray-900 focus:border-t-transparent focus:ring-0 focus:outline-0 dark:border-gray-700 dark:text-white dark:focus:border-gray-300"
 						oninput={handleSearch}
 						bind:value={searchTerm}
 						onblur={() => (searchTerm = '')}
 						placeholder=" "
 					/><label
 						for="search"
-						class="before:content[' '] after:content[' '] pointer-events-none absolute -top-1.5 left-0 flex h-full w-full text-xs leading-tight font-normal text-gray-500 transition-all select-none peer-placeholder-shown:text-sm peer-placeholder-shown:leading-[3.75] peer-focus:text-xs peer-focus:leading-tight peer-focus:text-gray-900 peer-disabled:text-transparent before:pointer-events-none before:mt-[0.40625rem] before:mr-1 before:box-border before:block before:h-1.5 before:w-2.5 before:rounded-tl-md before:border-t before:border-l before:transition-all peer-placeholder-shown:before:border-transparent peer-focus:before:border-t peer-focus:before:border-l peer-focus:before:!border-gray-900 peer-disabled:before:border-transparent after:pointer-events-none after:mt-[0.40625rem] after:ml-1 after:box-border after:block after:h-1.5 after:w-2.5 after:flex-grow after:rounded-tr-md after:border-t after:border-r after:border-t-gray-400/70 after:transition-all peer-placeholder-shown:after:border-transparent peer-focus:after:border-t peer-focus:after:border-r peer-focus:after:!border-gray-900 peer-disabled:after:border-transparent"
+						class="before:content[' '] after:content[' '] pointer-events-none absolute -top-1.5 left-0 flex h-full w-full text-xs leading-tight font-normal text-gray-500 transition-all select-none peer-placeholder-shown:text-sm peer-placeholder-shown:leading-[3.75] peer-focus:text-xs peer-focus:leading-tight peer-focus:text-gray-900 peer-disabled:text-transparent before:pointer-events-none before:mt-[0.40625rem] before:mr-1 before:box-border before:block before:h-1.5 before:w-2.5 before:rounded-tl-md before:border-t before:border-l before:transition-all peer-placeholder-shown:before:border-transparent peer-focus:before:border-t peer-focus:before:border-l peer-focus:before:!border-gray-900 peer-disabled:before:border-transparent after:pointer-events-none after:mt-[0.40625rem] after:ml-1 after:box-border after:block after:h-1.5 after:w-2.5 after:flex-grow after:rounded-tr-md after:border-t after:border-r after:border-t-gray-400/70 after:transition-all peer-placeholder-shown:after:border-transparent peer-focus:after:border-t peer-focus:after:border-r peer-focus:after:!border-gray-900 peer-disabled:after:border-transparent dark:peer-focus:text-transparent"
 						>Search
 					</label>
 				</div>
 				{#if hasMatches && searchTerm.length > 0}
 					<ul
 						transition:fly={{ y: 20 }}
-						class="border-light-border absolute z-10 mt-2 mr-2 max-h-60 w-74 overflow-auto rounded-md border bg-white py-1 pt-3 text-sm shadow-lg shadow-black/50"
+						class="border-light-border-theme-light dark:border-light-border-theme-dark dark:bg-primary-theme-dark absolute z-10 mt-2 mr-2 max-h-60 w-74 overflow-auto rounded-md border bg-white py-1 pt-3 text-sm shadow-lg shadow-black/50"
 						role="listbox"
 					>
 						{#if filteredProjects?.length}
 							<li>
-								<span class="pl-4 leading-normal font-semibold text-gray-900">Projects</span>
+								<span
+									class="block py-2 pl-4 leading-normal font-semibold text-gray-900 dark:text-gray-400"
+									>Projects</span
+								>
 								<ul>
 									{#each filteredProjects as project (project?.id)}
 										<li
-											class="hover:bg-primary-btn-bg cursor-pointer px-3 py-2 font-medium text-gray-600 select-none hover:text-white"
+											class="hover:bg-primary-btn-bg-theme-light cursor-pointer px-3 py-2 font-medium text-gray-600 select-none hover:text-white dark:text-white dark:hover:bg-gray-700"
 										>
 											<button
 												type="button"
@@ -161,11 +164,14 @@
 						{/if}
 						{#if filteredTestimonials?.length}
 							<li>
-								<span class="pl-4 leading-normal font-semibold text-gray-900">Testimonials</span>
+								<span
+									class="block py-2 pl-4 leading-normal font-semibold text-gray-900 dark:text-gray-400"
+									>Testimonials</span
+								>
 								<ul>
 									{#each filteredTestimonials as testimonial (testimonial?.id)}
 										<li
-											class="hover:bg-primary-btn-bg cursor-pointer px-3 py-2 font-medium text-gray-600 select-none hover:text-white"
+											class="hover:bg-primary-btn-bg-theme-light cursor-pointer px-3 py-2 font-medium text-gray-600 select-none hover:text-white dark:text-white dark:hover:bg-gray-700"
 										>
 											<button
 												type="button"
@@ -186,11 +192,14 @@
 						{/if}
 						{#if filteredClients?.length}
 							<li>
-								<span class="pl-4 leading-normal font-semibold text-gray-900">Clients</span>
+								<span
+									class="block py-2 pl-4 leading-normal font-semibold text-gray-900 dark:text-gray-400"
+									>Clients</span
+								>
 								<ul>
 									{#each filteredClients as client (client?.id)}
 										<li
-											class="hover:bg-primary-btn-bg cursor-pointer px-3 py-2 font-medium text-gray-600 select-none hover:text-white"
+											class="hover:bg-primary-btn-bg-theme-light cursor-pointer px-3 py-2 font-medium text-gray-600 select-none hover:text-white dark:text-white dark:hover:bg-gray-700"
 										>
 											<button
 												type="button"
@@ -211,10 +220,12 @@
 				{/if}
 				{#if !filteredProjects?.length && !filteredClients?.length && !filteredTestimonials?.length && searchTerm}
 					<ul
-						class="border-light-border absolute z-10 mt-2 mr-2 max-h-60 w-74 overflow-auto rounded-md border bg-white py-1 pt-3 text-sm shadow-lg shadow-black/50"
+						class="border-light-border-theme-light dark:border-light-border-theme-dark dark:bg-primary-theme-dark absolute z-10 mt-2 mr-2 max-h-60 w-74 overflow-auto rounded-md border bg-white py-1 pt-3 text-sm shadow-lg shadow-black/50"
 						role="listbox"
 					>
-						<li class="cursor-pointer px-3 py-2 font-medium text-gray-600 select-none">
+						<li
+							class="cursor-pointer px-3 py-2 font-medium text-gray-600 select-none dark:text-white"
+						>
 							No results found
 						</li>
 					</ul>
@@ -222,11 +233,11 @@
 			</div>
 			<Button
 				callBack={toggleMenu}
-				defaultStyles="relative size-10 max-h-10 max-w-10 cursor-pointer rounded-lg text-center select-none disabled:pointer-events-none sm:transition-colors sm:hover:bg-gray-200/90 xl:hidden"
+				defaultStyles="relative size-10 max-h-10 max-w-10 cursor-pointer rounded-lg text-center select-none disabled:pointer-events-none sm:transition-colors sm:hover:bg-gray-200/90 sm:dark:hover:bg-gray-700 xl:hidden"
 			>
 				<span class="sr-only">Toggle main menu</span>
 				<span
-					class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 transform text-slate-500"
+					class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 transform text-slate-500 dark:text-white"
 				>
 					{#if menuOpen}
 						<Icon name="dashboard-close-menu" class="size-6" stroke="none" />
@@ -240,37 +251,50 @@
 					<Button
 						callBack={handleToggleMenu}
 						disabled={trackingData.events?.length === 0 && trackingData.metrics?.length === 0}
-						defaultStyles="flex size-10 max-h-10 max-w-10 cursor-pointer items-center justify-center rounded-lg select-none sm:transition-colors transition-colors duration-200 disabled:text-gray-400 disabled:hover:text-gray-400 {showHistory
-							? 'bg-gray-200/90 text-purple-600'
-							: 'text-gray-900 bg-transparent sm:hover:bg-gray-200/90 sm:hover:text-purple-600'}"
+						defaultStyles="flex size-10 max-h-10 max-w-10 cursor-pointer items-center justify-center rounded-lg select-none sm:transition-colors duration-200 disabled:text-gray-400 disabled:hover:text-gray-400 {showHistory
+							? 'bg-gray-200/90 dark:bg-gray-700 text-purple-600 dark:text-white'
+							: 'text-gray-900 dark:text-white bg-transparent sm:hover:bg-gray-200/90 sm:dark:hover:bg-gray-700 sm:hover:text-purple-600 sm:dark:hover:text-white'}"
 					>
 						<Icon name="notification" class="size-5" stroke="none" />
 					</Button>
 					{#if showHistory && (trackingData.events?.length || trackingData.metrics?.length)}
 						<ul
 							transition:fly={{ y: 20 }}
-							class="border-light-border absolute -right-6 z-10 mt-2 mr-2 max-h-60 w-74 overflow-auto rounded-md border bg-white text-sm shadow-lg shadow-black/50"
+							class="border-light-border-theme-light dark:border-light-border-theme-dark dark:bg-primary-theme-dark absolute -right-6 z-10 mt-2 mr-2 max-h-60 w-74 overflow-auto rounded-md border bg-white text-sm shadow-lg shadow-black/50"
 							role="listbox"
 						>
 							{#each trackingData.events as event, i (i)}
-								<li class="px-3 py-2 font-medium text-gray-500 select-none">
+								<li class="px-3 py-2 font-medium text-gray-500 select-none dark:text-gray-400">
 									Someone viewed your project
-									<span class="text-dark-text font-semibold">{event?.propertyName}</span>
+									<span class="text-dark-text-theme-light font-semibold dark:text-white"
+										>{event?.propertyName}</span
+									>
 								</li>
 							{/each}
 							{#each trackingData.metrics as metric, i (i)}
-								<li class="text-dark-text px-3 py-2 font-semibold select-none">
+								<li
+									class="text-dark-text-theme-light px-3 py-2 font-semibold select-none dark:text-white"
+								>
 									Someone visited your portfolio
-									<span class="text-dark-text sr-only font-semibold">{metric?.y}</span>
+									<span class="text-dark-text-theme-light sr-only font-semibold dark:text-white"
+										>{metric?.y}</span
+									>
 								</li>
 							{/each}
 						</ul>
 					{/if}
 				</div>
 			{/if}
-			<button type="button" class="cursor-pointer dark:text-white" onclick={changeTheme}>
-				theme
-			</button>
+			<Button
+				callBack={changeTheme}
+				defaultStyles="flex size-10 max-h-10 max-w-10 cursor-pointer items-center justify-center rounded-lg select-none sm:transition-colors duration-200 text-gray-900 dark:text-white sm:dark:hover:text-white bg-transparent sm:hover:bg-gray-200/90 sm:dark:hover:bg-gray-700 sm:hover:text-purple-600"
+			>
+				{#if !darkMode.status}
+					<Icon name="moon" class="size-4.5" stroke="none" />
+				{:else}
+					<Icon name="sun" class="size-6" stroke="none" />
+				{/if}
+			</Button>
 		</div>
 	</div>
 </nav>

@@ -62,24 +62,24 @@
 			type="button"
 			onclick={copyToClipboard}
 			title="Copy portfolio link"
-			class="border-light-border shrink-0 cursor-pointer rounded-l-md border border-r-transparent bg-white px-2 text-sm font-semibold text-gray-900 hover:bg-gray-50 focus:relative focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 {data
+			class="border-light-border-theme-light dark:border-light-border-theme-dark group shrink-0 cursor-pointer rounded-l-md border border-r-transparent bg-white px-2 text-sm font-semibold text-gray-900 hover:bg-gray-50 dark:bg-transparent dark:text-white dark:hover:bg-gray-700 {data
 				?.userProfile?.slug
 				? ''
-				: 'disabled:text-light-text disabled:pointer-events-none'}"
+				: 'disabled:text-light-text-theme-light dark:disabled:text-light-text-theme-dark disabled:pointer-events-none'}"
 			aria-label="Copy your portfolio link"
 			disabled={!data?.userProfile?.slug}
 		>
 			<Icon
 				name="copy-link"
-				class="size-6 sm:transition-colors sm:hover:text-violet-400"
+				class="size-6 sm:transition-colors sm:group-hover:text-violet-400 sm:dark:group-hover:text-white"
 				stroke="none"
 			/>
 		</button>
 		<div
-			class="flex w-full items-center rounded-md rounded-l-none bg-white pl-3 outline-1 -outline-offset-1 outline-gray-300 focus-within:outline-2 focus-within:-outline-offset-2 focus-within:outline-indigo-600"
+			class="dark:outline-light-border-theme-dark flex w-full items-center rounded-md rounded-l-none bg-white pl-3 outline-1 -outline-offset-1 outline-gray-300 dark:bg-transparent"
 		>
 			<div
-				class="shrink-0 text-base leading-normal font-medium text-gray-500 select-none sm:text-sm/6"
+				class="shrink-0 text-base leading-normal font-medium text-gray-500 select-none sm:text-sm/6 dark:text-gray-400"
 			>
 				portfolio/
 			</div>
@@ -89,7 +89,7 @@
 				oninput={debouncedSubmit}
 				name="slug"
 				placeholder="my-name"
-				class="focus:ring-none placeholder:!text-light-text block w-full min-w-0 border-none py-1.5 pr-3 pl-1 text-base leading-normal font-medium focus:border-0 focus:border-none focus:ring-0 focus:outline-0 focus:outline-none sm:text-sm/6"
+				class="focus:ring-none placeholder:!text-light-text-theme-light dark:placeholder:!text-light-text-theme-dark block w-full min-w-0 border-none py-1.5 pr-3 pl-1 text-base leading-normal font-medium focus:border-0 focus:border-none focus:ring-0 focus:outline-0 focus:outline-none sm:text-sm/6 dark:bg-transparent dark:text-white!"
 				style="color: {showSlugWarning}"
 				aria-invalid="true"
 				required

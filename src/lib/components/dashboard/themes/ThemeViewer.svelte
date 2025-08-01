@@ -124,18 +124,20 @@
 				<div
 					in:fly|local={{ x: 448, opacity: 1, duration: 300 }}
 					out:fly|local={{ x: 448, opacity: 1, duration: 300 }}
-					class="border-light-border pointer-events-auto w-screen max-w-md border-l"
+					class="border-light-border-theme-light dark:border-light-border-theme-dark pointer-events-auto w-screen max-w-md border-l"
 				>
-					<form class="flex h-full flex-col divide-y divide-gray-200 bg-white shadow-xl">
+					<form
+						class="dark:divide-light-border-theme-dark dark:bg-primary-theme-dark flex h-full flex-col divide-y divide-gray-200 bg-white shadow-xl"
+					>
 						<div class="h-0 flex-1 overflow-x-hidden overflow-y-auto">
-							<div class="bg-primary px-4 py-6 sm:px-6">
+							<div class="bg-primary px-4 py-6 sm:px-6 dark:bg-gray-950">
 								<div class="flex items-center justify-between">
 									<h2 id="drawer-title" class="text-base font-semibold text-white">View Theme</h2>
 									<div class="ml-3 flex h-7 items-center">
 										<button
 											type="button"
 											onclick={toggleMenu}
-											class="bg-secondary-btn-bg relative cursor-pointer rounded-md text-gray-300 hover:text-white focus-visible:ring-2 focus-visible:ring-white focus-visible:outline-hidden"
+											class="bg-secondary-btn-bg-theme-light dark:bg-secondary-btn-bg-theme-dark relative cursor-pointer rounded-md text-gray-300 hover:text-white focus-visible:ring-2 focus-visible:ring-white focus-visible:outline-hidden"
 										>
 											<span class="absolute -inset-2.5"></span>
 											<span class="sr-only">Close panel</span>
@@ -169,7 +171,7 @@
 											<div class="sm:flex-1">
 												<div>
 													<div class="flex items-center">
-														<h3 class="text-xl font-bold text-gray-900 sm:text-2xl">
+														<h3 class="text-xl font-bold text-gray-900 sm:text-2xl dark:text-white">
 															{theme?.title || 'Title unavailable'}
 														</h3>
 													</div>
@@ -181,15 +183,19 @@
 								<div class="px-4 pt-5 pb-5 sm:px-0 sm:pt-0">
 									<dl class="space-y-8 px-4 sm:space-y-6 sm:px-6">
 										<div>
-											<dt class="text-sm font-medium text-gray-500 sm:w-40 sm:shrink-0">
+											<dt
+												class="text-sm font-medium text-gray-500 sm:w-40 sm:shrink-0 dark:text-gray-400"
+											>
 												Added on
 											</dt>
-											<dd class="mt-1 text-sm text-gray-900 sm:col-span-2">
+											<dd class="mt-1 text-sm text-gray-900 sm:col-span-2 dark:text-white">
 												{toISODate(theme?.created) || 'Date unavailable'}
 											</dd>
 										</div>
 										<div>
-											<dt class="text-sm font-medium text-gray-500 sm:w-40 sm:shrink-0">
+											<dt
+												class="text-sm font-medium text-gray-500 sm:w-40 sm:shrink-0 dark:text-gray-400"
+											>
 												Color picker
 											</dt>
 											<dd class="mt-1 text-sm text-gray-900 sm:col-span-2">
@@ -201,12 +207,12 @@
 													<Button
 														callBack={lightMode}
 														text="Light"
-														class="text-dark-text! border-light-border border bg-white"
+														class="text-dark-text-theme-light! bg-white"
 													/>
 													<Button
 														callBack={darkMode}
 														text="Dark"
-														class="bg-secondary-btn-bg sm:hover:bg-secondary-btn-hover ml-4"
+														class="bg-secondary-btn-bg-theme-light dark:bg-secondary-btn-bg-theme-dark sm:hover:bg-secondary-btn-hover-theme-light sm:dark:hover:bg-secondary-btn-hover-theme-dark ml-4"
 													/>
 												</div>
 											</dd>
@@ -230,12 +236,12 @@
 							<Button
 								callBack={toggleMenu}
 								text="Close"
-								class="text-dark-text! border-light-border border bg-white"
+								class="text-dark-text-theme-light! bg-white"
 							/>
 							<Button
 								disabled={buttonDisabled}
 								callBack={updateUserPreferences}
-								class="bg-primary-btn-bg sm:hover:bg-primary-btn-hover ml-4"
+								class="bg-primary-btn-bg-theme-light dark:bg-primary-btn-bg-theme-dark sm:hover:bg-primary-btn-hover-theme-light sm:dark:hover:bg-secondary-btn-hover-theme-dark ml-4"
 							>
 								{#if buttonDisabled}
 									<span class="loader"></span>

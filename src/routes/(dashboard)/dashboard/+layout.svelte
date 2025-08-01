@@ -44,13 +44,14 @@
 </script>
 
 <div
-	class="relative flex min-h-screen bg-gray-100 pl-0 font-sans xl:pl-76 dark:bg-black {darkMode.status
+	class="relative flex min-h-screen bg-gray-100 pl-0 font-sans xl:pl-76 dark:bg-gray-900 {darkMode.status
 		? 'dark'
-		: 'light'}"
+		: ''}"
 >
 	<div class="absolute left-0 h-screen w-full max-w-7xl overflow-x-hidden">
 		<div
-			class="z-0 h-60 w-xl translate-x-60 -translate-y-44 -rotate-10 rounded-full bg-linear-115 from-yellow-100 from-28% via-pink-400 via-70% to-purple-500 blur-3xl md:right-0 xl:translate-x-90"
+			class="z-0 h-60 w-xl translate-x-60 -translate-y-44 -rotate-10 rounded-full bg-linear-115 from-yellow-100 from-28% via-pink-400 via-70% to-purple-500 blur-3xl
+			 md:right-0 xl:translate-x-90 dark:bg-none"
 		></div>
 	</div>
 	<Nav {menuOpen} {toggleMenu} slug={data?.userProfile?.slug} />
@@ -63,7 +64,7 @@
 				{@render children()}
 			</div>
 			<footer class="flex w-full justify-end gap-6 px-2 py-2">
-				<p class=" text-sm leading-normal font-normal text-gray-500">
+				<p class=" text-sm leading-normal font-normal text-gray-500 dark:text-gray-600">
 					© {new Date().getFullYear()}, Created by <a href="/" class="hover:underline">MixFolio</a>
 					Team.
 				</p>

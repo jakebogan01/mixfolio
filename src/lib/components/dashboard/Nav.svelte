@@ -71,20 +71,22 @@
 >
 	<Button
 		callBack={toggleMenu}
-		defaultStyles="relative z-100 flex w-full cursor-pointer items-center gap-4 rounded-xl bg-secondary-btn-bg px-4 py-3 leading-relaxed font-medium text-white select-none active:bg-red-400 disabled:pointer-events-none sm:transition-colors sm:hover:bg-red-500 xl:hidden"
+		defaultStyles="relative z-100 flex w-full cursor-pointer items-center gap-4 rounded-xl bg-secondary-btn-bg-theme-light dark:bg-primary-theme-dark px-4 py-3 leading-relaxed font-medium text-white select-none active:bg-red-400 disabled:pointer-events-none sm:transition-colors sm:hover:bg-red-500 xl:hidden dark:border dark:border-light-border-theme-dark"
 	>
 		<span class="sr-only">Close main menu</span>
 		<Icon name="close" class="size-5" stroke="none" />
 		Close
 	</Button>
-	<div class="bg-primary relative z-100 flex h-[calc(100vh-90px)] flex-col rounded-xl xl:h-full">
+	<div
+		class="bg-primary dark:bg-primary-theme-dark dark:border-light-border-theme-dark relative z-100 flex h-[calc(100vh-90px)] flex-col rounded-xl xl:h-full dark:border"
+	>
 		<div class="relative">
 			<div
 				class="relative flex flex-col border-b border-zinc-950/5 p-4 dark:border-white/5 [&>[data-slot=section]+[data-slot=section]]:mt-2.5"
 			>
 				<Button
 					callBack={handleToggleMenu}
-					defaultStyles="flex w-full cursor-pointer items-center justify-between gap-4 rounded-lg px-4 py-[0.4375rem] text-center text-white select-none disabled:pointer-events-none sm:transition-colors sm:hover:bg-white/10 {smallMenuOpen
+					defaultStyles="flex w-full cursor-pointer items-center justify-between gap-4 rounded-lg px-4 py-[0.4375rem] text-center text-white select-none disabled:pointer-events-none sm:transition-colors sm:hover:bg-white/10 sm:dark:hover:bg-gray-900 {smallMenuOpen
 						? 'bg-white/10'
 						: 'bg-transparent'}"
 				>
@@ -102,7 +104,7 @@
 						tabindex="-1"
 						aria-labelledby="menu-button"
 						aria-orientation="vertical"
-						class="absolute top-19 left-4 isolate z-10 w-64 origin-top-right overflow-y-auto rounded-lg bg-zinc-800/75 p-1 shadow-lg ring-1 ring-white/10 outline outline-transparent backdrop-blur-xl ring-inset focus:outline-hidden"
+						class="absolute top-19 left-4 isolate z-25 w-64 origin-top-right overflow-y-auto rounded-lg border bg-zinc-800/75 p-1 shadow-lg ring-1 ring-white/10 outline outline-transparent backdrop-blur-xl ring-inset focus:outline-hidden"
 					>
 						<div role="none">
 							<Button
@@ -158,7 +160,7 @@
 				<div
 					id="highlight"
 					role="presentation"
-					class="from-primary-from to-secondary-to absolute left-0 z-0 h-12.5 w-full rounded-lg bg-gradient-to-tr transition-transform duration-750 ease-in-out"
+					class="from-primary-from-theme-light dark:from-primary-from-theme-dark to-secondary-to-theme-light dark:to-secondary-to-theme-dark absolute left-0 z-0 h-12.5 w-full rounded-lg bg-gradient-to-tr transition-transform duration-750 ease-in-out"
 					style="transform: translateY(0px);"
 				></div>
 				{#each navLinks as item (item.id)}

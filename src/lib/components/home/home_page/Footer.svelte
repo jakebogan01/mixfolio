@@ -12,7 +12,7 @@
 				<div class="relative pt-20 pb-16 text-center sm:py-24">
 					<hgroup>
 						<h2
-							class="data-dark:text-light-text font-mono text-xs/5 font-semibold tracking-widest text-gray-500 uppercase"
+							class="data-dark:text-light-text-theme-light dark:text-light-text-theme-dark font-mono text-xs/5 font-semibold tracking-widest text-gray-500 uppercase"
 						>
 							Get started
 						</h2>

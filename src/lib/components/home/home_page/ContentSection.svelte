@@ -1,3 +1,6 @@
+<script>
+</script>
+
 <div class="bg-linear-to-b from-white from-50% to-gray-100 py-32">
 	<div class="overflow-hidden">
 		<div class="px-6 pb-24 lg:px-8">
@@ -36,7 +39,7 @@
 	<div class="px-6 lg:px-8">
 		<div class="mx-auto max-w-2xl lg:max-w-7xl">
 			<h2
-				class="data-dark:text-light-text font-mono text-xs/5 font-semibold tracking-widest text-gray-500 uppercase"
+				class="data-dark:text-light-text-theme-light dark:text-light-text-theme-dark font-mono text-xs/5 font-semibold tracking-widest text-gray-500 uppercase"
 			>
 				Dashboard
 			</h2>

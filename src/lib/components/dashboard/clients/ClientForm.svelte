@@ -134,15 +134,15 @@
 				<div
 					in:fly|local={{ x: 448, opacity: 1, duration: 300 }}
 					out:fly|local={{ x: 448, opacity: 1, duration: 300 }}
-					class="border-light-border pointer-events-auto w-screen max-w-md border-l"
+					class="border-light-border-theme-light dark:border-light-border-theme-dark pointer-events-auto w-screen max-w-md border-l"
 				>
 					<form
-						class="flex h-full flex-col divide-y divide-gray-200 bg-white shadow-xl"
+						class="dark:divide-light-border-theme-dark dark:bg-primary-theme-dark flex h-full flex-col divide-y divide-gray-200 bg-white shadow-xl"
 						enctype="multipart/form-data"
 						use:form
 					>
 						<div class="h-0 flex-1 overflow-y-auto">
-							<div class="bg-primary px-4 py-6 sm:px-6">
+							<div class="bg-primary px-4 py-6 sm:px-6 dark:bg-gray-950">
 								<div class="flex items-center justify-between">
 									<h2 id="drawer-title" class="text-base font-semibold text-white">
 										{viewClient ? 'View Client' : 'Create New Client'}
@@ -151,7 +151,7 @@
 										<button
 											type="button"
 											onclick={toggleMenu}
-											class="bg-secondary-btn-bg relative cursor-pointer rounded-md text-gray-300 hover:text-white focus-visible:ring-2 focus-visible:ring-white focus-visible:outline-hidden"
+											class="bg-secondary-btn-bg-theme-light dark:bg-secondary-btn-bg-theme-dark relative cursor-pointer rounded-md text-gray-300 hover:text-white focus-visible:ring-2 focus-visible:ring-white focus-visible:outline-hidden"
 										>
 											<span class="absolute -inset-2.5"></span>
 											<span class="sr-only">Close panel</span>
@@ -186,11 +186,13 @@
 												<div class="sm:flex-1">
 													<div>
 														<div class="flex items-center">
-															<h3 class="text-xl font-bold text-gray-900 sm:text-2xl">
+															<h3
+																class="text-xl font-bold text-gray-900 sm:text-2xl dark:text-white"
+															>
 																{client?.name || 'Name unavailable'}
 															</h3>
 														</div>
-														<p class="text-sm text-gray-500">
+														<p class="text-sm text-gray-500 dark:text-gray-400">
 															{client?.email || 'Email unavailable'}
 														</p>
 													</div>
@@ -201,16 +203,22 @@
 									<div class="px-4 pt-5 pb-5 sm:px-0 sm:pt-0">
 										<dl class="space-y-8 px-4 sm:space-y-6 sm:px-6">
 											<div>
-												<dt class="text-sm font-medium text-gray-500 sm:w-40 sm:shrink-0">
+												<dt
+													class="text-sm font-medium text-gray-500 sm:w-40 sm:shrink-0 dark:text-gray-400"
+												>
 													Company
 												</dt>
-												<dd class="mt-1 text-sm text-gray-900 sm:col-span-2">
+												<dd class="mt-1 text-sm text-gray-900 sm:col-span-2 dark:text-white">
 													{client?.company || 'Comapny unavailable'}
 												</dd>
 											</div>
 											<div>
-												<dt class="text-sm font-medium text-gray-500 sm:w-40 sm:shrink-0">Title</dt>
-												<dd class="mt-1 text-sm text-gray-900 sm:col-span-2">
+												<dt
+													class="text-sm font-medium text-gray-500 sm:w-40 sm:shrink-0 dark:text-gray-400"
+												>
+													Title
+												</dt>
+												<dd class="mt-1 text-sm text-gray-900 sm:col-span-2 dark:text-white">
 													{client?.role || 'Role unavailable'}
 												</dd>
 											</div>
@@ -258,22 +266,27 @@
 														ondrop={handleDrop}
 														class="relative block min-h-41 w-full rounded-lg border-2 border-dashed p-8 text-center {isDragging
 															? 'border-indigo-600 bg-indigo-100'
-															: 'border-gray-400'}"
+															: 'dark:dark:border-light-border-theme border-gray-400'}"
 													>
 														<svg
 															xmlns="http://www.w3.org/2000/svg"
 															viewBox="0 0 24 24"
 															fill="currentColor"
-															class="text-light-text/70 mx-auto size-12"
+															class="text-light-text-theme-light/70 dark:text-light-text-theme-dark/70 mx-auto size-12"
 															><path
 																fill-rule="evenodd"
 																d="M1.5 6a2.25 2.25 0 0 1 2.25-2.25h16.5A2.25 2.25 0 0 1 22.5 6v12a2.25 2.25 0 0 1-2.25 2.25H3.75A2.25 2.25 0 0 1 1.5 18V6ZM3 16.06V18c0 .414.336.75.75.75h16.5A.75.75 0 0 0 21 18v-1.94l-2.69-2.689a1.5 1.5 0 0 0-2.12 0l-.88.879.97.97a.75.75 0 1 1-1.06 1.06l-5.16-5.159a1.5 1.5 0 0 0-2.12 0L3 16.061Zm10.125-7.81a1.125 1.125 0 1 1 2.25 0 1.125 1.125 0 0 1-2.25 0Z"
 																clip-rule="evenodd"
 															/></svg
 														>
-														<span class="text-light-text mt-2 block text-sm font-semibold">
+														<span
+															class="text-light-text-theme-light dark:text-light-text-theme-dark mt-2 block text-sm font-semibold"
+														>
 															Drag &amp; drop<br />
-															<span class="text-light-text text-xs font-medium">(Optional)</span>
+															<span
+																class="text-light-text-theme-light dark:text-light-text-theme-dark text-xs font-medium"
+																>(Optional)</span
+															>
 														</span>
 													</button>
 												</div>
@@ -286,7 +299,9 @@
 												></div>
 											</div>
 											<div>
-												<label for="name" class="block text-sm/6 font-medium text-gray-900"
+												<label
+													for="name"
+													class="block text-sm/6 font-medium text-gray-900 dark:text-gray-400"
 													>Company Name</label
 												>
 												<div class="mt-2">
@@ -294,7 +309,7 @@
 														id="name"
 														type="text"
 														name="name"
-														class="col-start-1 row-start-1 block w-full rounded-lg border border-transparent bg-white py-1.5 pr-10 pl-3 text-base shadow-sm outline-1 -outline-offset-1 outline-gray-300 focus:outline-2 focus:-outline-offset-2 sm:pr-9 sm:text-sm/6"
+														class="dark:bg-primary-theme-dark dark:outline-light-border-theme-dark col-start-1 row-start-1 block w-full rounded-lg border border-transparent bg-white py-1.5 pr-10 pl-3 text-base shadow-sm outline-1 -outline-offset-1 outline-gray-300 focus:outline-2 focus:-outline-offset-2 sm:pr-9 sm:text-sm/6 dark:text-white"
 														aria-invalid="true"
 														required
 														minlength="5"
@@ -312,7 +327,9 @@
 												></div>
 											</div>
 											<div>
-												<label for="link" class="block text-sm/6 font-medium text-gray-900"
+												<label
+													for="link"
+													class="block text-sm/6 font-medium text-gray-900 dark:text-gray-400"
 													>Company link</label
 												>
 												<div class="mt-2">
@@ -321,7 +338,7 @@
 														type="url"
 														name="link"
 														pattern="https://.*"
-														class="col-start-1 row-start-1 block w-full rounded-lg border border-transparent bg-white py-1.5 pr-10 pl-3 text-base shadow-sm outline-1 -outline-offset-1 outline-gray-300 focus:outline-2 focus:-outline-offset-2 sm:pr-9 sm:text-sm/6"
+														class="dark:bg-primary-theme-dark dark:outline-light-border-theme-dark col-start-1 row-start-1 block w-full rounded-lg border border-transparent bg-white py-1.5 pr-10 pl-3 text-base shadow-sm outline-1 -outline-offset-1 outline-gray-300 focus:outline-2 focus:-outline-offset-2 sm:pr-9 sm:text-sm/6 dark:text-white"
 														aria-invalid="true"
 														required
 														minlength="5"
@@ -355,19 +372,19 @@
 								<Button
 									callBack={toggleMenu}
 									text="Cancel"
-									class="text-dark-text! border-light-border border bg-white"
+									class="text-dark-text-theme-light! bg-white"
 								/>
 								{#if viewClient}
 									<Button
 										callBack={handleClientUpdate}
 										text="Update"
-										class="bg-primary-btn-bg sm:hover:bg-primary-btn-hover ml-4"
+										class="bg-primary-btn-bg-theme-light dark:bg-primary-btn-bg-theme-dark sm:hover:bg-primary-btn-hover-theme-light sm:dark:hover:bg-secondary-btn-hover-theme-dark ml-4"
 									/>
 								{:else}
 									<Button
 										disabled={buttonDisabled}
 										type="submit"
-										class="bg-primary-btn-bg sm:hover:bg-primary-btn-hover ml-4"
+										class="bg-primary-btn-bg-theme-light dark:bg-primary-btn-bg-theme-dark sm:hover:bg-primary-btn-hover-theme-light sm:dark:hover:bg-secondary-btn-hover-theme-dark ml-4"
 									>
 										{#if buttonDisabled}
 											<span class="loader"></span>
@@ -396,7 +413,7 @@
 			<div class="flex min-h-full items-end justify-center p-4 text-center sm:items-center sm:p-0">
 				<div
 					transition:scale
-					class="relative transform overflow-hidden rounded-lg bg-white px-4 pt-5 pb-4 text-left shadow-xl transition-all sm:my-8 sm:w-full sm:max-w-lg sm:p-6"
+					class="dark:bg-primary-theme-dark relative transform overflow-hidden rounded-lg bg-white px-4 pt-5 pb-4 text-left shadow-xl transition-all sm:my-8 sm:w-full sm:max-w-lg sm:p-6"
 				>
 					<div class="sm:flex sm:items-start">
 						<div
@@ -419,9 +436,11 @@
 							</svg>
 						</div>
 						<div class="mt-3 text-center sm:mt-0 sm:ml-4 sm:text-left">
-							<h3 id="dialog-title" class="text-base font-semibold text-gray-900">Delete client</h3>
+							<h3 id="dialog-title" class="text-base font-semibold text-gray-900 dark:text-white">
+								Delete client
+							</h3>
 							<div class="mt-2">
-								<p class="text-sm text-gray-500">
+								<p class="text-sm text-gray-500 dark:text-gray-400">
 									Are you sure you want to delete this client? This client will be permanently
 									removed from our servers forever. This action cannot be undone.
 								</p>
@@ -437,7 +456,7 @@
 						<Button
 							callBack={() => (showDeleteModal = false)}
 							text="Cancel"
-							class="text-dark-text! border-light-border border bg-white"
+							class="text-dark-text-theme-light! bg-white"
 						/>
 					</div>
 				</div>
