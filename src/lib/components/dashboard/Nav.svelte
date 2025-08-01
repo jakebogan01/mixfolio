@@ -1,5 +1,7 @@
 <script>
 	import { goto } from '$app/navigation';
+	import { onMount } from 'svelte';
+	import { afterNavigate } from '$app/navigation';
 	import Logo from '$lib/components/Logo.svelte';
 	import { handleToggleMenuFactory } from '$lib/utils/menuHandlers.js';
 	import { navLinks } from '$lib/data/dashboard/navLinks.js';
@@ -15,6 +17,51 @@
 		() => smallMenuOpen,
 		(val) => (smallMenuOpen = val)
 	);
+
+	let currentRouteTop = 0;
+	let highlight, nav;
+
+	function updateHighlightToCurrentRoute() {
+		const items = nav.querySelectorAll('.z-10');
+		const currentRoute = page.route.id;
+
+		items.forEach((item, index) => {
+			const matchText = navLinks[index].text.toLowerCase();
+			if (currentRoute.endsWith(matchText)) {
+				currentRouteTop = item.offsetTop;
+				highlight.style.transform = `translateY(${currentRouteTop}px)`;
+			}
+		});
+	}
+
+	onMount(() => {
+		highlight = document.getElementById('highlight');
+		nav = document.getElementById('verticalNav');
+
+		const items = nav.querySelectorAll('.z-10');
+
+		updateHighlightToCurrentRoute();
+
+		let hoverTimeout;
+
+		items.forEach((item) => {
+			item.addEventListener('mouseenter', () => {
+				clearTimeout(hoverTimeout); // cancel previous hover
+				hoverTimeout = setTimeout(() => {
+					highlight.style.transform = `translateY(${item.offsetTop}px)`;
+				}, 100); // adjust delay (ms) here
+			});
+		});
+
+		nav.addEventListener('mouseleave', () => {
+			clearTimeout(hoverTimeout);
+			highlight.style.transform = `translateY(${currentRouteTop}px)`;
+		});
+	});
+
+	afterNavigate(() => {
+		updateHighlightToCurrentRoute();
+	});
 </script>
 
 <aside
@@ -107,17 +154,19 @@
 			</div>
 		</div>
 		<div class="m-4 flex-1 overflow-y-auto">
-			<ul class="mb-4 flex flex-col gap-1">
+			<ul class="relative mb-4 flex flex-col gap-1" id="verticalNav">
+				<div
+					id="highlight"
+					role="presentation"
+					class="from-primary-from to-secondary-to absolute left-0 z-0 h-12.5 w-full rounded-lg bg-gradient-to-tr transition-transform duration-1000 ease-in-out"
+					style="transform: translateY(0px);"
+				></div>
 				{#each navLinks as item (item.id)}
-					<li>
-						<a href={item.link}>
+					<li class="z-20">
+						<a href={item.link} class="z-10">
 							<Button
 								callBack={toggleMenu}
-								defaultStyles="flex w-full cursor-pointer items-center gap-4 rounded-lg bg-gradient-to-tr px-4 py-3 leading-relaxed font-medium text-white select-none disabled:pointer-events-none sm:transition-colors {page.route.id.endsWith(
-									item.text.toLowerCase()
-								)
-									? 'from-primary-from to-secondary-to'
-									: 'bg-secondary-btn-bg sm:hover:bg-white/10'}"
+								defaultStyles="flex w-full cursor-pointer items-center gap-4 px-4 py-3 leading-relaxed font-medium text-white select-none"
 							>
 								<Icon name={item.icon} class="size-5" stroke="none" />
 								{item.text}
