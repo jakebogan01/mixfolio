@@ -115,8 +115,8 @@ export async function load({ parent, depends, fetch }) {
 
 		return {
 			userProfile: userProfile || {},
-			events: trackingData.events,
-			metrics: trackingData.metrics
+			events: trackingData?.events || [],
+			metrics: trackingData?.metrics || []
 		};
 	} catch (error) {
 		console.dir(error?.message, { depth: null });
