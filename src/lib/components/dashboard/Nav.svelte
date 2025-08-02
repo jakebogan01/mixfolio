@@ -95,7 +95,11 @@
 						disableAnimations={true}
 						disableLink={(e) => e.preventDefault()}
 					/>
-					<Icon name="down-arrow" class="size-5" fill="none" />
+					<Icon
+						name="down-arrow"
+						class="size-5 {smallMenuOpen ? 'rotate-180' : 'rotate-0'} transition-transform"
+						fill="none"
+					/>
 				</Button>
 				{#if smallMenuOpen}
 					<div
@@ -160,7 +164,7 @@
 				<div
 					id="highlight"
 					role="presentation"
-					class="from-primary-from-theme-light dark:from-primary-from-theme-dark to-secondary-to-theme-light dark:to-secondary-to-theme-dark absolute left-0 z-0 h-12.5 w-full rounded-lg bg-gradient-to-tr transition-transform duration-750 ease-in-out"
+					class="from-primary-from-theme-light dark:from-primary-from-theme-dark to-secondary-to-theme-light dark:to-secondary-to-theme-dark absolute left-0 z-0 h-12.5 w-full rounded-lg bg-gradient-to-tr transition-transform duration-500 ease-in-out"
 					style="transform: translateY(0px);"
 				></div>
 				{#each navLinks as item (item.id)}

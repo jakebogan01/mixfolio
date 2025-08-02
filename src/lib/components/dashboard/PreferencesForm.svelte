@@ -71,7 +71,7 @@
 						checked={data?.userProfile?.expand?.preferences?.hide_testimonials}
 					/>
 					<span
-						class="peer-checked:bg-primary absolute h-4 w-9 rounded-full bg-gray-300 bg-gray-600 transition-colors duration-200 ease-in-out"
+						class="peer-checked:bg-primary absolute h-4 w-9 rounded-full bg-gray-300 transition-colors duration-200 ease-in-out dark:bg-gray-600"
 					></span>
 					<span
 						class="absolute left-0 size-5 rounded-full border border-gray-400 bg-white shadow transition-transform duration-200 ease-in-out peer-checked:translate-x-5"
@@ -95,7 +95,7 @@
 						checked={data?.userProfile?.expand?.preferences?.hide_clients}
 					/>
 					<span
-						class="peer-checked:bg-primary absolute h-4 w-9 rounded-full bg-gray-300 bg-gray-600 transition-colors duration-200 ease-in-out"
+						class="peer-checked:bg-primary absolute h-4 w-9 rounded-full bg-gray-300 transition-colors duration-200 ease-in-out dark:bg-gray-600"
 					></span>
 					<span
 						class="absolute left-0 size-5 rounded-full border border-gray-400 bg-white shadow transition-transform duration-200 ease-in-out peer-checked:translate-x-5"
@@ -119,7 +119,7 @@
 						checked={data?.userProfile?.expand?.preferences?.hide_portfolio}
 					/>
 					<span
-						class="peer-checked:bg-primary absolute h-4 w-9 rounded-full bg-gray-300 bg-gray-600 transition-colors duration-200 ease-in-out"
+						class="peer-checked:bg-primary absolute h-4 w-9 rounded-full bg-gray-300 transition-colors duration-200 ease-in-out dark:bg-gray-600"
 					></span>
 					<span
 						class="absolute left-0 size-5 rounded-full border border-gray-400 bg-white shadow transition-transform duration-200 ease-in-out peer-checked:translate-x-5"
@@ -150,7 +150,7 @@
 						checked={data?.userProfile?.expand?.preferences?.hide_notifications}
 					/>
 					<span
-						class="peer-checked:bg-primary absolute h-4 w-9 rounded-full bg-gray-300 bg-gray-600 transition-colors duration-200 ease-in-out"
+						class="peer-checked:bg-primary absolute h-4 w-9 rounded-full bg-gray-300 transition-colors duration-200 ease-in-out dark:bg-gray-600"
 					></span>
 					<span
 						class="absolute left-0 size-5 rounded-full border border-gray-400 bg-white shadow transition-transform duration-200 ease-in-out peer-checked:translate-x-5"
@@ -174,7 +174,7 @@
 						checked={data?.userProfile?.expand?.preferences?.hide_analytics}
 					/>
 					<span
-						class="peer-checked:bg-primary absolute h-4 w-9 rounded-full bg-gray-300 bg-gray-600 transition-colors duration-200 ease-in-out"
+						class="peer-checked:bg-primary absolute h-4 w-9 rounded-full bg-gray-300 transition-colors duration-200 ease-in-out dark:bg-gray-600"
 					></span>
 					<span
 						class="absolute left-0 size-5 rounded-full border border-gray-400 bg-white shadow transition-transform duration-200 ease-in-out peer-checked:translate-x-5"

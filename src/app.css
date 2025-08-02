@@ -180,33 +180,33 @@ html {
 }
 
 /*OPTION ONE*/
-@media (prefers-reduced-motion: no-preference) {
-	::view-transition-old(root) {
-		animation-delay: 1000ms;
-	}
+/*@media (prefers-reduced-motion: no-preference) {*/
+/*	::view-transition-old(root) {*/
+/*		animation-delay: 1000ms;*/
+/*	}*/
 
-	::view-transition-new(root) {
-		animation: circle-in 1000ms;
-	}
+/*	::view-transition-new(root) {*/
+/*		animation: circle-in 1000ms;*/
+/*	}*/
 
-	@keyframes move-in {
-		from {
-			translate: 0 -100%;
-		}
-		to {
-			translate: 0 0;
-		}
-	}
+/*	@keyframes move-in {*/
+/*		from {*/
+/*			translate: 0 -100%;*/
+/*		}*/
+/*		to {*/
+/*			translate: 0 0;*/
+/*		}*/
+/*	}*/
 
-	@keyframes circle-in {
-		from {
-			clip-path: circle(0% at 50% 0%);
-		}
-		to {
-			clip-path: circle(120% at 50% 0%);
-		}
-	}
-}
+/*	@keyframes circle-in {*/
+/*		from {*/
+/*			clip-path: circle(0% at 50% 0%);*/
+/*		}*/
+/*		to {*/
+/*			clip-path: circle(120% at 50% 0%);*/
+/*		}*/
+/*	}*/
+/*}*/
 
 /*OPTION TWO*/
 /*@media (prefers-reduced-motion: no-preference) {*/
@@ -299,3 +299,94 @@ html {
 /*		}*/
 /*	}*/
 /*}*/
+
+/*OPTION THREE*/
+@media (prefers-reduced-motion: no-preference) {
+	/* We want a view transition between pages */
+	@view-transition {
+		navigation: auto;
+	}
+	/* Note that the animation duration in here dictates
+       how long it takes to actually "do" the navigation to
+       the second page, so it really ought to agree with the
+       duration of ::view-transition-new below so when the
+       incoming animation finishes, the navigation happens. */
+	::view-transition-group(root) {
+		animation-duration: 1.5s;
+	}
+
+	/* To animate the value of a custom property, you
+       have to declare it with @property.
+       Our var(--time) will range between 0 and 1 */
+	@property --time {
+		syntax: '<number>';
+		initial-value: 0;
+		inherits: true;
+	}
+
+	/* A do-nothing animation for the outgoing page */
+	@keyframes move-out {
+		from {
+		}
+		to {
+		}
+	}
+
+	/* actually animate time from a bit before 0 to a bit after 1,
+       so that the wave appears a bit above the screen and ends a bit after */
+	@keyframes move-in {
+		from {
+			--time: -0.1;
+		}
+		to {
+			--time: 1.1;
+		}
+	}
+
+	/* The old page has to have some transition animation defined,
+          or it gets the default fade. */
+	::view-transition-old(root) {
+		animation: 2s ease-in both move-out;
+	}
+
+	/* The new page appears with our wave effect */
+	::view-transition-new(root) {
+		--humps: 1.5; /* the number of "waves" in the wave effect */
+		--pi: 3.14; /* half of tau */
+		--lr: calc(var(--humps) * pi); /* the amout of radians from left to right */
+		--time: 0; /* how far we are through the animation */
+
+		/* The wave is:
+           --humps number of humps from left to right
+           vertically positioned at 100% * --time (so it
+              goes from top to bottom)
+           horizontally offset (scrolled) by --time so that
+              the wave fronts move left to right
+           And we manually create a sine wave (well, technically a cosine wave)
+              by calculating the height of each bit of the clip path every 10%
+              of the way from left to right of the screen
+           This seems close enough for government work, but people with sharp eyes
+              might think the wave is not smooth enough, in which case add more lines
+              to the clip path. The first number (10%) is the position of a point from
+              left to right across the screen, and the second is the position of that
+              point up and down; note that the 0.1 in the cos needs to agree with the 10%
+              l-r position. */
+		clip-path: polygon(
+			0% 0%,
+			0% calc(cos(calc(0 + var(--time)) * var(--lr)) * 10% + calc(100% * var(--time))),
+			10% calc(cos(calc(0.1 + var(--time)) * var(--lr)) * 10% + calc(100% * var(--time))),
+			20% calc(cos(calc(0.2 + var(--time)) * var(--lr)) * 10% + calc(100% * var(--time))),
+			30% calc(cos(calc(0.3 + var(--time)) * var(--lr)) * 10% + calc(100% * var(--time))),
+			40% calc(cos(calc(0.4 + var(--time)) * var(--lr)) * 10% + calc(100% * var(--time))),
+			50% calc(cos(calc(0.5 + var(--time)) * var(--lr)) * 10% + calc(100% * var(--time))),
+			60% calc(cos(calc(0.6 + var(--time)) * var(--lr)) * 10% + calc(100% * var(--time))),
+			70% calc(cos(calc(0.7 + var(--time)) * var(--lr)) * 10% + calc(100% * var(--time))),
+			80% calc(cos(calc(0.8 + var(--time)) * var(--lr)) * 10% + calc(100% * var(--time))),
+			90% calc(cos(calc(0.9 + var(--time)) * var(--lr)) * 10% + calc(100% * var(--time))),
+			100% calc(cos(calc(1 + var(--time)) * var(--lr)) * 10% + calc(100% * var(--time))),
+			100% 0%
+		);
+		/* And declare the animation, which is what moves the wave */
+		animation: 1.5s ease-in both move-in;
+	}
+}

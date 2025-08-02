@@ -80,7 +80,7 @@
 
 <nav
 	class="transition-[shadow, color] sticky top-4 z-40 rounded-xl border px-4 py-3 shadow-md sm:duration-200 {scrolled
-		? 'border-light-border-theme-light dark:border-light-border-theme-dark dark:bg-primary-theme-dark xl:shadow-[0_4px_6px_-1px_rgba(0,0,0,0.1),0_2px_4px_-2px_rgba(0,0,0,0.1)]'
+		? 'border-light-border-theme-light dark:border-light-border-theme-dark dark:bg-primary-theme-dark bg-white xl:shadow-[0_4px_6px_-1px_rgba(0,0,0,0.1),0_2px_4px_-2px_rgba(0,0,0,0.1)]'
 		: 'border-light-border-theme-light dark:border-light-border-theme-dark dark:bg-primary-theme-dark bg-white xl:border-transparent xl:bg-transparent xl:shadow-transparent dark:xl:border-transparent xl:dark:bg-transparent'}"
 >
 	<div class="flex flex-col-reverse justify-between gap-6 md:flex-row md:items-center">
