@@ -86,11 +86,10 @@
 											<td class="size-12 shrink-0 py-5 pr-3 pl-4 text-sm whitespace-nowrap sm:pl-0">
 												<div class="w-12 shrink-0">
 													<img
-														src={client?.client_image_url
-															? client?.client_image_url
-															: 'https://images.unsplash.com/photo-1492724724894-7464c27d0ceb?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=512&q=80'}
+														src={client?.client_image_url ||
+															'https://empowher.org/wp-content/uploads/2021/03/image-placeholder-350x350-1.png'}
 														alt=""
-														class="pointer-events-none w-full object-cover"
+														class="pointer-events-none w-full rounded-lg object-cover"
 													/>
 												</div>
 											</td>

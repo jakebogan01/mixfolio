@@ -62,9 +62,8 @@
 							class="overflow-hidden rounded-lg bg-gray-100 focus-within:ring-2 focus-within:ring-indigo-500 focus-within:ring-offset-2 focus-within:ring-offset-gray-100"
 						>
 							<img
-								src={project?.project_image_url
-									? project?.project_image_url
-									: 'https://images.unsplash.com/photo-1492724724894-7464c27d0ceb?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=512&q=80'}
+								src={project?.project_image_url ||
+									'https://empowher.org/wp-content/uploads/2021/03/image-placeholder-350x350-1.png'}
 								alt=""
 								class="pointer-events-none aspect-10/7 object-cover"
 							/>

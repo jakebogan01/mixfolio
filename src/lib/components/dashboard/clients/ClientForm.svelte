@@ -148,10 +148,14 @@
 								<div>
 									<div class="pb-1 sm:pb-6">
 										<div>
-											<div
-												class="h-60 bg-white bg-contain bg-center bg-no-repeat"
-												style="background-image: url({client?.client_image_url})"
-											></div>
+											<div>
+												<img
+													alt={client?.name || 'Name unavailable'}
+													src={client?.client_image_url ||
+														'https://empowher.org/wp-content/uploads/2021/03/image-placeholder-350x350-1.png'}
+													class="block aspect-10/7 w-full object-cover"
+												/>
+											</div>
 											<div class="mt-6 px-4 sm:mt-8 sm:flex sm:items-end sm:px-6">
 												<div class="sm:flex-1">
 													<div>
@@ -203,7 +207,10 @@
 												<div class="flex items-center gap-x-8">
 													<img
 														bind:this={showImageCropper.resultEl}
-														src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80"
+														src={updatingClient
+															? client?.client_image_url ||
+																'https://empowher.org/wp-content/uploads/2021/03/image-placeholder-350x350-1.png'
+															: 'https://empowher.org/wp-content/uploads/2021/03/image-placeholder-350x350-1.png'}
 														alt="Cropped result"
 														class="size-24 flex-none rounded-lg bg-gray-800 object-cover"
 													/>
