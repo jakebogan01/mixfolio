@@ -33,22 +33,31 @@
 				message: 'Only .pdf files are allowed'
 			}),
 		name: z
-			.string({ message: 'This field is required' })
+			.string()
 			.min(5, { message: 'Must be 5 or more characters long' })
-			.max(255, { message: 'No more than 255 characters long' }),
-		phone: z.string({ message: 'This field is required' }).min(7, 'Invalid phone number'),
+			.max(255, { message: 'No more than 255 characters long' })
+			.optional()
+			.nullable(),
+		phone: z
+			.string()
+			.min(7, 'Invalid phone number')
+			.max(15, { message: 'No more than 15 characters long' })
+			.optional()
+			.nullable(),
 		email: z
-			.string({ message: 'This field is required' })
+			.string()
 			.email({ message: 'Please enter a valid email address' })
-			.max(255, { message: 'No more than 255 characters long' }),
-		role: z
-			.string({ message: 'This field is required' })
-			.min(5, 'Must be 5 or more characters long'),
-		address: z.string({ message: 'This field is required' }),
+			.max(255, { message: 'No more than 255 characters long' })
+			.optional()
+			.nullable(),
+		role: z.string().min(5, 'Must be 5 or more characters long').optional().nullable(),
+		address: z.string().optional().nullable(),
 		biography: z
-			.string({ message: 'This field is required' })
+			.string()
 			.min(5, 'Must be 5 or more characters long')
 			.max(500, { message: 'No more than 500 characters long' })
+			.optional()
+			.nullable()
 	});
 
 	const { form } = createForm({
@@ -64,6 +73,13 @@
 		onSubmit: async (values) => {
 			try {
 				buttonDisabled = true;
+				const hasAnyData = Object.values(values).some(
+					(value) => value !== null && value !== undefined
+				);
+				if (!hasAnyData) {
+					buttonDisabled = false;
+					return;
+				}
 				if (showImageCropper.objectUrl) values.avatar = showImageCropper.objectUrl;
 				await data.pb.collection('profiles').update(data?.userProfile?.id, values);
 				toggleMenu();
@@ -93,6 +109,17 @@
 	let resumeName = $state('');
 	const handleResume = () => {
 		if (resumeBtn?.files[0]) resumeName = resumeBtn?.files[0]?.name;
+	};
+
+	const formatPhoneNumber = (value) => {
+		if (!value) return value;
+		const phoneNumber = value.replace(/\D/g, '');
+		const phoneNumberLength = phoneNumber.length;
+		if (phoneNumberLength < 4) return phoneNumber;
+		if (phoneNumberLength < 7) {
+			return `(${phoneNumber.slice(0, 3)}) ${phoneNumber.slice(3)}`;
+		}
+		return `(${phoneNumber.slice(0, 3)}) ${phoneNumber.slice(3, 6)}-${phoneNumber.slice(6, 10)}`;
 	};
 </script>
 
@@ -229,7 +256,6 @@
 													name="name"
 													class="dark:bg-primary-theme-dark dark:outline-light-border-theme-dark col-start-1 row-start-1 block w-full rounded-lg border border-transparent bg-white py-1.5 pr-10 pl-3 text-base shadow-sm outline-1 -outline-offset-1 outline-gray-300 focus:outline-2 focus:-outline-offset-2 sm:pr-9 sm:text-sm/6 dark:text-white"
 													aria-invalid="true"
-													required
 													minlength="5"
 													maxlength="255"
 													aria-label="Your name"
@@ -257,7 +283,6 @@
 													name="email"
 													class="dark:bg-primary-theme-dark dark:outline-light-border-theme-dark col-start-1 row-start-1 block w-full rounded-lg border border-transparent bg-white py-1.5 pr-10 pl-3 text-base shadow-sm outline-1 -outline-offset-1 outline-gray-300 focus:outline-2 focus:-outline-offset-2 sm:pr-9 sm:text-sm/6 dark:text-white"
 													aria-invalid="true"
-													required
 													minlength="5"
 													maxlength="255"
 													aria-label="Your email address"
@@ -283,11 +308,11 @@
 													id="phone"
 													type="text"
 													name="phone"
+													oninput={(e) => (e.target.value = formatPhoneNumber(e.target.value))}
 													class="dark:bg-primary-theme-dark dark:outline-light-border-theme-dark col-start-1 row-start-1 block w-full rounded-lg border border-transparent bg-white py-1.5 pr-10 pl-3 text-base shadow-sm outline-1 -outline-offset-1 outline-gray-300 focus:outline-2 focus:-outline-offset-2 sm:pr-9 sm:text-sm/6 dark:text-white"
 													aria-invalid="true"
-													required
 													minlength="5"
-													maxlength="255"
+													maxlength="15"
 													aria-label="Your phone number"
 													aria-describedby="phone-validation"
 												/>
@@ -313,7 +338,6 @@
 													name="role"
 													class="dark:bg-primary-theme-dark dark:outline-light-border-theme-dark col-start-1 row-start-1 block w-full rounded-lg border border-transparent bg-white py-1.5 pr-10 pl-3 text-base shadow-sm outline-1 -outline-offset-1 outline-gray-300 focus:outline-2 focus:-outline-offset-2 sm:pr-9 sm:text-sm/6 dark:text-white"
 													aria-invalid="true"
-													required
 													minlength="5"
 													maxlength="255"
 													aria-label="Your job role"
@@ -341,7 +365,6 @@
 													name="address"
 													class="dark:bg-primary-theme-dark dark:outline-light-border-theme-dark col-start-1 row-start-1 block w-full rounded-lg border border-transparent bg-white py-1.5 pr-10 pl-3 text-base shadow-sm outline-1 -outline-offset-1 outline-gray-300 focus:outline-2 focus:-outline-offset-2 sm:pr-9 sm:text-sm/6 dark:text-white"
 													aria-invalid="true"
-													required
 													minlength="5"
 													maxlength="255"
 													aria-label="Your address"
@@ -370,7 +393,6 @@
 													id="biography"
 													class="dark:bg-primary-theme-dark dark:outline-light-border-theme-dark col-start-1 row-start-1 block w-full rounded-lg border border-transparent bg-white py-1.5 pr-10 pl-3 text-base shadow-sm outline-1 -outline-offset-1 outline-gray-300 focus:outline-2 focus:-outline-offset-2 sm:pr-9 sm:text-sm/6 dark:text-white"
 													aria-invalid="true"
-													required
 													minlength="5"
 													maxlength="500"
 													aria-label="About you"
@@ -399,7 +421,7 @@
 								<Button
 									disabled={buttonDisabled}
 									type="submit"
-									class="bg-primary-btn-bg-theme-light dark:bg-primary-btn-bg-theme-dark sm:hover:bg-primary-btn-hover-theme-light sm:dark:hover:bg-secondary-btn-hover-theme-dark ml-4 h-9 w-[4.5625rem]"
+									class="bg-primary-btn-bg-theme-light dark:bg-primary-btn-bg-theme-dark sm:hover:bg-primary-btn-hover-theme-light sm:dark:hover:bg-secondary-btn-hover-theme-dark ml-4 flex h-9 w-[4.5625rem] items-center justify-center"
 								>
 									{#if buttonDisabled}
 										<span class="loader"></span>

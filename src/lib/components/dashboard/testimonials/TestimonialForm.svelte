@@ -425,7 +425,7 @@
 									<Button
 										disabled={buttonDisabled}
 										type="submit"
-										class="bg-primary-btn-bg-theme-light dark:bg-primary-btn-bg-theme-dark sm:hover:bg-primary-btn-hover-theme-light sm:dark:hover:bg-secondary-btn-hover-theme-dark ml-4 h-9 w-[4.5625rem]"
+										class="bg-primary-btn-bg-theme-light dark:bg-primary-btn-bg-theme-dark sm:hover:bg-primary-btn-hover-theme-light sm:dark:hover:bg-secondary-btn-hover-theme-dark ml-4 flex h-9 w-[4.5625rem] items-center justify-center"
 									>
 										{#if buttonDisabled}
 											<span class="loader"></span>

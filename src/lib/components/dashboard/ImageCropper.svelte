@@ -1,5 +1,6 @@
 <script>
 	import { onMount } from 'svelte';
+	import { fade, scale } from 'svelte/transition';
 	import { showImageCropper } from '$lib/stores/showImageCropper.svelte.js';
 	import { darkMode } from '$lib/stores/darkMode.svelte.js';
 	import Icon from '$lib/components/Icon.svelte';
@@ -14,7 +15,7 @@
 	let img = $state(new Image());
 	let imgX = $state(0),
 		imgY = $state(0),
-		scale = $state(1);
+		appscale = $state(1);
 	let lastX = $state(0),
 		lastY = $state(0);
 	let dragging = $state(false);
@@ -26,15 +27,15 @@
 	}
 
 	function getInitialScale() {
-		const scaleX = canvasEl.width / img.width;
-		const scaleY = canvasEl.height / img.height;
-		return Math.min(scaleX, scaleY, 1); // don't upscale beyond 1 (native size)
+		const appscaleX = canvasEl.width / img.width;
+		const appscaleY = canvasEl.height / img.height;
+		return Math.min(appscaleX, appscaleY, 1); // don't upappscale beyond 1 (native size)
 	}
 
-	function clampPosition(x, y, scale) {
-		// Calculate image display width and height at current scale
-		const dispW = img.width * scale;
-		const dispH = img.height * scale;
+	function clampPosition(x, y, appscale) {
+		// Calculate image display width and height at current appscale
+		const dispW = img.width * appscale;
+		const dispH = img.height * appscale;
 
 		// crop frame boundaries relative to canvas
 		const frameLeft = (canvasEl.width - FRAME_SIZE) / 2;
@@ -61,23 +62,23 @@
 		if (!ctx) return;
 
 		// Clamp position so image covers crop frame
-		const pos = clampPosition(imgX, imgY, scale);
+		const pos = clampPosition(imgX, imgY, appscale);
 		imgX = pos.x;
 		imgY = pos.y;
 
 		ctx.clearRect(0, 0, canvasEl.width, canvasEl.height);
 		ctx.save();
 		ctx.translate(imgX, imgY);
-		ctx.scale(scale, scale);
+		ctx.appscale(appscale, appscale);
 		ctx.drawImage(img, 0, 0);
 		ctx.restore();
 	}
 
 	function handleImageLoad() {
-		scale = getInitialScale();
+		appscale = getInitialScale();
 		// center image in canvas
-		imgX = canvasEl.width / 2 - (img.width * scale) / 2;
-		imgY = canvasEl.height / 2 - (img.height * scale) / 2;
+		imgX = canvasEl.width / 2 - (img.width * appscale) / 2;
+		imgY = canvasEl.height / 2 - (img.height * appscale) / 2;
 		draw();
 	}
 
@@ -89,25 +90,25 @@
 	}
 
 	function zoomAt(mx, my, factor) {
-		const newScale = scale * factor;
+		const newScale = appscale * factor;
 
 		// Set min/max zoom levels (to avoid too small or huge zoom)
 		const MIN_SCALE = getInitialScale();
 		const MAX_SCALE = 4;
 
 		if (newScale < MIN_SCALE) {
-			scale = MIN_SCALE;
+			appscale = MIN_SCALE;
 		} else if (newScale > MAX_SCALE) {
-			scale = MAX_SCALE;
+			appscale = MAX_SCALE;
 		} else {
-			scale = newScale;
+			appscale = newScale;
 		}
 
-		const wx = (mx - imgX) / scale;
-		const wy = (my - imgY) / scale;
+		const wx = (mx - imgX) / appscale;
+		const wy = (my - imgY) / appscale;
 
-		imgX = mx - wx * scale;
-		imgY = my - wy * scale;
+		imgX = mx - wx * appscale;
+		imgY = my - wy * appscale;
 
 		draw();
 	}
@@ -117,7 +118,7 @@
 		imgX += dx;
 		imgY += dy;
 		// clamp to crop frame edges
-		const pos = clampPosition(imgX, imgY, scale);
+		const pos = clampPosition(imgX, imgY, appscale);
 		imgX = pos.x;
 		imgY = pos.y;
 		draw();
@@ -128,9 +129,9 @@
 
 		if (showImageCropper?.resultEl?.src?.startsWith('blob:')) {
 			img.onload = () => {
-				scale = getInitialScale();
-				imgX = canvasEl.width / 2 - (img.width * scale) / 2;
-				imgY = canvasEl.height / 2 - (img.height * scale) / 2;
+				appscale = getInitialScale();
+				imgX = canvasEl.width / 2 - (img.width * appscale) / 2;
+				imgY = canvasEl.height / 2 - (img.height * appscale) / 2;
 				draw();
 			};
 
@@ -214,9 +215,9 @@
 		const reader = new FileReader();
 		reader.onload = () => {
 			img.onload = () => {
-				scale = getInitialScale(); // ⬅️ use correct zoomed-out scale
-				imgX = canvasEl.width / 2 - (img.width * scale) / 2;
-				imgY = canvasEl.height / 2 - (img.height * scale) / 2;
+				appscale = getInitialScale(); // ⬅️ use correct zoomed-out appscale
+				imgX = canvasEl.width / 2 - (img.width * appscale) / 2;
+				imgY = canvasEl.height / 2 - (img.height * appscale) / 2;
 				draw();
 			};
 			img.src = reader.result;
@@ -236,10 +237,10 @@
 		if (!uploadEl?.files[0]) return;
 		const cropX = (canvasEl.width - FRAME_SIZE) / 2;
 		const cropY = (canvasEl.height - FRAME_SIZE) / 2;
-		const sx = (cropX - imgX) / scale;
-		const sy = (cropY - imgY) / scale;
-		const sw = FRAME_SIZE / scale;
-		const sh = FRAME_SIZE / scale;
+		const sx = (cropX - imgX) / appscale;
+		const sy = (cropY - imgY) / appscale;
+		const sw = FRAME_SIZE / appscale;
+		const sh = FRAME_SIZE / appscale;
 
 		const tempCanvas = document.createElement('canvas');
 		tempCanvas.width = FRAME_SIZE;
@@ -269,6 +270,7 @@
 />
 
 <div
+	transition:fade
 	role="dialog"
 	aria-modal="true"
 	aria-labelledby="dialog-title"
@@ -278,7 +280,8 @@
 	<div class="fixed inset-0 z-10 w-screen overflow-y-auto">
 		<div class="flex min-h-full items-center justify-center p-4 text-center sm:p-0">
 			<div
-				class="relative transform overflow-hidden rounded-lg bg-white shadow-xl transition-all sm:max-w-3xl"
+				transition:scale
+				class="dark:bg-primary-theme-dark relative transform overflow-hidden rounded-lg bg-white shadow-xl transition-all sm:max-w-3xl"
 			>
 				<div
 					class="relative aspect-square w-full max-w-[600px] touch-none overflow-hidden bg-black/90"
