@@ -343,7 +343,7 @@
 						<Button
 							callBack={() => (showDeleteModal = false)}
 							text="Cancel"
-							class="text-dark-text-theme-light dark:text-dark-text-theme-dark! border-light-border-theme-light border bg-white"
+							class="text-dark-text-theme-light!  border-light-border-theme-dark h-9 border bg-white"
 						/>
 					</div>
 				</div>
