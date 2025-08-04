@@ -1,12 +1,14 @@
 <script>
 	import { onMount } from 'svelte';
 	import { page } from '$app/state';
+	import { showImageCropper } from '$lib/stores/showImageCropper.svelte.js';
 	import { trackingData } from '$lib/stores/trackingData.svelte.js';
 	import { darkMode } from '$lib/stores/darkMode.svelte.js';
 	import { Toaster } from 'svelte-5-french-toast';
 	import { toastMessage } from '$lib/utils/toast.js';
 	import Nav from '$lib/components/dashboard/Nav.svelte';
 	import Search from '$lib/components/dashboard/Search.svelte';
+	import ImageCropper from '$lib/components/dashboard/ImageCropper.svelte';
 
 	let { children, data } = $props();
 	let menuOpen = $state(false);
@@ -72,5 +74,9 @@
 		</main>
 	</div>
 </div>
+
+{#if showImageCropper.status}
+	<ImageCropper />
+{/if}
 
 <Toaster />

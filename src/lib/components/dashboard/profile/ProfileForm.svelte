@@ -1,5 +1,6 @@
 <script>
 	import { z } from 'zod';
+	import { showImageCropper } from '$lib/stores/showImageCropper.svelte.js';
 	import { fly, fade, scale } from 'svelte/transition';
 	import { createForm } from 'felte';
 	import { validator } from '@felte/validator-zod';
@@ -8,12 +9,9 @@
 	import Button from '$lib/components/global/Button.svelte';
 
 	let { data, toggleMenu = () => {} } = $props();
-	let previewInput = $state(null);
-	let fileInput = $state(null);
-	let isDragging = $state(false);
-	let showPreviewImage = $state(true);
 	let showDeleteImage = $state(false);
 	let buttonDisabled = $state(false);
+	let resumeBtn;
 
 	const schema = z.object({
 		avatar: z
@@ -24,6 +22,15 @@
 			})
 			.refine((file) => !file || ['image/jpeg', 'image/jpg', 'image/png'].includes(file.type), {
 				message: 'Only .jpeg, .jpg, or .png files are allowed'
+			}),
+		resume: z
+			.instanceof(File)
+			.optional()
+			.refine((file) => !file || file.size < 102_400, {
+				message: 'File cannot exceed 100 KB'
+			})
+			.refine((file) => !file || file.type === 'application/pdf', {
+				message: 'Only .pdf files are allowed'
 			}),
 		name: z
 			.string({ message: 'This field is required' })
@@ -57,44 +64,17 @@
 		onSubmit: async (values) => {
 			try {
 				buttonDisabled = true;
-				values.avatar = fileInput?.files?.[0];
+				if (showImageCropper.objectUrl) values.avatar = showImageCropper.objectUrl;
 				await data.pb.collection('profiles').update(data?.userProfile?.id, values);
 				toggleMenu();
+				showImageCropper.objectUrl = null;
+				showImageCropper.resultEl = null;
 				await invalidate('user_profile');
 			} catch (error) {
 				console.dir(error?.message, { depth: null });
 			}
 		}
 	});
-
-	const showLogoPreview = (event) => {
-		const files = event.target.files || event.dataTransfer.files;
-		if (files.length > 0) {
-			previewInput.src = URL.createObjectURL(files[0]);
-			showPreviewImage = false;
-			isDragging = false;
-		}
-	};
-
-	const handleDragOver = (event) => {
-		event.preventDefault();
-		isDragging = true;
-	};
-
-	const handleDragLeave = () => {
-		isDragging = false;
-	};
-
-	const handleDrop = (event) => {
-		event.preventDefault();
-		showLogoPreview(event);
-		const files = event.dataTransfer.files;
-		if (files.length > 0) {
-			fileInput.files = files;
-			showLogoPreview(event);
-			isDragging = false;
-		}
-	};
 
 	const deleteImage = async () => {
 		try {
@@ -108,6 +88,11 @@
 		} catch (error) {
 			console.dir(error?.message, { depth: null });
 		}
+	};
+
+	let resumeName = $state('');
+	const handleResume = () => {
+		if (resumeBtn?.files[0]) resumeName = resumeBtn?.files[0]?.name;
 	};
 </script>
 
@@ -163,74 +148,69 @@
 								<div class="divide-y divide-gray-200 px-4 sm:px-6">
 									<div class="space-y-6 pt-6 pb-5">
 										<div>
-											<label for="avatar" class="sr-only">User avatar</label>
-											<input
-												type="file"
-												bind:this={fileInput}
-												onchange={showLogoPreview}
-												name="avatar"
-												id="avatar"
-												accept=".jpeg,.jpg,.png"
-												class="sr-only"
-												hidden
-											/>
-											<div class="items-center justify-between space-y-4">
-												<div
-													class="overflow-hidden rounded-lg bg-gray-100 focus-within:ring-2 focus-within:ring-indigo-500 focus-within:ring-offset-2 focus-within:ring-offset-gray-100"
-												>
-													<img
-														src={data?.userProfile?.avatar_url ||
-															'https://developers.elementor.com/docs/assets/img/elementor-placeholder-image.png'}
-														alt={data?.userProfile?.name || 'User avatar'}
-														bind:this={previewInput}
-														loading="eager"
-														class="pointer-events-none aspect-[8/6] object-cover object-top"
-													/>
-												</div>
+											<div class="flex items-center gap-x-8">
 												<button
+													onclick={() => {
+														if (data?.userProfile?.avatar_url) showDeleteImage = true;
+													}}
 													type="button"
-													onclick={() => fileInput.click()}
-													ondragenter={handleDragOver}
-													ondragover={handleDragOver}
-													ondragleave={handleDragLeave}
-													ondrop={handleDrop}
-													class="relative block min-h-41 w-full rounded-lg border-2 border-dashed p-8 text-center {isDragging
-														? 'border-indigo-600 bg-indigo-100'
-														: 'dark:dark:border-light-border-theme-dark border-gray-400'}"
+													class="group relative cursor-pointer overflow-hidden rounded-lg"
 												>
-													<svg
-														xmlns="http://www.w3.org/2000/svg"
-														viewBox="0 0 24 24"
-														fill="currentColor"
-														class="text-light-text-theme-light/70 dark:text-light-text-theme-dark/70 mx-auto size-12"
-														><path
-															fill-rule="evenodd"
-															d="M1.5 6a2.25 2.25 0 0 1 2.25-2.25h16.5A2.25 2.25 0 0 1 22.5 6v12a2.25 2.25 0 0 1-2.25 2.25H3.75A2.25 2.25 0 0 1 1.5 18V6ZM3 16.06V18c0 .414.336.75.75.75h16.5A.75.75 0 0 0 21 18v-1.94l-2.69-2.689a1.5 1.5 0 0 0-2.12 0l-.88.879.97.97a.75.75 0 1 1-1.06 1.06l-5.16-5.159a1.5 1.5 0 0 0-2.12 0L3 16.061Zm10.125-7.81a1.125 1.125 0 1 1 2.25 0 1.125 1.125 0 0 1-2.25 0Z"
-															clip-rule="evenodd"
-														/></svg
-													>
 													<span
-														class="text-light-text-theme-light dark:text-light-text-theme-dark mt-2 block text-sm font-semibold"
+														class="absolute inset-0 flex items-center justify-center group-hover:bg-black/70"
 													>
-														Drag &amp; drop<br />
-														<span
-															class="text-light-text-theme-light dark:text-light-text-theme-dark text-xs font-medium"
-															>(Optional)</span
-														>
+														<span class="text-white opacity-0 group-hover:opacity-100">Delete</span>
 													</span>
-												</button>
-												{#if data?.userProfile?.avatar_url}
-													<Button
-														callBack={() => (showDeleteImage = true)}
-														text="Delete Image"
-														class="bg-red-600 sm:hover:bg-red-500"
+													<img
+														bind:this={showImageCropper.resultEl}
+														src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80"
+														alt="Cropped result"
+														class="size-24 flex-none rounded-lg bg-gray-800 object-cover"
 													/>
-												{/if}
+												</button>
+												<div>
+													<Button
+														callBack={() => (showImageCropper.status = true)}
+														text="Change avatar"
+														class="bg-primary-btn-bg-theme-light sm:hover:bg-primary-btn-hover-theme-light"
+													/>
+													<p class="mt-2 text-xs/5 text-gray-400">JPG, JPEG or PNG. 50MB max.</p>
+												</div>
+											</div>
+										</div>
+										<div>
+											<label for="name" class="sr-only">Your resume</label>
+											<div class="mt-2 flex items-center space-x-4">
+												<input
+													bind:this={resumeBtn}
+													onchange={handleResume}
+													id="resume"
+													type="file"
+													name="resume"
+													class="sr-only"
+													aria-invalid="true"
+													aria-label="Your resume"
+													aria-describedby="resume-validation"
+													accept=".pdf"
+													hidden
+												/>
+												<Button
+													callBack={() => resumeBtn.click()}
+													text="Upload Resume"
+													class="bg-secondary-btn-bg-theme-light hover:bg-secondary-btn-hover-theme-light dark:bg-secondary-btn-bg-theme-dark sm:dark:hover:bg-secondary-btn-hover-theme-dark min-w-33"
+												/>
+												<p
+													class="block truncate leading-normal font-normal dark:text-white {resumeName?.length
+														? 'text-sm dark:text-white'
+														: 'text-xs/5 text-gray-400'}"
+												>
+													{resumeName?.length ? resumeName : 'PDF. 100KB max.'}
+												</p>
 											</div>
 											<div
-												id="avatar-validation"
+												id="resume-validation"
 												class="mt-1 text-sm text-red-500"
-												data-felte-reporter-dom-for="project_image"
+												data-felte-reporter-dom-for="resume"
 												aria-live="polite"
 												data-felte-reporter-dom-single-message
 											></div>
@@ -418,7 +398,7 @@
 								<Button
 									disabled={buttonDisabled}
 									type="submit"
-									class="bg-primary-btn-bg-theme-light dark:bg-primary-btn-bg-theme-dark sm:hover:bg-primary-btn-hover-theme-light sm:dark:hover:bg-secondary-btn-hover-theme-dark ml-4"
+									class="bg-primary-btn-bg-theme-light dark:bg-primary-btn-bg-theme-dark sm:hover:bg-primary-btn-hover-theme-light sm:dark:hover:bg-secondary-btn-hover-theme-dark ml-4 h-9 w-[4.5625rem]"
 								>
 									{#if buttonDisabled}
 										<span class="loader"></span>
@@ -434,69 +414,6 @@
 		</div>
 	</div>
 </div>
-
-<!--{#if showDeleteImage}-->
-<!--	<div role="dialog" aria-modal="true" aria-labelledby="dialog-title" class="relative z-100">-->
-<!--		<div-->
-<!--			transition:fade-->
-<!--			aria-hidden="true"-->
-<!--			class="fixed inset-0 bg-black/40 transition-opacity"-->
-<!--		></div>-->
-<!--		<div class="fixed inset-0 z-10 w-screen overflow-y-auto">-->
-<!--			<div class="flex min-h-full items-end justify-center p-4 text-center sm:items-center sm:p-0">-->
-<!--				<div-->
-<!--					transition:scale-->
-<!--					class="relative transform overflow-hidden rounded-lg bg-white dark:bg-primary-theme-dark px-4 pt-5 pb-4 text-left shadow-xl transition-all sm:my-8 sm:w-full sm:max-w-lg sm:p-6"-->
-<!--				>-->
-<!--					<div class="sm:flex sm:items-start">-->
-<!--						<div-->
-<!--							class="mx-auto flex size-12 shrink-0 items-center justify-center rounded-full bg-red-100 sm:mx-0 sm:size-10"-->
-<!--						>-->
-<!--							<svg-->
-<!--								viewBox="0 0 24 24"-->
-<!--								fill="none"-->
-<!--								stroke="currentColor"-->
-<!--								stroke-width="1.5"-->
-<!--								data-slot="icon"-->
-<!--								aria-hidden="true"-->
-<!--								class="size-6 text-red-600"-->
-<!--							>-->
-<!--								<path-->
-<!--									d="M12 9v3.75m-9.303 3.376c-.866 1.5.217 3.374 1.948 3.374h14.71c1.73 0 2.813-1.874 1.948-3.374L13.949 3.378c-.866-1.5-3.032-1.5-3.898 0L2.697 16.126ZM12 15.75h.007v.008H12v-.008Z"-->
-<!--									stroke-linecap="round"-->
-<!--									stroke-linejoin="round"-->
-<!--								/>-->
-<!--							</svg>-->
-<!--						</div>-->
-<!--						<div class="mt-3 text-center sm:mt-0 sm:ml-4 sm:text-left">-->
-<!--							<h3 id="dialog-title" class="text-base font-semibold text-gray-900">-->
-<!--								Delete profile photo-->
-<!--							</h3>-->
-<!--							<div class="mt-2">-->
-<!--								<p class="text-sm text-gray-500">-->
-<!--									Are you sure you want to delete your photo? This photo will be permanently removed-->
-<!--									from our servers forever. This action cannot be undone.-->
-<!--								</p>-->
-<!--							</div>-->
-<!--						</div>-->
-<!--					</div>-->
-<!--					<div class="mt-5 sm:mt-4 sm:flex sm:flex-row-reverse">-->
-<!--						<Button-->
-<!--							callBack={deleteImage}-->
-<!--							text="Delete"-->
-<!--							class="bg-red-500 sm:ml-3 sm:hover:hover:bg-red-400"-->
-<!--						/>-->
-<!--						<Button-->
-<!--							callBack={() => (showDeleteImage = false)}-->
-<!--							text="Cancel"-->
-<!--							class="text-dark-text-theme-light dark:text-dark-text-theme-dark! border-light-border-theme-light border bg-white"-->
-<!--						/>-->
-<!--					</div>-->
-<!--				</div>-->
-<!--			</div>-->
-<!--		</div>-->
-<!--	</div>-->
-<!--{/if}-->
 
 {#if showDeleteImage}
 	<div role="dialog" aria-modal="true" aria-labelledby="dialog-title" class="relative z-100">

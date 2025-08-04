@@ -35,6 +35,7 @@ export async function load({ parent, depends }) {
 					'biography, ' +
 					'slug, ' +
 					'oauth, ' +
+					'resume, ' +
 					'avatar, ' +
 					'created, ' +
 					'expand.projects.collectionId, ' +
@@ -72,6 +73,10 @@ export async function load({ parent, depends }) {
 
 		userProfile.avatar_url = userProfile.avatar
 			? pb.files.getURL(userProfile, userProfile.avatar)
+			: null;
+
+		userProfile.resume_url = userProfile.resume
+			? pb.files.getURL(userProfile, userProfile.resume)
 			: null;
 
 		if (userProfile.expand?.projects)

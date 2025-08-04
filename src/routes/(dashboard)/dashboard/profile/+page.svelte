@@ -98,6 +98,12 @@
 								</dd>
 							</div>
 							<div class="sm:col-span-1">
+								<dt class="text-sm leading-normal font-semibold dark:text-gray-400">Resume</dt>
+								<dd class="truncate text-sm leading-normal font-normal">
+									{data?.userProfile?.resume || 'Resume unavailable'}
+								</dd>
+							</div>
+							<div class="sm:col-span-1">
 								<dt class="text-sm leading-normal font-semibold dark:text-gray-400">Joined</dt>
 								<dd class="text-sm leading-normal font-normal">
 									{toISODate(data?.userProfile?.created) || 'Date unavailable'}

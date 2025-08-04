@@ -1,6 +1,7 @@
 <script>
 	import { z } from 'zod';
 	import { onMount } from 'svelte';
+	import { showImageCropper } from '$lib/stores/showImageCropper.svelte.js';
 	import { fly, fade, scale } from 'svelte/transition';
 	import { createForm } from 'felte';
 	import { validator } from '@felte/validator-zod';
@@ -9,10 +10,6 @@
 	import Button from '$lib/components/global/Button.svelte';
 
 	let { data, clientId, viewClient, toggleMenu = () => {} } = $props();
-	let previewInput = $state(null);
-	let fileInput = $state(null);
-	let isDragging = $state(false);
-	let showPreviewImage = $state(true);
 	let client = $state(null);
 	let updatingClient = $state(false);
 	let showDeleteModal = $state(false);
@@ -51,10 +48,10 @@
 			try {
 				buttonDisabled = true;
 				if (updatingClient) {
-					values.image = fileInput?.files?.[0];
+					if (showImageCropper.objectUrl) values.image = showImageCropper.objectUrl;
 					await data.pb.collection('clients').update(clientId, values);
 				} else {
-					values.image = fileInput?.files?.[0];
+					if (showImageCropper.objectUrl) values.image = showImageCropper.objectUrl;
 					values.profile_id = data?.userProfile?.id;
 					const user_clients = await data.pb.collection('clients').create(values);
 					const currentClientIds = data?.userProfile?.expand?.clients || [];
@@ -68,41 +65,14 @@
 				}
 				toggleMenu();
 				reset();
+				showImageCropper.objectUrl = null;
+				showImageCropper.resultEl = null;
 				await invalidate('user_profile');
 			} catch (error) {
 				console.dir(error?.message, { depth: null });
 			}
 		}
 	});
-
-	const showLogoPreview = (event) => {
-		const files = event.target.files || event.dataTransfer.files;
-		if (files.length > 0) {
-			previewInput.src = URL.createObjectURL(files[0]);
-			showPreviewImage = false;
-			isDragging = false;
-		}
-	};
-
-	const handleDragOver = (event) => {
-		event.preventDefault();
-		isDragging = true;
-	};
-
-	const handleDragLeave = () => {
-		isDragging = false;
-	};
-
-	const handleDrop = (event) => {
-		event.preventDefault();
-		showLogoPreview(event);
-		const files = event.dataTransfer.files;
-		if (files.length > 0) {
-			fileInput.files = files;
-			showLogoPreview(event);
-			isDragging = false;
-		}
-	};
 
 	const deleteClient = async () => {
 		try {
@@ -230,73 +200,22 @@
 									<div class="divide-y divide-gray-200 px-4 sm:px-6">
 										<div class="space-y-6 pt-6 pb-5">
 											<div>
-												<label for="client_image" class="sr-only">User client_image</label>
-												<input
-													type="file"
-													bind:this={fileInput}
-													onchange={showLogoPreview}
-													name="client_image"
-													id="client_image"
-													accept=".jpeg,.jpg,.png"
-													class="sr-only"
-													hidden
-												/>
-												<div class="items-center justify-between space-y-4">
-													<div
-														class="overflow-hidden rounded-lg bg-gray-100 focus-within:ring-2 focus-within:ring-indigo-500 focus-within:ring-offset-2 focus-within:ring-offset-gray-100"
-													>
-														<img
-															src={updatingClient
-																? client?.client_image_url
-																: 'https://developers.elementor.com/docs/assets/img/elementor-placeholder-image.png'}
-															bind:this={previewInput}
-															loading="eager"
-															alt="User client_image preview"
-															class="pointer-events-none aspect-video ${client?.client_image_url
-																? `object-contain object-center`
-																: `object-cover object-top`}"
+												<div class="flex items-center gap-x-8">
+													<img
+														bind:this={showImageCropper.resultEl}
+														src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80"
+														alt="Cropped result"
+														class="size-24 flex-none rounded-lg bg-gray-800 object-cover"
+													/>
+													<div>
+														<Button
+															callBack={() => (showImageCropper.status = true)}
+															text="Change avatar"
+															class="bg-primary-btn-bg-theme-light sm:hover:bg-primary-btn-hover-theme-light"
 														/>
+														<p class="mt-2 text-xs/5 text-gray-400">JPG, JPEG or PNG. 50MB max.</p>
 													</div>
-													<button
-														type="button"
-														onclick={() => fileInput.click()}
-														ondragenter={handleDragOver}
-														ondragover={handleDragOver}
-														ondragleave={handleDragLeave}
-														ondrop={handleDrop}
-														class="relative block min-h-41 w-full rounded-lg border-2 border-dashed p-8 text-center {isDragging
-															? 'border-indigo-600 bg-indigo-100'
-															: 'dark:dark:border-light-border-theme border-gray-400'}"
-													>
-														<svg
-															xmlns="http://www.w3.org/2000/svg"
-															viewBox="0 0 24 24"
-															fill="currentColor"
-															class="text-light-text-theme-light/70 dark:text-light-text-theme-dark/70 mx-auto size-12"
-															><path
-																fill-rule="evenodd"
-																d="M1.5 6a2.25 2.25 0 0 1 2.25-2.25h16.5A2.25 2.25 0 0 1 22.5 6v12a2.25 2.25 0 0 1-2.25 2.25H3.75A2.25 2.25 0 0 1 1.5 18V6ZM3 16.06V18c0 .414.336.75.75.75h16.5A.75.75 0 0 0 21 18v-1.94l-2.69-2.689a1.5 1.5 0 0 0-2.12 0l-.88.879.97.97a.75.75 0 1 1-1.06 1.06l-5.16-5.159a1.5 1.5 0 0 0-2.12 0L3 16.061Zm10.125-7.81a1.125 1.125 0 1 1 2.25 0 1.125 1.125 0 0 1-2.25 0Z"
-																clip-rule="evenodd"
-															/></svg
-														>
-														<span
-															class="text-light-text-theme-light dark:text-light-text-theme-dark mt-2 block text-sm font-semibold"
-														>
-															Drag &amp; drop<br />
-															<span
-																class="text-light-text-theme-light dark:text-light-text-theme-dark text-xs font-medium"
-																>(Optional)</span
-															>
-														</span>
-													</button>
 												</div>
-												<div
-													id="client_image-validation"
-													class="mt-1 text-sm text-red-500"
-													data-felte-reporter-dom-for="client_image"
-													aria-live="polite"
-													data-felte-reporter-dom-single-message
-												></div>
 											</div>
 											<div>
 												<label
@@ -384,7 +303,7 @@
 									<Button
 										disabled={buttonDisabled}
 										type="submit"
-										class="bg-primary-btn-bg-theme-light dark:bg-primary-btn-bg-theme-dark sm:hover:bg-primary-btn-hover-theme-light sm:dark:hover:bg-secondary-btn-hover-theme-dark ml-4"
+										class="bg-primary-btn-bg-theme-light dark:bg-primary-btn-bg-theme-dark sm:hover:bg-primary-btn-hover-theme-light sm:dark:hover:bg-secondary-btn-hover-theme-dark ml-4 h-9 w-[4.5625rem]"
 									>
 										{#if buttonDisabled}
 											<span class="loader"></span>
