@@ -69,7 +69,7 @@
 		ctx.clearRect(0, 0, canvasEl.width, canvasEl.height);
 		ctx.save();
 		ctx.translate(imgX, imgY);
-		ctx.appscale(appscale, appscale);
+		ctx.scale(appscale, appscale);
 		ctx.drawImage(img, 0, 0);
 		ctx.restore();
 	}
