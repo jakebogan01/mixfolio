@@ -6,173 +6,144 @@
 	import Icon from '$lib/components/Icon.svelte';
 	import Button from '$lib/components/global/Button.svelte';
 
-	let canvasEl, uploadEl, cropBtnEl, zoomInBtnEl, zoomOutBtnEl;
+	let canvasEl, uploadEl;
 	let ctx;
 
 	const FRAME_SIZE = 600;
-	const ZOOM_FACTOR_STEP = 1.05;
+	const ZOOM_STEP = 1.05;
+	const MAX_SCALE = 4;
 
-	let img = $state(new Image());
-	let imgX = $state(0),
-		imgY = $state(0),
-		appscale = $state(1);
-	let lastX = $state(0),
-		lastY = $state(0);
-	let dragging = $state(false);
-	let lastTouchDist = $state(null);
-	let objectUrl = $state(null);
+	// Image state
+	let img = new Image();
+	let appScale = 1;
+	let minScale = 1;
+	let offsetX = 0;
+	let offsetY = 0;
 
-	function clamp(value, min, max) {
-		return Math.min(Math.max(value, min), max);
+	// Interaction state
+	let dragging = false;
+	let lastX = 0;
+	let lastY = 0;
+	let lastTouchDist = null;
+
+	// Utility
+	const clamp = (v, min, max) => Math.min(Math.max(v, min), max);
+
+	// Compute the minimum appScale to fully cover the crop frame
+	function computeMinScale() {
+		return Math.min(1, Math.max(FRAME_SIZE / img.width, FRAME_SIZE / img.height));
 	}
 
-	function getInitialScale() {
-		const appscaleX = canvasEl.width / img.width;
-		const appscaleY = canvasEl.height / img.height;
-		return Math.min(appscaleX, appscaleY, 1); // don't upappscale beyond 1 (native size)
+	// Center image in the canvas at current appScale
+	function centerImage() {
+		offsetX = (canvasEl.width - img.width * appScale) / 2;
+		offsetY = (canvasEl.height - img.height * appScale) / 2;
 	}
 
-	function clampPosition(x, y, appscale) {
-		// Calculate image display width and height at current appscale
-		const dispW = img.width * appscale;
-		const dispH = img.height * appscale;
+	// Clamp offsets so crop frame is always covered
+	function clampOffsets() {
+		const dispW = img.width * appScale;
+		const dispH = img.height * appScale;
+		const left = (canvasEl.width - FRAME_SIZE) / 2;
+		const top = (canvasEl.height - FRAME_SIZE) / 2;
+		const right = left + FRAME_SIZE;
+		const bottom = top + FRAME_SIZE;
 
-		// crop frame boundaries relative to canvas
-		const frameLeft = (canvasEl.width - FRAME_SIZE) / 2;
-		const frameTop = (canvasEl.height - FRAME_SIZE) / 2;
-		const frameRight = frameLeft + FRAME_SIZE;
-		const frameBottom = frameTop + FRAME_SIZE;
-
-		// min/max allowed imgX/imgY so image covers the crop frame
-
-		// Because imgX/imgY is image top-left position, clamp so the image edges don't go inside crop frame:
-		const minX = frameRight - dispW; // image right edge must be >= frame right
-		const maxX = frameLeft; // image left edge must be <= frame left
-
-		const minY = frameBottom - dispH; // image bottom edge must be >= frame bottom
-		const maxY = frameTop; // image top edge must be <= frame top
-
-		return {
-			x: clamp(x, minX, maxX),
-			y: clamp(y, minY, maxY)
-		};
+		offsetX = clamp(offsetX, right - dispW, left);
+		offsetY = clamp(offsetY, bottom - dispH, top);
 	}
 
+	// Draw image onto canvas
 	function draw() {
 		if (!ctx) return;
-
-		// Clamp position so image covers crop frame
-		const pos = clampPosition(imgX, imgY, appscale);
-		imgX = pos.x;
-		imgY = pos.y;
-
 		ctx.clearRect(0, 0, canvasEl.width, canvasEl.height);
 		ctx.save();
-		ctx.translate(imgX, imgY);
-		ctx.scale(appscale, appscale);
+		clampOffsets();
+		ctx.translate(offsetX, offsetY);
+		ctx.scale(appScale, appScale);
 		ctx.drawImage(img, 0, 0);
 		ctx.restore();
 	}
 
-	function handleImageLoad() {
-		appscale = getInitialScale();
-		// center image in canvas
-		imgX = canvasEl.width / 2 - (img.width * appscale) / 2;
-		imgY = canvasEl.height / 2 - (img.height * appscale) / 2;
+	// Load and initialize image
+	function setupImage(src) {
+		img = new Image();
+		img.onload = () => {
+			minScale = computeMinScale();
+			appScale = minScale;
+			centerImage();
+			draw();
+		};
+		img.src = src;
+	}
+
+	// Zoom around a point
+	function zoomAt(dx, dy, factor) {
+		const newScale = clamp(appScale * factor, minScale, MAX_SCALE);
+		const imgX = (dx - offsetX) / appScale;
+		const imgY = (dy - offsetY) / appScale;
+		appScale = newScale;
+		offsetX = dx - imgX * appScale;
+		offsetY = dy - imgY * appScale;
 		draw();
 	}
 
-	img.onload = handleImageLoad;
-
+	// Touch distance for pinch
 	function getTouchDist(e) {
-		const [t1, t2] = e.touches;
-		return Math.hypot(t1.clientX - t2.clientX, t1.clientY - t2.clientY);
+		const [a, b] = e.touches;
+		return Math.hypot(a.clientX - b.clientX, a.clientY - b.clientY);
 	}
 
-	function zoomAt(mx, my, factor) {
-		const newScale = appscale * factor;
-
-		// Set min/max zoom levels (to avoid too small or huge zoom)
-		const MIN_SCALE = getInitialScale();
-		const MAX_SCALE = 4;
-
-		if (newScale < MIN_SCALE) {
-			appscale = MIN_SCALE;
-		} else if (newScale > MAX_SCALE) {
-			appscale = MAX_SCALE;
-		} else {
-			appscale = newScale;
-		}
-
-		const wx = (mx - imgX) / appscale;
-		const wy = (my - imgY) / appscale;
-
-		imgX = mx - wx * appscale;
-		imgY = my - wy * appscale;
-
-		draw();
-	}
-
-	// When dragging: after updating imgX, imgY clamp position
-	function onDragMove(dx, dy) {
-		imgX += dx;
-		imgY += dy;
-		// clamp to crop frame edges
-		const pos = clampPosition(imgX, imgY, appscale);
-		imgX = pos.x;
-		imgY = pos.y;
+	// Handle drag movements
+	function onDrag(dx, dy) {
+		offsetX += dx;
+		offsetY += dy;
 		draw();
 	}
 
 	onMount(() => {
 		ctx = canvasEl.getContext('2d');
+		canvasEl.width = 1000;
+		canvasEl.height = 1000;
 
-		if (showImageCropper?.resultEl?.src?.startsWith('blob:')) {
-			img.onload = () => {
-				appscale = getInitialScale();
-				imgX = canvasEl.width / 2 - (img.width * appscale) / 2;
-				imgY = canvasEl.height / 2 - (img.height * appscale) / 2;
-				draw();
-			};
-
-			// Set the image source to load the blob
-			img.src = showImageCropper.resultEl.src;
+		if (showImageCropper.resultEl?.src?.startsWith('blob:')) {
+			setupImage(showImageCropper.resultEl.src);
 		}
 
+		// Mouse events
 		canvasEl.addEventListener('mousedown', (e) => {
 			dragging = true;
 			lastX = e.offsetX;
 			lastY = e.offsetY;
 		});
-
 		canvasEl.addEventListener('mousemove', (e) => {
 			if (!dragging) return;
 			const dx = e.offsetX - lastX;
 			const dy = e.offsetY - lastY;
-			onDragMove(dx, dy);
 			lastX = e.offsetX;
 			lastY = e.offsetY;
+			onDrag(dx, dy);
 		});
+		window.addEventListener('mouseup', () => (dragging = false));
 
-		canvasEl.addEventListener('mouseup', () => (dragging = false));
-		canvasEl.addEventListener('mouseleave', () => (dragging = false));
-
+		// Wheel zoom
 		canvasEl.addEventListener(
 			'wheel',
 			(e) => {
 				e.preventDefault();
-				zoomAt(e.offsetX, e.offsetY, e.deltaY < 0 ? ZOOM_FACTOR_STEP : 1 / ZOOM_FACTOR_STEP);
+				zoomAt(e.offsetX, e.offsetY, e.deltaY < 0 ? ZOOM_STEP : 1 / ZOOM_STEP);
 			},
 			{ passive: false }
 		);
 
+		// Touch events
 		canvasEl.addEventListener(
 			'touchstart',
 			(e) => {
 				if (e.touches.length === 1) {
+					dragging = true;
 					lastX = e.touches[0].clientX;
 					lastY = e.touches[0].clientY;
-					dragging = true;
 				} else if (e.touches.length === 2) {
 					lastTouchDist = getTouchDist(e);
 				}
@@ -187,14 +158,13 @@
 				if (e.touches.length === 1 && dragging) {
 					const dx = e.touches[0].clientX - lastX;
 					const dy = e.touches[0].clientY - lastY;
-					onDragMove(dx, dy);
 					lastX = e.touches[0].clientX;
 					lastY = e.touches[0].clientY;
+					onDrag(dx, dy);
 				} else if (e.touches.length === 2) {
 					const dist = getTouchDist(e);
 					if (lastTouchDist) {
-						const zoomFactor = dist / lastTouchDist;
-						zoomAt(canvasEl.width / 2, canvasEl.height / 2, zoomFactor);
+						zoomAt(canvasEl.width / 2, canvasEl.height / 2, dist / lastTouchDist);
 					}
 					lastTouchDist = dist;
 				}
@@ -208,52 +178,41 @@
 		});
 	});
 
+	// File upload
 	function handleUpload() {
 		const file = uploadEl.files?.[0];
 		if (!file) return;
-
 		const reader = new FileReader();
-		reader.onload = () => {
-			img.onload = () => {
-				appscale = getInitialScale(); // ⬅️ use correct zoomed-out appscale
-				imgX = canvasEl.width / 2 - (img.width * appscale) / 2;
-				imgY = canvasEl.height / 2 - (img.height * appscale) / 2;
-				draw();
-			};
-			img.src = reader.result;
-		};
+		reader.onload = () => setupImage(reader.result);
 		reader.readAsDataURL(file);
 	}
 
+	// Zoom buttons
 	function handleZoomIn() {
-		zoomAt(canvasEl.width / 2, canvasEl.height / 2, ZOOM_FACTOR_STEP);
+		zoomAt(canvasEl.width / 2, canvasEl.height / 2, ZOOM_STEP);
 	}
-
 	function handleZoomOut() {
-		zoomAt(canvasEl.width / 2, canvasEl.height / 2, 1 / ZOOM_FACTOR_STEP);
+		zoomAt(canvasEl.width / 2, canvasEl.height / 2, 1 / ZOOM_STEP);
 	}
 
+	// Crop and export
 	function handleCrop() {
-		if (!uploadEl?.files[0]) return;
-		const cropX = (canvasEl.width - FRAME_SIZE) / 2;
-		const cropY = (canvasEl.height - FRAME_SIZE) / 2;
-		const sx = (cropX - imgX) / appscale;
-		const sy = (cropY - imgY) / appscale;
-		const sw = FRAME_SIZE / appscale;
-		const sh = FRAME_SIZE / appscale;
+		const cx = (canvasEl.width - FRAME_SIZE) / 2;
+		const cy = (canvasEl.height - FRAME_SIZE) / 2;
+		const sx = (cx - offsetX) / appScale;
+		const sy = (cy - offsetY) / appScale;
+		const sw = FRAME_SIZE / appScale;
+		const sh = FRAME_SIZE / appScale;
 
-		const tempCanvas = document.createElement('canvas');
-		tempCanvas.width = FRAME_SIZE;
-		tempCanvas.height = FRAME_SIZE;
-		const tempCtx = tempCanvas.getContext('2d');
-		tempCtx.drawImage(img, sx, sy, sw, sh, 0, 0, FRAME_SIZE, FRAME_SIZE);
-
-		tempCanvas.toBlob((blob) => {
+		const temp = document.createElement('canvas');
+		temp.width = FRAME_SIZE;
+		temp.height = FRAME_SIZE;
+		temp.getContext('2d').drawImage(img, sx, sy, sw, sh, 0, 0, FRAME_SIZE, FRAME_SIZE);
+		temp.toBlob((blob) => {
 			if (!blob) return;
+			if (showImageCropper.objectUrl) URL.revokeObjectURL(showImageCropper.objectUrl);
 			showImageCropper.objectUrl = blob;
-			if (objectUrl) URL.revokeObjectURL(objectUrl);
-			objectUrl = URL.createObjectURL(blob);
-			showImageCropper.resultEl.src = objectUrl;
+			showImageCropper.resultEl.src = URL.createObjectURL(blob);
 			showImageCropper.status = false;
 		}, 'image/jpeg');
 	}
@@ -304,7 +263,6 @@
 						<button
 							class="flex size-8 cursor-pointer items-center justify-center text-gray-600 transition-colors hover:bg-gray-100 hover:text-gray-900 active:bg-gray-200"
 							aria-label="Zoom In"
-							bind:this={zoomInBtnEl}
 							onclick={handleZoomIn}
 						>
 							<Icon name="plus" class="size-5" stroke="none" />
@@ -313,7 +271,6 @@
 						<button
 							class="flex size-8 cursor-pointer items-center justify-center text-gray-600 transition-colors hover:bg-gray-100 hover:text-gray-900 active:bg-gray-200"
 							aria-label="Zoom Out"
-							bind:this={zoomOutBtnEl}
 							onclick={handleZoomOut}
 						>
 							<Icon name="minus" class="size-5" stroke="none" />
@@ -336,7 +293,6 @@
 							class="bg-secondary-btn-bg-theme-light dark:bg-secondary-btn-bg-theme-dark sm:hover:bg-secondary-btn-hover-theme-light sm:dark:hover:bg-secondary-btn-hover-theme-dark"
 						/>
 						<Button
-							bind:this={cropBtnEl}
 							disable={!uploadEl?.files[0]}
 							callBack={handleCrop}
 							text="Save"
