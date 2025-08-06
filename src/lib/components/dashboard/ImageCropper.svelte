@@ -1,5 +1,5 @@
 <script>
-	import { onMount } from 'svelte';
+	import { onMount, onDestroy } from 'svelte';
 	import { fade, scale } from 'svelte/transition';
 	import { showImageCropper } from '$lib/stores/showImageCropper.svelte.js';
 	import { darkMode } from '$lib/stores/darkMode.svelte.js';
@@ -8,52 +8,47 @@
 
 	let canvasEl, uploadEl;
 	let ctx;
+	let animFrame;
 
 	const FRAME_SIZE = 600;
+	const ASPECT_RATIO = 1;
+	const FRAME_WIDTH = FRAME_SIZE * ASPECT_RATIO;
+	const FRAME_HEIGHT = FRAME_SIZE;
 	const ZOOM_STEP = 1.05;
 	const MAX_SCALE = 4;
 
-	// Image state
-	let img = new Image();
+	let img;
 	let appScale = 1;
 	let minScale = 1;
 	let offsetX = 0;
 	let offsetY = 0;
 
-	// Interaction state
 	let dragging = false;
 	let lastX = 0;
 	let lastY = 0;
 	let lastTouchDist = null;
+	let lastTouchMid = null;
 
-	// Utility
 	const clamp = (v, min, max) => Math.min(Math.max(v, min), max);
 
-	// Compute the minimum appScale to fully cover the crop frame
 	function computeMinScale() {
-		return Math.min(1, Math.max(FRAME_SIZE / img.width, FRAME_SIZE / img.height));
+		return Math.max(FRAME_WIDTH / img.width, FRAME_HEIGHT / img.height);
 	}
 
-	// Center image in the canvas at current appScale
 	function centerImage() {
 		offsetX = (canvasEl.width - img.width * appScale) / 2;
 		offsetY = (canvasEl.height - img.height * appScale) / 2;
 	}
 
-	// Clamp offsets so crop frame is always covered
 	function clampOffsets() {
 		const dispW = img.width * appScale;
 		const dispH = img.height * appScale;
-		const left = (canvasEl.width - FRAME_SIZE) / 2;
-		const top = (canvasEl.height - FRAME_SIZE) / 2;
-		const right = left + FRAME_SIZE;
-		const bottom = top + FRAME_SIZE;
-
-		offsetX = clamp(offsetX, right - dispW, left);
-		offsetY = clamp(offsetY, bottom - dispH, top);
+		const left = (canvasEl.width - FRAME_WIDTH) / 2;
+		const top = (canvasEl.height - FRAME_HEIGHT) / 2;
+		offsetX = clamp(offsetX, left + FRAME_WIDTH - dispW, left);
+		offsetY = clamp(offsetY, top + FRAME_HEIGHT - dispH, top);
 	}
 
-	// Draw image onto canvas
 	function draw() {
 		if (!ctx) return;
 		ctx.clearRect(0, 0, canvasEl.width, canvasEl.height);
@@ -65,8 +60,8 @@
 		ctx.restore();
 	}
 
-	// Load and initialize image
 	function setupImage(src) {
+		// Clean up previous image
 		img = new Image();
 		img.onload = () => {
 			minScale = computeMinScale();
@@ -77,108 +72,138 @@
 		img.src = src;
 	}
 
-	// Zoom around a point
-	function zoomAt(dx, dy, factor) {
+	function zoomAt(x, y, factor) {
 		const newScale = clamp(appScale * factor, minScale, MAX_SCALE);
-		const imgX = (dx - offsetX) / appScale;
-		const imgY = (dy - offsetY) / appScale;
+		const imgX = (x - offsetX) / appScale;
+		const imgY = (y - offsetY) / appScale;
 		appScale = newScale;
-		offsetX = dx - imgX * appScale;
-		offsetY = dy - imgY * appScale;
+		offsetX = x - imgX * appScale;
+		offsetY = y - imgY * appScale;
 		draw();
 	}
 
-	// Touch distance for pinch
 	function getTouchDist(e) {
 		const [a, b] = e.touches;
 		return Math.hypot(a.clientX - b.clientX, a.clientY - b.clientY);
 	}
 
-	// Handle drag movements
+	function getTouchMid(e) {
+		const [a, b] = e.touches;
+		return { x: (a.clientX + b.clientX) / 2, y: (a.clientY + b.clientY) / 2 };
+	}
+
 	function onDrag(dx, dy) {
 		offsetX += dx;
 		offsetY += dy;
 		draw();
 	}
 
+	function addListeners() {
+		canvasEl.addEventListener('mousedown', onMouseDown);
+		canvasEl.addEventListener('mousemove', onMouseMove);
+		window.addEventListener('mouseup', onMouseUp);
+		canvasEl.addEventListener('wheel', onWheel, { passive: false });
+		canvasEl.addEventListener('touchstart', onTouchStart, { passive: false });
+		canvasEl.addEventListener('touchmove', onTouchMove, { passive: false });
+		canvasEl.addEventListener('touchend', onTouchEnd);
+	}
+
+	function removeListeners() {
+		canvasEl.removeEventListener('mousedown', onMouseDown);
+		canvasEl.removeEventListener('mousemove', onMouseMove);
+		window.removeEventListener('mouseup', onMouseUp);
+		canvasEl.removeEventListener('wheel', onWheel);
+		canvasEl.removeEventListener('touchstart', onTouchStart);
+		canvasEl.removeEventListener('touchmove', onTouchMove);
+		canvasEl.removeEventListener('touchend', onTouchEnd);
+	}
+
+	function onMouseDown(e) {
+		dragging = true;
+		lastX = e.offsetX;
+		lastY = e.offsetY;
+		cancelAnimationFrame(animFrame);
+	}
+	function onMouseMove(e) {
+		if (!dragging) return;
+		const dx = e.offsetX - lastX;
+		const dy = e.offsetY - lastY;
+		lastX = e.offsetX;
+		lastY = e.offsetY;
+		onDrag(dx, dy);
+	}
+	function onMouseUp() {
+		dragging = false;
+	}
+	function onWheel(e) {
+		e.preventDefault();
+		zoomAt(e.offsetX, e.offsetY, e.deltaY < 0 ? ZOOM_STEP : 1 / ZOOM_STEP);
+	}
+
+	function onTouchStart(e) {
+		if (e.touches.length === 1) {
+			dragging = true;
+			lastX = e.touches[0].clientX - canvasEl.getBoundingClientRect().left;
+			lastY = e.touches[0].clientY - canvasEl.getBoundingClientRect().top;
+			cancelAnimationFrame(animFrame);
+		} else if (e.touches.length === 2) {
+			lastTouchDist = getTouchDist(e);
+			lastTouchMid = getTouchMid(e);
+		}
+	}
+	function onTouchMove(e) {
+		e.preventDefault();
+		if (e.touches.length === 1 && dragging) {
+			const x = e.touches[0].clientX - canvasEl.getBoundingClientRect().left;
+			const y = e.touches[0].clientY - canvasEl.getBoundingClientRect().top;
+			const dx = x - lastX;
+			const dy = y - lastY;
+			lastX = x;
+			lastY = y;
+			onDrag(dx, dy);
+		} else if (e.touches.length === 2) {
+			const dist = getTouchDist(e);
+			const mid = getTouchMid(e);
+			if (lastTouchDist) {
+				zoomAt(
+					mid.x - canvasEl.getBoundingClientRect().left,
+					mid.y - canvasEl.getBoundingClientRect().top,
+					dist / lastTouchDist
+				);
+			}
+			if (lastTouchMid) {
+				const mdx = mid.x - lastTouchMid.x;
+				const mdy = mid.y - lastTouchMid.y;
+				onDrag(mdx, mdy);
+			}
+			lastTouchDist = dist;
+			lastTouchMid = mid;
+		}
+	}
+	function onTouchEnd() {
+		dragging = false;
+		lastTouchDist = null;
+		lastTouchMid = null;
+	}
+
 	onMount(() => {
 		ctx = canvasEl.getContext('2d');
 		canvasEl.width = 1000;
 		canvasEl.height = 1000;
-
-		if (showImageCropper.resultEl?.src?.startsWith('blob:')) {
-			setupImage(showImageCropper.resultEl.src);
-		}
-
-		// Mouse events
-		canvasEl.addEventListener('mousedown', (e) => {
-			dragging = true;
-			lastX = e.offsetX;
-			lastY = e.offsetY;
-		});
-		canvasEl.addEventListener('mousemove', (e) => {
-			if (!dragging) return;
-			const dx = e.offsetX - lastX;
-			const dy = e.offsetY - lastY;
-			lastX = e.offsetX;
-			lastY = e.offsetY;
-			onDrag(dx, dy);
-		});
-		window.addEventListener('mouseup', () => (dragging = false));
-
-		// Wheel zoom
-		canvasEl.addEventListener(
-			'wheel',
-			(e) => {
-				e.preventDefault();
-				zoomAt(e.offsetX, e.offsetY, e.deltaY < 0 ? ZOOM_STEP : 1 / ZOOM_STEP);
-			},
-			{ passive: false }
-		);
-
-		// Touch events
-		canvasEl.addEventListener(
-			'touchstart',
-			(e) => {
-				if (e.touches.length === 1) {
-					dragging = true;
-					lastX = e.touches[0].clientX;
-					lastY = e.touches[0].clientY;
-				} else if (e.touches.length === 2) {
-					lastTouchDist = getTouchDist(e);
-				}
-			},
-			{ passive: false }
-		);
-
-		canvasEl.addEventListener(
-			'touchmove',
-			(e) => {
-				e.preventDefault();
-				if (e.touches.length === 1 && dragging) {
-					const dx = e.touches[0].clientX - lastX;
-					const dy = e.touches[0].clientY - lastY;
-					lastX = e.touches[0].clientX;
-					lastY = e.touches[0].clientY;
-					onDrag(dx, dy);
-				} else if (e.touches.length === 2) {
-					const dist = getTouchDist(e);
-					if (lastTouchDist) {
-						zoomAt(canvasEl.width / 2, canvasEl.height / 2, dist / lastTouchDist);
-					}
-					lastTouchDist = dist;
-				}
-			},
-			{ passive: false }
-		);
-
-		canvasEl.addEventListener('touchend', () => {
-			dragging = false;
-			lastTouchDist = null;
-		});
+		setupImage(showImageCropper.resultEl?.src || '');
+		addListeners();
 	});
 
-	// File upload
+	onDestroy(() => {
+		removeListeners();
+		cancelAnimationFrame(animFrame);
+		// revoke blob if any
+		if (showImageCropper.objectUrl) {
+			URL.revokeObjectURL(showImageCropper.objectUrl);
+		}
+		img = null;
+	});
+
 	function handleUpload() {
 		const file = uploadEl.files?.[0];
 		if (!file) return;
@@ -187,27 +212,26 @@
 		reader.readAsDataURL(file);
 	}
 
-	// Zoom buttons
 	function handleZoomIn() {
 		zoomAt(canvasEl.width / 2, canvasEl.height / 2, ZOOM_STEP);
 	}
+
 	function handleZoomOut() {
 		zoomAt(canvasEl.width / 2, canvasEl.height / 2, 1 / ZOOM_STEP);
 	}
 
-	// Crop and export
 	function handleCrop() {
-		const cx = (canvasEl.width - FRAME_SIZE) / 2;
-		const cy = (canvasEl.height - FRAME_SIZE) / 2;
-		const sx = (cx - offsetX) / appScale;
-		const sy = (cy - offsetY) / appScale;
-		const sw = FRAME_SIZE / appScale;
-		const sh = FRAME_SIZE / appScale;
+		const left = (canvasEl.width - FRAME_WIDTH) / 2;
+		const top = (canvasEl.height - FRAME_HEIGHT) / 2;
+		const sx = (left - offsetX) / appScale;
+		const sy = (top - offsetY) / appScale;
+		const sw = FRAME_WIDTH / appScale;
+		const sh = FRAME_HEIGHT / appScale;
 
 		const temp = document.createElement('canvas');
-		temp.width = FRAME_SIZE;
-		temp.height = FRAME_SIZE;
-		temp.getContext('2d').drawImage(img, sx, sy, sw, sh, 0, 0, FRAME_SIZE, FRAME_SIZE);
+		temp.width = FRAME_WIDTH;
+		temp.height = FRAME_HEIGHT;
+		temp.getContext('2d').drawImage(img, sx, sy, sw, sh, 0, 0, FRAME_WIDTH, FRAME_HEIGHT);
 		temp.toBlob((blob) => {
 			if (!blob) return;
 			if (showImageCropper.objectUrl) URL.revokeObjectURL(showImageCropper.objectUrl);
