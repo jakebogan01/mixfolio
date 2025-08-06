@@ -122,7 +122,6 @@
 						class="peer h-full w-full rounded-md border border-gray-400/70 bg-transparent px-3 py-2.5 font-normal outline-0 transition-colors outline-none not-placeholder-shown:border-t-transparent focus:border focus:border-gray-900 focus:border-t-transparent focus:ring-0 focus:outline-0 dark:border-gray-700 dark:text-white dark:focus:border-gray-300"
 						oninput={handleSearch}
 						bind:value={searchTerm}
-						onblur={() => (searchTerm = '')}
 						placeholder=" "
 					/><label
 						for="search"
@@ -145,7 +144,7 @@
 								<ul>
 									{#each filteredProjects as project (project?.id)}
 										<li
-											class="hover:bg-primary-btn-bg-theme-light cursor-pointer px-3 py-2 font-medium text-gray-600 select-none hover:text-white dark:text-white dark:hover:bg-gray-700"
+											class="hover:bg-primary-btn-bg-theme-light cursor-pointer font-medium text-gray-600 select-none hover:text-white dark:text-white dark:hover:bg-gray-700"
 										>
 											<button
 												type="button"
@@ -153,7 +152,7 @@
 													searchTerm = '';
 													goto(PROJECTS, { state: { view: true, projectId: project?.id } });
 												}}
-												class="cursor-pointer px-4 py-1"
+												class="w-full cursor-pointer px-4 py-2 text-left"
 											>
 												{project?.title || 'Title unavailable'}
 											</button>
@@ -171,7 +170,7 @@
 								<ul>
 									{#each filteredTestimonials as testimonial (testimonial?.id)}
 										<li
-											class="hover:bg-primary-btn-bg-theme-light cursor-pointer px-3 py-2 font-medium text-gray-600 select-none hover:text-white dark:text-white dark:hover:bg-gray-700"
+											class="hover:bg-primary-btn-bg-theme-light cursor-pointer font-medium text-gray-600 select-none hover:text-white dark:text-white dark:hover:bg-gray-700"
 										>
 											<button
 												type="button"
@@ -181,7 +180,7 @@
 														state: { view: true, testimonialId: testimonial?.id }
 													});
 												}}
-												class="cursor-pointer px-4 py-1"
+												class="w-full cursor-pointer px-4 py-2 text-left"
 											>
 												{testimonial?.name || 'Name unavailable'}
 											</button>
@@ -199,7 +198,7 @@
 								<ul>
 									{#each filteredClients as client (client?.id)}
 										<li
-											class="hover:bg-primary-btn-bg-theme-light cursor-pointer px-3 py-2 font-medium text-gray-600 select-none hover:text-white dark:text-white dark:hover:bg-gray-700"
+											class="hover:bg-primary-btn-bg-theme-light cursor-pointer font-medium text-gray-600 select-none hover:text-white dark:text-white dark:hover:bg-gray-700"
 										>
 											<button
 												type="button"
@@ -207,7 +206,7 @@
 													searchTerm = '';
 													goto(CLIENTS, { state: { view: true, clientId: client?.id } });
 												}}
-												class="cursor-pointer px-4 py-1"
+												class="w-full cursor-pointer px-4 py-2 text-left"
 											>
 												{client?.name || 'Name unavailable'}
 											</button>
