@@ -23,11 +23,22 @@
 		<div class="mb-10 flex flex-wrap items-start justify-between gap-6">
 			<div class="flex items-center gap-6">
 				{#if data?.userProfile?.avatar_url}
-					<img
-						src={data?.userProfile?.avatar_url}
-						alt={data?.userProfile?.name || 'User avatar'}
-						class="relative inline-block size-18 rounded-lg object-cover object-center shadow-md shadow-gray-500 dark:shadow-gray-900"
-					/>
+					<button
+						onclick={toggleMenu}
+						type="button"
+						class="group relative cursor-pointer overflow-hidden rounded-lg shadow-md shadow-gray-500 dark:shadow-gray-900"
+					>
+						<span
+							class="absolute inset-0 z-1 flex items-center justify-center group-hover:bg-black/70"
+						>
+							<span class="text-white opacity-0 group-hover:opacity-100">Edit</span>
+						</span>
+						<img
+							src={data?.userProfile?.avatar_url}
+							alt={data?.userProfile?.name || 'User avatar'}
+							class="relative inline-block size-18 rounded-lg object-cover object-center"
+						/>
+					</button>
 				{:else}
 					<span
 						class="relative inline-block size-18 rounded-lg bg-gray-200 object-cover object-center shadow-md shadow-gray-500"

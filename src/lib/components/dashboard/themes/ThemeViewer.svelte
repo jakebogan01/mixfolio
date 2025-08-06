@@ -6,7 +6,7 @@
 	import { toISODate } from '$lib/utils/date.js';
 	import { page } from '$app/state';
 	import Button from '$lib/components/global/Button.svelte';
-	import { invalidate } from '$app/navigation';
+	import { invalidateAll } from '$app/navigation';
 	import { toastMessage } from '$lib/utils/toast.js';
 
 	let { data, themeId, toggleMenu = () => {} } = $props();
@@ -82,7 +82,7 @@
 				.collection('preferences')
 				.update(data?.userProfile?.expand?.preferences?.id, { theme_id: theme?.id });
 			toggleMenu();
-			await invalidate('user_profile');
+			await invalidateAll();
 			toastMessage('success', 'Successfully updated your theme!');
 		} catch (error) {
 			console.dir(error, { depth: null });

@@ -6,7 +6,7 @@
 	import { createForm } from 'felte';
 	import { validator } from '@felte/validator-zod';
 	import reporterDom from '@felte/reporter-dom';
-	import { invalidate } from '$app/navigation';
+	import { invalidateAll } from '$app/navigation';
 	import Button from '$lib/components/global/Button.svelte';
 
 	let { data, testimonialId, viewTestimonial, toggleMenu = () => {} } = $props();
@@ -85,7 +85,7 @@
 				reset();
 				showImageCropper.objectUrl = null;
 				showImageCropper.resultEl = null;
-				await invalidate('user_profile');
+				await invalidateAll();
 			} catch (error) {
 				console.dir(error?.message, { depth: null });
 			}
@@ -98,7 +98,7 @@
 			testimonialId = null;
 			toggleMenu();
 			showDeleteModal = false;
-			await invalidate('user_profile');
+			await invalidateAll();
 		} catch (error) {
 			console.dir(error?.message, { depth: null });
 		}
@@ -251,7 +251,9 @@
 															text="Change avatar"
 															class="bg-primary-btn-bg-theme-light sm:hover:bg-primary-btn-hover-theme-light"
 														/>
-														<p class="mt-2 text-xs/5 text-gray-400">JPG, JPEG or PNG. 50MB max.</p>
+														<p class="mt-2 text-xs/5 text-gray-400">
+															For best results use 1200x1200.<br />JPG, JPEG or PNG. 50MB max.
+														</p>
 													</div>
 												</div>
 											</div>

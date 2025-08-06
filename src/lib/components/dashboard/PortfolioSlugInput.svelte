@@ -5,7 +5,7 @@
 	import { createForm } from 'felte';
 	import { validator } from '@felte/validator-zod';
 	import reporterDom from '@felte/reporter-dom';
-	import { invalidate } from '$app/navigation';
+	import { invalidateAll } from '$app/navigation';
 	import { toastMessage } from '$lib/utils/toast.js';
 	import Icon from '$lib/components/Icon.svelte';
 
@@ -30,7 +30,7 @@
 		onSubmit: async (values) => {
 			try {
 				await data.pb.collection('profiles').update(data?.userProfile?.id, values);
-				await invalidate('user_profile');
+				await invalidateAll();
 				showSlugWarning = 'green';
 				toastMessage('success', 'Success, your profile URL is ready to use!');
 			} catch (error) {

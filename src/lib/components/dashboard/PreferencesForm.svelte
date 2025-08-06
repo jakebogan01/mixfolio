@@ -1,6 +1,6 @@
 <script>
 	import { createForm } from 'felte';
-	import { invalidate } from '$app/navigation';
+	import { invalidateAll } from '$app/navigation';
 	import { toastMessage } from '$lib/utils/toast.js';
 	import { debounce } from '$lib/utils/misc.js';
 
@@ -11,7 +11,7 @@
 			await data.pb
 				.collection('preferences')
 				.update(data?.userProfile?.expand?.preferences?.id, values);
-			await invalidate('user_profile');
+			await invalidateAll();
 			toastMessage('success', 'Settings Updated!');
 		} catch (error) {
 			console.dir(error, { depth: null });

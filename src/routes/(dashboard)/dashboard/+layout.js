@@ -5,9 +5,8 @@ import { redirect } from '@sveltejs/kit';
 import { processExpandedItems } from '$lib/utils/misc.js';
 import { user } from '$lib/stores/user.svelte.js';
 
-export async function load({ parent, depends }) {
+export async function load({ parent }) {
 	const { pb } = await parent();
-	depends('user_profile');
 
 	if (!pb?.authStore?.isValid) redirect(303, '/');
 
