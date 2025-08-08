@@ -11,6 +11,7 @@
 
 	let { data } = $props();
 	let showSlugWarning = $state('oklch(21% 0.034 264.665)');
+	let input = $state('');
 	let formEl;
 
 	const debouncedSubmit = debounce(() => {
@@ -29,6 +30,18 @@
 		extend: [validator({ schema }), reporterDom()],
 		onSubmit: async (values) => {
 			try {
+				input = input
+					.toLowerCase()
+					.replace(/[^a-z0-9.-]+/g, '-')
+					.replace(/[-.]{2,}/g, '-')
+					.replace(/^[-.]+|[-.]+$/g, '')
+					.trim();
+				values.slug = values.slug
+					.toLowerCase()
+					.replace(/[^a-z0-9.-]+/g, '-')
+					.replace(/[-.]{2,}/g, '-')
+					.replace(/^[-.]+|[-.]+$/g, '')
+					.trim();
 				await data.pb.collection('profiles').update(data?.userProfile?.id, values);
 				await invalidateAll();
 				showSlugWarning = 'green';
@@ -86,6 +99,7 @@
 			<input
 				id="copy-link"
 				type="text"
+				bind:value={input}
 				oninput={debouncedSubmit}
 				name="slug"
 				placeholder="my-name"
