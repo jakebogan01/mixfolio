@@ -2,7 +2,7 @@
 	import Hero from '$lib/components/home/home_page/Hero.svelte';
 	import Head from '$lib/components/Head.svelte';
 	import ContentSection from '$lib/components/home/home_page/ContentSection.svelte';
-	import DarkBentoSection from '$lib/components/home/home_page/DarkBentoSection.svelte';
+	// import DarkBentoSection from '$lib/components/home/home_page/DarkBentoSection.svelte';
 	import Testimonials from '$lib/components/home/home_page/Testimonials.svelte';
 	import Footer from '$lib/components/home/home_page/Footer.svelte';
 
@@ -19,7 +19,7 @@
 	<Hero currentUser={data?.pb?.authStore?.isValid || null} />
 	<main>
 		<ContentSection />
-		<DarkBentoSection />
+		<!--		<DarkBentoSection />-->
 	</main>
 	<Testimonials />
 	<Footer />
