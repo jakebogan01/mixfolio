@@ -13,7 +13,6 @@
 	let theme = $state(null);
 	let el;
 	let isWhiteOrBlack = $state(false);
-	let colorVisible = $state(true);
 	let buttonDisabled = $state(false);
 
 	onMount(() => {
@@ -22,57 +21,61 @@
 		}
 
 		if (
-			data?.userProfile?.expand?.preferences?.portfolio_color === '#000000' ||
-			data?.userProfile?.expand?.preferences?.portfolio_color === '#ffffff'
+			themeId === data?.userProfile?.expand?.preferences?.theme_id &&
+			data?.userProfile?.slug?.length
 		) {
-			isWhiteOrBlack = true;
-		}
-		console.log('isWhiteOrBlack', isWhiteOrBlack);
-		const existingColor = isWhiteOrBlack
-			? '#924999'
-			: data?.userProfile?.expand?.preferences?.portfolio_color;
-		// const existingColor = data?.userProfile?.expand?.preferences?.portfolio_color || '#924999';
-		const existingPrefId = data?.userProfile?.expand?.preferences?.id;
-		const userId = data?.userProfile?.id;
-
-		const wheelPicker = new iro.ColorPicker('#wheelPicker', {
-			width: 250,
-			color: existingColor,
-			borderWidth: 1,
-			borderColor: '#fff',
-			layout: [
-				{
-					component: iro.ui.Slider,
-					options: { id: 'hue-slider', sliderType: 'hue' }
-				}
-			]
-		});
-
-		const debouncedUpdate = debounce(async (selectedColor) => {
-			try {
-				if (existingPrefId) {
-					await data.pb.collection('preferences').update(existingPrefId, {
-						portfolio_color: selectedColor
-					});
-					console.log('✅ Color updated:', selectedColor);
-				} else {
-					const newPref = await data.pb.collection('preferences').create({
-						portfolio_color: selectedColor
-					});
-					await data.pb.collection('profiles').update(userId, {
-						preferences: newPref.id
-					});
-					console.log('✅ Preferences created:', newPref.id);
-				}
-				el.contentWindow.location.reload(true);
-			} catch (error) {
-				console.dir(error, { depth: null });
+			if (
+				data?.userProfile?.expand?.preferences?.portfolio_color === '#000000' ||
+				data?.userProfile?.expand?.preferences?.portfolio_color === '#ffffff'
+			) {
+				isWhiteOrBlack = true;
 			}
-		}, 500);
+			const existingColor = isWhiteOrBlack
+				? '#924999'
+				: data?.userProfile?.expand?.preferences?.portfolio_color;
+			// const existingColor = data?.userProfile?.expand?.preferences?.portfolio_color || '#924999';
+			const existingPrefId = data?.userProfile?.expand?.preferences?.id;
+			const userId = data?.userProfile?.id;
 
-		wheelPicker.on('color:change', (color) => {
-			debouncedUpdate(color.hexString);
-		});
+			const wheelPicker = new iro.ColorPicker('#wheelPicker', {
+				width: 250,
+				color: existingColor,
+				borderWidth: 1,
+				borderColor: '#fff',
+				layout: [
+					{
+						component: iro.ui.Slider,
+						options: { id: 'hue-slider', sliderType: 'hue' }
+					}
+				]
+			});
+
+			const debouncedUpdate = debounce(async (selectedColor) => {
+				try {
+					if (existingPrefId) {
+						await data.pb.collection('preferences').update(existingPrefId, {
+							portfolio_color: selectedColor
+						});
+						console.log('✅ Color updated:', selectedColor);
+					} else {
+						const newPref = await data.pb.collection('preferences').create({
+							portfolio_color: selectedColor
+						});
+						await data.pb.collection('profiles').update(userId, {
+							preferences: newPref.id
+						});
+						console.log('✅ Preferences created:', newPref.id);
+					}
+					el.contentWindow.location.reload(true);
+				} catch (error) {
+					console.dir(error, { depth: null });
+				}
+			}, 1000);
+
+			wheelPicker.on('color:change', (color) => {
+				debouncedUpdate(color.hexString);
+			});
+		}
 	});
 
 	const updateUserPreferences = async () => {
@@ -164,7 +167,7 @@
 								<div class="pb-1 sm:pb-6">
 									<div>
 										<div
-											class="h-60 bg-white bg-contain bg-center bg-no-repeat"
+											class="h-60 bg-white bg-cover bg-center bg-no-repeat"
 											style="background-image: url({theme?.theme_image_url})"
 										></div>
 										<div class="mt-6 px-4 sm:mt-8 sm:flex sm:items-end sm:px-6">
@@ -192,40 +195,49 @@
 												{toISODate(theme?.created) || 'Date unavailable'}
 											</dd>
 										</div>
-										<div>
-											<dt
-												class="text-sm font-medium text-gray-500 sm:w-40 sm:shrink-0 dark:text-gray-400"
-											>
-												Color picker
-											</dt>
-											<dd class="mt-1 text-sm text-gray-900 sm:col-span-2">
-												<div class="inline-flex items-center {!theme?.color ? 'lg:hidden' : ''}">
-													<div class="ColorPicker py-2" id="wheelPicker"></div>
+										{#if themeId === data?.userProfile?.expand?.preferences?.theme_id && data?.userProfile?.slug?.length}
+											<div>
+												<dt
+													class="text-sm font-medium text-gray-500 sm:w-40 sm:shrink-0 dark:text-gray-400"
+												>
+													Color picker
+												</dt>
+												<dd class="mt-1 text-sm text-gray-900 sm:col-span-2">
+													<div class="inline-flex items-center {!theme?.color ? 'lg:hidden' : ''}">
+														<div class="ColorPicker py-2" id="wheelPicker"></div>
+													</div>
+													<!--												{theme?.color ? 'lg:hidden' : 'py-2'}-->
+													<div class="flex shrink-0">
+														<Button
+															callBack={lightMode}
+															text="Light"
+															class="text-dark-text-theme-light! bg-white"
+														/>
+														<Button
+															callBack={darkMode}
+															text="Dark"
+															class="bg-secondary-btn-bg-theme-light dark:bg-secondary-btn-bg-theme-dark sm:hover:bg-secondary-btn-hover-theme-light sm:dark:hover:bg-secondary-btn-hover-theme-dark ml-4"
+														/>
+													</div>
+												</dd>
+											</div>
+										{/if}
+										{#if themeId === data?.userProfile?.expand?.preferences?.theme_id && data?.userProfile?.slug?.length}
+											<div>
+												<p
+													class="mb-2 text-sm font-medium text-gray-500 sm:w-40 sm:shrink-0 dark:text-gray-400"
+												>
+													Live Preview
+												</p>
+												<div class="h-75 w-99">
+													<iframe
+														bind:this={el}
+														src={`${page?.url?.origin}/portfolio/${data?.userProfile?.slug}`}
+														class="pointer-events-auto h-200 w-320 origin-top-left scale-[0.32]"
+														title="Portfolio Preview"
+														scrolling="no"
+													></iframe>
 												</div>
-												<!--												{theme?.color ? 'lg:hidden' : 'py-2'}-->
-												<div class="flex shrink-0">
-													<Button
-														callBack={lightMode}
-														text="Light"
-														class="text-dark-text-theme-light! bg-white"
-													/>
-													<Button
-														callBack={darkMode}
-														text="Dark"
-														class="bg-secondary-btn-bg-theme-light dark:bg-secondary-btn-bg-theme-dark sm:hover:bg-secondary-btn-hover-theme-light sm:dark:hover:bg-secondary-btn-hover-theme-dark ml-4"
-													/>
-												</div>
-											</dd>
-										</div>
-										{#if themeId === data?.userProfile?.expand?.preferences?.theme_id}
-											<div class="h-75 w-99">
-												<iframe
-													bind:this={el}
-													src={`${page?.url?.origin}/portfolio/${data?.userProfile?.slug}`}
-													class="pointer-events-auto h-200 w-320 origin-top-left scale-[0.32]"
-													title="Portfolio Preview"
-													scrolling="no"
-												></iframe>
 											</div>
 										{/if}
 									</dl>
@@ -238,17 +250,19 @@
 								text="Close"
 								class="text-dark-text-theme-light! bg-white"
 							/>
-							<Button
-								disabled={buttonDisabled}
-								callBack={updateUserPreferences}
-								class="bg-primary-btn-bg-theme-light dark:bg-primary-btn-bg-theme-dark sm:hover:bg-primary-btn-hover-theme-light sm:dark:hover:bg-secondary-btn-hover-theme-dark ml-4 flex h-9 w-[4.5625rem] items-center justify-center"
-							>
-								{#if buttonDisabled}
-									<span class="loader"></span>
-								{:else}
-									Select
-								{/if}
-							</Button>
+							{#if themeId !== data?.userProfile?.expand?.preferences?.theme_id}
+								<Button
+									disabled={buttonDisabled}
+									callBack={updateUserPreferences}
+									class="bg-primary-btn-bg-theme-light dark:bg-primary-btn-bg-theme-dark sm:hover:bg-primary-btn-hover-theme-light sm:dark:hover:bg-secondary-btn-hover-theme-dark ml-4 flex h-9 w-[4.5625rem] items-center justify-center"
+								>
+									{#if buttonDisabled}
+										<span class="loader"></span>
+									{:else}
+										Select
+									{/if}
+								</Button>
+							{/if}
 						</div>
 					</form>
 				</div>

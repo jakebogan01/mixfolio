@@ -54,7 +54,9 @@
 				if (register) {
 					const newUser = await pb.collection('users').create(values);
 					await pb.collection('users').authWithPassword(values.email, values.password);
-					let userPreferences = await pb.collection('preferences').create({ hide_portfolio: true });
+					let userPreferences = await pb
+						.collection('preferences')
+						.create({ hide_portfolio: true, theme_id: 'g6l2oaxifs99snq' });
 					let profile = await pb
 						.collection('profiles')
 						.create({ user_id: newUser.id, preferences: userPreferences.id });
