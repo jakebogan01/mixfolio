@@ -5,50 +5,62 @@
 	const testimonials = [
 		{
 			id: 1,
-			name: 'Overview',
-			role: 'Stay Organized with Task Lists.',
+			name: 'Alex R.',
+			role: 'Graphic Designer',
 			sectionContent:
 				'Clients can see all their tasks in a sortable list view, making it easy to track progress and prioritize work. Filter tasks by status, due date, or creator for a customized experience.',
+			quote:
+				'MixFolio made sharing my work so much easier. I love that I can manage everything from my dashboard and instantly update my public portfolio. It feels super professional!',
 			img: 'https://radiant.tailwindui.com/testimonials/tina-yards.jpg'
 		},
 		{
 			id: 2,
-			name: 'Visualize',
-			role: 'Visualize Tasks with Ease.',
+			name: 'Jasmine L.',
+			role: 'Freelance Developer',
 			sectionContent:
 				'Clients can access a replica of the admin dashboard’s visual layout, providing a clear picture of task progress. Follow tasks updates in real-time with confidence.',
+			quote:
+				'What I appreciate most about MixFolio is the control it gives me. I can tweak my portfolio anytime, and the live link is always up-to-date. Clients are impressed every time.',
 			img: 'https://radiant.tailwindui.com/testimonials/conor-neville.jpg'
 		},
 		{
 			id: 3,
-			name: 'Chat',
-			role: 'Collaborate Through Comments.',
+			name: 'Marcus T.',
+			role: 'UX/UI Designer',
 			sectionContent:
 				'When viewing a task, clients can leave comments and replies to collaborate with their team and communicate directly with the admin.',
+			quote:
+				'Finally, a platform that doesn’t make me choose between simplicity and customization. MixFolio lets me showcase my brand exactly how I want.',
 			img: 'https://radiant.tailwindui.com/testimonials/amy-chase.jpg'
 		},
 		{
 			id: 4,
-			name: 'Chat',
-			role: 'Collaborate Through Comments.',
+			name: 'Nina C.',
+			role: 'Creative Director',
 			sectionContent:
 				'When viewing a task, clients can leave comments and replies to collaborate with their team and communicate directly with the admin.',
+			quote:
+				'The dashboard is a game-changer. I don’t have to mess with code or third-party tools — everything I need to manage my portfolio is right there.',
 			img: 'https://radiant.tailwindui.com/testimonials/veronica-winton.jpg'
 		},
 		{
 			id: 5,
-			name: 'Chat',
-			role: 'Collaborate Through Comments.',
+			name: 'David M.',
+			role: 'Motion Designer',
 			sectionContent:
 				'When viewing a task, clients can leave comments and replies to collaborate with their team and communicate directly with the admin.',
+			quote:
+				'MixFolio helped me land my last two gigs. Being able to share a clean, professional portfolio link with clients made all the difference.',
 			img: 'https://radiant.tailwindui.com/testimonials/harriet-arron.jpg'
 		},
 		{
 			id: 6,
-			name: 'Chat',
-			role: 'Collaborate Through Comments.',
+			name: 'Sophie R.',
+			role: 'Photographer',
 			sectionContent:
 				'When viewing a task, clients can leave comments and replies to collaborate with their team and communicate directly with the admin.',
+			quote:
+				'I’ve tried tons of portfolio builders, but MixFolio is the first one that feels made for real creatives. The workflow is intuitive, and the design options are beautiful.',
 			img: 'https://radiant.tailwindui.com/testimonials/dillon-lenora.jpg'
 		}
 	];
@@ -96,19 +108,18 @@
 				<figure class="relative p-10">
 					<blockquote>
 						<p class="relative text-xl/7 text-white">
-							<span aria-hidden="true" class="absolute -translate-x-full">“</span>Thanks to Radiant,
-							we’re finding new leads that we never would have found with legal methods.<span
+							<span aria-hidden="true" class="absolute -translate-x-full">“</span>{item.quote}<span
 								aria-hidden="true"
 								class="absolute">”</span
 							>
 						</p>
 					</blockquote>
 					<figcaption class="mt-6 border-t border-white/20 pt-6">
-						<p class="text-sm/6 font-medium text-white">Tina Yards</p>
+						<p class="text-sm/6 font-medium text-white">{item.name}</p>
 						<p class="text-sm/6 font-medium">
 							<span
 								class="bg-linear-to-r from-[#fff1be] from-28% via-[#ee87cb] via-70% to-[#b060ff] bg-clip-text text-transparent"
-								>VP of Sales, Protocol</span
+								>{item.role}</span
 							>
 						</p>
 					</figcaption>
