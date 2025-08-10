@@ -1,6 +1,7 @@
 # MixFolio.io
 
-Placeholder text for future description of app.
+Build a standout portfolio in minutes.
+Share it to impress anywhere, anytime.
 
 ## Getting started
 
