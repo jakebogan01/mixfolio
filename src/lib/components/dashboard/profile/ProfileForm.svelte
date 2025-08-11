@@ -235,6 +235,7 @@
 														: 'text-xs/5 text-gray-400'}"
 												>
 													{resumeName?.length ? resumeName : 'PDF. 100KB max.'}
+
 												</p>
 											</div>
 											<div
@@ -418,7 +419,7 @@
 								<Button
 									callBack={toggleMenu}
 									text="Cancel"
-									class="text-dark-text-theme-light! bg-white"
+									class="text-dark-text-theme-light! bg-white  hover:bg-gray-200"
 								/>
 								<Button
 									disabled={buttonDisabled}
@@ -494,7 +495,7 @@
 						<Button
 							callBack={() => (showDeleteImage = false)}
 							text="Cancel"
-							class="text-dark-text-theme-light! bg-white"
+							class="text-dark-text-theme-light! bg-white  hover:bg-gray-200"
 						/>
 					</div>
 				</div>

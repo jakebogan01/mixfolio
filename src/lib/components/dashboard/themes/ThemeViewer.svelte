@@ -210,12 +210,12 @@
 													<div class="flex shrink-0">
 														<Button
 															callBack={lightMode}
-															text="Light"
-															class="text-dark-text-theme-light! bg-white"
+															text="White"
+															class="text-dark-text-theme-light! hover:bg-gray-200"
 														/>
 														<Button
 															callBack={darkMode}
-															text="Dark"
+															text="Black"
 															class="bg-secondary-btn-bg-theme-light dark:bg-secondary-btn-bg-theme-dark sm:hover:bg-secondary-btn-hover-theme-light sm:dark:hover:bg-secondary-btn-hover-theme-dark ml-4"
 														/>
 													</div>
@@ -248,7 +248,7 @@
 							<Button
 								callBack={toggleMenu}
 								text="Close"
-								class="text-dark-text-theme-light! bg-white"
+								class="text-dark-text-theme-light! bg-white hover:bg-gray-200"
 							/>
 							{#if themeId !== data?.userProfile?.expand?.preferences?.theme_id}
 								<Button

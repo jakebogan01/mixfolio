@@ -29,6 +29,7 @@ export async function load({ parent, params }) {
 				'slug, ' +
 				'oauth, ' +
 				'avatar, ' +
+				'resume, ' +
 				'created, ' +
 				'expand.projects.collectionId, ' +
 				'expand.projects.id, ' +
@@ -67,6 +68,10 @@ export async function load({ parent, params }) {
 			? pb.files.getURL(userProfile, userProfile.avatar)
 			: null;
 
+		userProfile.resume_url = userProfile.resume
+			? pb.files.getURL(userProfile, userProfile.resume)
+			: null;
+
 		if (userProfile.expand?.projects)
 			userProfile.expand.projects = processExpandedItems(
 				pb,
@@ -94,7 +99,7 @@ export async function load({ parent, params }) {
 		if ('collectionId' in userProfile) delete userProfile.collectionId;
 
 		let portfolioPublic = userProfile?.expand?.preferences?.hide_portfolio;
-		console.log('User profile:', userProfile);
+		// console.log('User profile:', userProfile);
 
 		if (!portfolioPublic) {
 			console.log('Public portfolio:', portfolioPublic);

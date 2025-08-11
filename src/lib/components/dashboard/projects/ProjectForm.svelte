@@ -339,7 +339,7 @@
 								<Button
 									callBack={toggleMenu}
 									text="Cancel"
-									class="text-dark-text-theme-light! bg-white"
+									class="text-dark-text-theme-light! bg-white  hover:bg-gray-200"
 								/>
 								{#if viewProject}
 									<Button
@@ -423,7 +423,7 @@
 						<Button
 							callBack={() => (showDeleteModal = false)}
 							text="Cancel"
-							class="text-dark-text-theme-light! bg-white"
+							class="text-dark-text-theme-light! bg-white  hover:bg-gray-200"
 						/>
 					</div>
 				</div>
