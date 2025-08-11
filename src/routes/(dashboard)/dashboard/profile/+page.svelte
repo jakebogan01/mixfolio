@@ -54,10 +54,10 @@
 					</span>
 				{/if}
 				<div>
-					<h5 class=" mb-1 block text-xl leading-snug font-semibold tracking-normal">
-						{data?.userProfile?.name || 'My Name'}
+					<h5 class=" mb-1 block text-xl leading-snug font-semibold tracking-normal {data?.userProfile?.name ? '' : 'opacity-60'}">
+						{data?.userProfile?.name || 'Full Name'}
 					</h5>
-					<p class=" block text-sm leading-normal font-normal">
+					<p class=" block text-sm leading-normal font-normal {data?.userProfile?.role ? '' : 'opacity-60'}">
 						{data?.userProfile?.role || 'Unknown job role'}
 					</p>
 				</div>
@@ -86,43 +86,43 @@
 						<dl class="grid grid-cols-1 gap-x-4 gap-y-4 sm:grid-cols-2">
 							<div class="sm:col-span-1">
 								<dt class="text-sm leading-normal font-semibold dark:text-gray-400">Phone</dt>
-								<dd class="text-sm leading-normal font-normal">
+								<dd class="text-sm leading-normal font-normal {data?.userProfile?.phone ? '' : 'opacity-60'}">
 									{data?.userProfile?.phone || '000-000-0000'}
 								</dd>
 							</div>
 							<div class="sm:col-span-1">
 								<dt class="text-sm leading-normal font-semibold dark:text-gray-400">Email</dt>
-								<dd class="text-sm leading-normal font-normal">
+								<dd class="text-sm leading-normal font-normal {data?.userProfile?.email ? '' : 'opacity-60'}">
 									{data?.userProfile?.email || 'me@example.com'}
 								</dd>
 							</div>
 							<div class="sm:col-span-1">
 								<dt class="text-sm leading-normal font-semibold dark:text-gray-400">Location</dt>
-								<dd class="text-sm leading-normal font-normal">
+								<dd class="text-sm leading-normal font-normal {data?.userProfile?.address ? '' : 'opacity-60'}">
 									{data?.userProfile?.address || 'Unknown location'}
 								</dd>
 							</div>
 							<div class="sm:col-span-1">
 								<dt class="text-sm leading-normal font-semibold dark:text-gray-400">Role</dt>
-								<dd class="text-sm leading-normal font-normal">
+								<dd class="text-sm leading-normal font-normal {data?.userProfile?.role ? '' : 'opacity-60'}">
 									{data?.userProfile?.role || 'Unknown role'}
 								</dd>
 							</div>
 							<div class="sm:col-span-1">
 								<dt class="text-sm leading-normal font-semibold dark:text-gray-400">Resume</dt>
-								<dd class="truncate text-sm leading-normal font-normal">
-									{data?.userProfile?.resume || 'Resume unavailable'}
+								<dd class="truncate text-sm font-normal leading-normal {data?.userProfile?.resume ? '' : 'opacity-60'}">
+									{data?.userProfile?.resume || 'No file found'}
 								</dd>
 							</div>
 							<div class="sm:col-span-1">
 								<dt class="text-sm leading-normal font-semibold dark:text-gray-400">Joined</dt>
-								<dd class="text-sm leading-normal font-normal">
+								<dd class="truncate text-sm font-normal leading-normal {data?.userProfile?.created ? '' : 'opacity-60'}">
 									{toISODate(data?.userProfile?.created) || 'Date unavailable'}
 								</dd>
 							</div>
 							<div class="sm:col-span-full">
 								<dt class="text-sm leading-normal font-semibold dark:text-gray-400">About me</dt>
-								<dd class="mt-1 max-w-prose space-y-5 text-sm leading-normal font-normal">
+								<dd class="mt-1 max-w-prose space-y-5 text-sm leading-normal font-normal {data?.userProfile?.biography ? '' : 'opacity-60'}">
 									{@html data?.userProfile?.biography || '...'}
 								</dd>
 							</div>

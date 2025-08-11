@@ -7,9 +7,11 @@
 	import reporterDom from '@felte/reporter-dom';
 	import { invalidateAll } from '$app/navigation';
 	import Button from '$lib/components/global/Button.svelte';
+	import Icon from '$lib/components/Icon.svelte';
 
 	let { data, toggleMenu = () => {} } = $props();
 	let showDeleteImage = $state(false);
+	let showDeleteResume = $state(false);
 	let buttonDisabled = $state(false);
 	let resumeBtn;
 
@@ -67,7 +69,8 @@
 			phone: data?.userProfile?.phone || null,
 			address: data?.userProfile?.address || null,
 			role: data?.userProfile?.role || null,
-			biography: data?.userProfile?.biography || null
+			biography: data?.userProfile?.biography || null,
+			resume: data?.userProfile?.resume || null
 		},
 		extend: [validator({ schema }), reporterDom()],
 		onSubmit: async (values) => {
@@ -109,6 +112,21 @@
 	let resumeName = $state('');
 	const handleResume = () => {
 		if (resumeBtn?.files[0]) resumeName = resumeBtn?.files[0]?.name;
+	};
+
+	const deleteResume = async () => {
+		try {
+			await data.pb.collection('profiles').update(data?.userProfile?.id, {
+				resume: null,
+				resume_url: null
+			});
+
+			toggleMenu();
+			showDeleteResume = false;
+			await invalidateAll();
+		} catch (error) {
+			console.dir(error?.message, { depth: null });
+		}
 	};
 
 	const formatPhoneNumber = (value) => {
@@ -226,15 +244,27 @@
 												/>
 												<Button
 													callBack={() => resumeBtn.click()}
-													text="Upload Resume"
-													class="bg-secondary-btn-bg-theme-light hover:bg-secondary-btn-hover-theme-light dark:bg-secondary-btn-bg-theme-dark sm:dark:hover:bg-secondary-btn-hover-theme-dark min-w-33"
+													text= {data?.userProfile?.resume_url ? 'Change Resume' : 'Upload Resume'}
+													class="bg-secondary-btn-bg-theme-light hover:bg-secondary-btn-hover-theme-light dark:bg-secondary-btn-bg-theme-dark sm:dark:hover:bg-secondary-btn-hover-theme-dark min-w-33 mr-2"
 												/>
+												{#if data?.userProfile?.resume_url}
+													<Button
+														onclick={() => {showDeleteResume = true;}}
+														class="bg-red-600 sm:phover:hover:bg-red-500"
+													>
+														<Icon name="dashboard-close-menu" class="h-5 w-5" />
+													</Button>
+												{/if}
 												<p
-													class="block truncate leading-normal font-normal dark:text-white {resumeName?.length
+													class="block truncate leading-normal font-normal max-w-45 dark:text-white {resumeName?.length
 														? 'text-sm dark:text-white'
 														: 'text-xs/5 text-gray-400'}"
 												>
-													{resumeName?.length ? resumeName : 'PDF. 100KB max.'}
+													{#if data?.userProfile?.resume_url}
+														{data?.userProfile?.resume}
+													{:else }
+														{resumeName?.length ? resumeName : 'PDF. 100KB max.'}
+													{/if}
 												</p>
 											</div>
 											<div
@@ -249,7 +279,7 @@
 											<label
 												for="name"
 												class="block text-sm/6 font-medium text-gray-900 dark:text-gray-400"
-												>Your name</label
+											>Your name</label
 											>
 											<div class="mt-2">
 												<input
@@ -276,7 +306,7 @@
 											<label
 												for="email"
 												class="block text-sm/6 font-medium text-gray-900 dark:text-gray-400"
-												>Your email</label
+											>Your email</label
 											>
 											<div class="mt-2">
 												<input
@@ -303,7 +333,7 @@
 											<label
 												for="phone"
 												class="block text-sm/6 font-medium text-gray-900 dark:text-gray-400"
-												>Your phone</label
+											>Your phone</label
 											>
 											<div class="mt-2">
 												<input
@@ -331,7 +361,7 @@
 											<label
 												for="role"
 												class="block text-sm/6 font-medium text-gray-900 dark:text-gray-400"
-												>Your job role</label
+											>Your job role</label
 											>
 											<div class="mt-2">
 												<input
@@ -358,7 +388,7 @@
 											<label
 												for="address"
 												class="block text-sm/6 font-medium text-gray-900 dark:text-gray-400"
-												>Your address</label
+											>Your address</label
 											>
 											<div class="mt-2">
 												<input
@@ -385,7 +415,7 @@
 											<label
 												for="biography"
 												class="block text-sm/6 font-medium text-gray-900 dark:text-gray-400"
-												>About me</label
+											>About me</label
 											>
 											<div class="mt-2">
 												<textarea
@@ -495,6 +525,69 @@
 							callBack={() => (showDeleteImage = false)}
 							text="Cancel"
 							class="text-dark-text-theme-light! bg-white"
+						/>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+{/if}
+
+{#if showDeleteResume}
+	<div role="dialog" aria-modal="true" aria-labelledby="dialog-title" class="relative z-100">
+		<div
+			transition:fade
+			aria-hidden="true"
+			class="fixed inset-0 bg-black/40 transition-opacity"
+		></div>
+		<div class="fixed inset-0 z-10 w-screen overflow-y-auto">
+			<div class="flex min-h-full items-end justify-center p-4 text-center sm:items-center sm:p-0">
+				<div
+					transition:scale
+					class="dark:bg-primary-theme-dark relative transform overflow-hidden rounded-lg bg-white px-4 pt-5 pb-4 text-left shadow-xl transition-all sm:my-8 sm:w-full sm:max-w-lg sm:p-6"
+				>
+					<div class="sm:flex sm:items-start">
+						<div
+							class="mx-auto flex size-12 shrink-0 items-center justify-center rounded-full bg-red-100 sm:mx-0 sm:size-10"
+						>
+							<svg
+								viewBox="0 0 24 24"
+								fill="none"
+								stroke="currentColor"
+								stroke-width="1.5"
+								data-slot="icon"
+								aria-hidden="true"
+								class="size-6 text-red-600"
+							>
+								<path
+									d="M12 9v3.75m-9.303 3.376c-.866 1.5.217 3.374 1.948 3.374h14.71c1.73 0 2.813-1.874 1.948-3.374L13.949 3.378c-.866-1.5-3.032-1.5-3.898 0L2.697 16.126ZM12 15.75h.007v.008H12v-.008Z"
+									stroke-linecap="round"
+									stroke-linejoin="round"
+								/>
+							</svg>
+						</div>
+						<div class="mt-3 text-center sm:mt-0 sm:ml-4 sm:text-left">
+							<h3 id="dialog-title" class="text-base font-semibold text-gray-900 dark:text-white">
+								Delete resume
+							</h3>
+							<div class="mt-2">
+								<p class="text-sm text-gray-500 dark:text-gray-400">
+									Are you sure you want to delete your resume? This file will be permanently removed
+									from our servers forever. This action cannot be undone.
+								</p>
+							</div>
+						</div>
+					</div>
+					<div class="mt-5 sm:mt-4 sm:flex sm:flex-row-reverse">
+						<Button
+							callBack={deleteResume}
+							text="Delete"
+							class="bg-red-600 sm:ml-3 sm:hover:hover:bg-red-500"
+						/>
+						<Button
+							callBack={() => (showDeleteResume = false)}
+							text="Cancel"
+							class="text-dark-text-theme-light! bg-white  hover:bg-gray-200"
 						/>
 					</div>
 				</div>

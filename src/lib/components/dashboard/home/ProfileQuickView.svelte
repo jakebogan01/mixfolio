@@ -51,42 +51,42 @@
 					</div>
 					<div class="ml-3">
 						<p
-							class="text-dark-text-theme-light dark:text-dark-text-theme-dark text-sm font-medium"
+							class="text-dark-text-theme-light dark:text-dark-text-theme-dark text-sm font-medium {data?.userProfile?.name ? '' : 'opacity-60'}"
 						>
-							{data?.userProfile?.name || 'My Name'}
+							{data?.userProfile?.name || 'Full Name'}
 						</p>
-						<p class="text-xs font-medium text-gray-500 dark:text-gray-400">
+						<p class="text-xs font-medium text-gray-500 dark:text-gray-400 {data?.userProfile?.email ? '' : 'opacity-60'}">
 							{data?.userProfile?.email || 'me@example.com'}
 						</p>
 					</div>
 				</div>
 				<div class="sm:col-span-1">
 					<dt class="text-sm leading-normal font-semibold">Phone</dt>
-					<dd class="text-sm leading-normal font-normal">
+					<dd class="text-sm leading-normal font-normal {data?.userProfile?.phone ? '' : 'opacity-60'}">
 						{data?.userProfile?.phone || '000-000-0000'}
 					</dd>
 				</div>
 				<div class="sm:col-span-1">
 					<dt class="text-sm leading-normal font-semibold">Location</dt>
-					<dd class="text-sm leading-normal font-normal">
+					<dd class="text-sm leading-normal font-normal {data?.userProfile?.address ? '' : 'opacity-60'}">
 						{data?.userProfile?.address || 'Unknown location'}
 					</dd>
 				</div>
 				<div class="sm:col-span-1">
 					<dt class="text-sm leading-normal font-semibold">Role</dt>
-					<dd class="text-sm leading-normal font-normal">
+					<dd class="text-sm leading-normal font-normal {data?.userProfile?.role ? '' : 'opacity-60'}">
 						{data?.userProfile?.role || 'Unknown role'}
 					</dd>
 				</div>
 				<div class="sm:col-span-1">
 					<dt class="text-sm leading-normal font-semibold">Joined</dt>
-					<dd class="text-sm leading-normal font-normal">
+					<dd class="text-sm leading-normal font-normal {data?.userProfile?.created ? '' : 'opacity-60'}">
 						{toISODate(data?.userProfile?.created) || 'Date unavailable'}
 					</dd>
 				</div>
 				<div class="sm:col-span-full">
 					<dt class="text-sm leading-normal font-semibold">About me</dt>
-					<dd class="mt-1 line-clamp-2 max-w-prose space-y-5 text-sm leading-normal font-normal">
+					<dd class="mt-1 line-clamp-2 max-w-prose space-y-5 text-sm leading-normal font-normal {data?.userProfile?.biography ? '' : 'opacity-60'}">
 						{@html data?.userProfile?.biography || '...'}
 					</dd>
 				</div>
