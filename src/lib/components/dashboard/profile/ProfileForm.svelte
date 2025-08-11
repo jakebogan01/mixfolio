@@ -265,6 +265,7 @@
 													{:else }
 														{resumeName?.length ? resumeName : 'PDF. 100KB max.'}
 													{/if}
+										
 												</p>
 											</div>
 											<div
@@ -448,7 +449,7 @@
 								<Button
 									callBack={toggleMenu}
 									text="Cancel"
-									class="text-dark-text-theme-light! bg-white"
+									class="text-dark-text-theme-light! bg-white  hover:bg-gray-200"
 								/>
 								<Button
 									disabled={buttonDisabled}
@@ -524,7 +525,7 @@
 						<Button
 							callBack={() => (showDeleteImage = false)}
 							text="Cancel"
-							class="text-dark-text-theme-light! bg-white"
+							class="text-dark-text-theme-light! bg-white  hover:bg-gray-200"
 						/>
 					</div>
 				</div>

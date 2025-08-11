@@ -325,7 +325,7 @@
 				{btnText} with Google
 			</button>
 		</div>
-		<div class="mt-3 mb-8">
+		<div class="mt-4 mb-8">
 			<button
 				disabled={buttonDisabled}
 				type="button"

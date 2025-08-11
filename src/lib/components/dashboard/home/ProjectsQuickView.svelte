@@ -74,7 +74,7 @@
 								<div class="flex items-center gap-x-4">
 									<img
 										src={project?.project_image_url ||
-											'https://demos.creative-tim.com/material-tailwind-dashboard-react/img/bruce-mars.jpeg'}
+											'https://empowher.org/wp-content/uploads/2021/03/image-placeholder-350x350-1.png'}
 										alt={project?.name || 'Project name unavailable'}
 										class="size-8 rounded bg-gray-800"
 									/>
