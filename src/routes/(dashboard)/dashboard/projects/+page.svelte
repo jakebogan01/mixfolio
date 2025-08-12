@@ -64,7 +64,7 @@
 							<img
 								src={project?.project_image_url ||
 									'https://empowher.org/wp-content/uploads/2021/03/image-placeholder-350x350-1.png'}
-								alt=""
+								alt={project?.title}
 								class="pointer-events-none aspect-square object-cover"
 							/>
 						</div>

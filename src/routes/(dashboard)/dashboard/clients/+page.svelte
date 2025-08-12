@@ -88,7 +88,7 @@
 													<img
 														src={client?.client_image_url ||
 															'https://empowher.org/wp-content/uploads/2021/03/image-placeholder-350x350-1.png'}
-														alt=""
+														alt={client?.name || 'Name unavailable'}
 														class="pointer-events-none w-full rounded-lg object-cover"
 													/>
 												</div>

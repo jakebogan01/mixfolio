@@ -90,7 +90,7 @@
 															<img
 																src={testimonial?.testimonial_image_url}
 																alt={testimonial?.testimonial_image_url || 'User avatar'}
-																class="size-11 rounded-full"
+																class="size-11 rounded-full bg-gray-100"
 															/>
 														{:else}
 															<span
