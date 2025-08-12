@@ -36,7 +36,7 @@
 							href="#projects"
 							target="_self"
 							class="flex items-center gap-2 font-sans text-base leading-relaxed font-medium antialiased hover:underline"
-							><Icon name="projects" class="h-4 w-4 " />
+							><Icon name="projects" class="h-4 w-4 " stroke="none"/>
 							Projects</a
 						>
 					</li>
@@ -47,7 +47,7 @@
 							href="#clients"
 							target="_self"
 							class="flex items-center gap-2 font-sans text-base leading-relaxed font-medium antialiased hover:underline"
-							><Icon name="clients" class="h-4 w-4 " />
+							><Icon name="clients" class="h-4 w-4 " stroke="none"/>
 							Clients</a
 						>
 					</li>
@@ -58,7 +58,7 @@
 							href="#testimonials"
 							target="_self"
 							class="flex items-center gap-2 font-sans text-base leading-relaxed font-medium antialiased hover:underline"
-							><Icon name="testimonials" class="h-4 w-4 " />
+							><Icon name="testimonials" class="h-4 w-4 " stroke="none"/>
 							Testimonials</a
 						>
 					</li>
@@ -68,7 +68,7 @@
 						<a
 							href={data?.resume_url}
 							class="flex items-center gap-2 font-sans text-base leading-relaxed font-medium antialiased hover:underline"
-						><Icon name="resume" class="h-4 w-4 " />
+						><Icon name="resume" class="h-4 w-4 " stroke="none"/>
 							Resume</a
 						>
 					</li>
@@ -133,7 +133,7 @@
 											href="#projects"
 											target="_self"
 											class="flex items-center gap-2 font-sans text-base leading-relaxed font-medium antialiased hover:underline"
-											><Icon name="projects" class="h-4 w-4 " />
+											><Icon name="projects" class="h-4 w-4 " stroke="none" />
 											Projects</a
 										>
 									</li>
@@ -144,7 +144,7 @@
 											href="#clients"
 											target="_self"
 											class="flex items-center gap-2 font-sans text-base leading-relaxed font-medium antialiased hover:underline"
-											><Icon name="clients" class="h-4 w-4 " />
+											><Icon name="clients" class="h-4 w-4 " stroke="none"/>
 											Clients</a
 										>
 									</li>
@@ -155,7 +155,7 @@
 											href="#testimonials"
 											target="_self"
 											class="flex items-center gap-2 font-sans text-base leading-relaxed font-medium antialiased hover:underline"
-											><Icon name="testimonials" class="h-4 w-4 " />
+											><Icon name="testimonials" class="h-4 w-4 " stroke="none"/>
 											Testimonials</a
 										>
 									</li>
@@ -166,7 +166,7 @@
 											href={data?.resume_url}
 											target="_blank"
 											class="flex items-center gap-2 font-sans text-base leading-relaxed font-medium antialiased hover:underline"
-										><Icon name="resume" class="h-4 w-4 " />
+										><Icon name="resume" class="h-4 w-4 " stroke="none"/>
 											Resume</a
 										>
 									</li>

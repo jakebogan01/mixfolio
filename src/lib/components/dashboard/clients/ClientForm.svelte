@@ -153,7 +153,7 @@
 													alt={client?.name || 'Name unavailable'}
 													src={client?.client_image_url ||
 														'https://empowher.org/wp-content/uploads/2021/03/image-placeholder-350x350-1.png'}
-													class="block aspect-10/7 w-full object-cover"
+													class="block aspect-square w-full object-cover bg-gray-100"
 												/>
 											</div>
 											<div class="mt-6 px-4 sm:mt-8 sm:flex sm:items-end sm:px-6">
@@ -166,9 +166,6 @@
 																{client?.name || 'Name unavailable'}
 															</h3>
 														</div>
-														<p class="text-sm text-gray-500 dark:text-gray-400">
-															{client?.email || 'Email unavailable'}
-														</p>
 													</div>
 												</div>
 											</div>
@@ -180,20 +177,20 @@
 												<dt
 													class="text-sm font-medium text-gray-500 sm:w-40 sm:shrink-0 dark:text-gray-400"
 												>
-													Company
+													Name
 												</dt>
 												<dd class="mt-1 text-sm text-gray-900 sm:col-span-2 dark:text-white">
-													{client?.company || 'Comapny unavailable'}
+													{client?.name || 'Company unavailable'}
 												</dd>
 											</div>
 											<div>
 												<dt
 													class="text-sm font-medium text-gray-500 sm:w-40 sm:shrink-0 dark:text-gray-400"
 												>
-													Title
+													Link
 												</dt>
 												<dd class="mt-1 text-sm text-gray-900 sm:col-span-2 dark:text-white">
-													{client?.role || 'Role unavailable'}
+													{client?.link || 'Link unavailable'}
 												</dd>
 											</div>
 										</dl>

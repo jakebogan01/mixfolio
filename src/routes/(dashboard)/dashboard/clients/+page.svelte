@@ -84,7 +84,7 @@
 									{#each data?.userProfile?.expand?.clients as client (client?.id)}
 										<tr>
 											<td class="size-12 shrink-0 py-5 pr-3 pl-4 text-sm whitespace-nowrap sm:pl-0">
-												<div class="w-12 shrink-0">
+												<div class="w-12 shrink-0 bg-gray-100 rounded-lg">
 													<img
 														src={client?.client_image_url ||
 															'https://empowher.org/wp-content/uploads/2021/03/image-placeholder-350x350-1.png'}

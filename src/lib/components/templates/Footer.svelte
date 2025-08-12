@@ -1,4 +1,6 @@
 <script>
+	import Icon from '$lib/components/Icon.svelte';
+
 	let { data } = $props();
 </script>
 
@@ -13,15 +15,40 @@
 				© {new Date().getFullYear()} Made with
 				<a href="/" target="_blank" class="hover:underline">MixFolio</a>
 			</p>
-			<ul class="flex items-center gap-8">
-				<li>
-					<a
-						href="mailto:{data?.email}"
-						class="text block font-sans text-base leading-normal font-normal hover:underline"
-					>Contact {data?.name}</a
-					>
-				</li>
-			</ul>
+			{#if !data?.socials || Object.keys(data.socials).length === 0}
+				<ul class="flex items-center gap-8">
+					<li>
+						<a
+							href="mailto:{data?.email}"
+							class="text block font-sans text-base leading-normal font-normal hover:underline"
+						>Contact {data?.name}</a
+						>
+					</li>
+				</ul>
+			{:else}
+				<ul class="flex items-center gap-8">
+					{#if data?.email}
+						<a
+							href="mailto:{data?.email}"
+							target="_blank"
+							class="flex items-center rounded"
+						>	<Icon name="email" class="w-5 h-5" stroke="none" />
+						</a>
+					{/if}
+					{#each ['linkedin', 'github', 'instagram', 'facebook'] as network}
+						{#if data?.socials?.[network]}
+							<div>
+								<a
+									href={data.socials?.[network]}
+									target="_blank"
+									class="flex items-center rounded"
+								>	<Icon name={[network]} class="w-5 h-5" stroke="none" />
+								</a>
+							</div>
+						{/if}
+					{/each}
+				</ul>
+			{/if}
 		</div>
 	</div>
 </footer>

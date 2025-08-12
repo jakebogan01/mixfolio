@@ -5,6 +5,7 @@
 	import Header from '$lib/components/templates/Header.svelte';
 	import Button from '$lib/components/global/Button.svelte';
 	import { DASHBOARD } from '$lib/utils/constants.js';
+	import Icon from '$lib/components/Icon.svelte';
 
 	let { data } = $props();
 	let el, isWhite;
@@ -53,14 +54,18 @@
 		chosenTestimonial = [];
 	}
 
+
 </script>
+
 <div id="template-1" bind:this={el}>
 	<Header data={data}/>
 	<div class="flex flex-col md:flex-row items-center gap-4 container mx-auto mt-12 mb-12 xl:w-3/5 p-10">
-		<img class="w-1/2 h-1/2 rounded-full lg:w-1/3" src={data?.avatar_url} alt={data?.name}/>
+		<img class="w-3/4 h-3/4 borderImg rounded-full md:w-1/3" src={data?.avatar_url} alt={data?.name}/>
 	<div class="container mx-auto md:ml-10">
 		<h1 class="text-5xl">
+			{#if data?.name}
 			Welcome to {data?.name}'s Portfolio!
+			{/if}
 		</h1>
 		<h2 class="text-xl my-6 ">
 			{@html data?.biography}
@@ -72,6 +77,20 @@
 			type="button"
 			>View Resume</button></a>
 			{/if}
+		<div class="">
+		{#each ['linkedin', 'github', 'instagram', 'facebook'] as network}
+			{#if data?.socials?.[network]}
+			<button class="button rounded-full px-3 py-3 mr-4 text-center align-middle font-semibold text-sm shadow-md shadow-gray-900/10 transition-all select-none hover:shadow-lg hover:shadow-gray-900/20 focus:opacity-[0.85] focus:shadow-none active:opacity-[0.85] active:shadow-none disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none">
+						<a
+							href={data.socials?.[network]}
+							target="_blank"
+							class="flex items-center rounded"
+						>	<Icon name={[network]} class="w-5 h-5" stroke="none" />
+						</a>
+			</button>
+				{/if}
+		{/each}
+		</div>
 	</div>
 	</div>
 

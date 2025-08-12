@@ -59,13 +59,13 @@
 				{#each data?.userProfile?.expand?.projects as project, i (project?.id)}
 					<li class="relative">
 						<div
-							class="overflow-hidden rounded-lg bg-gray-100 focus-within:ring-2 focus-within:ring-indigo-500 focus-within:ring-offset-2 focus-within:ring-offset-gray-100"
+							class="overflow-hidden rounded-lg bg-gray-100 focus-within:ring-2 focus-within:ring-indigo-500 focus-within:ring-offset-2 w-3/4 focus-within:ring-offset-gray-100"
 						>
 							<img
 								src={project?.project_image_url ||
 									'https://empowher.org/wp-content/uploads/2021/03/image-placeholder-350x350-1.png'}
 								alt=""
-								class="pointer-events-none aspect-10/7 object-cover"
+								class="pointer-events-none aspect-square object-cover"
 							/>
 						</div>
 						<p class="mt-4 block text-sm leading-normal font-normal dark:text-gray-300">

@@ -238,7 +238,7 @@
 			showImageCropper.objectUrl = blob;
 			showImageCropper.resultEl.src = URL.createObjectURL(blob);
 			showImageCropper.status = false;
-		}, 'image/jpeg');
+		}, 'image/png');
 	}
 </script>
 

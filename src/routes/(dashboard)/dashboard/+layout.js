@@ -37,6 +37,7 @@ export async function load({ parent }) {
 					'resume, ' +
 					'avatar, ' +
 					'created, ' +
+					'socials, ' +
 					'expand.projects.collectionId, ' +
 					'expand.projects.id, ' +
 					'expand.projects.title, ' +
@@ -66,7 +67,8 @@ export async function load({ parent }) {
 					'expand.preferences.hide_portfolio, ' +
 					'expand.preferences.hide_notifications, ' +
 					'expand.preferences.hide_analytics, ' +
-					'expand.preferences.theme_id',
+					'expand.preferences.theme_id,'+
+					'expand.socials.profile_id',
 				expand: 'projects, testimonials, clients, preferences'
 			});
 

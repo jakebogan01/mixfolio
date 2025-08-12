@@ -25,15 +25,25 @@
 			.refine((file) => !file || ['image/jpeg', 'image/jpg', 'image/png'].includes(file.type), {
 				message: 'Only .jpeg, .jpg, or .png files are allowed'
 			}),
-		resume: z
-			.instanceof(File)
+		resume: z.union([
+			z.instanceof(File),
+			z.string(),
+			z.null(),
+			z.undefined()
+		])
 			.optional()
-			.refine((file) => !file || file.size < 102_400, {
-				message: 'File cannot exceed 100 KB'
-			})
-			.refine((file) => !file || file.type === 'application/pdf', {
-				message: 'Only .pdf files are allowed'
-			}),
+			.refine(
+				(file) =>
+					!file ||
+					(file instanceof File && file.size < 102_400),
+				{ message: 'File cannot exceed 100 KB' }
+			)
+			.refine(
+				(file) =>
+					!file ||
+					(file instanceof File && file.type === 'application/pdf'),
+				{ message: 'Only .pdf files are allowed' }
+			),
 		name: z
 			.string()
 			.min(5, { message: 'Must be 5 or more characters long' })
@@ -265,7 +275,7 @@
 													{:else }
 														{resumeName?.length ? resumeName : 'PDF. 100KB max.'}
 													{/if}
-										
+
 												</p>
 											</div>
 											<div
