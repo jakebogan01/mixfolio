@@ -70,14 +70,15 @@
 		<h2 class="text-xl my-6 ">
 			{@html data?.biography}
 		</h2>
-		{#if data?.resume_url}
+		{#if data?.resume_url && !data?.socials || Object.keys(data.socials).length === 0}
 			<a href={data?.resume_url} target="_blank">
-		<button
-			class="button rounded-lg px-4 py-2 text-center align-middle font-semibold text-sm shadow-md shadow-gray-900/10 transition-all select-none hover:shadow-lg hover:shadow-gray-900/20 focus:opacity-[0.85] focus:shadow-none active:opacity-[0.85] active:shadow-none disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none"
-			type="button"
-			>View Resume</button></a>
-			{/if}
-		<div class="">
+				<button
+					class="button rounded-lg px-4 py-2 text-center align-middle uppercase font-semibold text-sm shadow-md shadow-gray-900/10 transition-all select-none hover:shadow-lg hover:shadow-gray-900/20 focus:opacity-[0.85] focus:shadow-none active:opacity-[0.85] active:shadow-none disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none"
+					type="button"
+				>View Resume</button>
+			</a>
+		{/if}
+		<div class="mt-2">
 		{#each ['linkedin', 'github', 'instagram', 'facebook'] as network}
 			{#if data?.socials?.[network]}
 			<button class="button rounded-full px-3 py-3 mr-4 text-center align-middle font-semibold text-sm shadow-md shadow-gray-900/10 transition-all select-none hover:shadow-lg hover:shadow-gray-900/20 focus:opacity-[0.85] focus:shadow-none active:opacity-[0.85] active:shadow-none disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none">
@@ -244,8 +245,8 @@
 	{/if}
 
 	<Footer data={data} />
-</div>
 
+</div>
 <!--css color picker code-->
 
 <style>
