@@ -31,6 +31,7 @@ export async function load({ parent, params }) {
 				'avatar, ' +
 				'resume, ' +
 				'created, ' +
+				'socials, ' +
 				'expand.projects.collectionId, ' +
 				'expand.projects.id, ' +
 				'expand.projects.title, ' +
@@ -60,8 +61,10 @@ export async function load({ parent, params }) {
 				'expand.preferences.hide_portfolio, ' +
 				'expand.preferences.hide_notifications, ' +
 				'expand.preferences.hide_analytics, ' +
-				'expand.preferences.theme_id',
-			expand: 'projects, testimonials, clients, preferences'
+				'expand.preferences.theme_id, '+
+				'expand.socials.id, ' +
+				'expand.socials.instagram',
+			expand: 'projects, testimonials, clients, preferences, socials'
 		});
 
 		userProfile.avatar_url = userProfile.avatar

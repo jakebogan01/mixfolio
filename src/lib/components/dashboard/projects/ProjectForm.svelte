@@ -158,7 +158,7 @@
 													alt={project?.title || 'Title unavailable'}
 													src={project?.project_image_url ||
 														'https://empowher.org/wp-content/uploads/2021/03/image-placeholder-350x350-1.png'}
-													class="block aspect-10/7 w-full object-cover"
+													class="block aspect-square w-full object-cover"
 												/>
 											</div>
 											<div class="mt-6 px-4 sm:mt-8 sm:flex sm:items-end sm:px-6">

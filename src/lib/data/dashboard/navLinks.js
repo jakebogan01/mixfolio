@@ -28,16 +28,17 @@ export const navLinks = [
 	},
 	{
 		id: 4,
-		link: TESTIMONIALS,
-		text: 'Testimonials',
-		icon: 'testimonials'
-	},
-	{
-		id: 5,
 		link: CLIENTS,
 		text: 'Clients',
 		icon: 'clients'
 	},
+	{
+		id: 5,
+		link: TESTIMONIALS,
+		text: 'Testimonials',
+		icon: 'testimonials'
+	},
+
 	{
 		id: 6,
 		link: THEMES,

@@ -4,11 +4,15 @@
 	import PortfolioSlugInput from '$lib/components/dashboard/PortfolioSlugInput.svelte';
 	import PreferencesForm from '$lib/components/dashboard/PreferencesForm.svelte';
 	import Button from '$lib/components/global/Button.svelte';
+	import SocialForm from '$lib/components/dashboard/profile/SocialForm.svelte';
 
 	let { data } = $props();
 	let menuOpen = $state(false);
+	let socialMenuOpen = $state(false);
 
 	const toggleMenu = () => (menuOpen = !menuOpen);
+	const toggleSocialMenu = () => (socialMenuOpen = !socialMenuOpen);
+	console.log(data.userProfile);
 </script>
 
 <div class="relative h-30 w-full overflow-hidden rounded-xl xl:h-50">
@@ -140,8 +144,66 @@
 			</div>
 		</div>
 	</div>
-</div>
+
+	<hr class="border-light-border-theme-light dark:border-light-border-theme-dark mb-8" />
 
 {#if menuOpen}
 	<ProfileForm {data} {toggleMenu} />
 {/if}
+
+	<div class="px-4 pt-4 pb-8">
+		<div class="gird-cols-1 mb-12 grid gap-x-12 gap-y-12 px-4 lg:grid-cols-2 2xl:gap-x-60">
+			<div
+				class="text-dark-text-theme-light dark:text-dark-text-theme-dark relative flex flex-col rounded-xl bg-transparent bg-clip-border shadow-none"
+			>
+				<div
+					class="text-dark-text-theme-light dark:text-dark-text-theme-dark relative mx-0 mt-0 mb-4 overflow-hidden rounded-xl bg-transparent bg-clip-border shadow-none"
+				>
+					<h6 class="block text-base leading-relaxed font-semibold tracking-normal mb-2">Social Links</h6>
+				</div>
+				<div class="p-0 text-sm leading-normal font-normal">
+					<div class="mx-auto max-w-5xl">
+						<dl class="grid grid-cols-1 gap-x-4 gap-y-4 sm:grid-cols-2">
+							<div class="sm:col-span-1">
+								<dt class="text-sm leading-normal font-semibold dark:text-gray-400">Instagram</dt>
+								<dd class="text-sm leading-normal font-normal {data?.userProfile?.socials?.instagram ? '' : 'opacity-60'}">
+									{data?.userProfile?.socials?.instagram || 'No profile provided'}
+								</dd>
+							</div>
+							<div class="sm:col-span-1">
+								<dt class="text-sm leading-normal font-semibold dark:text-gray-400">GitHub</dt>
+								<dd class="text-sm leading-normal font-normal {data?.userProfile?.socials?.github ? '' : 'opacity-60'}">
+									{data?.userProfile?.socials?.github || 'No profile provided'}
+								</dd>
+							</div>
+							<div class="sm:col-span-1">
+								<dt class="text-sm leading-normal font-semibold dark:text-gray-400">LinkedIn</dt>
+								<dd class="text-sm leading-normal font-normal {data?.userProfile?.socials?.linkedin ? '' : 'opacity-60'}">
+									{data?.userProfile?.socials?.linkedin || 'No profile provided'}
+								</dd>
+							</div>
+							<div class="sm:col-span-1">
+								<dt class="text-sm leading-normal font-semibold dark:text-gray-400">Facebook</dt>
+								<dd class="text-sm leading-normal font-normal {data?.userProfile?.socials?.facebook ? '' : 'opacity-60'}">
+									{data?.userProfile?.socials?.facebook || 'No profile provided'}
+								</dd>
+							</div>
+						</dl>
+					</div>
+				</div>
+			</div>
+			<div class="mb-10 flex flex-wrap items-start justify-between gap-6">
+				<div class="flex items-center gap-6">
+				</div>
+				<Button
+					callBack={toggleSocialMenu}
+					text="Edit social links"
+					class="bg-primary-btn-bg-theme-light dark:bg-primary-btn-bg-theme-dark sm:hover:bg-primary-btn-hover-theme-light sm:dark:hover:bg-secondary-btn-hover-theme-dark"
+				/>
+			</div>
+		</div>
+	</div>
+	{#if socialMenuOpen}
+		<SocialForm {data} {toggleSocialMenu} />
+	{/if}
+</div>
