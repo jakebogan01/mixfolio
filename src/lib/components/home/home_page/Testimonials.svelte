@@ -97,7 +97,7 @@
 				style="transform: translateX({-moveSlidBy}%);"
 			>
 				<img
-					alt=""
+					alt="testimonial"
 					src={item.img}
 					class="absolute inset-x-0 top-0 aspect-square w-full object-cover"
 				/>
