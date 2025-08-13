@@ -172,7 +172,7 @@
 <!--						>-->
 <!--							Trusted by the most innovative teams-->
 <!--						</p>-->
-						<div class="mx-auto mt-5 flex max-w-6xl flex-wrap justify-center gap-5">
+						<div class="mx-auto mt-5 flex max-w-6xl flex-wrap justify-center gap-10">
 							{#each data?.expand?.clients?.slice() as clients (clients?.id)}
 								<a href={clients?.link} target="_blank">
 								<img

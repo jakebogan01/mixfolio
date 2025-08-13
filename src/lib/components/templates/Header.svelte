@@ -63,12 +63,12 @@
 						>
 					</li>
 				{/if}
-				{#if data?.expand?.preferences?.theme_id !== 'ul4fgyzb8njdrq7' && userResume}
+				{#if userResume}
 					<li>
 						<a
 							href={data?.resume_url}
 							class="flex items-center gap-2 font-sans text-base leading-relaxed font-medium antialiased hover:underline"
-						><Icon name="resume" class="h-4 w-4 " stroke="none"/>
+						><Icon name="resume" class="h-4 w-4 "/>
 							Resume</a
 						>
 					</li>
@@ -160,13 +160,13 @@
 										>
 									</li>
 								{/if}
-								{#if data?.expand?.preferences?.theme_id !== 'ul4fgyzb8njdrq7' && userResume}
+								{#if userResume}
 									<li>
 										<a
 											href={data?.resume_url}
 											target="_blank"
 											class="flex items-center gap-2 font-sans text-base leading-relaxed font-medium antialiased hover:underline"
-										><Icon name="resume" class="h-4 w-4 " stroke="none"/>
+										><Icon name="resume" class="h-4 w-4 " />
 											Resume</a
 										>
 									</li>

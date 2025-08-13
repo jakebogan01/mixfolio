@@ -39,7 +39,7 @@
 							</div>
 						</div>
 						<Button
-							callBack={() => goto(CLIENTS, { state: { create: true, clientId: client?.id } })}
+							callBack={() => goto(CLIENTS, { state: { view: true, clientId: client?.id } })}
 							text="View"
 							class="bg-secondary-btn-bg-theme-light dark:bg-secondary-btn-bg-theme-dark sm:hover:bg-secondary-btn-hover-theme-light sm:dark:hover:bg-secondary-btn-hover-theme-dark rounded-full! px-2.5! py-1! text-xs! font-normal!"
 						/>

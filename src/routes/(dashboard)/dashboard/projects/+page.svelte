@@ -84,7 +84,7 @@
 									viewProject = true;
 									projectId = project?.id;
 								}}
-								text="view project"
+								text="View Project"
 								class="bg-secondary-btn-bg-theme-light dark:bg-secondary-btn-bg-theme-dark sm:hover:bg-secondary-btn-hover-theme-light sm:dark:hover:bg-secondary-btn-hover-theme-dark"
 							/>
 						</div>
