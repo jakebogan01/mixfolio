@@ -60,6 +60,7 @@
 <div id="template-1" bind:this={el}>
 	<Header data={data}/>
 	<div class="flex flex-col md:flex-row items-center gap-4 container mx-auto mt-12 mb-12 xl:w-3/5 p-10">
+		{#if data?.avatar_url}
 		<img class="w-3/4 h-3/4 borderImg rounded-full md:w-1/3" src={data?.avatar_url} alt={data?.name}/>
 	<div class="container mx-auto md:ml-10">
 		<h1 class="text-5xl">
@@ -93,6 +94,40 @@
 		{/each}
 		</div>
 	</div>
+			{:else}
+			<div class="container mx-auto md:ml-10 text-center">
+				<h1 class="text-5xl">
+					{#if data?.name}
+						Welcome to {data?.name}'s Portfolio!
+					{/if}
+				</h1>
+				<h2 class="text-xl my-6">
+					{@html data?.biography}
+				</h2>
+				<!--{#if data?.resume_url && !data?.socials || Object.keys(data.socials).length === 0}-->
+				<!--	<a href={data?.resume_url} target="_blank">-->
+				<!--		<button-->
+				<!--			class="button rounded-lg py-2 text-center align-middle uppercase font-semibold text-sm shadow-md shadow-gray-900/10 transition-all select-none hover:shadow-lg hover:shadow-gray-900/20 focus:opacity-[0.85] focus:shadow-none active:opacity-[0.85] active:shadow-none disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none"-->
+				<!--			type="button"-->
+				<!--		>View Resume</button>-->
+				<!--	</a>-->
+				<!--{/if}-->
+				<div class="mt-2">
+					{#each ['linkedin', 'github', 'instagram', 'facebook'] as network}
+						{#if data?.socials?.[network]}
+							<button class="button rounded-full px-3 py-3 text-center mr-1.5 ml-1.5 align-middle font-semibold text-sm shadow-md shadow-gray-900/10 transition-all select-none hover:shadow-lg hover:shadow-gray-900/20 focus:opacity-[0.85] focus:shadow-none active:opacity-[0.85] active:shadow-none disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none">
+								<a
+									href={data.socials?.[network]}
+									target="_blank"
+									class="flex items-center rounded"
+								>	<Icon name={[network]} class="w-5 h-5" stroke="none" />
+								</a>
+							</button>
+						{/if}
+					{/each}
+				</div>
+			</div>
+			{/if}
 	</div>
 
 	{#if !userPreferences?.hide_projects}
@@ -128,13 +163,13 @@
 							<div class="p-0">
 								<a href={project?.link || '#'} target="_blank" class="transition-colors">
 									<h5
-										class="mb-2 block font-bold leading-snug tracking-normal text-center antialiased"
+										class="my-2 block font-bold leading-snug tracking-normal text-center antialiased"
 									>
 										{project?.title || `Project #${i + 1}`}
 									</h5>
 								</a>
 								<p
-									class="mb-6 block leading-relaxed text-center antialiased"
+									class="mb-4 block leading-relaxed text-center antialiased"
 								>
 									{project?.description || 'No description provided.'}
 								</p>
@@ -164,14 +199,14 @@
 						>My Clients
 						</h2>
 					</div>
-						<div class="mx-auto mt-5 flex max-w-6xl flex-wrap justify-center gap-5">
+						<div class="mx-auto mt-5 flex max-w-6xl flex-wrap justify-center gap-10">
 							{#each data?.expand?.clients?.slice() as clients (clients?.id)}
 								<a href={clients?.link} target="_blank">
 									<img
 										src={clients?.client_image_url ||
 										'https://empowher.org/wp-content/uploads/2021/03/image-placeholder-350x350-1.png'}
 										alt="Client"
-										class="max-h-40 object-contain rounded-full"
+										class="max-h-30 object-contain rounded-full"
 									/></a>
 							{/each}
 						</div>

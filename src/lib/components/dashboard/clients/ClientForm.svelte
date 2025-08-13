@@ -209,7 +209,7 @@
 																'https://empowher.org/wp-content/uploads/2021/03/image-placeholder-350x350-1.png'
 															: 'https://empowher.org/wp-content/uploads/2021/03/image-placeholder-350x350-1.png'}
 														alt="Cropped result"
-														class="size-24 flex-none rounded-lg bg-gray-800 object-cover"
+														class="size-24 flex-none rounded-lg bg-gray-100 object-cover"
 													/>
 													<div>
 														<Button
