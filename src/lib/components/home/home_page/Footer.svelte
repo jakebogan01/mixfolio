@@ -1,5 +1,9 @@
 <script>
 	import Logo from '$lib/components/Logo.svelte';
+	import { quadOut } from 'svelte/easing';
+	import { DASHBOARD, LOGIN } from '$lib/utils/constants.js';
+	let { currentUser } = $props();
+
 </script>
 
 <footer>
@@ -11,20 +15,35 @@
 			<div class="mx-auto max-w-2xl lg:max-w-7xl">
 				<div class="relative pt-20 pb-0 text-center">
 					<hgroup>
-						<h2
-							class="data-dark:text-light-text-theme-light dark:text-light-text-theme-dark font-mono text-xs/5 font-semibold tracking-widest text-gray-500 uppercase"
-						>
-							Get started
-						</h2>
-						<p class="mt-6 text-3xl font-medium tracking-tight text-gray-950 sm:text-5xl">
-							Ready to dive in?<br />Start today.
-						</p>
+						<Logo></Logo>
+						{#if currentUser}
+							<p class="mt-6 text-3xl font-medium tracking-tight text-gray-950 sm:text-5xl">
+								Welcome back!
+							</p>
+						{:else}
+							<p class="mt-6 text-3xl font-medium tracking-tight text-gray-950 sm:text-5xl">
+								Ready to dive in?<br />Start today.
+							</p>
+						{/if}
+
 					</hgroup>
 					<div class="mt-6">
-						<a
-							class="inline-flex w-full items-center justify-center rounded-full border border-transparent bg-gray-950 px-4 py-[calc(--spacing(2)-1px)] text-base font-medium whitespace-nowrap text-white shadow-md hover:bg-gray-800 data-disabled:bg-gray-950 data-disabled:opacity-40 sm:w-auto sm:transition-colors sm:hover:bg-[#6a17bb]"
-							href="/login">Get started</a
-						>
+						{#if currentUser}
+							<a
+								class="inline-flex w-full items-center justify-center rounded-full border border-transparent bg-gray-950 px-4 py-[calc(--spacing(2)-1px)] text-base font-medium whitespace-nowrap text-white shadow-md hover:bg-gray-800 data-disabled:bg-gray-950 data-disabled:opacity-40 sm:w-auto sm:transition-colors sm:hover:bg-[#6a17bb]"
+								href="/login">Edit your page</a
+							>
+						{:else}
+							<a
+								class="inline-flex w-full items-center justify-center rounded-full border border-transparent bg-gray-950 px-4 m-1 py-[calc(--spacing(2)-1px)] text-base font-medium whitespace-nowrap text-white shadow-md hover:bg-gray-800 data-disabled:bg-gray-950 data-disabled:opacity-40 sm:w-auto sm:transition-colors sm:hover:bg-[#6a17bb]"
+								href="/login">Get started</a
+							>
+							<a
+								class="inline-flex w-full items-center justify-center rounded-full border border-transparent bg-gray-950 px-4 m-1 py-[calc(--spacing(2)-1px)] text-base font-medium whitespace-nowrap text-white shadow-md hover:bg-gray-800 data-disabled:bg-gray-950 data-disabled:opacity-40 sm:w-auto sm:transition-colors sm:hover:bg-[#6a17bb]"
+								href="/portfolio/sample">Sample Portfolio</a
+							>
+						{/if}
+
 					</div>
 				</div>
 				<div class="pb-16">
@@ -35,8 +54,6 @@
 							aria-hidden="true"
 							class="absolute inset-y-0 left-1/2 -z-10 w-screen -translate-x-1/2"
 						>
-							<div class="absolute inset-x-0 top-0 border-t border-black/5"></div>
-							<div class="absolute inset-x-0 top-2 border-t border-black/5"></div>
 							<div
 								class="absolute inset-x-0 bottom-0 hidden border-b border-black/5 group-last/row:block"
 							></div>
@@ -181,46 +198,13 @@
 							aria-hidden="true"
 							class="absolute inset-y-0 left-1/2 -z-10 w-screen -translate-x-1/2"
 						>
-							<div class="absolute inset-x-0 top-0 border-t border-black/5"></div>
-							<div class="absolute inset-x-0 top-2 border-t border-black/5"></div>
-							<div
-								class="absolute inset-x-0 bottom-0 hidden border-b border-black/5 group-last/row:block"
-							></div>
-							<div
-								class="absolute inset-x-0 bottom-2 hidden border-b border-black/5 group-last/row:block"
-							></div>
+
+
 						</div>
 						<div>
 							<div class="group/item relative py-3">
-								<svg
-									viewBox="0 0 15 15"
-									aria-hidden="true"
-									class="absolute -top-2 -left-2 hidden size-[15px] fill-black/10 group-first/item:block"
-								>
-									<path d="M8 0H7V7H0V8H7V15H8V8H15V7H8V0Z"></path>
-								</svg>
-								<svg
-									viewBox="0 0 15 15"
-									aria-hidden="true"
-									class="absolute -top-2 -right-2 size-[15px] fill-black/10"
-								>
-									<path d="M8 0H7V7H0V8H7V15H8V8H15V7H8V0Z"></path>
-								</svg>
-								<svg
-									viewBox="0 0 15 15"
-									aria-hidden="true"
-									class="absolute -bottom-2 -left-2 hidden size-[15px] fill-black/10 group-first/item:group-last/row:block"
-								>
-									<path d="M8 0H7V7H0V8H7V15H8V8H15V7H8V0Z"></path>
-								</svg>
-								<svg
-									viewBox="0 0 15 15"
-									aria-hidden="true"
-									class="absolute -right-2 -bottom-2 hidden size-[15px] fill-black/10 group-last/row:block"
-								>
-									<path d="M8 0H7V7H0V8H7V15H8V8H15V7H8V0Z"></path>
-								</svg>
-								<div class="text-sm/6 text-gray-950">© <!-- -->2025<!-- --> Mixfolio Inc.</div>
+
+								<div class="text-sm/6 text-gray-950">© {new Date().getFullYear()} Mixfolio</div>
 							</div>
 						</div>
 						<!--						<div class="flex">-->

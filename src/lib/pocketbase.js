@@ -1,6 +1,7 @@
 export const ssr = false;
 
 import { PUBLIC_POCKETBASE_URL } from '$env/static/public';
+
 import PocketBase from 'pocketbase';
 import { user } from '$lib/stores/user.svelte.js';
 
