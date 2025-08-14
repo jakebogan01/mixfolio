@@ -114,6 +114,7 @@
 							<Button
 								link={true}
 								url="{PORTFOLIO}{slug}"
+								target="_blank"
 								tabindex="-1"
 								id="menu-item-0"
 								role="menuitem"

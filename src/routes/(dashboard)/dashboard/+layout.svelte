@@ -10,6 +10,7 @@
 	import Search from '$lib/components/dashboard/Search.svelte';
 	import ImageCropper from '$lib/components/dashboard/ImageCropper.svelte';
 	import Button from '$lib/components/global/Button.svelte';
+
 	import { z } from 'zod';
 	import { createForm } from 'felte';
 	import { validator } from '@felte/validator-zod';
@@ -21,7 +22,7 @@
 	let scrolled = $state(false);
 	let openFeedback = $state(false);
 	import { fly, fade, scale } from 'svelte/transition';
-
+	let buttonDisabled = $state(false);
 
 	onMount(async () => {
 		if (page?.state?.message) toastMessage(page.state.type, page.state.message);
@@ -74,6 +75,7 @@
 			feedback: feedback,
 		};
 		try {
+			buttonDisabled = true;
 			const response = await emailjs.send(
 				PUBLIC_EMAILJS_SERVICE_ID,
 				PUBLIC_EMAILJS_TEMPLATE_ID,
@@ -82,8 +84,11 @@
 			);
 			toggleFeedback();
 			console.log('Successfully submitted', response);
+			feedback='';
+			buttonDisabled = false;
 			toast.success('Thank you for your feedback', { position: 'bottom-left' });
 		} catch (err) {
+			buttonDisabled = false;
 			toast.error('Unable to send message', { position: 'bottom-left' });
 			console.error('FAILED...');
 			console.dir(err, { depth: null });
@@ -116,7 +121,7 @@
 
 				<p class=" text-sm leading-normal font-normal text-gray-500  dark:text-gray-500">
 					© {new Date().getFullYear()}, Created by <a href="/" class="hover:underline">MixFolio</a>
-					Team. | <button onclick="{toggleFeedback}" class="hover:underline" > Feedback</button>
+					Team. | <button onclick="{toggleFeedback}" class="hover:underline cursor-pointer" > Feedback</button>
 				</p>
 <!--				<Button-->
 <!--					class= "text-sm leading-normal font-normal text-gray-500 dark:text-gray-600"z-->
@@ -162,11 +167,23 @@
 						</div>
 					</div>
 						<div class="mt-5 sm:mt-4 sm:flex sm:flex-row-reverse">
-						<Button
-							type="Submit"
-							text="Submit"
-							class="bg-primary-btn-bg-theme-light ml-2 dark:bg-primary-btn-bg-theme-dark sm:hover:bg-primary-btn-hover-theme-light sm:dark:hover:bg-secondary-btn-hover-theme-dark"
-						/>
+<!--						<Button-->
+<!--							type="Submit"-->
+<!--							text="Submit"-->
+<!--							class="bg-primary-btn-bg-theme-light ml-2 dark:bg-primary-btn-bg-theme-dark sm:hover:bg-primary-btn-hover-theme-light sm:dark:hover:bg-secondary-btn-hover-theme-dark"-->
+<!--						/>-->
+
+							<Button
+								disabled={buttonDisabled}
+								type="submit"
+								class="bg-primary-btn-bg-theme-light dark:bg-primary-btn-bg-theme-dark sm:hover:bg-primary-btn-hover-theme-light sm:dark:hover:bg-secondary-btn-hover-theme-dark ml-4 flex h-9 w-[4.5625rem] items-center justify-center"
+							>
+								{#if buttonDisabled}
+									<span class="loader"></span>
+								{:else}
+									Submit
+								{/if}
+							</Button>
 						<Button
 							callBack={toggleFeedback}
 							text="Cancel"

@@ -67,6 +67,7 @@
 					<li>
 						<a
 							href={data?.resume_url}
+							target="_blank"
 							class="flex items-center gap-2 font-sans text-base leading-relaxed font-medium antialiased hover:underline"
 						><Icon name="resume" class="h-4 w-4 "/>
 							Resume</a

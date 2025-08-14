@@ -22,5 +22,5 @@
 		<!--		<DarkBentoSection />-->
 	</main>
 	<Testimonials />
-	<Footer />
+	<Footer currentUser={data?.pb?.authStore?.isValid || null} />
 </div>

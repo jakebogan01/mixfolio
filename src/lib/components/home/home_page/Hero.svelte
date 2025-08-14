@@ -39,7 +39,7 @@
 		<div class="mx-auto max-w-2xl lg:max-w-7xl">
 			<header
 				class="pt-12 transition-[height] duration-300 sm:pt-16 {menuOpen
-					? 'h-82 lg:h-auto'
+					? 'h-42 lg:h-auto'
 					: 'h-32 lg:h-auto'}"
 			>
 				<div>
@@ -50,48 +50,8 @@
 							aria-hidden="true"
 							class="absolute inset-y-0 left-1/2 -z-10 w-screen -translate-x-1/2"
 						>
-							<div class="absolute inset-x-0 top-0 border-t border-black/5"></div>
-							<div class="absolute inset-x-0 top-2 border-t border-black/5"></div>
-							<div
-								class="absolute inset-x-0 bottom-0 hidden border-b border-black/5 group-last/row:block"
-							></div>
-							<div
-								class="absolute inset-x-0 bottom-2 hidden border-b border-black/5 group-last/row:block"
-							></div>
 						</div>
-						<div class="relative flex gap-6">
-							<div class="group/item relative py-3">
-								<svg
-									viewBox="0 0 15 15"
-									aria-hidden="true"
-									class="absolute -top-2 -left-2 hidden size-[15px] fill-black/10 group-first/item:block"
-								>
-									<path d="M8 0H7V7H0V8H7V15H8V8H15V7H8V0Z"></path>
-								</svg>
-								<svg
-									viewBox="0 0 15 15"
-									aria-hidden="true"
-									class="absolute -top-2 -right-2 size-[15px] fill-black/10"
-								>
-									<path d="M8 0H7V7H0V8H7V15H8V8H15V7H8V0Z"></path>
-								</svg>
-								<svg
-									viewBox="0 0 15 15"
-									aria-hidden="true"
-									class="absolute -bottom-2 -left-2 hidden size-[15px] fill-black/10 group-first/item:group-last/row:block"
-								>
-									<path d="M8 0H7V7H0V8H7V15H8V8H15V7H8V0Z"></path>
-								</svg>
-								<svg
-									viewBox="0 0 15 15"
-									aria-hidden="true"
-									class="absolute -right-2 -bottom-2 hidden size-[15px] fill-black/10 group-last/row:block"
-								>
-									<path d="M8 0H7V7H0V8H7V15H8V8H15V7H8V0Z"></path>
-								</svg>
-								<Logo />
-							</div>
-						</div>
+						<Logo />
 						<Nav {currentUser} />
 						<button
 							class="flex size-12 cursor-pointer items-center justify-center self-center rounded-lg sm:hover:bg-black/5 lg:hidden"
@@ -139,10 +99,6 @@
 								</div>
 							{/if}
 						</div>
-						<div class="absolute left-1/2 w-screen -translate-x-1/2">
-							<div class="absolute inset-x-0 top-0 border-t border-black/5"></div>
-							<div class="absolute inset-x-0 top-2 border-t border-black/5"></div>
-						</div>
 					</div>
 				{/if}
 			</header>
@@ -155,7 +111,7 @@
 				<p class="mt-8 max-w-lg font-medium text-gray-950/75 sm:text-2xl/8">
 					Build a standout portfolio in minutes.<br />Share it to impress anywhere, anytime.
 				</p>
-				<div class="mt-12 flex flex-col gap-x-6 gap-y-4 sm:flex-row">
+				<div class="mt-8 flex flex-col gap-x-6 gap-y-4 sm:flex-row">
 					{#if currentUser}
 						<a
 							class="relative inline-flex items-center justify-center rounded-full border border-transparent bg-gray-950 px-4 py-[calc(--spacing(2)-1px)] text-base font-medium whitespace-nowrap text-white shadow-md sm:transition-colors sm:hover:bg-[#6a17bb]"
@@ -164,6 +120,10 @@
 						<a
 							class="relative inline-flex items-center justify-center rounded-full border border-transparent bg-gray-950 px-4 py-[calc(--spacing(2)-1px)] text-base font-medium whitespace-nowrap text-white shadow-md sm:transition-colors sm:hover:bg-[#6a17bb]"
 							href={LOGIN}>Get started</a
+						>
+						<a
+							class="relative inline-flex items-center justify-center rounded-full border border-transparent bg-gray-950 px-4 py-[calc(--spacing(2)-1px)] text-base font-medium whitespace-nowrap text-white shadow-md sm:transition-colors sm:hover:bg-[#6a17bb]"
+							href="/portfolio/sample" target="_blank">Sample Portfolio</a
 						>
 					{/if}
 
