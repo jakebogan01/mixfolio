@@ -273,7 +273,7 @@
 													{#if data?.userProfile?.resume_url}
 														{data?.userProfile?.resume}
 													{:else }
-														{resumeName?.length ? resumeName : 'PDF. 100KB max.'}
+														{resumeName?.length ? resumeName : 'PDF. 200KB max.'}
 													{/if}
 
 												</p>
