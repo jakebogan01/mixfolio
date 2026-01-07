@@ -35,8 +35,8 @@
 			.refine(
 				(file) =>
 					!file ||
-					(file instanceof File && file.size < 102_400),
-				{ message: 'File cannot exceed 100 KB' }
+					(file instanceof File && file.size < 200_000),
+				{ message: 'File cannot exceed 200 KB' }
 			)
 			.refine(
 				(file) =>
